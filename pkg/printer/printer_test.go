@@ -12,8 +12,6 @@ import (
 	"github.com/google/go-jsonnet/ast"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-
-	"github.com/kube-jsonnet/k/gen/astext"
 )
 
 func TestFprintf(t *testing.T) {
@@ -39,7 +37,6 @@ func TestFprintf(t *testing.T) {
 		{name: "function_with_no_args"},
 		{name: "function_with_args"},
 		{name: "function_with_optional_args_ast"},
-		{name: "function_with_optional_args_astext"},
 		{name: "local_function_with_args"},
 		{name: "conditional"},
 		{name: "conditional_no_false"},
@@ -184,7 +181,7 @@ var (
 		},
 		"apply_brace": &ast.ApplyBrace{
 			Left:  &ast.Var{Id: *newIdentifier("params")},
-			Right: &astext.Object{},
+			Right: &ast.Object{},
 		},
 		"index": &ast.Object{
 			Fields: ast.ObjectFields{
@@ -250,10 +247,12 @@ var (
 						Id: newIdentifier("extVar"),
 					},
 					Arguments: ast.Arguments{
-						Positional: ast.Nodes{
-							&ast.LiteralString{
-								Value: "__ksonnet/params",
-								Kind:  ast.StringDouble,
+						Positional: []ast.CommaSeparatedExpr{
+							ast.CommaSeparatedExpr{
+								Expr: &ast.LiteralString{
+									Value: "__ksonnet/params",
+									Kind:  ast.StringDouble,
+								},
 							},
 						},
 					},
@@ -316,18 +315,14 @@ var (
 				},
 			},
 		},
-		"multi_line_comments": &astext.Object{
-			Fields: []astext.ObjectField{
-				{
-					ObjectField: ast.ObjectField{
-						Kind:  ast.ObjectLocal,
-						Hide:  ast.ObjectFieldVisible,
-						Id:    &id2,
-						Expr2: &ast.Object{},
-					},
-					Comment: &astext.Comment{
-						Text: "line 1\n\nline 3\nline 4",
-					},
+		// TODO: Split into fodder print tests.
+		"multi_line_comments": &ast.Object{
+			Fields: ast.ObjectFields{
+				ast.ObjectField{
+					Kind:  ast.ObjectLocal,
+					Hide:  ast.ObjectFieldVisible,
+					Id:    &id2,
+					Expr2: &ast.Object{},
 				},
 			},
 		},
@@ -390,40 +385,32 @@ var (
 				},
 			},
 		},
-		"object_field_with_comment": &astext.Object{
-			Object: ast.Object{TrailingComma: false},
-			Fields: []astext.ObjectField{
+		// TODO: Split into fodder print tests.
+		"object_field_with_comment": &ast.Object{
+			TrailingComma: false,
+			Fields: ast.ObjectFields{
 				{
-					ObjectField: ast.ObjectField{
-						Kind: ast.ObjectFieldID,
-						Hide: ast.ObjectFieldInherit,
-						Id:   &id1,
-						Expr2: &ast.LiteralString{
-							Value: "value",
-							Kind:  ast.StringDouble,
-						},
-					},
-					Comment: &astext.Comment{
-						Text: "a comment",
+					Kind: ast.ObjectFieldID,
+					Hide: ast.ObjectFieldInherit,
+					Id:   &id1,
+					Expr2: &ast.LiteralString{
+						Value: "value",
+						Kind:  ast.StringDouble,
 					},
 				},
 			},
 		},
-		"object_field_trailing_comma": &astext.Object{
-			Object: ast.Object{TrailingComma: true},
-			Fields: []astext.ObjectField{
+		// TODO: Split into fodder print tests.
+		"object_field_trailing_comma": &ast.Object{
+			TrailingComma: true,
+			Fields: ast.ObjectFields{
 				{
-					ObjectField: ast.ObjectField{
-						Kind: ast.ObjectFieldID,
-						Hide: ast.ObjectFieldInherit,
-						Id:   &id1,
-						Expr2: &ast.LiteralString{
-							Value: "value",
-							Kind:  ast.StringDouble,
-						},
-					},
-					Comment: &astext.Comment{
-						Text: "a comment",
+					Kind: ast.ObjectFieldID,
+					Hide: ast.ObjectFieldInherit,
+					Id:   &id1,
+					Expr2: &ast.LiteralString{
+						Value: "value",
+						Kind:  ast.StringDouble,
 					},
 				},
 			},
@@ -456,69 +443,12 @@ var (
 					},
 					Method: &ast.Function{
 						Parameters: ast.Parameters{
-							Required: ast.Identifiers{
-								*newIdentifier("one"),
-								*newIdentifier("two"),
-							},
-						},
-					},
-				},
-			},
-		},
-		"function_with_optional_args_astext": &ast.Object{
-			Fields: ast.ObjectFields{
-				{
-					Kind: ast.ObjectFieldID,
-					Id:   newIdentifier("alpha"),
-					Expr2: &ast.Binary{
-						Left:  &ast.Var{Id: *newIdentifier("myVar")},
-						Right: newLiteralNumber("2"),
-						Op:    ast.BopPlus,
-					},
-					Method: &ast.Function{
-						Parameters: ast.Parameters{
-							Required: ast.Identifiers{
-								*newIdentifier("one"),
-								*newIdentifier("two"),
-							},
-							Optional: []ast.NamedParameter{
+							Required: []ast.CommaSeparatedID{
 								{
-									Name:       *newIdentifier("opt1"),
-									DefaultArg: newLiteralNumber("1"),
+									Name: *newIdentifier("one"),
 								},
-							},
-						},
-					},
-				},
-				{
-					Kind: ast.ObjectFieldID,
-					Id:   newIdentifier("beta"),
-					Expr2: &ast.Binary{
-						Left:  &ast.Var{Id: *newIdentifier("myVar")},
-						Right: newLiteralNumber("2"),
-						Op:    ast.BopPlus,
-					},
-					Method: &ast.Function{
-						Parameters: ast.Parameters{
-							Required: ast.Identifiers{
-								*newIdentifier("one"),
-								*newIdentifier("two"),
-							},
-							Optional: []ast.NamedParameter{
 								{
-									Name: *newIdentifier("opt1"),
-									DefaultArg: &astext.Object{
-										Fields: []astext.ObjectField{
-											{
-												ObjectField: ast.ObjectField{
-													Kind:  ast.ObjectFieldID,
-													Hide:  ast.ObjectFieldInherit,
-													Id:    newIdentifier("foo"),
-													Expr2: newLiteralNumber("1"),
-												},
-											},
-										},
-									},
+									Name: *newIdentifier("two"),
 								},
 							},
 						},
@@ -538,9 +468,13 @@ var (
 					},
 					Method: &ast.Function{
 						Parameters: ast.Parameters{
-							Required: ast.Identifiers{
-								*newIdentifier("one"),
-								*newIdentifier("two"),
+							Required: []ast.CommaSeparatedID{
+								{
+									Name: *newIdentifier("one"),
+								},
+								{
+									Name: *newIdentifier("two"),
+								},
 							},
 							Optional: []ast.NamedParameter{
 								{
@@ -561,15 +495,19 @@ var (
 					},
 					Method: &ast.Function{
 						Parameters: ast.Parameters{
-							Required: ast.Identifiers{
-								*newIdentifier("one"),
-								*newIdentifier("two"),
+							Required: []ast.CommaSeparatedID{
+								{
+									Name: *newIdentifier("one"),
+								},
+								{
+									Name: *newIdentifier("two"),
+								},
 							},
 							Optional: []ast.NamedParameter{
 								{
 									Name: *newIdentifier("opt1"),
 									DefaultArg: &ast.Object{
-										Fields: []ast.ObjectField{
+										Fields: ast.ObjectFields{
 											{
 												Kind:  ast.ObjectFieldID,
 												Hide:  ast.ObjectFieldInherit,
@@ -597,9 +535,13 @@ var (
 					},
 					Method: &ast.Function{
 						Parameters: ast.Parameters{
-							Required: ast.Identifiers{
-								*newIdentifier("one"),
-								*newIdentifier("two"),
+							Required: []ast.CommaSeparatedID{
+								{
+									Name: *newIdentifier("one"),
+								},
+								{
+									Name: *newIdentifier("two"),
+								},
 							},
 						},
 					},
@@ -616,8 +558,10 @@ var (
 						},
 					},
 					Arguments: ast.Arguments{
-						Positional: ast.Nodes{
-							&ast.Var{Id: *newIdentifier("foo")},
+						Positional: []ast.CommaSeparatedExpr{
+							{
+								Expr: &ast.Var{Id: *newIdentifier("foo")},
+							},
 						},
 					},
 				},
@@ -627,30 +571,26 @@ var (
 				},
 				Op: ast.BopManifestEqual,
 			},
-			BranchTrue: &astext.Object{
-				Oneline: true,
-				Fields: astext.ObjectFields{
+			BranchTrue: &ast.Object{
+				Fields: ast.ObjectFields{
 					{
-						ObjectField: ast.ObjectField{
-							Id:    newIdentifier("foo"),
-							Kind:  ast.ObjectFieldID,
-							Hide:  ast.ObjectFieldInherit,
-							Expr2: &ast.Var{Id: *newIdentifier("foo")},
-						},
+						Id:    newIdentifier("foo"),
+						Kind:  ast.ObjectFieldID,
+						Hide:  ast.ObjectFieldInherit,
+						Expr2: &ast.Var{Id: *newIdentifier("foo")},
 					},
 				},
 			},
-			BranchFalse: &astext.Object{
-				Oneline: true,
-				Fields: astext.ObjectFields{
+			BranchFalse: &ast.Object{
+				Fields: ast.ObjectFields{
 					{
-						ObjectField: ast.ObjectField{
-							Id:   newIdentifier("foo"),
-							Kind: ast.ObjectFieldID,
-							Hide: ast.ObjectFieldInherit,
-							Expr2: &ast.Array{
-								Elements: ast.Nodes{
-									&ast.Var{Id: *newIdentifier("foo")},
+						Id:   newIdentifier("foo"),
+						Kind: ast.ObjectFieldID,
+						Hide: ast.ObjectFieldInherit,
+						Expr2: &ast.Array{
+							Elements: []ast.CommaSeparatedExpr{
+								{
+									Expr: &ast.Var{Id: *newIdentifier("foo")},
 								},
 							},
 						},
@@ -668,8 +608,10 @@ var (
 						},
 					},
 					Arguments: ast.Arguments{
-						Positional: ast.Nodes{
-							&ast.Var{Id: *newIdentifier("foo")},
+						Positional: []ast.CommaSeparatedExpr{
+							{
+								Expr: &ast.Var{Id: *newIdentifier("foo")},
+							},
 						},
 					},
 				},
@@ -679,26 +621,29 @@ var (
 				},
 				Op: ast.BopManifestEqual,
 			},
-			BranchTrue: &astext.Object{
-				Oneline: true,
-				Fields: astext.ObjectFields{
+			BranchTrue: &ast.Object{
+				Fields: ast.ObjectFields{
 					{
-						ObjectField: ast.ObjectField{
-							Id:    newIdentifier("foo"),
-							Kind:  ast.ObjectFieldID,
-							Hide:  ast.ObjectFieldInherit,
-							Expr2: &ast.Var{Id: *newIdentifier("foo")},
-						},
+						Id:    newIdentifier("foo"),
+						Kind:  ast.ObjectFieldID,
+						Hide:  ast.ObjectFieldInherit,
+						Expr2: &ast.Var{Id: *newIdentifier("foo")},
 					},
 				},
 			},
 		},
 		"array": &ast.Array{
-			Elements: ast.Nodes{
-				&ast.Var{Id: *newIdentifier("foo")},
-				&ast.Self{},
-				&ast.LiteralString{
-					Value: "string",
+			Elements: []ast.CommaSeparatedExpr{
+				{
+					Expr: &ast.Var{Id: *newIdentifier("foo")},
+				},
+				{
+					Expr: &ast.Self{},
+				},
+				{
+					Expr: &ast.LiteralString{
+						Value: "string",
+					},
 				},
 			},
 		},
@@ -706,9 +651,13 @@ var (
 		"apply_with_multiple_arguments": &ast.Apply{
 			Target: &ast.Self{},
 			Arguments: ast.Arguments{
-				Positional: ast.Nodes{
-					&ast.Var{Id: *newIdentifier("a")},
-					&ast.Var{Id: *newIdentifier("b")},
+				Positional: []ast.CommaSeparatedExpr{
+					{
+						Expr: &ast.Var{Id: *newIdentifier("a")},
+					},
+					{
+						Expr: &ast.Var{Id: *newIdentifier("b")},
+					},
 				},
 			},
 		},
@@ -754,16 +703,20 @@ var (
 		},
 		"chained_apply": &ast.Apply{
 			Arguments: ast.Arguments{
-				Positional: ast.Nodes{
-					&ast.Var{Id: *newIdentifier("bar")},
+				Positional: []ast.CommaSeparatedExpr{
+					{
+						Expr: &ast.Var{Id: *newIdentifier("bar")},
+					},
 				},
 			},
 			Target: &ast.Index{
 				Id: newIdentifier("withBar"),
 				Target: &ast.Apply{
 					Arguments: ast.Arguments{
-						Positional: ast.Nodes{
-							&ast.Var{Id: *newIdentifier("foo")},
+						Positional: []ast.CommaSeparatedExpr{
+							{
+								Expr: &ast.Var{Id: *newIdentifier("foo")},
+							},
 						},
 					},
 					Target: &ast.Index{
@@ -786,10 +739,12 @@ var (
 				},
 			},
 			Arguments: ast.Arguments{
-				Positional: ast.Nodes{
-					&ast.LiteralString{
-						Kind:  ast.StringDouble,
-						Value: "arg1",
+				Positional: []ast.CommaSeparatedExpr{
+					{
+						Expr: &ast.LiteralString{
+							Kind:  ast.StringDouble,
+							Value: "arg1",
+						},
 					},
 				},
 			},
@@ -841,18 +796,15 @@ var (
 							Binds: ast.LocalBinds{
 								{
 									Variable: *newIdentifier("a"),
-									Body: &astext.Object{
-										Oneline: true,
-										Fields: astext.ObjectFields{
+									Body: &ast.Object{
+										Fields: ast.ObjectFields{
 											{
-												ObjectField: ast.ObjectField{
-													Id:   newIdentifier("a"),
-													Kind: ast.ObjectFieldID,
-													Hide: ast.ObjectFieldInherit,
-													Expr2: &ast.LiteralString{
-														Value: "a",
-														Kind:  ast.StringDouble,
-													},
+												Id:   newIdentifier("a"),
+												Kind: ast.ObjectFieldID,
+												Hide: ast.ObjectFieldInherit,
+												Expr2: &ast.LiteralString{
+													Value: "a",
+													Kind:  ast.StringDouble,
 												},
 											},
 										},
@@ -863,18 +815,15 @@ var (
 								Binds: ast.LocalBinds{
 									{
 										Variable: *newIdentifier("b"),
-										Body: &astext.Object{
-											Oneline: true,
-											Fields: astext.ObjectFields{
+										Body: &ast.Object{
+											Fields: ast.ObjectFields{
 												{
-													ObjectField: ast.ObjectField{
-														Id:   newIdentifier("b"),
-														Kind: ast.ObjectFieldID,
-														Hide: ast.ObjectFieldInherit,
-														Expr2: &ast.LiteralString{
-															Value: "b",
-															Kind:  ast.StringDouble,
-														},
+													Id:   newIdentifier("b"),
+													Kind: ast.ObjectFieldID,
+													Hide: ast.ObjectFieldInherit,
+													Expr2: &ast.LiteralString{
+														Value: "b",
+														Kind:  ast.StringDouble,
 													},
 												},
 											},
@@ -893,68 +842,66 @@ var (
 			},
 			Body: &ast.Object{},
 		},
-		"field_with_string_key": &astext.Object{
-			Fields: astext.ObjectFields{
+		"field_with_string_key": &ast.Object{
+			Fields: ast.ObjectFields{
 				{
-					ObjectField: ast.ObjectField{
-						Kind: ast.ObjectFieldID,
-						Expr1: &ast.LiteralString{
-							Kind:  ast.StringDouble,
-							Value: "key",
-						},
-						Expr2: &ast.Var{
-							Id: *newIdentifier("value"),
-						},
+					Kind: ast.ObjectFieldID,
+					Expr1: &ast.LiteralString{
+						Kind:  ast.StringDouble,
+						Value: "key",
+					},
+					Expr2: &ast.Var{
+						Id: *newIdentifier("value"),
 					},
 				},
 			},
 		},
-		"object_comp": &astext.Object{
-			Fields: astext.ObjectFields{
+		"object_comp": &ast.Object{
+			Fields: ast.ObjectFields{
 				{
-					ObjectField: ast.ObjectField{
-						Kind: ast.ObjectFieldID,
-						Hide: ast.ObjectFieldInherit,
-						Id:   newIdentifier("field"),
-						Expr2: &ast.ObjectComp{
-							Fields: ast.ObjectFields{
-								{
-									Kind: ast.ObjectFieldExpr,
-									Hide: ast.ObjectFieldInherit,
-									Expr1: &ast.Var{
-										Id: *newIdentifier("x"),
+					Kind: ast.ObjectFieldID,
+					Hide: ast.ObjectFieldInherit,
+					Id:   newIdentifier("field"),
+					Expr2: &ast.ObjectComp{
+						Fields: ast.ObjectFields{
+							{
+								Kind: ast.ObjectFieldExpr,
+								Hide: ast.ObjectFieldInherit,
+								Expr1: &ast.Var{
+									Id: *newIdentifier("x"),
+								},
+								Expr2: &ast.Binary{
+									Left: &ast.Index{
+										Target: &ast.Index{
+											Target: &ast.Var{
+												Id: *newIdentifier("envParams"),
+											},
+											Id: newIdentifier("components"),
+										},
+										Index: &ast.Var{
+											Id: *newIdentifier("x"),
+										},
 									},
-									Expr2: &ast.Binary{
-										Left: &ast.Index{
-											Target: &ast.Index{
-												Target: &ast.Var{
-													Id: *newIdentifier("envParams"),
-												},
-												Id: newIdentifier("components"),
-											},
-											Index: &ast.Var{
-												Id: *newIdentifier("x"),
-											},
-										},
-										Op: ast.BopPlus,
-										Right: &ast.Var{
-											Id: *newIdentifier("globals"),
-										},
+									Op: ast.BopPlus,
+									Right: &ast.Var{
+										Id: *newIdentifier("globals"),
 									},
 								},
 							},
-							Spec: ast.ForSpec{
-								VarName: *newIdentifier("x"),
-								Expr: &ast.Apply{
-									Target: &ast.Index{
-										Target: &ast.Var{
-											Id: *newIdentifier("std"),
-										},
-										Id: newIdentifier("objectFields"),
+						},
+						Spec: ast.ForSpec{
+							VarName: *newIdentifier("x"),
+							Expr: &ast.Apply{
+								Target: &ast.Index{
+									Target: &ast.Var{
+										Id: *newIdentifier("std"),
 									},
-									Arguments: ast.Arguments{
-										Positional: ast.Nodes{
-											&ast.Index{
+									Id: newIdentifier("objectFields"),
+								},
+								Arguments: ast.Arguments{
+									Positional: []ast.CommaSeparatedExpr{
+										{
+											Expr: &ast.Index{
 												Target: &ast.Var{
 													Id: *newIdentifier("envParams"),
 												},
@@ -999,16 +946,22 @@ var (
 			Spec: ast.ForSpec{
 				VarName: *newIdentifier("kind"),
 				Expr: &ast.Array{
-					Elements: ast.Nodes{
-						&ast.LiteralString{Value: "Honey Syrup", Kind: ast.StringSingle},
-						&ast.LiteralString{Value: "Lemon Juice", Kind: ast.StringSingle},
-						&ast.LiteralString{Value: "Farmers Gin", Kind: ast.StringSingle},
+					Elements: []ast.CommaSeparatedExpr{
+						{
+							Expr: &ast.LiteralString{Value: "Honey Syrup", Kind: ast.StringSingle},
+						},
+						{
+							Expr: &ast.LiteralString{Value: "Lemon Juice", Kind: ast.StringSingle},
+						},
+						{
+							Expr: &ast.LiteralString{Value: "Farmers Gin", Kind: ast.StringSingle},
+						},
 					},
 				},
 			},
 		},
 		"function": &ast.Function{
-			Body: &astext.Object{Oneline: true},
+			Body: &ast.Object{},
 		},
 		"super_index": &ast.SuperIndex{
 			Id: newIdentifier("metadata"),

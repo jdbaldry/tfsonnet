@@ -14,8 +14,6 @@ import (
 
 	"github.com/google/go-jsonnet/ast"
 	"github.com/pkg/errors"
-
-	"github.com/kube-jsonnet/k/gen/astext"
 )
 
 const (
@@ -434,50 +432,9 @@ func (p *printer) print(n interface{}) {
 			p.writeByte(space, 1)
 		}
 		p.writeString("}")
-	case *astext.Object:
-		isSingleLine := p.isObjectSingleLine(t)
-		shouldPad := isSingleLine && p.cfg.PadObjects && len(t.Fields) > 0
-		needTrailingComma := !isSingleLine && len(t.Fields) > 0
-		p.writeString("{")
-		if shouldPad {
-			p.writeByte(space, 1)
-		}
-
-		for i, field := range t.Fields {
-			if !p.isObjectSingleLine(t) {
-				p.indentLevel++
-				p.writeByte(newline, 1)
-			}
-
-			p.print(field)
-			if i < len(t.Fields)-1 {
-				p.writeByte(comma, 1)
-				if p.isObjectSingleLine(t) {
-					p.writeByte(space, 1)
-				}
-			}
-
-			if !p.isObjectSingleLine(t) {
-				p.indentLevel--
-			}
-		}
-
-		if needTrailingComma {
-			p.writeByte(comma, 1)
-		}
-
-		// write an extra newline at the end
-		if !p.isObjectSingleLine(t) {
-			p.writeByte(newline, 1)
-		}
-
-		if shouldPad {
-			p.writeByte(space, 1)
-		}
-		p.writeString("}")
 	case *ast.ObjectComp:
 		p.handleObjectComp(t)
-	case astext.ObjectField, ast.ObjectField:
+	case ast.ObjectField:
 		p.handleObjectField(t)
 	case *ast.LiteralBoolean:
 		if t.Value {
@@ -1018,14 +975,6 @@ func (p *printer) isObjectSingleLine(i interface{}) bool {
 	switch t := i.(type) {
 	default:
 		return false
-	case *astext.Object:
-		if len(t.Fields) == 0 {
-			return true
-		}
-		if t.Oneline {
-			return true
-		}
-		loc = t.NodeBase.Loc()
 	case *ast.Object:
 		if len(t.Fields) == 0 {
 			return true
