@@ -163,10 +163,10 @@ var (
 	fprintfCases = map[string]ast.Node{
 		"null": &ast.LiteralNull{},
 		"object": &ast.Object{
-			Fields: ast.ObjectFields{},
+			Fields: []ast.ObjectField{},
 		},
 		"object_with_hidden_field": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind:  ast.ObjectFieldID,
 					Id:    newIdentifier("foo"),
@@ -184,7 +184,7 @@ var (
 			Right: &ast.Object{},
 		},
 		"index": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Id:   &id1,
@@ -201,7 +201,7 @@ var (
 			},
 		},
 		"index_with_index": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Id:   &id1,
@@ -221,7 +221,7 @@ var (
 			},
 		},
 		"index_quote_name": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Id:   &id1,
@@ -265,7 +265,7 @@ var (
 			},
 		},
 		"object_mixin": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind:       ast.ObjectFieldID,
 					Id:         &id1,
@@ -275,7 +275,7 @@ var (
 			},
 		},
 		"object_mixin_with_string_index": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: 3,
 					Hide: ast.ObjectFieldInherit,
@@ -289,12 +289,12 @@ var (
 			},
 		},
 		"object_with_nested_object": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Id:   &id1,
 					Expr2: &ast.Object{
-						Fields: ast.ObjectFields{
+						Fields: []ast.ObjectField{
 							{
 								Kind:  ast.ObjectFieldID,
 								Id:    &id2,
@@ -306,7 +306,7 @@ var (
 			},
 		},
 		"local": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind:  ast.ObjectLocal,
 					Hide:  ast.ObjectFieldVisible,
@@ -317,17 +317,18 @@ var (
 		},
 		// TODO: Split into fodder print tests.
 		"multi_line_comments": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				ast.ObjectField{
-					Kind:  ast.ObjectLocal,
-					Hide:  ast.ObjectFieldVisible,
-					Id:    &id2,
-					Expr2: &ast.Object{},
+					Kind:    ast.ObjectLocal,
+					Hide:    ast.ObjectFieldVisible,
+					Fodder1: []ast.FodderElement{{Comment: []string{"line 1", "", "line 3", "line 4"}}},
+					Id:      &id2,
+					Expr2:   &ast.Object{},
 				},
 			},
 		},
 		"boolean": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Hide: ast.ObjectFieldInherit,
@@ -347,7 +348,7 @@ var (
 			},
 		},
 		"literal": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Hide: ast.ObjectFieldInherit,
@@ -360,7 +361,7 @@ var (
 			},
 		},
 		"literal_with_newline": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Hide: ast.ObjectFieldInherit,
@@ -373,7 +374,7 @@ var (
 			},
 		},
 		"literal_with_single_quote": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Hide: ast.ObjectFieldInherit,
@@ -388,11 +389,12 @@ var (
 		// TODO: Split into fodder print tests.
 		"object_field_with_comment": &ast.Object{
 			TrailingComma: false,
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
-					Kind: ast.ObjectFieldID,
-					Hide: ast.ObjectFieldInherit,
-					Id:   &id1,
+					Kind:    ast.ObjectFieldID,
+					Hide:    ast.ObjectFieldInherit,
+					Fodder1: []ast.FodderElement{{Comment: []string{"a comment"}}},
+					Id:      &id1,
 					Expr2: &ast.LiteralString{
 						Value: "value",
 						Kind:  ast.StringDouble,
@@ -403,11 +405,12 @@ var (
 		// TODO: Split into fodder print tests.
 		"object_field_trailing_comma": &ast.Object{
 			TrailingComma: true,
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
-					Kind: ast.ObjectFieldID,
-					Hide: ast.ObjectFieldInherit,
-					Id:   &id1,
+					Kind:    ast.ObjectFieldID,
+					Hide:    ast.ObjectFieldInherit,
+					Fodder1: []ast.FodderElement{{Comment: []string{"a comment"}}},
+					Id:      &id1,
 					Expr2: &ast.LiteralString{
 						Value: "value",
 						Kind:  ast.StringDouble,
@@ -416,7 +419,7 @@ var (
 			},
 		},
 		"function_with_no_args": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Id:   &id1,
@@ -432,7 +435,7 @@ var (
 			},
 		},
 		"function_with_args": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Id:   &id1,
@@ -457,7 +460,7 @@ var (
 			},
 		},
 		"function_with_optional_args_ast": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Id:   newIdentifier("alpha"),
@@ -507,7 +510,7 @@ var (
 								{
 									Name: *newIdentifier("opt1"),
 									DefaultArg: &ast.Object{
-										Fields: ast.ObjectFields{
+										Fields: []ast.ObjectField{
 											{
 												Kind:  ast.ObjectFieldID,
 												Hide:  ast.ObjectFieldInherit,
@@ -524,7 +527,7 @@ var (
 			},
 		},
 		"local_function_with_args": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectLocal,
 					Id:   newIdentifier("foo"),
@@ -572,7 +575,7 @@ var (
 				Op: ast.BopManifestEqual,
 			},
 			BranchTrue: &ast.Object{
-				Fields: ast.ObjectFields{
+				Fields: []ast.ObjectField{
 					{
 						Id:    newIdentifier("foo"),
 						Kind:  ast.ObjectFieldID,
@@ -582,7 +585,7 @@ var (
 				},
 			},
 			BranchFalse: &ast.Object{
-				Fields: ast.ObjectFields{
+				Fields: []ast.ObjectField{
 					{
 						Id:   newIdentifier("foo"),
 						Kind: ast.ObjectFieldID,
@@ -622,7 +625,7 @@ var (
 				Op: ast.BopManifestEqual,
 			},
 			BranchTrue: &ast.Object{
-				Fields: ast.ObjectFields{
+				Fields: []ast.ObjectField{
 					{
 						Id:    newIdentifier("foo"),
 						Kind:  ast.ObjectFieldID,
@@ -750,7 +753,7 @@ var (
 			},
 		},
 		"object_field_with_local": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Id:   newIdentifier("fn"),
@@ -797,7 +800,7 @@ var (
 								{
 									Variable: *newIdentifier("a"),
 									Body: &ast.Object{
-										Fields: ast.ObjectFields{
+										Fields: []ast.ObjectField{
 											{
 												Id:   newIdentifier("a"),
 												Kind: ast.ObjectFieldID,
@@ -816,7 +819,7 @@ var (
 									{
 										Variable: *newIdentifier("b"),
 										Body: &ast.Object{
-											Fields: ast.ObjectFields{
+											Fields: []ast.ObjectField{
 												{
 													Id:   newIdentifier("b"),
 													Kind: ast.ObjectFieldID,
@@ -843,7 +846,7 @@ var (
 			Body: &ast.Object{},
 		},
 		"field_with_string_key": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Expr1: &ast.LiteralString{
@@ -857,13 +860,13 @@ var (
 			},
 		},
 		"object_comp": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				{
 					Kind: ast.ObjectFieldID,
 					Hide: ast.ObjectFieldInherit,
 					Id:   newIdentifier("field"),
 					Expr2: &ast.ObjectComp{
-						Fields: ast.ObjectFields{
+						Fields: []ast.ObjectField{
 							{
 								Kind: ast.ObjectFieldExpr,
 								Hide: ast.ObjectFieldInherit,
@@ -924,7 +927,7 @@ var (
 		},
 		"array_comp": &ast.ArrayComp{
 			Body: &ast.Object{
-				Fields: ast.ObjectFields{
+				Fields: []ast.ObjectField{
 					{
 						Id:    newIdentifier("kind"),
 						Kind:  ast.ObjectFieldID,
@@ -977,10 +980,10 @@ var (
 		"unknown_node":           &noopNode{},
 		"invalid_literal_string": &ast.LiteralString{Kind: 99},
 		"invalid_of_kind": &ast.Object{
-			Fields: ast.ObjectFields{{Kind: 99}},
+			Fields: []ast.ObjectField{{Kind: 99}},
 		},
 		"invalid_of_hide": &ast.Object{
-			Fields: ast.ObjectFields{{Hide: 99}},
+			Fields: []ast.ObjectField{{Hide: 99}},
 		},
 		"index_no_index_or_id":         &ast.Index{},
 		"index_invalid_index":          &ast.Index{Index: &noopNode{}},
@@ -996,10 +999,10 @@ var (
 			},
 		},
 		"trimmed_whitespace_in_tests": &ast.Object{
-			Fields: ast.ObjectFields{},
+			Fields: []ast.ObjectField{},
 		},
 		"field_id_keywords": &ast.Object{
-			Fields: ast.ObjectFields{
+			Fields: []ast.ObjectField{
 				ast.ObjectField{
 					Kind: ast.ObjectFieldStr,
 					Hide: ast.ObjectFieldInherit,

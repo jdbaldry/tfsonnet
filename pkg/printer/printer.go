@@ -37,6 +37,16 @@ const (
 	quoteModeBlock
 )
 
+var jsonnetReservedWords = []string{"assert", "else", "error", "false", "for", "function", "if",
+	"import", "importstr", "in", "local", "null", "tailstrict", "then", "self", "super", "true"}
+
+var (
+	// reFieldStr matches a field id that should be enclosed in quotes.
+	reFieldStr = regexp.MustCompile(`^([_A-Za-z0-9\.]?[A-Za-z0-9\-_\.]+(\.[A-Za-z0-9\-_]+)*)?$`)
+	// reField matches a field id.
+	reField = regexp.MustCompile(`^[_A-Za-z]+[_A-Za-z0-9]*$`)
+)
+
 // Fprint prints a node to the supplied writer using the default
 // configuration.
 func Fprint(output io.Writer, node ast.Node) error {
@@ -363,6 +373,8 @@ func (p *printer) print(n interface{}) {
 		}
 
 		p.print(t.Right)
+	case ast.CommaSeparatedExpr:
+		p.print(t.Expr)
 	case *ast.Conditional:
 		p.handleConditional(t)
 	case *ast.Dollar:
@@ -663,7 +675,15 @@ func (p *printer) handleLocalFunction(f *ast.Function) {
 // shouldUnquoteFieldID determines whether s can be an unquoted field identifier.
 // Things that can't be unquoted: keywords, expressions.
 func shouldUnquoteFieldID(s string) bool {
-	return false
+	for _, w := range jsonnetReservedWords {
+		if s == w {
+			return false
+		}
+	}
+	if !reField.MatchString(s) {
+		return false
+	}
+	return true
 }
 
 // reID matches `id` as defined in the jsonnet spec
