@@ -315,7 +315,6 @@ var (
 				},
 			},
 		},
-		// TODO: Split into fodder print tests.
 		"multi_line_comments": &ast.Object{
 			Fields: []ast.ObjectField{
 				ast.ObjectField{
@@ -386,7 +385,6 @@ var (
 				},
 			},
 		},
-		// TODO: Split into fodder print tests.
 		"object_field_with_comment": &ast.Object{
 			TrailingComma: false,
 			Fields: []ast.ObjectField{
@@ -402,7 +400,6 @@ var (
 				},
 			},
 		},
-		// TODO: Split into fodder print tests.
 		"object_field_trailing_comma": &ast.Object{
 			TrailingComma: true,
 			Fields: []ast.ObjectField{

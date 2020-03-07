@@ -594,7 +594,10 @@ func (p *printer) writeComment(f ast.Fodder) {
 		switch fe.Kind {
 		default:
 			for _, line := range fe.Comment {
-				p.writeString("// ")
+				p.writeString("//")
+				if line != "" {
+					p.writeString(" ")
+				}
 				p.writeString(line)
 				p.writeByte(newline, 1)
 			}
