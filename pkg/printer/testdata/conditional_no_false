@@ -1,1 +1,3 @@
-if std.type(foo) == 'array' then { foo: foo }
+if std.type(foo) == 'array' then {
+  foo: foo,
+}
