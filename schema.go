@@ -11,6 +11,7 @@ type Attribute struct {
 // BlockType models a Terraform block_type field that optionally appears in in the schema and describes the type of the Terraform block.
 type BlockType struct {
 	Block       Block
+	MinItems    int    `json:"min_items"`
 	MaxItems    int    `json:"max_items"`
 	NestingMode string `json:"nesting_mode"`
 }

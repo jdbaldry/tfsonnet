@@ -135,6 +135,42 @@ func main() {
 				}
 			}
 
+			if rs.Block.BlockTypes != nil {
+				for bt, bts := range *rs.Block.BlockTypes {
+					// Required field.
+					if bts.MinItems > 0 {
+						requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(bt)})
+						requiredFields = append(requiredFields, ast.ObjectField{
+							Hide: ast.ObjectFieldInherit,
+							Kind: ast.ObjectFieldID,
+							Id:   newIdentifier(bt),
+							Expr2: &ast.Var{
+								Id: *newIdentifier(bt),
+							},
+						})
+						requiredFodder = append(requiredFodder, ast.FodderElement{
+							Comment: []string{fmt.Sprintf("@param %s (required) %s block.", bt, bt)},
+						})
+					} else {
+						optionalParameters = append(optionalParameters, ast.NamedParameter{
+							Name:       *newIdentifier(bt),
+							DefaultArg: &ast.Object{},
+						})
+						optionalFields = append(optionalFields, ast.ObjectField{
+							Hide: ast.ObjectFieldInherit,
+							Kind: ast.ObjectFieldExpr,
+							Id:   newIdentifier(fmt.Sprintf("if %s != null then %s", bt, bt)),
+							Expr2: &ast.Var{
+								Id: *newIdentifier(bt),
+							},
+						})
+						optionalFodder = append(optionalFodder, ast.FodderElement{
+							Comment: []string{fmt.Sprintf("@param %s (optional) %s block.", bt, bt)},
+						})
+					}
+				}
+			}
+
 			resources = append(resources, ast.ObjectField{
 				Kind: ast.ObjectFieldID,
 				Id:   newIdentifier(r),
