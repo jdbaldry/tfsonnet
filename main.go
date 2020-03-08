@@ -81,11 +81,12 @@ func main() {
 			}
 			optionalParameters := []ast.NamedParameter{}
 
+		loop:
 			for a, as := range rs.Block.Attributes {
 				// TODO: Not skip attributes that happen to be reserved in Jsonnet.
 				for _, s := range jsonnetReservedWords {
 					if a == s {
-						break
+						break loop
 					}
 				}
 				var kind string
@@ -112,7 +113,7 @@ func main() {
 					optionalFields = append(optionalFields, ast.ObjectField{
 						Hide: ast.ObjectFieldInherit,
 						Kind: ast.ObjectFieldExpr,
-						Id:   newIdentifier(fmt.Sprintf("if %s != null then %s", a, a)),
+						Id:   newIdentifier(fmt.Sprintf("if %s != null then '%s'", a, a)),
 						Expr2: &ast.Var{
 							Id: *newIdentifier(a),
 						},
@@ -159,7 +160,7 @@ func main() {
 						optionalFields = append(optionalFields, ast.ObjectField{
 							Hide: ast.ObjectFieldInherit,
 							Kind: ast.ObjectFieldExpr,
-							Id:   newIdentifier(fmt.Sprintf("if %s != null then %s", bt, bt)),
+							Id:   newIdentifier(fmt.Sprintf("if %s != null then '%s'", bt, bt)),
 							Expr2: &ast.Var{
 								Id: *newIdentifier(bt),
 							},

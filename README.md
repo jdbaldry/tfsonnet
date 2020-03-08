@@ -9,16 +9,17 @@ This project is very much a work in progress but has a barely functional MVP.
 
 ## Example
 
-Generate aws.libsonnet
+Generate library from `terraform providers schema -json` output
 
 ```
-go run . -i data/aws.json > data/aws.libsonnet
+go install
+terraform providers schema -json | tfsonnet > providers.libsonnet
 ```
 
-Use aws.libsonnet to generate the tf.json for an aws_instance.
+Use `aws.libsonnet` to generate the `tf.json` for an `aws_instance`.
 
 ```
-jsonnet data/aws.jsonnet > aws.tf.json
+jsonnet examples/aws/aws.jsonnet > aws.tf.json
 terraform init
 terraform plan
 ```
