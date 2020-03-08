@@ -22,30 +22,6 @@ const (
 var jsonnetReservedWords = []string{"assert", "else", "error", "false", "for", "function", "if",
 	"import", "importstr", "in", "local", "null", "tailstrict", "then", "self", "super", "true"}
 
-// Block models a Terraform block structure.
-type Block struct {
-	Version int `json:"version"`
-	Block   struct {
-		Attributes map[string]struct {
-			Computed bool `json:"computed"`
-			// TODO: Type validation in jsonnet lib?
-			Type     json.RawMessage `json:"type"`
-			Required bool            `json:"required"`
-			Optional bool            `json:"optional"`
-		} `json:"attributes"`
-	} `json:"block"`
-}
-
-// Schema models the output of `terraform providers schema -json`
-type Schema struct {
-	FormatVersion   string `json:"format_version"`
-	ProviderSchemas map[string]struct {
-		DataSourceSchemas map[string]Block `json:"data_source_schemas"`
-		Provider          Block            `json:"provider"`
-		ResourceSchemas   map[string]Block `json:"resource_schemas"`
-	} `json:"provider_schemas"`
-}
-
 var i = flag.String("i", "-", "input file or '-' for reading from stdin")
 
 func main() {
@@ -104,12 +80,12 @@ func main() {
 				ast.CommaSeparatedID{Name: *newIdentifier("rname")},
 			}
 			optionalParameters := []ast.NamedParameter{}
-		loop:
+
 			for a, as := range rs.Block.Attributes {
 				// TODO: Not skip attributes that happen to be reserved in Jsonnet.
 				for _, s := range jsonnetReservedWords {
 					if a == s {
-						break loop
+						break
 					}
 				}
 				var kind string

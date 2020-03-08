@@ -12,7 +12,7 @@ This project is very much a work in progress but has a barely functional MVP.
 Generate aws.libsonnet
 
 ```
-go run cmd/tfsonnet/main.go -i data/aws.json > data/aws.libsonnet
+go run . -i data/aws.json > data/aws.libsonnet
 ```
 
 Use aws.libsonnet to generate the tf.json for an aws_instance.
@@ -24,6 +24,9 @@ terraform plan
 ```
 
 ## TODO
+
+- Support arbitrary documentation URLs.
+- Support block attributes.
 
 ```
 rg TODO
