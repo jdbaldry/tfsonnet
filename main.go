@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -68,7 +69,7 @@ func main() {
 
 			requiredFodder := ast.Fodder{
 				ast.FodderElement{
-					Comment: []string{fmt.Sprintf("%s - %s", r, rdocsURL)},
+					Comment: []string{fmt.Sprintf(" %s - %s", r, rdocsURL)},
 				},
 				ast.FodderElement{
 					Comment: []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."},
@@ -172,6 +173,15 @@ func main() {
 				}
 			}
 
+			// Skip sorting rname since it is a special workaround parameter.
+			sortCommaSeparatedID(requiredParameters[1:])
+			sortNamedParameters(optionalParameters)
+			sortFields(optionalFields)
+			sortFields(requiredFields)
+			sortFields(attributeFields)
+			sortFodder(optionalFodder)
+			sortFodder(requiredFodder)
+
 			resources = append(resources, ast.ObjectField{
 				Kind: ast.ObjectFieldID,
 				Id:   newIdentifier(r),
@@ -188,6 +198,8 @@ func main() {
 			})
 		}
 
+		sortFields(resources)
+
 		lib.Fields = append(lib.Fields, ast.ObjectField{
 			Kind: ast.ObjectFieldID,
 			Id:   newIdentifier(p),
@@ -197,7 +209,24 @@ func main() {
 		})
 	}
 
+	sortFields(lib.Fields)
+
 	printer.Fprint(os.Stdout, lib)
+}
+
+func sortCommaSeparatedID(csi []ast.CommaSeparatedID) {
+	sort.Slice(csi, func(i, j int) bool { return csi[i].Name < csi[j].Name })
+}
+
+func sortNamedParameters(np []ast.NamedParameter) {
+	sort.Slice(np, func(i, j int) bool { return np[i].Name < np[j].Name })
+}
+
+func sortFodder(f ast.Fodder) {
+	sort.Slice(f, func(i, j int) bool { return f[i].Comment[0] < f[j].Comment[0] })
+}
+func sortFields(of ast.ObjectFields) {
+	sort.Slice(of, func(i, j int) bool { return *of[i].Id < *of[j].Id })
 }
 
 // newIdentifier creates an identifier.
