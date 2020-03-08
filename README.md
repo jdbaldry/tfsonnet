@@ -12,8 +12,20 @@ This project is very much a work in progress but has a barely functional MVP.
 Generate library from `terraform providers schema -json` output
 
 ```
+cat <<EOF > aws.jsonnet
+{
+  provider: {
+    aws: {
+      profile: 'default',
+      region: 'us-east-1',
+    },
+  },
+}
+EOF
+jsonnet aws.jsonnet > aws.tf.json
+terraform init
 go install
-terraform providers schema -json | tfsonnet > providers.libsonnet
+terraform providers schema -json | tfsonnet > aws.libsonnet
 ```
 
 Use `aws.libsonnet` to generate the `tf.json` for an `aws_instance`.
