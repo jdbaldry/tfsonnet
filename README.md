@@ -27,8 +27,8 @@ terraform plan
 ## TODO
 
 - Support arbitrary documentation URLs.
-- Support block attributes.
-
+- Support datasources.
+- Support parameter type assertions.
 ```
 rg TODO
 ```
