@@ -83,45 +83,49 @@ func (g Gen) Generate() *ast.Object {
 		}
 		optionalParameters := []ast.NamedParameter{}
 
-	loop:
 		for a, as := range rs.Block.Attributes {
-			// TODO: Not skip attributes that happen to be reserved in Jsonnet.
+			// Quick workaround for reserved words.
+			// TODO: Think about handling reserved words properly.
+			fieldName := a
+			paramName := a
 			for _, s := range jsonnetReservedWords {
 				if a == s {
-					continue loop
+					fieldName = "'" + a + "'"
+					paramName = "r" + a
+					break
 				}
 			}
 			var kind string
 			if as.Required {
 				kind = "required"
-				requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(a)})
+				requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName)})
 				requiredFields = append(requiredFields, ast.ObjectField{
 					Hide: ast.ObjectFieldInherit,
 					Kind: ast.ObjectFieldID,
-					Id:   newIdentifier(a),
+					Id:   newIdentifier(fieldName),
 					Expr2: &ast.Var{
-						Id: *newIdentifier(a),
+						Id: *newIdentifier(paramName),
 					},
 				})
 				requiredFodder = append(requiredFodder, ast.FodderElement{
-					Comment: []string{fmt.Sprintf("@param %s (%s) %s.", a, kind, g.docsURLFunc(g.providerAlias, rWithoutProvider, a))},
+					Comment: []string{fmt.Sprintf("@param %s (%s) %s.", paramName, kind, g.docsURLFunc(g.providerAlias, rWithoutProvider, a))},
 				})
 			} else if as.Optional {
 				kind = "optional"
 				optionalParameters = append(optionalParameters, ast.NamedParameter{
-					Name:       *newIdentifier(a),
+					Name:       *newIdentifier(paramName),
 					DefaultArg: &ast.LiteralNull{},
 				})
 				optionalFields = append(optionalFields, ast.ObjectField{
 					Hide: ast.ObjectFieldInherit,
 					Kind: ast.ObjectFieldExpr,
-					Id:   newIdentifier(fmt.Sprintf("if %s != null then '%s'", a, a)),
+					Id:   newIdentifier(fmt.Sprintf("if %s != null then '%s'", paramName, a)),
 					Expr2: &ast.Var{
-						Id: *newIdentifier(a),
+						Id: *newIdentifier(paramName),
 					},
 				})
 				optionalFodder = append(optionalFodder, ast.FodderElement{
-					Comment: []string{fmt.Sprintf("@param %s (%s) %s.", a, kind, g.docsURLFunc(g.providerAlias, rWithoutProvider, a))},
+					Comment: []string{fmt.Sprintf("@param %s (%s) %s.", paramName, kind, g.docsURLFunc(g.providerAlias, rWithoutProvider, a))},
 				})
 			} else {
 				kind = "attribute"

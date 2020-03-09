@@ -10249,8 +10249,9 @@
     // @param id (optional) https://www.terraform.io/docs/providers/aws/r/security_group_rule.html#id.
     // @param ipv6_cidr_blocks (optional) https://www.terraform.io/docs/providers/aws/r/security_group_rule.html#ipv6_cidr_blocks.
     // @param prefix_list_ids (optional) https://www.terraform.io/docs/providers/aws/r/security_group_rule.html#prefix_list_ids.
+    // @param rself (optional) https://www.terraform.io/docs/providers/aws/r/security_group_rule.html#self.
     // @param source_security_group_id (optional) https://www.terraform.io/docs/providers/aws/r/security_group_rule.html#source_security_group_id.
-    aws_security_group_rule(rname, from_port, protocol, security_group_id, to_port, type, cidr_blocks=null, description=null, id=null, ipv6_cidr_blocks=null, prefix_list_ids=null, source_security_group_id=null):: {
+    aws_security_group_rule(rname, from_port, protocol, security_group_id, to_port, type, cidr_blocks=null, description=null, id=null, ipv6_cidr_blocks=null, prefix_list_ids=null, rself=null, source_security_group_id=null):: {
       from_port: from_port,
       protocol: protocol,
       security_group_id: security_group_id,
@@ -10261,6 +10262,7 @@
       [if id != null then 'id']: id,
       [if ipv6_cidr_blocks != null then 'ipv6_cidr_blocks']: ipv6_cidr_blocks,
       [if prefix_list_ids != null then 'prefix_list_ids']: prefix_list_ids,
+      [if rself != null then 'self']: rself,
       [if source_security_group_id != null then 'source_security_group_id']: source_security_group_id,
       rname:: rname,
     },
