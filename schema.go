@@ -27,9 +27,12 @@ type ResourceSchema struct {
 	Block Block
 }
 
+// ProviderSchema models a Terraform provider schema.
+type ProviderSchema struct {
+	ResourceSchemas map[string]ResourceSchema `json:"resource_schemas"`
+}
+
 // Schema models the useful output from `terraform providers schema -json`.
 type Schema struct {
-	ProviderSchemas map[string]struct {
-		ResourceSchemas map[string]ResourceSchema `json:"resource_schemas"`
-	} `json:"provider_schemas"`
+	ProviderSchemas map[string]ProviderSchema `json:"provider_schemas"`
 }
