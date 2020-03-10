@@ -31,16 +31,16 @@ terraform providers schema -json | tfsonnet > aws.libsonnet
 Use `aws.libsonnet` to generate the `tf.json` for an `aws_instance`.
 
 ```
-jsonnet examples/aws/aws.jsonnet > aws.tf.json
+jsonnet examples/aws/aws_instance.jsonnet > aws.tf.json
 terraform init
 terraform plan
 ```
 
 ## TODO
 
-- Support arbitrary documentation URLs.
 - Support datasources.
 - Support parameter type assertions.
+
 ```
 rg TODO
 ```
