@@ -39,6 +39,7 @@ terraform plan
 ## TODO
 
 - Support datasources.
+- Properly support nested attributes. Currently only un-nested resource attributes are handled correctly (`'${aws.aws_instance.id}'`) and not block attributes (`'${aws.aws_eks_cluster.vpc_config.vpc_id}'`) or nested attributes (`'\${aws.aws_eks_cluster.certificate_authority.data}'`).
 - Support parameter type assertions.
 
 ```
