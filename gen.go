@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/google/go-jsonnet/ast"
@@ -51,261 +52,227 @@ func NewGen(ps ProviderSchema, c GenConfig) (Gen, error) {
 	}, nil
 }
 
+// newComputedField returns the ast.ObjectField for a computed attribute.
+func newComputedField(name string, resourceName string) ast.ObjectField {
+	return ast.ObjectField{
+		Hide: ast.ObjectFieldHidden,
+		Kind: ast.ObjectFieldID,
+		Id:   newIdentifier(fieldName(name)),
+		Expr2: &ast.Binary{
+			Left:  &ast.LiteralString{Value: fmt.Sprintf("${%s.%%s.%s}", resourceName, name)},
+			Op:    ast.BopPercent,
+			Right: &ast.Var{Id: *newIdentifier("rname")},
+		},
+	}
+}
+
+// newRequiredField returns the ast.ObjectField for a required attributed.
+func newRequiredField(name string) ast.ObjectField {
+	return ast.ObjectField{
+		Hide: ast.ObjectFieldInherit,
+		Kind: ast.ObjectFieldID,
+		Id:   newIdentifier(fieldName(name)),
+		Expr2: &ast.Var{
+			Id: *newIdentifier(paramName(name)),
+		},
+	}
+}
+
+// isReserved tests if a string is a reserved Jsonnet word.
+func isReserved(a string) bool {
+	for _, s := range jsonnetReservedWords {
+		if a == s {
+			return true
+		}
+	}
+	return false
+}
+
+// fieldName returns a field safe attribute name.
+func fieldName(a string) string {
+	if isReserved(a) {
+		return "'" + a + "'"
+	}
+	return a
+}
+
+// paramName returns a parameter safe attribute name.
+func paramName(a string) string {
+	if isReserved(a) {
+		return "r" + a
+	}
+	return a
+}
+
 // Generate generates a Jsonnet ast.Object from a provider schema using the generators configuration.
 func (g Gen) Generate() *ast.Object {
-	resources := ast.ObjectFields{}
-	for r, rs := range g.providerSchema.ResourceSchemas {
-		rWithoutProvider := strings.SplitAfter(r, fmt.Sprintf("%s_", g.provider))[1]
+	resourceFields := ast.ObjectFields{}
+	rs := g.providerSchema.ResourceSchemas
+	resources := make([]string, len(rs))
+	for r := range rs {
+		resources = append(resources, r)
+	}
+	sort.Strings(resources)
+	for _, r := range resources {
+		// TODO: understand where the empty fields are coming from.
+		if r != "" {
+			rWithoutProvider := strings.SplitAfter(r, fmt.Sprintf("%s_", g.provider))[1]
 
-		requiredFields := ast.ObjectFields{}
-		optionalFields := ast.ObjectFields{}
-		attributeFields := ast.ObjectFields{
-			ast.ObjectField{
-				Hide:  ast.ObjectFieldHidden,
-				Kind:  ast.ObjectFieldID,
-				Id:    newIdentifier("rname"),
-				Expr2: &ast.Var{Id: *newIdentifier("rname")},
-			},
-		}
+			rnameField := newRequiredField("rname")
+			rnameField.Hide = ast.ObjectFieldHidden
+			requiredFields := []ast.ObjectField{rnameField}
+			otherFields := []ast.ObjectField{}
+			mixinFields := []ast.ObjectField{}
 
-		requiredFodder := ast.Fodder{
-			ast.FodderElement{
-				Comment: []string{fmt.Sprintf(" %s - %s", r, g.docsURLFunc(g.providerAlias, rWithoutProvider))},
-			},
-			ast.FodderElement{
-				Comment: []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."},
-			},
-		}
-		optionalFodder := ast.Fodder{}
-
-		requiredParameters := []ast.CommaSeparatedID{
-			ast.CommaSeparatedID{Name: *newIdentifier("rname")},
-		}
-		optionalParameters := []ast.NamedParameter{}
-
-		for a, as := range rs.Block.Attributes {
-			// Quick workaround for reserved words.
-			// TODO: Think about handling reserved words properly.
-			fieldName := a
-			paramName := a
-			for _, s := range jsonnetReservedWords {
-				if a == s {
-					fieldName = "'" + a + "'"
-					paramName = "r" + a
-					break
-				}
+			requiredFodder := ast.Fodder{
+				ast.MakeFodderElement(ast.FodderLineEnd, 0, 0, []string{fmt.Sprintf(" %s - %s", r, g.docsURLFunc(g.providerAlias, rWithoutProvider))}),
+				ast.MakeFodderElement(ast.FodderLineEnd, 0, 0, []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."}),
 			}
-			var kind string
-			if as.Required {
-				kind = "required"
-				requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName)})
-				requiredFields = append(requiredFields, ast.ObjectField{
-					Hide: ast.ObjectFieldInherit,
-					Kind: ast.ObjectFieldID,
-					Id:   newIdentifier(fieldName),
-					Expr2: &ast.Var{
-						Id: *newIdentifier(paramName),
-					},
-				})
-				requiredFodder = append(requiredFodder, ast.FodderElement{
-					Comment: []string{fmt.Sprintf("@param %s (%s) %s.", paramName, kind, g.docsURLFunc(g.providerAlias, rWithoutProvider, a))},
-				})
-			} else if as.Optional {
-				kind = "optional"
-				optionalParameters = append(optionalParameters, ast.NamedParameter{
-					Name:       *newIdentifier(paramName),
-					DefaultArg: &ast.LiteralNull{},
-				})
-				optionalFields = append(optionalFields, ast.ObjectField{
-					Hide: ast.ObjectFieldInherit,
-					Kind: ast.ObjectFieldExpr,
-					Id:   newIdentifier(fmt.Sprintf("if %s != null then '%s'", paramName, a)),
-					Expr2: &ast.Var{
-						Id: *newIdentifier(paramName),
-					},
-				})
-				optionalFodder = append(optionalFodder, ast.FodderElement{
-					Comment: []string{fmt.Sprintf("@param %s (%s) %s.", paramName, kind, g.docsURLFunc(g.providerAlias, rWithoutProvider, a))},
-				})
-			} else {
-				kind = "attribute"
-				attributeFields = append(attributeFields, ast.ObjectField{
-					Hide: ast.ObjectFieldHidden,
-					Kind: ast.ObjectFieldID,
-					Id:   newIdentifier(a),
-					Expr2: &ast.Binary{
-						Left:  &ast.LiteralString{Value: fmt.Sprintf("${%s.%%s.%s}", r, a)},
-						Op:    ast.BopPercent,
-						Right: &ast.Var{Id: *newIdentifier("rname")},
-					},
-				})
-			}
-		}
 
-		blocks := []ast.ObjectField{}
-		if rs.Block.BlockTypes != nil {
-			for bt, bts := range *rs.Block.BlockTypes {
-				// Required field.
-				if bts.MinItems > 0 {
-					requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(bt)})
-					requiredFields = append(requiredFields, ast.ObjectField{
-						Hide: ast.ObjectFieldInherit,
+			requiredParameters := []ast.CommaSeparatedID{
+				ast.CommaSeparatedID{Name: *newIdentifier("rname")},
+			}
+
+			as := rs[r].Block.Attributes
+			attributes := make([]string, len(as))
+			for a := range as {
+				attributes = append(attributes, a)
+			}
+			sort.Strings(attributes)
+			for _, a := range attributes {
+				if as[a].Required {
+					requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName(a))})
+					requiredFields = append(requiredFields, newRequiredField(a))
+					requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
+						[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a), g.docsURLFunc(g.providerAlias, rWithoutProvider, a))}))
+				} else if as[a].Optional {
+					otherFields = append(otherFields, newComputedField(a, r))
+					mixinFields = append(mixinFields, ast.ObjectField{
 						Kind: ast.ObjectFieldID,
-						Id:   newIdentifier(bt),
-						Expr2: &ast.Var{
-							Id: *newIdentifier(bt),
-						},
-					})
-					requiredFodder = append(requiredFodder, ast.FodderElement{
-						Comment: []string{fmt.Sprintf("@param %s (required) %s block.", bt, bt)},
-					})
-				} else {
-					optionalParameters = append(optionalParameters, ast.NamedParameter{
-						Name:       *newIdentifier(bt),
-						DefaultArg: &ast.Object{},
-					})
-					optionalFields = append(optionalFields, ast.ObjectField{
-						Hide: ast.ObjectFieldInherit,
-						Kind: ast.ObjectFieldExpr,
-						Id:   newIdentifier(fmt.Sprintf("if %s != null then '%s'", bt, bt)),
-						Expr2: &ast.Var{
-							Id: *newIdentifier(bt),
-						},
-					})
-					optionalFodder = append(optionalFodder, ast.FodderElement{
-						Comment: []string{fmt.Sprintf("@param %s (optional) %s block.", bt, bt)},
-					})
-				}
-
-				blockRequiredFields := ast.ObjectFields{}
-				blockOptionalFields := ast.ObjectFields{}
-				blockAttributeFields := ast.ObjectFields{}
-
-				blockRequiredFodder := ast.Fodder{}
-				blockOptionalFodder := ast.Fodder{}
-
-				blockRequiredParameters := []ast.CommaSeparatedID{}
-				blockOptionalParameters := []ast.NamedParameter{}
-
-				for a, as := range bts.Block.Attributes {
-					// Quick workaround for reserved words.
-					// TODO: Think about handling reserved words properly.
-					fieldName := a
-					paramName := a
-					for _, s := range jsonnetReservedWords {
-						if a == s {
-							fieldName = "'" + a + "'"
-							paramName = "r" + a
-							break
-						}
-					}
-					var kind string
-					if as.Required {
-						kind = "required"
-						blockRequiredParameters = append(blockRequiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName)})
-						blockRequiredFields = append(blockRequiredFields, ast.ObjectField{
-							Hide: ast.ObjectFieldInherit,
-							Kind: ast.ObjectFieldID,
-							Id:   newIdentifier(fieldName),
-							Expr2: &ast.Var{
-								Id: *newIdentifier(paramName),
-							},
-						})
-						blockRequiredFodder = append(blockRequiredFodder, ast.FodderElement{
-							Comment: []string{fmt.Sprintf("@param %s (%s) %s.", paramName, kind, g.docsURLFunc(g.providerAlias, rWithoutProvider, a))},
-						})
-					} else if as.Optional {
-						kind = "optional"
-						blockOptionalParameters = append(blockOptionalParameters, ast.NamedParameter{
-							Name:       *newIdentifier(paramName),
-							DefaultArg: &ast.LiteralNull{},
-						})
-						blockOptionalFields = append(blockOptionalFields, ast.ObjectField{
-							Hide: ast.ObjectFieldInherit,
-							Kind: ast.ObjectFieldExpr,
-							Id:   newIdentifier(fmt.Sprintf("if %s != null then '%s'", paramName, a)),
-							Expr2: &ast.Var{
-								Id: *newIdentifier(paramName),
-							},
-						})
-						blockOptionalFodder = append(blockOptionalFodder, ast.FodderElement{
-							Comment: []string{fmt.Sprintf("@param %s (%s) %s.", paramName, kind, g.docsURLFunc(g.providerAlias, rWithoutProvider, a))},
-						})
-					} else {
-						// TODO: expose block attributes.
-						kind = "attribute"
-					}
-				}
-				sortCommaSeparatedID(blockRequiredParameters)
-				sortNamedParameters(blockOptionalParameters)
-				sortFields(blockRequiredFields)
-				sortFields(blockOptionalFields)
-				sortFields(blockAttributeFields)
-				sortFodder(blockOptionalFodder)
-				sortFodder(blockRequiredFodder)
-
-				blocks = append(blocks, ast.ObjectField{
-					Kind: ast.ObjectFieldID,
-					Id:   newIdentifier(bt),
-					Expr2: &ast.Object{
-						Fields: []ast.ObjectField{
-							{
-								Kind: ast.ObjectFieldID,
-								Id:   newIdentifier("new"),
-								Expr2: &ast.Object{
-									Fields: append(append(blockRequiredFields, blockOptionalFields...), blockAttributeFields...),
-								},
-								Method: &ast.Function{
-									Parameters: ast.Parameters{
-										Optional: blockOptionalParameters,
-										Required: blockRequiredParameters,
-									},
-								},
-								Fodder1: append(blockRequiredFodder, blockOptionalFodder...),
-							},
-						},
-					},
-				})
-			}
-		}
-
-		// Skip sorting rname since it is a special workaround parameter.
-		sortCommaSeparatedID(requiredParameters[1:])
-		sortNamedParameters(optionalParameters)
-		sortFields(optionalFields)
-		sortFields(requiredFields)
-		sortFields(attributeFields)
-		sortFodder(optionalFodder)
-		sortFodder(requiredFodder)
-		sortFields(blocks)
-
-		resources = append(resources, ast.ObjectField{
-			Kind: ast.ObjectFieldID,
-			Id:   newIdentifier(r),
-			Expr2: &ast.Object{
-				Fields: append([]ast.ObjectField{
-					{
-						Kind: ast.ObjectFieldID,
-						Id:   newIdentifier("new"),
-						Expr2: &ast.Object{
-							Fields: append(append(requiredFields, optionalFields...), attributeFields...),
-						},
+						Id:   newIdentifier("with_" + paramName(a)),
 						Method: &ast.Function{
 							Parameters: ast.Parameters{
-								Optional: optionalParameters,
-								Required: requiredParameters,
+								Required: []ast.CommaSeparatedID{{Name: *newIdentifier(paramName(a))}},
 							},
 						},
-						Fodder1: append(requiredFodder, optionalFodder...),
-					},
-				}, blocks...),
-			},
-		})
+						Fodder1: ast.Fodder{
+							ast.MakeFodderElement(ast.FodderLineEnd, 0, 0, []string{
+								fmt.Sprintf("@param %s (required) %s.", paramName(a), g.docsURLFunc(g.providerAlias, rWithoutProvider, a))})},
+
+						Expr2: &ast.Object{
+							Fields: []ast.ObjectField{
+								{
+									Kind:  ast.ObjectFieldID,
+									Hide:  ast.ObjectFieldVisible,
+									Id:    newIdentifier(fieldName((a))),
+									Expr2: &ast.Var{Id: *newIdentifier(paramName(a))},
+								},
+							},
+						},
+					})
+				} else if as[a].Computed {
+					otherFields = append(otherFields, newComputedField(a, r))
+				}
+			}
+
+			if rs[r].Block.BlockTypes != nil {
+				bts := *rs[r].Block.BlockTypes
+				blockTypes := make([]string, len(bts))
+				for b := range bts {
+					blockTypes = append(blockTypes, b)
+				}
+				sort.Strings(blockTypes)
+				for _, bt := range blockTypes {
+					// TODO: understand where the empty fields are coming from.
+					if bt != "" {
+						// Required field.
+						if bts[bt].MinItems > 0 {
+							requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(bt)})
+							requiredFields = append(requiredFields, newRequiredField(bt))
+							requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
+								[]string{fmt.Sprintf("@param %s (required) %s block.", bt, bt)}))
+						} else {
+							otherFields = append(otherFields, newComputedField(bt, r))
+						}
+
+						blockRnameField := newRequiredField("rname")
+						blockRnameField.Hide = ast.ObjectFieldHidden
+						blockRequiredFields := ast.ObjectFields{blockRnameField}
+						blockOtherFields := ast.ObjectFields{}
+						blockRequiredFodder := ast.Fodder{
+							ast.MakeFodderElement(ast.FodderLineEnd, 0, 0, []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."}),
+						}
+						blockRequiredParameters := []ast.CommaSeparatedID{
+							ast.CommaSeparatedID{Name: *newIdentifier("rname")},
+						}
+
+						as := bts[bt].Block.Attributes
+						attributes := make([]string, len(as))
+						for a := range as {
+							attributes = append(attributes, a)
+						}
+						sort.Strings(attributes)
+						for _, a := range attributes {
+							if as[a].Required {
+								blockRequiredParameters = append(blockRequiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName(a))})
+								blockRequiredFields = append(blockRequiredFields, newRequiredField(a))
+								blockRequiredFodder = append(blockRequiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
+									[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a), g.docsURLFunc(g.providerAlias, rWithoutProvider, a))}))
+							} else if as[a].Optional {
+								blockOtherFields = append(blockOtherFields, newComputedField(a, r))
+							} else if as[a].Computed {
+								blockOtherFields = append(blockOtherFields, newComputedField(a, r))
+							}
+						}
+						mixinFields = append(mixinFields, ast.ObjectField{
+							Kind: ast.ObjectFieldID,
+							Id:   newIdentifier(bt),
+							Expr2: &ast.Object{
+								Fields: []ast.ObjectField{
+									{
+										Kind: ast.ObjectFieldID,
+										Id:   newIdentifier("new"),
+										Expr2: &ast.Object{
+											Fields: append(blockRequiredFields, blockOtherFields...),
+										},
+										Method: &ast.Function{
+											Parameters: ast.Parameters{
+												Required: blockRequiredParameters,
+											},
+										},
+										Fodder1: blockRequiredFodder,
+									},
+								},
+							},
+						})
+					}
+				}
+			}
+			resourceFields = append(resourceFields, ast.ObjectField{
+				Kind: ast.ObjectFieldID,
+				Id:   newIdentifier(r),
+				Expr2: &ast.Object{
+					Fields: append([]ast.ObjectField{
+						{
+							Kind: ast.ObjectFieldID,
+							Id:   newIdentifier("new"),
+							Expr2: &ast.Object{
+								Fields: append(requiredFields, otherFields...),
+							},
+							Method: &ast.Function{
+								Parameters: ast.Parameters{
+									Required: requiredParameters,
+								},
+							},
+							Fodder1: requiredFodder,
+						},
+					}, mixinFields...),
+				},
+			})
+		}
 	}
 
-	sortFields(resources)
-
 	return &ast.Object{
-		Fields: resources,
+		Fields: resourceFields,
 	}
 }

@@ -2,88 +2,134 @@
   digitalocean:: {
     digitalocean_cdn:: {
       //  digitalocean_cdn - https://www.terraform.io/docs/providers/do/r/cdn.html
-      // @param origin (required) https://www.terraform.io/docs/providers/do/r/cdn.html#origin.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param certificate_id (optional) https://www.terraform.io/docs/providers/do/r/cdn.html#certificate_id.
-      // @param custom_domain (optional) https://www.terraform.io/docs/providers/do/r/cdn.html#custom_domain.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/cdn.html#id.
-      // @param ttl (optional) https://www.terraform.io/docs/providers/do/r/cdn.html#ttl.
-      new(rname, origin, certificate_id=null, custom_domain=null, id=null, ttl=null):: {
-        origin: origin,
-        [if certificate_id != null then 'certificate_id']: certificate_id,
-        [if custom_domain != null then 'custom_domain']: custom_domain,
-        [if id != null then 'id']: id,
-        [if ttl != null then 'ttl']: ttl,
-        created_at:: '${digitalocean_cdn.%s.created_at}' % rname,
-        endpoint:: '${digitalocean_cdn.%s.endpoint}' % rname,
+      // @param origin (required) https://www.terraform.io/docs/providers/do/r/cdn.html#origin.
+      new(rname, origin):: {
         rname:: rname,
+        origin: origin,
+        certificate_id:: '${digitalocean_cdn.%s.certificate_id}' % rname,
+        created_at:: '${digitalocean_cdn.%s.created_at}' % rname,
+        custom_domain:: '${digitalocean_cdn.%s.custom_domain}' % rname,
+        endpoint:: '${digitalocean_cdn.%s.endpoint}' % rname,
+        id:: '${digitalocean_cdn.%s.id}' % rname,
+        ttl:: '${digitalocean_cdn.%s.ttl}' % rname,
+      },
+      // @param certificate_id (required) https://www.terraform.io/docs/providers/do/r/cdn.html#certificate_id.
+      with_certificate_id(certificate_id):: {
+        certificate_id::: certificate_id,
+      },
+      // @param custom_domain (required) https://www.terraform.io/docs/providers/do/r/cdn.html#custom_domain.
+      with_custom_domain(custom_domain):: {
+        custom_domain::: custom_domain,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/cdn.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param ttl (required) https://www.terraform.io/docs/providers/do/r/cdn.html#ttl.
+      with_ttl(ttl):: {
+        ttl::: ttl,
       },
     },
     digitalocean_certificate:: {
       //  digitalocean_certificate - https://www.terraform.io/docs/providers/do/r/certificate.html
-      // @param name (required) https://www.terraform.io/docs/providers/do/r/certificate.html#name.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param certificate_chain (optional) https://www.terraform.io/docs/providers/do/r/certificate.html#certificate_chain.
-      // @param domains (optional) https://www.terraform.io/docs/providers/do/r/certificate.html#domains.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/certificate.html#id.
-      // @param leaf_certificate (optional) https://www.terraform.io/docs/providers/do/r/certificate.html#leaf_certificate.
-      // @param private_key (optional) https://www.terraform.io/docs/providers/do/r/certificate.html#private_key.
-      // @param type (optional) https://www.terraform.io/docs/providers/do/r/certificate.html#type.
-      new(rname, name, certificate_chain=null, domains=null, id=null, leaf_certificate=null, private_key=null, type=null):: {
-        name: name,
-        [if certificate_chain != null then 'certificate_chain']: certificate_chain,
-        [if domains != null then 'domains']: domains,
-        [if id != null then 'id']: id,
-        [if leaf_certificate != null then 'leaf_certificate']: leaf_certificate,
-        [if private_key != null then 'private_key']: private_key,
-        [if type != null then 'type']: type,
-        not_after:: '${digitalocean_certificate.%s.not_after}' % rname,
+      // @param name (required) https://www.terraform.io/docs/providers/do/r/certificate.html#name.
+      new(rname, name):: {
         rname:: rname,
+        name: name,
+        certificate_chain:: '${digitalocean_certificate.%s.certificate_chain}' % rname,
+        domains:: '${digitalocean_certificate.%s.domains}' % rname,
+        id:: '${digitalocean_certificate.%s.id}' % rname,
+        leaf_certificate:: '${digitalocean_certificate.%s.leaf_certificate}' % rname,
+        not_after:: '${digitalocean_certificate.%s.not_after}' % rname,
+        private_key:: '${digitalocean_certificate.%s.private_key}' % rname,
         sha1_fingerprint:: '${digitalocean_certificate.%s.sha1_fingerprint}' % rname,
         state:: '${digitalocean_certificate.%s.state}' % rname,
+        type:: '${digitalocean_certificate.%s.type}' % rname,
+      },
+      // @param certificate_chain (required) https://www.terraform.io/docs/providers/do/r/certificate.html#certificate_chain.
+      with_certificate_chain(certificate_chain):: {
+        certificate_chain::: certificate_chain,
+      },
+      // @param domains (required) https://www.terraform.io/docs/providers/do/r/certificate.html#domains.
+      with_domains(domains):: {
+        domains::: domains,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/certificate.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param leaf_certificate (required) https://www.terraform.io/docs/providers/do/r/certificate.html#leaf_certificate.
+      with_leaf_certificate(leaf_certificate):: {
+        leaf_certificate::: leaf_certificate,
+      },
+      // @param private_key (required) https://www.terraform.io/docs/providers/do/r/certificate.html#private_key.
+      with_private_key(private_key):: {
+        private_key::: private_key,
+      },
+      // @param type (required) https://www.terraform.io/docs/providers/do/r/certificate.html#type.
+      with_type(type):: {
+        type::: type,
       },
     },
     digitalocean_database_cluster:: {
       //  digitalocean_database_cluster - https://www.terraform.io/docs/providers/do/r/database_cluster.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param engine (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#engine.
       // @param name (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#name.
       // @param node_count (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#node_count.
       // @param region (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#region.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param size (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#size.
-      // @param eviction_policy (optional) https://www.terraform.io/docs/providers/do/r/database_cluster.html#eviction_policy.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/database_cluster.html#id.
-      // @param maintenance_window (optional) maintenance_window block.
-      // @param sql_mode (optional) https://www.terraform.io/docs/providers/do/r/database_cluster.html#sql_mode.
-      // @param tags (optional) https://www.terraform.io/docs/providers/do/r/database_cluster.html#tags.
-      // @param version (optional) https://www.terraform.io/docs/providers/do/r/database_cluster.html#version.
-      new(rname, engine, name, node_count, region, size, eviction_policy=null, id=null, maintenance_window={}, sql_mode=null, tags=null, version=null):: {
+      new(rname, engine, name, node_count, region, size):: {
+        rname:: rname,
         engine: engine,
         name: name,
         node_count: node_count,
         region: region,
         size: size,
-        [if eviction_policy != null then 'eviction_policy']: eviction_policy,
-        [if id != null then 'id']: id,
-        [if maintenance_window != null then 'maintenance_window']: maintenance_window,
-        [if sql_mode != null then 'sql_mode']: sql_mode,
-        [if tags != null then 'tags']: tags,
-        [if version != null then 'version']: version,
         database:: '${digitalocean_database_cluster.%s.database}' % rname,
+        eviction_policy:: '${digitalocean_database_cluster.%s.eviction_policy}' % rname,
         host:: '${digitalocean_database_cluster.%s.host}' % rname,
+        id:: '${digitalocean_database_cluster.%s.id}' % rname,
         password:: '${digitalocean_database_cluster.%s.password}' % rname,
         port:: '${digitalocean_database_cluster.%s.port}' % rname,
         private_host:: '${digitalocean_database_cluster.%s.private_host}' % rname,
         private_uri:: '${digitalocean_database_cluster.%s.private_uri}' % rname,
-        rname:: rname,
+        sql_mode:: '${digitalocean_database_cluster.%s.sql_mode}' % rname,
+        tags:: '${digitalocean_database_cluster.%s.tags}' % rname,
         uri:: '${digitalocean_database_cluster.%s.uri}' % rname,
         urn:: '${digitalocean_database_cluster.%s.urn}' % rname,
         user:: '${digitalocean_database_cluster.%s.user}' % rname,
+        version:: '${digitalocean_database_cluster.%s.version}' % rname,
+        maintenance_window:: '${digitalocean_database_cluster.%s.maintenance_window}' % rname,
+      },
+      // @param eviction_policy (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#eviction_policy.
+      with_eviction_policy(eviction_policy):: {
+        eviction_policy::: eviction_policy,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param sql_mode (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#sql_mode.
+      with_sql_mode(sql_mode):: {
+        sql_mode::: sql_mode,
+      },
+      // @param tags (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#tags.
+      with_tags(tags):: {
+        tags::: tags,
+      },
+      // @param version (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#version.
+      with_version(version):: {
+        version::: version,
       },
       maintenance_window:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param day (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#day.
         // @param hour (required) https://www.terraform.io/docs/providers/do/r/database_cluster.html#hour.
-        new(day, hour):: {
+        new(rname, day, hour):: {
+          rname:: rname,
           day: day,
           hour: hour,
         },
@@ -91,588 +137,787 @@
     },
     digitalocean_database_connection_pool:: {
       //  digitalocean_database_connection_pool - https://www.terraform.io/docs/providers/do/r/database_connection_pool.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param cluster_id (required) https://www.terraform.io/docs/providers/do/r/database_connection_pool.html#cluster_id.
       // @param db_name (required) https://www.terraform.io/docs/providers/do/r/database_connection_pool.html#db_name.
       // @param mode (required) https://www.terraform.io/docs/providers/do/r/database_connection_pool.html#mode.
       // @param name (required) https://www.terraform.io/docs/providers/do/r/database_connection_pool.html#name.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param size (required) https://www.terraform.io/docs/providers/do/r/database_connection_pool.html#size.
       // @param user (required) https://www.terraform.io/docs/providers/do/r/database_connection_pool.html#user.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/database_connection_pool.html#id.
-      new(rname, cluster_id, db_name, mode, name, size, user, id=null):: {
+      new(rname, cluster_id, db_name, mode, name, size, user):: {
+        rname:: rname,
         cluster_id: cluster_id,
         db_name: db_name,
         mode: mode,
         name: name,
         size: size,
         user: user,
-        [if id != null then 'id']: id,
         host:: '${digitalocean_database_connection_pool.%s.host}' % rname,
+        id:: '${digitalocean_database_connection_pool.%s.id}' % rname,
         password:: '${digitalocean_database_connection_pool.%s.password}' % rname,
         port:: '${digitalocean_database_connection_pool.%s.port}' % rname,
         private_host:: '${digitalocean_database_connection_pool.%s.private_host}' % rname,
         private_uri:: '${digitalocean_database_connection_pool.%s.private_uri}' % rname,
-        rname:: rname,
         uri:: '${digitalocean_database_connection_pool.%s.uri}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/database_connection_pool.html#id.
+      with_id(id):: {
+        id::: id,
       },
     },
     digitalocean_database_db:: {
       //  digitalocean_database_db - https://www.terraform.io/docs/providers/do/r/database_db.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param cluster_id (required) https://www.terraform.io/docs/providers/do/r/database_db.html#cluster_id.
       // @param name (required) https://www.terraform.io/docs/providers/do/r/database_db.html#name.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/database_db.html#id.
-      new(rname, cluster_id, name, id=null):: {
+      new(rname, cluster_id, name):: {
+        rname:: rname,
         cluster_id: cluster_id,
         name: name,
-        [if id != null then 'id']: id,
-        rname:: rname,
+        id:: '${digitalocean_database_db.%s.id}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/database_db.html#id.
+      with_id(id):: {
+        id::: id,
       },
     },
     digitalocean_database_firewall:: {
       //  digitalocean_database_firewall - https://www.terraform.io/docs/providers/do/r/database_firewall.html
-      // @param cluster_id (required) https://www.terraform.io/docs/providers/do/r/database_firewall.html#cluster_id.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param cluster_id (required) https://www.terraform.io/docs/providers/do/r/database_firewall.html#cluster_id.
       // @param rule (required) rule block.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/database_firewall.html#id.
-      new(rname, cluster_id, rule, id=null):: {
+      new(rname, cluster_id, rule):: {
+        rname:: rname,
         cluster_id: cluster_id,
         rule: rule,
-        [if id != null then 'id']: id,
-        rname:: rname,
+        id:: '${digitalocean_database_firewall.%s.id}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/database_firewall.html#id.
+      with_id(id):: {
+        id::: id,
       },
       rule:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param type (required) https://www.terraform.io/docs/providers/do/r/database_firewall.html#type.
         // @param value (required) https://www.terraform.io/docs/providers/do/r/database_firewall.html#value.
-        new(type, value):: {
+        new(rname, type, value):: {
+          rname:: rname,
           type: type,
           value: value,
+          created_at:: '${digitalocean_database_firewall.%s.created_at}' % rname,
+          uuid:: '${digitalocean_database_firewall.%s.uuid}' % rname,
         },
       },
     },
     digitalocean_database_replica:: {
       //  digitalocean_database_replica - https://www.terraform.io/docs/providers/do/r/database_replica.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param cluster_id (required) https://www.terraform.io/docs/providers/do/r/database_replica.html#cluster_id.
       // @param name (required) https://www.terraform.io/docs/providers/do/r/database_replica.html#name.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/database_replica.html#id.
-      // @param region (optional) https://www.terraform.io/docs/providers/do/r/database_replica.html#region.
-      // @param size (optional) https://www.terraform.io/docs/providers/do/r/database_replica.html#size.
-      // @param tags (optional) https://www.terraform.io/docs/providers/do/r/database_replica.html#tags.
-      new(rname, cluster_id, name, id=null, region=null, size=null, tags=null):: {
+      new(rname, cluster_id, name):: {
+        rname:: rname,
         cluster_id: cluster_id,
         name: name,
-        [if id != null then 'id']: id,
-        [if region != null then 'region']: region,
-        [if size != null then 'size']: size,
-        [if tags != null then 'tags']: tags,
         database:: '${digitalocean_database_replica.%s.database}' % rname,
         host:: '${digitalocean_database_replica.%s.host}' % rname,
+        id:: '${digitalocean_database_replica.%s.id}' % rname,
         password:: '${digitalocean_database_replica.%s.password}' % rname,
         port:: '${digitalocean_database_replica.%s.port}' % rname,
         private_host:: '${digitalocean_database_replica.%s.private_host}' % rname,
         private_uri:: '${digitalocean_database_replica.%s.private_uri}' % rname,
-        rname:: rname,
+        region:: '${digitalocean_database_replica.%s.region}' % rname,
+        size:: '${digitalocean_database_replica.%s.size}' % rname,
+        tags:: '${digitalocean_database_replica.%s.tags}' % rname,
         uri:: '${digitalocean_database_replica.%s.uri}' % rname,
         user:: '${digitalocean_database_replica.%s.user}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/database_replica.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param region (required) https://www.terraform.io/docs/providers/do/r/database_replica.html#region.
+      with_region(region):: {
+        region::: region,
+      },
+      // @param size (required) https://www.terraform.io/docs/providers/do/r/database_replica.html#size.
+      with_size(size):: {
+        size::: size,
+      },
+      // @param tags (required) https://www.terraform.io/docs/providers/do/r/database_replica.html#tags.
+      with_tags(tags):: {
+        tags::: tags,
       },
     },
     digitalocean_database_user:: {
       //  digitalocean_database_user - https://www.terraform.io/docs/providers/do/r/database_user.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param cluster_id (required) https://www.terraform.io/docs/providers/do/r/database_user.html#cluster_id.
       // @param name (required) https://www.terraform.io/docs/providers/do/r/database_user.html#name.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/database_user.html#id.
-      new(rname, cluster_id, name, id=null):: {
+      new(rname, cluster_id, name):: {
+        rname:: rname,
         cluster_id: cluster_id,
         name: name,
-        [if id != null then 'id']: id,
+        id:: '${digitalocean_database_user.%s.id}' % rname,
         password:: '${digitalocean_database_user.%s.password}' % rname,
-        rname:: rname,
         role:: '${digitalocean_database_user.%s.role}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/database_user.html#id.
+      with_id(id):: {
+        id::: id,
       },
     },
     digitalocean_domain:: {
       //  digitalocean_domain - https://www.terraform.io/docs/providers/do/r/domain.html
-      // @param name (required) https://www.terraform.io/docs/providers/do/r/domain.html#name.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/domain.html#id.
-      // @param ip_address (optional) https://www.terraform.io/docs/providers/do/r/domain.html#ip_address.
-      new(rname, name, id=null, ip_address=null):: {
-        name: name,
-        [if id != null then 'id']: id,
-        [if ip_address != null then 'ip_address']: ip_address,
+      // @param name (required) https://www.terraform.io/docs/providers/do/r/domain.html#name.
+      new(rname, name):: {
         rname:: rname,
+        name: name,
+        id:: '${digitalocean_domain.%s.id}' % rname,
+        ip_address:: '${digitalocean_domain.%s.ip_address}' % rname,
         urn:: '${digitalocean_domain.%s.urn}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/domain.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param ip_address (required) https://www.terraform.io/docs/providers/do/r/domain.html#ip_address.
+      with_ip_address(ip_address):: {
+        ip_address::: ip_address,
       },
     },
     digitalocean_droplet:: {
       //  digitalocean_droplet - https://www.terraform.io/docs/providers/do/r/droplet.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param image (required) https://www.terraform.io/docs/providers/do/r/droplet.html#image.
       // @param name (required) https://www.terraform.io/docs/providers/do/r/droplet.html#name.
       // @param region (required) https://www.terraform.io/docs/providers/do/r/droplet.html#region.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param size (required) https://www.terraform.io/docs/providers/do/r/droplet.html#size.
-      // @param backups (optional) https://www.terraform.io/docs/providers/do/r/droplet.html#backups.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/droplet.html#id.
-      // @param ipv6 (optional) https://www.terraform.io/docs/providers/do/r/droplet.html#ipv6.
-      // @param monitoring (optional) https://www.terraform.io/docs/providers/do/r/droplet.html#monitoring.
-      // @param private_networking (optional) https://www.terraform.io/docs/providers/do/r/droplet.html#private_networking.
-      // @param resize_disk (optional) https://www.terraform.io/docs/providers/do/r/droplet.html#resize_disk.
-      // @param ssh_keys (optional) https://www.terraform.io/docs/providers/do/r/droplet.html#ssh_keys.
-      // @param tags (optional) https://www.terraform.io/docs/providers/do/r/droplet.html#tags.
-      // @param user_data (optional) https://www.terraform.io/docs/providers/do/r/droplet.html#user_data.
-      // @param volume_ids (optional) https://www.terraform.io/docs/providers/do/r/droplet.html#volume_ids.
-      new(rname, image, name, region, size, backups=null, id=null, ipv6=null, monitoring=null, private_networking=null, resize_disk=null, ssh_keys=null, tags=null, user_data=null, volume_ids=null):: {
+      new(rname, image, name, region, size):: {
+        rname:: rname,
         image: image,
         name: name,
         region: region,
         size: size,
-        [if backups != null then 'backups']: backups,
-        [if id != null then 'id']: id,
-        [if ipv6 != null then 'ipv6']: ipv6,
-        [if monitoring != null then 'monitoring']: monitoring,
-        [if private_networking != null then 'private_networking']: private_networking,
-        [if resize_disk != null then 'resize_disk']: resize_disk,
-        [if ssh_keys != null then 'ssh_keys']: ssh_keys,
-        [if tags != null then 'tags']: tags,
-        [if user_data != null then 'user_data']: user_data,
-        [if volume_ids != null then 'volume_ids']: volume_ids,
+        backups:: '${digitalocean_droplet.%s.backups}' % rname,
         created_at:: '${digitalocean_droplet.%s.created_at}' % rname,
         disk:: '${digitalocean_droplet.%s.disk}' % rname,
+        id:: '${digitalocean_droplet.%s.id}' % rname,
         ipv4_address:: '${digitalocean_droplet.%s.ipv4_address}' % rname,
         ipv4_address_private:: '${digitalocean_droplet.%s.ipv4_address_private}' % rname,
+        ipv6:: '${digitalocean_droplet.%s.ipv6}' % rname,
         ipv6_address:: '${digitalocean_droplet.%s.ipv6_address}' % rname,
         ipv6_address_private:: '${digitalocean_droplet.%s.ipv6_address_private}' % rname,
         locked:: '${digitalocean_droplet.%s.locked}' % rname,
         memory:: '${digitalocean_droplet.%s.memory}' % rname,
+        monitoring:: '${digitalocean_droplet.%s.monitoring}' % rname,
         price_hourly:: '${digitalocean_droplet.%s.price_hourly}' % rname,
         price_monthly:: '${digitalocean_droplet.%s.price_monthly}' % rname,
-        rname:: rname,
+        private_networking:: '${digitalocean_droplet.%s.private_networking}' % rname,
+        resize_disk:: '${digitalocean_droplet.%s.resize_disk}' % rname,
+        ssh_keys:: '${digitalocean_droplet.%s.ssh_keys}' % rname,
         status:: '${digitalocean_droplet.%s.status}' % rname,
+        tags:: '${digitalocean_droplet.%s.tags}' % rname,
         urn:: '${digitalocean_droplet.%s.urn}' % rname,
+        user_data:: '${digitalocean_droplet.%s.user_data}' % rname,
         vcpus:: '${digitalocean_droplet.%s.vcpus}' % rname,
+        volume_ids:: '${digitalocean_droplet.%s.volume_ids}' % rname,
+      },
+      // @param backups (required) https://www.terraform.io/docs/providers/do/r/droplet.html#backups.
+      with_backups(backups):: {
+        backups::: backups,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/droplet.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param ipv6 (required) https://www.terraform.io/docs/providers/do/r/droplet.html#ipv6.
+      with_ipv6(ipv6):: {
+        ipv6::: ipv6,
+      },
+      // @param monitoring (required) https://www.terraform.io/docs/providers/do/r/droplet.html#monitoring.
+      with_monitoring(monitoring):: {
+        monitoring::: monitoring,
+      },
+      // @param private_networking (required) https://www.terraform.io/docs/providers/do/r/droplet.html#private_networking.
+      with_private_networking(private_networking):: {
+        private_networking::: private_networking,
+      },
+      // @param resize_disk (required) https://www.terraform.io/docs/providers/do/r/droplet.html#resize_disk.
+      with_resize_disk(resize_disk):: {
+        resize_disk::: resize_disk,
+      },
+      // @param ssh_keys (required) https://www.terraform.io/docs/providers/do/r/droplet.html#ssh_keys.
+      with_ssh_keys(ssh_keys):: {
+        ssh_keys::: ssh_keys,
+      },
+      // @param tags (required) https://www.terraform.io/docs/providers/do/r/droplet.html#tags.
+      with_tags(tags):: {
+        tags::: tags,
+      },
+      // @param user_data (required) https://www.terraform.io/docs/providers/do/r/droplet.html#user_data.
+      with_user_data(user_data):: {
+        user_data::: user_data,
+      },
+      // @param volume_ids (required) https://www.terraform.io/docs/providers/do/r/droplet.html#volume_ids.
+      with_volume_ids(volume_ids):: {
+        volume_ids::: volume_ids,
       },
     },
     digitalocean_droplet_snapshot:: {
       //  digitalocean_droplet_snapshot - https://www.terraform.io/docs/providers/do/r/droplet_snapshot.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param droplet_id (required) https://www.terraform.io/docs/providers/do/r/droplet_snapshot.html#droplet_id.
       // @param name (required) https://www.terraform.io/docs/providers/do/r/droplet_snapshot.html#name.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/droplet_snapshot.html#id.
-      new(rname, droplet_id, name, id=null):: {
+      new(rname, droplet_id, name):: {
+        rname:: rname,
         droplet_id: droplet_id,
         name: name,
-        [if id != null then 'id']: id,
         created_at:: '${digitalocean_droplet_snapshot.%s.created_at}' % rname,
+        id:: '${digitalocean_droplet_snapshot.%s.id}' % rname,
         min_disk_size:: '${digitalocean_droplet_snapshot.%s.min_disk_size}' % rname,
         regions:: '${digitalocean_droplet_snapshot.%s.regions}' % rname,
-        rname:: rname,
         size:: '${digitalocean_droplet_snapshot.%s.size}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/droplet_snapshot.html#id.
+      with_id(id):: {
+        id::: id,
       },
     },
     digitalocean_firewall:: {
       //  digitalocean_firewall - https://www.terraform.io/docs/providers/do/r/firewall.html
-      // @param name (required) https://www.terraform.io/docs/providers/do/r/firewall.html#name.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param droplet_ids (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#droplet_ids.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#id.
-      // @param inbound_rule (optional) inbound_rule block.
-      // @param outbound_rule (optional) outbound_rule block.
-      // @param tags (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#tags.
-      new(rname, name, droplet_ids=null, id=null, inbound_rule={}, outbound_rule={}, tags=null):: {
-        name: name,
-        [if droplet_ids != null then 'droplet_ids']: droplet_ids,
-        [if id != null then 'id']: id,
-        [if inbound_rule != null then 'inbound_rule']: inbound_rule,
-        [if outbound_rule != null then 'outbound_rule']: outbound_rule,
-        [if tags != null then 'tags']: tags,
-        created_at:: '${digitalocean_firewall.%s.created_at}' % rname,
-        pending_changes:: '${digitalocean_firewall.%s.pending_changes}' % rname,
+      // @param name (required) https://www.terraform.io/docs/providers/do/r/firewall.html#name.
+      new(rname, name):: {
         rname:: rname,
+        name: name,
+        created_at:: '${digitalocean_firewall.%s.created_at}' % rname,
+        droplet_ids:: '${digitalocean_firewall.%s.droplet_ids}' % rname,
+        id:: '${digitalocean_firewall.%s.id}' % rname,
+        pending_changes:: '${digitalocean_firewall.%s.pending_changes}' % rname,
         status:: '${digitalocean_firewall.%s.status}' % rname,
+        tags:: '${digitalocean_firewall.%s.tags}' % rname,
+        inbound_rule:: '${digitalocean_firewall.%s.inbound_rule}' % rname,
+        outbound_rule:: '${digitalocean_firewall.%s.outbound_rule}' % rname,
+      },
+      // @param droplet_ids (required) https://www.terraform.io/docs/providers/do/r/firewall.html#droplet_ids.
+      with_droplet_ids(droplet_ids):: {
+        droplet_ids::: droplet_ids,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/firewall.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param tags (required) https://www.terraform.io/docs/providers/do/r/firewall.html#tags.
+      with_tags(tags):: {
+        tags::: tags,
       },
       inbound_rule:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param protocol (required) https://www.terraform.io/docs/providers/do/r/firewall.html#protocol.
-        // @param port_range (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#port_range.
-        // @param source_addresses (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#source_addresses.
-        // @param source_droplet_ids (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#source_droplet_ids.
-        // @param source_load_balancer_uids (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#source_load_balancer_uids.
-        // @param source_tags (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#source_tags.
-        new(protocol, port_range=null, source_addresses=null, source_droplet_ids=null, source_load_balancer_uids=null, source_tags=null):: {
+        new(rname, protocol):: {
+          rname:: rname,
           protocol: protocol,
-          [if port_range != null then 'port_range']: port_range,
-          [if source_addresses != null then 'source_addresses']: source_addresses,
-          [if source_droplet_ids != null then 'source_droplet_ids']: source_droplet_ids,
-          [if source_load_balancer_uids != null then 'source_load_balancer_uids']: source_load_balancer_uids,
-          [if source_tags != null then 'source_tags']: source_tags,
+          port_range:: '${digitalocean_firewall.%s.port_range}' % rname,
+          source_addresses:: '${digitalocean_firewall.%s.source_addresses}' % rname,
+          source_droplet_ids:: '${digitalocean_firewall.%s.source_droplet_ids}' % rname,
+          source_load_balancer_uids:: '${digitalocean_firewall.%s.source_load_balancer_uids}' % rname,
+          source_tags:: '${digitalocean_firewall.%s.source_tags}' % rname,
         },
       },
       outbound_rule:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param protocol (required) https://www.terraform.io/docs/providers/do/r/firewall.html#protocol.
-        // @param destination_addresses (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#destination_addresses.
-        // @param destination_droplet_ids (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#destination_droplet_ids.
-        // @param destination_load_balancer_uids (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#destination_load_balancer_uids.
-        // @param destination_tags (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#destination_tags.
-        // @param port_range (optional) https://www.terraform.io/docs/providers/do/r/firewall.html#port_range.
-        new(protocol, destination_addresses=null, destination_droplet_ids=null, destination_load_balancer_uids=null, destination_tags=null, port_range=null):: {
+        new(rname, protocol):: {
+          rname:: rname,
           protocol: protocol,
-          [if destination_addresses != null then 'destination_addresses']: destination_addresses,
-          [if destination_droplet_ids != null then 'destination_droplet_ids']: destination_droplet_ids,
-          [if destination_load_balancer_uids != null then 'destination_load_balancer_uids']: destination_load_balancer_uids,
-          [if destination_tags != null then 'destination_tags']: destination_tags,
-          [if port_range != null then 'port_range']: port_range,
+          destination_addresses:: '${digitalocean_firewall.%s.destination_addresses}' % rname,
+          destination_droplet_ids:: '${digitalocean_firewall.%s.destination_droplet_ids}' % rname,
+          destination_load_balancer_uids:: '${digitalocean_firewall.%s.destination_load_balancer_uids}' % rname,
+          destination_tags:: '${digitalocean_firewall.%s.destination_tags}' % rname,
+          port_range:: '${digitalocean_firewall.%s.port_range}' % rname,
         },
       },
     },
     digitalocean_floating_ip:: {
       //  digitalocean_floating_ip - https://www.terraform.io/docs/providers/do/r/floating_ip.html
-      // @param region (required) https://www.terraform.io/docs/providers/do/r/floating_ip.html#region.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param droplet_id (optional) https://www.terraform.io/docs/providers/do/r/floating_ip.html#droplet_id.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/floating_ip.html#id.
-      // @param ip_address (optional) https://www.terraform.io/docs/providers/do/r/floating_ip.html#ip_address.
-      new(rname, region, droplet_id=null, id=null, ip_address=null):: {
-        region: region,
-        [if droplet_id != null then 'droplet_id']: droplet_id,
-        [if id != null then 'id']: id,
-        [if ip_address != null then 'ip_address']: ip_address,
+      // @param region (required) https://www.terraform.io/docs/providers/do/r/floating_ip.html#region.
+      new(rname, region):: {
         rname:: rname,
+        region: region,
+        droplet_id:: '${digitalocean_floating_ip.%s.droplet_id}' % rname,
+        id:: '${digitalocean_floating_ip.%s.id}' % rname,
+        ip_address:: '${digitalocean_floating_ip.%s.ip_address}' % rname,
         urn:: '${digitalocean_floating_ip.%s.urn}' % rname,
+      },
+      // @param droplet_id (required) https://www.terraform.io/docs/providers/do/r/floating_ip.html#droplet_id.
+      with_droplet_id(droplet_id):: {
+        droplet_id::: droplet_id,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/floating_ip.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param ip_address (required) https://www.terraform.io/docs/providers/do/r/floating_ip.html#ip_address.
+      with_ip_address(ip_address):: {
+        ip_address::: ip_address,
       },
     },
     digitalocean_floating_ip_assignment:: {
       //  digitalocean_floating_ip_assignment - https://www.terraform.io/docs/providers/do/r/floating_ip_assignment.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param droplet_id (required) https://www.terraform.io/docs/providers/do/r/floating_ip_assignment.html#droplet_id.
       // @param ip_address (required) https://www.terraform.io/docs/providers/do/r/floating_ip_assignment.html#ip_address.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/floating_ip_assignment.html#id.
-      new(rname, droplet_id, ip_address, id=null):: {
+      new(rname, droplet_id, ip_address):: {
+        rname:: rname,
         droplet_id: droplet_id,
         ip_address: ip_address,
-        [if id != null then 'id']: id,
-        rname:: rname,
+        id:: '${digitalocean_floating_ip_assignment.%s.id}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/floating_ip_assignment.html#id.
+      with_id(id):: {
+        id::: id,
       },
     },
     digitalocean_kubernetes_cluster:: {
       //  digitalocean_kubernetes_cluster - https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html
-      // @param name (required) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#name.
-      // @param node_pool (required) node_pool block.
-      // @param region (required) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#region.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param name (required) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#name.
+      // @param region (required) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#region.
       // @param version (required) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#version.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#id.
-      // @param tags (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#tags.
-      new(rname, name, node_pool, region, version, id=null, tags=null):: {
+      // @param node_pool (required) node_pool block.
+      new(rname, name, region, version, node_pool):: {
+        rname:: rname,
         name: name,
-        node_pool: node_pool,
         region: region,
         version: version,
-        [if id != null then 'id']: id,
-        [if tags != null then 'tags']: tags,
+        node_pool: node_pool,
         cluster_subnet:: '${digitalocean_kubernetes_cluster.%s.cluster_subnet}' % rname,
         created_at:: '${digitalocean_kubernetes_cluster.%s.created_at}' % rname,
         endpoint:: '${digitalocean_kubernetes_cluster.%s.endpoint}' % rname,
+        id:: '${digitalocean_kubernetes_cluster.%s.id}' % rname,
         ipv4_address:: '${digitalocean_kubernetes_cluster.%s.ipv4_address}' % rname,
         kube_config:: '${digitalocean_kubernetes_cluster.%s.kube_config}' % rname,
-        rname:: rname,
         service_subnet:: '${digitalocean_kubernetes_cluster.%s.service_subnet}' % rname,
         status:: '${digitalocean_kubernetes_cluster.%s.status}' % rname,
+        tags:: '${digitalocean_kubernetes_cluster.%s.tags}' % rname,
         updated_at:: '${digitalocean_kubernetes_cluster.%s.updated_at}' % rname,
       },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param tags (required) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#tags.
+      with_tags(tags):: {
+        tags::: tags,
+      },
       node_pool:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param name (required) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#name.
         // @param size (required) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#size.
-        // @param auto_scale (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#auto_scale.
-        // @param max_nodes (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#max_nodes.
-        // @param min_nodes (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#min_nodes.
-        // @param node_count (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#node_count.
-        // @param tags (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html#tags.
-        new(name, size, auto_scale=null, max_nodes=null, min_nodes=null, node_count=null, tags=null):: {
+        new(rname, name, size):: {
+          rname:: rname,
           name: name,
           size: size,
-          [if auto_scale != null then 'auto_scale']: auto_scale,
-          [if max_nodes != null then 'max_nodes']: max_nodes,
-          [if min_nodes != null then 'min_nodes']: min_nodes,
-          [if node_count != null then 'node_count']: node_count,
-          [if tags != null then 'tags']: tags,
+          actual_node_count:: '${digitalocean_kubernetes_cluster.%s.actual_node_count}' % rname,
+          auto_scale:: '${digitalocean_kubernetes_cluster.%s.auto_scale}' % rname,
+          id:: '${digitalocean_kubernetes_cluster.%s.id}' % rname,
+          max_nodes:: '${digitalocean_kubernetes_cluster.%s.max_nodes}' % rname,
+          min_nodes:: '${digitalocean_kubernetes_cluster.%s.min_nodes}' % rname,
+          node_count:: '${digitalocean_kubernetes_cluster.%s.node_count}' % rname,
+          nodes:: '${digitalocean_kubernetes_cluster.%s.nodes}' % rname,
+          tags:: '${digitalocean_kubernetes_cluster.%s.tags}' % rname,
         },
       },
     },
     digitalocean_kubernetes_node_pool:: {
       //  digitalocean_kubernetes_node_pool - https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param cluster_id (required) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#cluster_id.
       // @param name (required) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#name.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param size (required) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#size.
-      // @param auto_scale (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#auto_scale.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#id.
-      // @param max_nodes (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#max_nodes.
-      // @param min_nodes (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#min_nodes.
-      // @param node_count (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#node_count.
-      // @param tags (optional) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#tags.
-      new(rname, cluster_id, name, size, auto_scale=null, id=null, max_nodes=null, min_nodes=null, node_count=null, tags=null):: {
+      new(rname, cluster_id, name, size):: {
+        rname:: rname,
         cluster_id: cluster_id,
         name: name,
         size: size,
-        [if auto_scale != null then 'auto_scale']: auto_scale,
-        [if id != null then 'id']: id,
-        [if max_nodes != null then 'max_nodes']: max_nodes,
-        [if min_nodes != null then 'min_nodes']: min_nodes,
-        [if node_count != null then 'node_count']: node_count,
-        [if tags != null then 'tags']: tags,
         actual_node_count:: '${digitalocean_kubernetes_node_pool.%s.actual_node_count}' % rname,
+        auto_scale:: '${digitalocean_kubernetes_node_pool.%s.auto_scale}' % rname,
+        id:: '${digitalocean_kubernetes_node_pool.%s.id}' % rname,
+        max_nodes:: '${digitalocean_kubernetes_node_pool.%s.max_nodes}' % rname,
+        min_nodes:: '${digitalocean_kubernetes_node_pool.%s.min_nodes}' % rname,
+        node_count:: '${digitalocean_kubernetes_node_pool.%s.node_count}' % rname,
         nodes:: '${digitalocean_kubernetes_node_pool.%s.nodes}' % rname,
-        rname:: rname,
+        tags:: '${digitalocean_kubernetes_node_pool.%s.tags}' % rname,
+      },
+      // @param auto_scale (required) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#auto_scale.
+      with_auto_scale(auto_scale):: {
+        auto_scale::: auto_scale,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param max_nodes (required) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#max_nodes.
+      with_max_nodes(max_nodes):: {
+        max_nodes::: max_nodes,
+      },
+      // @param min_nodes (required) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#min_nodes.
+      with_min_nodes(min_nodes):: {
+        min_nodes::: min_nodes,
+      },
+      // @param node_count (required) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#node_count.
+      with_node_count(node_count):: {
+        node_count::: node_count,
+      },
+      // @param tags (required) https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html#tags.
+      with_tags(tags):: {
+        tags::: tags,
       },
     },
     digitalocean_loadbalancer:: {
       //  digitalocean_loadbalancer - https://www.terraform.io/docs/providers/do/r/loadbalancer.html
-      // @param forwarding_rule (required) forwarding_rule block.
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param name (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#name.
       // @param region (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#region.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param algorithm (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#algorithm.
-      // @param droplet_ids (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#droplet_ids.
-      // @param droplet_tag (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#droplet_tag.
-      // @param enable_proxy_protocol (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#enable_proxy_protocol.
-      // @param healthcheck (optional) healthcheck block.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#id.
-      // @param redirect_http_to_https (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#redirect_http_to_https.
-      // @param sticky_sessions (optional) sticky_sessions block.
-      new(rname, forwarding_rule, name, region, algorithm=null, droplet_ids=null, droplet_tag=null, enable_proxy_protocol=null, healthcheck={}, id=null, redirect_http_to_https=null, sticky_sessions={}):: {
-        forwarding_rule: forwarding_rule,
+      // @param forwarding_rule (required) forwarding_rule block.
+      new(rname, name, region, forwarding_rule):: {
+        rname:: rname,
         name: name,
         region: region,
-        [if algorithm != null then 'algorithm']: algorithm,
-        [if droplet_ids != null then 'droplet_ids']: droplet_ids,
-        [if droplet_tag != null then 'droplet_tag']: droplet_tag,
-        [if enable_proxy_protocol != null then 'enable_proxy_protocol']: enable_proxy_protocol,
-        [if healthcheck != null then 'healthcheck']: healthcheck,
-        [if id != null then 'id']: id,
-        [if redirect_http_to_https != null then 'redirect_http_to_https']: redirect_http_to_https,
-        [if sticky_sessions != null then 'sticky_sessions']: sticky_sessions,
+        forwarding_rule: forwarding_rule,
+        algorithm:: '${digitalocean_loadbalancer.%s.algorithm}' % rname,
+        droplet_ids:: '${digitalocean_loadbalancer.%s.droplet_ids}' % rname,
+        droplet_tag:: '${digitalocean_loadbalancer.%s.droplet_tag}' % rname,
+        enable_proxy_protocol:: '${digitalocean_loadbalancer.%s.enable_proxy_protocol}' % rname,
+        id:: '${digitalocean_loadbalancer.%s.id}' % rname,
         ip:: '${digitalocean_loadbalancer.%s.ip}' % rname,
-        rname:: rname,
+        redirect_http_to_https:: '${digitalocean_loadbalancer.%s.redirect_http_to_https}' % rname,
         status:: '${digitalocean_loadbalancer.%s.status}' % rname,
         urn:: '${digitalocean_loadbalancer.%s.urn}' % rname,
+        healthcheck:: '${digitalocean_loadbalancer.%s.healthcheck}' % rname,
+        sticky_sessions:: '${digitalocean_loadbalancer.%s.sticky_sessions}' % rname,
+      },
+      // @param algorithm (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#algorithm.
+      with_algorithm(algorithm):: {
+        algorithm::: algorithm,
+      },
+      // @param droplet_ids (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#droplet_ids.
+      with_droplet_ids(droplet_ids):: {
+        droplet_ids::: droplet_ids,
+      },
+      // @param droplet_tag (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#droplet_tag.
+      with_droplet_tag(droplet_tag):: {
+        droplet_tag::: droplet_tag,
+      },
+      // @param enable_proxy_protocol (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#enable_proxy_protocol.
+      with_enable_proxy_protocol(enable_proxy_protocol):: {
+        enable_proxy_protocol::: enable_proxy_protocol,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param redirect_http_to_https (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#redirect_http_to_https.
+      with_redirect_http_to_https(redirect_http_to_https):: {
+        redirect_http_to_https::: redirect_http_to_https,
       },
       forwarding_rule:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param entry_port (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#entry_port.
         // @param entry_protocol (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#entry_protocol.
         // @param target_port (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#target_port.
         // @param target_protocol (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#target_protocol.
-        // @param certificate_id (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#certificate_id.
-        // @param tls_passthrough (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#tls_passthrough.
-        new(entry_port, entry_protocol, target_port, target_protocol, certificate_id=null, tls_passthrough=null):: {
+        new(rname, entry_port, entry_protocol, target_port, target_protocol):: {
+          rname:: rname,
           entry_port: entry_port,
           entry_protocol: entry_protocol,
           target_port: target_port,
           target_protocol: target_protocol,
-          [if certificate_id != null then 'certificate_id']: certificate_id,
-          [if tls_passthrough != null then 'tls_passthrough']: tls_passthrough,
+          certificate_id:: '${digitalocean_loadbalancer.%s.certificate_id}' % rname,
+          tls_passthrough:: '${digitalocean_loadbalancer.%s.tls_passthrough}' % rname,
         },
       },
       healthcheck:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param port (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#port.
         // @param protocol (required) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#protocol.
-        // @param check_interval_seconds (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#check_interval_seconds.
-        // @param healthy_threshold (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#healthy_threshold.
-        // @param path (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#path.
-        // @param response_timeout_seconds (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#response_timeout_seconds.
-        // @param unhealthy_threshold (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#unhealthy_threshold.
-        new(port, protocol, check_interval_seconds=null, healthy_threshold=null, path=null, response_timeout_seconds=null, unhealthy_threshold=null):: {
+        new(rname, port, protocol):: {
+          rname:: rname,
           port: port,
           protocol: protocol,
-          [if check_interval_seconds != null then 'check_interval_seconds']: check_interval_seconds,
-          [if healthy_threshold != null then 'healthy_threshold']: healthy_threshold,
-          [if path != null then 'path']: path,
-          [if response_timeout_seconds != null then 'response_timeout_seconds']: response_timeout_seconds,
-          [if unhealthy_threshold != null then 'unhealthy_threshold']: unhealthy_threshold,
+          check_interval_seconds:: '${digitalocean_loadbalancer.%s.check_interval_seconds}' % rname,
+          healthy_threshold:: '${digitalocean_loadbalancer.%s.healthy_threshold}' % rname,
+          path:: '${digitalocean_loadbalancer.%s.path}' % rname,
+          response_timeout_seconds:: '${digitalocean_loadbalancer.%s.response_timeout_seconds}' % rname,
+          unhealthy_threshold:: '${digitalocean_loadbalancer.%s.unhealthy_threshold}' % rname,
         },
       },
       sticky_sessions:: {
-        // @param cookie_name (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#cookie_name.
-        // @param cookie_ttl_seconds (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#cookie_ttl_seconds.
-        // @param type (optional) https://www.terraform.io/docs/providers/do/r/loadbalancer.html#type.
-        new(cookie_name=null, cookie_ttl_seconds=null, type=null):: {
-          [if cookie_name != null then 'cookie_name']: cookie_name,
-          [if cookie_ttl_seconds != null then 'cookie_ttl_seconds']: cookie_ttl_seconds,
-          [if type != null then 'type']: type,
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        new(rname):: {
+          rname:: rname,
+          cookie_name:: '${digitalocean_loadbalancer.%s.cookie_name}' % rname,
+          cookie_ttl_seconds:: '${digitalocean_loadbalancer.%s.cookie_ttl_seconds}' % rname,
+          type:: '${digitalocean_loadbalancer.%s.type}' % rname,
         },
       },
     },
     digitalocean_project:: {
       //  digitalocean_project - https://www.terraform.io/docs/providers/do/r/project.html
-      // @param name (required) https://www.terraform.io/docs/providers/do/r/project.html#name.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param description (optional) https://www.terraform.io/docs/providers/do/r/project.html#description.
-      // @param environment (optional) https://www.terraform.io/docs/providers/do/r/project.html#environment.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/project.html#id.
-      // @param purpose (optional) https://www.terraform.io/docs/providers/do/r/project.html#purpose.
-      // @param resources (optional) https://www.terraform.io/docs/providers/do/r/project.html#resources.
-      new(rname, name, description=null, environment=null, id=null, purpose=null, resources=null):: {
+      // @param name (required) https://www.terraform.io/docs/providers/do/r/project.html#name.
+      new(rname, name):: {
+        rname:: rname,
         name: name,
-        [if description != null then 'description']: description,
-        [if environment != null then 'environment']: environment,
-        [if id != null then 'id']: id,
-        [if purpose != null then 'purpose']: purpose,
-        [if resources != null then 'resources']: resources,
         created_at:: '${digitalocean_project.%s.created_at}' % rname,
+        description:: '${digitalocean_project.%s.description}' % rname,
+        environment:: '${digitalocean_project.%s.environment}' % rname,
+        id:: '${digitalocean_project.%s.id}' % rname,
         owner_id:: '${digitalocean_project.%s.owner_id}' % rname,
         owner_uuid:: '${digitalocean_project.%s.owner_uuid}' % rname,
-        rname:: rname,
+        purpose:: '${digitalocean_project.%s.purpose}' % rname,
+        resources:: '${digitalocean_project.%s.resources}' % rname,
         updated_at:: '${digitalocean_project.%s.updated_at}' % rname,
+      },
+      // @param description (required) https://www.terraform.io/docs/providers/do/r/project.html#description.
+      with_description(description):: {
+        description::: description,
+      },
+      // @param environment (required) https://www.terraform.io/docs/providers/do/r/project.html#environment.
+      with_environment(environment):: {
+        environment::: environment,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/project.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param purpose (required) https://www.terraform.io/docs/providers/do/r/project.html#purpose.
+      with_purpose(purpose):: {
+        purpose::: purpose,
+      },
+      // @param resources (required) https://www.terraform.io/docs/providers/do/r/project.html#resources.
+      with_resources(resources):: {
+        resources::: resources,
       },
     },
     digitalocean_record:: {
       //  digitalocean_record - https://www.terraform.io/docs/providers/do/r/record.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param domain (required) https://www.terraform.io/docs/providers/do/r/record.html#domain.
       // @param name (required) https://www.terraform.io/docs/providers/do/r/record.html#name.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param type (required) https://www.terraform.io/docs/providers/do/r/record.html#type.
       // @param value (required) https://www.terraform.io/docs/providers/do/r/record.html#value.
-      // @param flags (optional) https://www.terraform.io/docs/providers/do/r/record.html#flags.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/record.html#id.
-      // @param port (optional) https://www.terraform.io/docs/providers/do/r/record.html#port.
-      // @param priority (optional) https://www.terraform.io/docs/providers/do/r/record.html#priority.
-      // @param tag (optional) https://www.terraform.io/docs/providers/do/r/record.html#tag.
-      // @param ttl (optional) https://www.terraform.io/docs/providers/do/r/record.html#ttl.
-      // @param weight (optional) https://www.terraform.io/docs/providers/do/r/record.html#weight.
-      new(rname, domain, name, type, value, flags=null, id=null, port=null, priority=null, tag=null, ttl=null, weight=null):: {
+      new(rname, domain, name, type, value):: {
+        rname:: rname,
         domain: domain,
         name: name,
         type: type,
         value: value,
-        [if flags != null then 'flags']: flags,
-        [if id != null then 'id']: id,
-        [if port != null then 'port']: port,
-        [if priority != null then 'priority']: priority,
-        [if tag != null then 'tag']: tag,
-        [if ttl != null then 'ttl']: ttl,
-        [if weight != null then 'weight']: weight,
+        flags:: '${digitalocean_record.%s.flags}' % rname,
         fqdn:: '${digitalocean_record.%s.fqdn}' % rname,
-        rname:: rname,
+        id:: '${digitalocean_record.%s.id}' % rname,
+        port:: '${digitalocean_record.%s.port}' % rname,
+        priority:: '${digitalocean_record.%s.priority}' % rname,
+        tag:: '${digitalocean_record.%s.tag}' % rname,
+        ttl:: '${digitalocean_record.%s.ttl}' % rname,
+        weight:: '${digitalocean_record.%s.weight}' % rname,
+      },
+      // @param flags (required) https://www.terraform.io/docs/providers/do/r/record.html#flags.
+      with_flags(flags):: {
+        flags::: flags,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/record.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param port (required) https://www.terraform.io/docs/providers/do/r/record.html#port.
+      with_port(port):: {
+        port::: port,
+      },
+      // @param priority (required) https://www.terraform.io/docs/providers/do/r/record.html#priority.
+      with_priority(priority):: {
+        priority::: priority,
+      },
+      // @param tag (required) https://www.terraform.io/docs/providers/do/r/record.html#tag.
+      with_tag(tag):: {
+        tag::: tag,
+      },
+      // @param ttl (required) https://www.terraform.io/docs/providers/do/r/record.html#ttl.
+      with_ttl(ttl):: {
+        ttl::: ttl,
+      },
+      // @param weight (required) https://www.terraform.io/docs/providers/do/r/record.html#weight.
+      with_weight(weight):: {
+        weight::: weight,
       },
     },
     digitalocean_spaces_bucket:: {
       //  digitalocean_spaces_bucket - https://www.terraform.io/docs/providers/do/r/spaces_bucket.html
-      // @param name (required) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#name.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param acl (optional) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#acl.
-      // @param cors_rule (optional) cors_rule block.
-      // @param force_destroy (optional) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#force_destroy.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#id.
-      // @param region (optional) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#region.
-      new(rname, name, acl=null, cors_rule={}, force_destroy=null, id=null, region=null):: {
-        name: name,
-        [if acl != null then 'acl']: acl,
-        [if cors_rule != null then 'cors_rule']: cors_rule,
-        [if force_destroy != null then 'force_destroy']: force_destroy,
-        [if id != null then 'id']: id,
-        [if region != null then 'region']: region,
-        bucket_domain_name:: '${digitalocean_spaces_bucket.%s.bucket_domain_name}' % rname,
+      // @param name (required) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#name.
+      new(rname, name):: {
         rname:: rname,
+        name: name,
+        acl:: '${digitalocean_spaces_bucket.%s.acl}' % rname,
+        bucket_domain_name:: '${digitalocean_spaces_bucket.%s.bucket_domain_name}' % rname,
+        force_destroy:: '${digitalocean_spaces_bucket.%s.force_destroy}' % rname,
+        id:: '${digitalocean_spaces_bucket.%s.id}' % rname,
+        region:: '${digitalocean_spaces_bucket.%s.region}' % rname,
         urn:: '${digitalocean_spaces_bucket.%s.urn}' % rname,
+        cors_rule:: '${digitalocean_spaces_bucket.%s.cors_rule}' % rname,
+      },
+      // @param acl (required) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#acl.
+      with_acl(acl):: {
+        acl::: acl,
+      },
+      // @param force_destroy (required) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#force_destroy.
+      with_force_destroy(force_destroy):: {
+        force_destroy::: force_destroy,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param region (required) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#region.
+      with_region(region):: {
+        region::: region,
       },
       cors_rule:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param allowed_methods (required) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#allowed_methods.
         // @param allowed_origins (required) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#allowed_origins.
-        // @param allowed_headers (optional) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#allowed_headers.
-        // @param max_age_seconds (optional) https://www.terraform.io/docs/providers/do/r/spaces_bucket.html#max_age_seconds.
-        new(allowed_methods, allowed_origins, allowed_headers=null, max_age_seconds=null):: {
+        new(rname, allowed_methods, allowed_origins):: {
+          rname:: rname,
           allowed_methods: allowed_methods,
           allowed_origins: allowed_origins,
-          [if allowed_headers != null then 'allowed_headers']: allowed_headers,
-          [if max_age_seconds != null then 'max_age_seconds']: max_age_seconds,
+          allowed_headers:: '${digitalocean_spaces_bucket.%s.allowed_headers}' % rname,
+          max_age_seconds:: '${digitalocean_spaces_bucket.%s.max_age_seconds}' % rname,
         },
       },
     },
     digitalocean_ssh_key:: {
       //  digitalocean_ssh_key - https://www.terraform.io/docs/providers/do/r/ssh_key.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param name (required) https://www.terraform.io/docs/providers/do/r/ssh_key.html#name.
       // @param public_key (required) https://www.terraform.io/docs/providers/do/r/ssh_key.html#public_key.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/ssh_key.html#id.
-      new(rname, name, public_key, id=null):: {
+      new(rname, name, public_key):: {
+        rname:: rname,
         name: name,
         public_key: public_key,
-        [if id != null then 'id']: id,
         fingerprint:: '${digitalocean_ssh_key.%s.fingerprint}' % rname,
-        rname:: rname,
+        id:: '${digitalocean_ssh_key.%s.id}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/ssh_key.html#id.
+      with_id(id):: {
+        id::: id,
       },
     },
     digitalocean_tag:: {
       //  digitalocean_tag - https://www.terraform.io/docs/providers/do/r/tag.html
-      // @param name (required) https://www.terraform.io/docs/providers/do/r/tag.html#name.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/tag.html#id.
-      new(rname, name, id=null):: {
-        name: name,
-        [if id != null then 'id']: id,
+      // @param name (required) https://www.terraform.io/docs/providers/do/r/tag.html#name.
+      new(rname, name):: {
         rname:: rname,
+        name: name,
+        id:: '${digitalocean_tag.%s.id}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/tag.html#id.
+      with_id(id):: {
+        id::: id,
       },
     },
     digitalocean_volume:: {
       //  digitalocean_volume - https://www.terraform.io/docs/providers/do/r/volume.html
+      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param name (required) https://www.terraform.io/docs/providers/do/r/volume.html#name.
       // @param region (required) https://www.terraform.io/docs/providers/do/r/volume.html#region.
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
       // @param size (required) https://www.terraform.io/docs/providers/do/r/volume.html#size.
-      // @param description (optional) https://www.terraform.io/docs/providers/do/r/volume.html#description.
-      // @param filesystem_type (optional) https://www.terraform.io/docs/providers/do/r/volume.html#filesystem_type.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/volume.html#id.
-      // @param initial_filesystem_label (optional) https://www.terraform.io/docs/providers/do/r/volume.html#initial_filesystem_label.
-      // @param initial_filesystem_type (optional) https://www.terraform.io/docs/providers/do/r/volume.html#initial_filesystem_type.
-      // @param snapshot_id (optional) https://www.terraform.io/docs/providers/do/r/volume.html#snapshot_id.
-      // @param tags (optional) https://www.terraform.io/docs/providers/do/r/volume.html#tags.
-      new(rname, name, region, size, description=null, filesystem_type=null, id=null, initial_filesystem_label=null, initial_filesystem_type=null, snapshot_id=null, tags=null):: {
+      new(rname, name, region, size):: {
+        rname:: rname,
         name: name,
         region: region,
         size: size,
-        [if description != null then 'description']: description,
-        [if filesystem_type != null then 'filesystem_type']: filesystem_type,
-        [if id != null then 'id']: id,
-        [if initial_filesystem_label != null then 'initial_filesystem_label']: initial_filesystem_label,
-        [if initial_filesystem_type != null then 'initial_filesystem_type']: initial_filesystem_type,
-        [if snapshot_id != null then 'snapshot_id']: snapshot_id,
-        [if tags != null then 'tags']: tags,
+        description:: '${digitalocean_volume.%s.description}' % rname,
         droplet_ids:: '${digitalocean_volume.%s.droplet_ids}' % rname,
         filesystem_label:: '${digitalocean_volume.%s.filesystem_label}' % rname,
-        rname:: rname,
+        filesystem_type:: '${digitalocean_volume.%s.filesystem_type}' % rname,
+        id:: '${digitalocean_volume.%s.id}' % rname,
+        initial_filesystem_label:: '${digitalocean_volume.%s.initial_filesystem_label}' % rname,
+        initial_filesystem_type:: '${digitalocean_volume.%s.initial_filesystem_type}' % rname,
+        snapshot_id:: '${digitalocean_volume.%s.snapshot_id}' % rname,
+        tags:: '${digitalocean_volume.%s.tags}' % rname,
         urn:: '${digitalocean_volume.%s.urn}' % rname,
+      },
+      // @param description (required) https://www.terraform.io/docs/providers/do/r/volume.html#description.
+      with_description(description):: {
+        description::: description,
+      },
+      // @param filesystem_type (required) https://www.terraform.io/docs/providers/do/r/volume.html#filesystem_type.
+      with_filesystem_type(filesystem_type):: {
+        filesystem_type::: filesystem_type,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/volume.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param initial_filesystem_label (required) https://www.terraform.io/docs/providers/do/r/volume.html#initial_filesystem_label.
+      with_initial_filesystem_label(initial_filesystem_label):: {
+        initial_filesystem_label::: initial_filesystem_label,
+      },
+      // @param initial_filesystem_type (required) https://www.terraform.io/docs/providers/do/r/volume.html#initial_filesystem_type.
+      with_initial_filesystem_type(initial_filesystem_type):: {
+        initial_filesystem_type::: initial_filesystem_type,
+      },
+      // @param snapshot_id (required) https://www.terraform.io/docs/providers/do/r/volume.html#snapshot_id.
+      with_snapshot_id(snapshot_id):: {
+        snapshot_id::: snapshot_id,
+      },
+      // @param tags (required) https://www.terraform.io/docs/providers/do/r/volume.html#tags.
+      with_tags(tags):: {
+        tags::: tags,
       },
     },
     digitalocean_volume_attachment:: {
       //  digitalocean_volume_attachment - https://www.terraform.io/docs/providers/do/r/volume_attachment.html
-      // @param droplet_id (required) https://www.terraform.io/docs/providers/do/r/volume_attachment.html#droplet_id.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param droplet_id (required) https://www.terraform.io/docs/providers/do/r/volume_attachment.html#droplet_id.
       // @param volume_id (required) https://www.terraform.io/docs/providers/do/r/volume_attachment.html#volume_id.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/volume_attachment.html#id.
-      new(rname, droplet_id, volume_id, id=null):: {
+      new(rname, droplet_id, volume_id):: {
+        rname:: rname,
         droplet_id: droplet_id,
         volume_id: volume_id,
-        [if id != null then 'id']: id,
-        rname:: rname,
+        id:: '${digitalocean_volume_attachment.%s.id}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/volume_attachment.html#id.
+      with_id(id):: {
+        id::: id,
       },
     },
     digitalocean_volume_snapshot:: {
       //  digitalocean_volume_snapshot - https://www.terraform.io/docs/providers/do/r/volume_snapshot.html
-      // @param name (required) https://www.terraform.io/docs/providers/do/r/volume_snapshot.html#name.
       // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param name (required) https://www.terraform.io/docs/providers/do/r/volume_snapshot.html#name.
       // @param volume_id (required) https://www.terraform.io/docs/providers/do/r/volume_snapshot.html#volume_id.
-      // @param id (optional) https://www.terraform.io/docs/providers/do/r/volume_snapshot.html#id.
-      // @param tags (optional) https://www.terraform.io/docs/providers/do/r/volume_snapshot.html#tags.
-      new(rname, name, volume_id, id=null, tags=null):: {
+      new(rname, name, volume_id):: {
+        rname:: rname,
         name: name,
         volume_id: volume_id,
-        [if id != null then 'id']: id,
-        [if tags != null then 'tags']: tags,
         created_at:: '${digitalocean_volume_snapshot.%s.created_at}' % rname,
+        id:: '${digitalocean_volume_snapshot.%s.id}' % rname,
         min_disk_size:: '${digitalocean_volume_snapshot.%s.min_disk_size}' % rname,
         regions:: '${digitalocean_volume_snapshot.%s.regions}' % rname,
-        rname:: rname,
         size:: '${digitalocean_volume_snapshot.%s.size}' % rname,
+        tags:: '${digitalocean_volume_snapshot.%s.tags}' % rname,
+      },
+      // @param id (required) https://www.terraform.io/docs/providers/do/r/volume_snapshot.html#id.
+      with_id(id):: {
+        id::: id,
+      },
+      // @param tags (required) https://www.terraform.io/docs/providers/do/r/volume_snapshot.html#tags.
+      with_tags(tags):: {
+        tags::: tags,
       },
     },
   },
