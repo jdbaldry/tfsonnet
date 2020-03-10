@@ -52,14 +52,29 @@ func NewGen(ps ProviderSchema, c GenConfig) (Gen, error) {
 	}, nil
 }
 
+// interpolatable is a string that can be interpolated by Terraform
+type interpolatable string
+
+// newInterpolatable returns an interpolatable.
+func newInterpolatable(s []string) interpolatable {
+	if len(s) == 0 {
+		return ""
+	}
+	pre := "${"
+	post := "}"
+	return interpolatable(pre + strings.Join(s, ".") + post)
+}
+
 // newComputedField returns the ast.ObjectField for a computed attribute.
-func newComputedField(name string, resourceName string) ast.ObjectField {
+// name is the attribute name.
+// interpolatable is an interpolatable that can be first interpolated by Jsonnet with str % rname and then secondly by Terraform.
+func newComputedField(name string, i interpolatable) ast.ObjectField {
 	return ast.ObjectField{
 		Hide: ast.ObjectFieldHidden,
 		Kind: ast.ObjectFieldID,
 		Id:   newIdentifier(fieldName(name)),
 		Expr2: &ast.Binary{
-			Left:  &ast.LiteralString{Value: fmt.Sprintf("${%s.%%s.%s}", resourceName, name)},
+			Left:  &ast.LiteralString{Value: string(i)},
 			Op:    ast.BopPercent,
 			Right: &ast.Var{Id: *newIdentifier("rname")},
 		},
@@ -146,7 +161,7 @@ func (g Gen) Generate() *ast.Object {
 					requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
 						[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a), g.docsURLFunc(g.providerAlias, rWithoutProvider, a))}))
 				} else if as[a].Optional {
-					otherFields = append(otherFields, newComputedField(a, r))
+					otherFields = append(otherFields, newComputedField(a, newInterpolatable([]string{r, "%s", a})))
 					mixinFields = append(mixinFields, ast.ObjectField{
 						Kind: ast.ObjectFieldID,
 						Id:   newIdentifier("with_" + paramName(a)),
@@ -171,7 +186,7 @@ func (g Gen) Generate() *ast.Object {
 						},
 					})
 				} else if as[a].Computed {
-					otherFields = append(otherFields, newComputedField(a, r))
+					otherFields = append(otherFields, newComputedField(a, newInterpolatable([]string{r, "%s", a})))
 				}
 			}
 
@@ -192,7 +207,11 @@ func (g Gen) Generate() *ast.Object {
 							requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
 								[]string{fmt.Sprintf("@param %s (required) %s block.", bt, bt)}))
 						} else {
-							otherFields = append(otherFields, newComputedField(bt, r))
+							otherFields = append(otherFields, ast.ObjectField{
+								Kind:  ast.ObjectFieldID,
+								Id:    newIdentifier(fieldName(bt)),
+								Expr2: &ast.Object{},
+							})
 						}
 
 						blockRnameField := newRequiredField("rname")
@@ -219,9 +238,9 @@ func (g Gen) Generate() *ast.Object {
 								blockRequiredFodder = append(blockRequiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
 									[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a), g.docsURLFunc(g.providerAlias, rWithoutProvider, a))}))
 							} else if as[a].Optional {
-								blockOtherFields = append(blockOtherFields, newComputedField(a, r))
+								blockOtherFields = append(blockOtherFields, newComputedField(a, newInterpolatable([]string{r, "%s", bt, a})))
 							} else if as[a].Computed {
-								blockOtherFields = append(blockOtherFields, newComputedField(a, r))
+								blockOtherFields = append(blockOtherFields, newComputedField(a, newInterpolatable([]string{r, "%s", bt, a})))
 							}
 						}
 						mixinFields = append(mixinFields, ast.ObjectField{

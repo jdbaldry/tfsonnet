@@ -42,7 +42,7 @@
         tags:: '${aws_acm_certificate.%s.tags}' % rname,
         validation_emails:: '${aws_acm_certificate.%s.validation_emails}' % rname,
         validation_method:: '${aws_acm_certificate.%s.validation_method}' % rname,
-        options:: '${aws_acm_certificate.%s.options}' % rname,
+        options:: {},
       },
       // @param certificate_authority_arn (required) https://www.terraform.io/docs/providers/aws/r/acm_certificate.html#certificate_authority_arn.
       with_certificate_authority_arn(certificate_authority_arn):: {
@@ -84,7 +84,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          certificate_transparency_logging_preference:: '${aws_acm_certificate.%s.certificate_transparency_logging_preference}' % rname,
+          certificate_transparency_logging_preference:: '${aws_acm_certificate.%s.options.certificate_transparency_logging_preference}' % rname,
         },
       },
     },
@@ -97,7 +97,7 @@
         certificate_arn: certificate_arn,
         id:: '${aws_acm_certificate_validation.%s.id}' % rname,
         validation_record_fqdns:: '${aws_acm_certificate_validation.%s.validation_record_fqdns}' % rname,
-        timeouts:: '${aws_acm_certificate_validation.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/acm_certificate_validation.html#id.
       with_id(id):: {
@@ -111,7 +111,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_acm_certificate_validation.%s.create}' % rname,
+          create:: '${aws_acm_certificate_validation.%s.timeouts.create}' % rname,
         },
       },
     },
@@ -135,8 +135,8 @@
         status:: '${aws_acmpca_certificate_authority.%s.status}' % rname,
         tags:: '${aws_acmpca_certificate_authority.%s.tags}' % rname,
         type:: '${aws_acmpca_certificate_authority.%s.type}' % rname,
-        revocation_configuration:: '${aws_acmpca_certificate_authority.%s.revocation_configuration}' % rname,
-        timeouts:: '${aws_acmpca_certificate_authority.%s.timeouts}' % rname,
+        revocation_configuration:: {},
+        timeouts:: {},
       },
       // @param enabled (required) https://www.terraform.io/docs/providers/aws/r/acmpca_certificate_authority.html#enabled.
       with_enabled(enabled):: {
@@ -178,7 +178,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_acmpca_certificate_authority.%s.create}' % rname,
+          create:: '${aws_acmpca_certificate_authority.%s.timeouts.create}' % rname,
         },
       },
     },
@@ -205,9 +205,9 @@
         tags:: '${aws_alb.%s.tags}' % rname,
         vpc_id:: '${aws_alb.%s.vpc_id}' % rname,
         zone_id:: '${aws_alb.%s.zone_id}' % rname,
-        access_logs:: '${aws_alb.%s.access_logs}' % rname,
-        subnet_mapping:: '${aws_alb.%s.subnet_mapping}' % rname,
-        timeouts:: '${aws_alb.%s.timeouts}' % rname,
+        access_logs:: {},
+        subnet_mapping:: {},
+        timeouts:: {},
       },
       // @param enable_cross_zone_load_balancing (required) https://www.terraform.io/docs/providers/aws/r/alb.html#enable_cross_zone_load_balancing.
       with_enable_cross_zone_load_balancing(enable_cross_zone_load_balancing):: {
@@ -267,8 +267,8 @@
         new(rname, bucket):: {
           rname:: rname,
           bucket: bucket,
-          enabled:: '${aws_alb.%s.enabled}' % rname,
-          prefix:: '${aws_alb.%s.prefix}' % rname,
+          enabled:: '${aws_alb.%s.access_logs.enabled}' % rname,
+          prefix:: '${aws_alb.%s.access_logs.prefix}' % rname,
         },
       },
       subnet_mapping:: {
@@ -277,16 +277,16 @@
         new(rname, subnet_id):: {
           rname:: rname,
           subnet_id: subnet_id,
-          allocation_id:: '${aws_alb.%s.allocation_id}' % rname,
+          allocation_id:: '${aws_alb.%s.subnet_mapping.allocation_id}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_alb.%s.create}' % rname,
-          delete:: '${aws_alb.%s.delete}' % rname,
-          update:: '${aws_alb.%s.update}' % rname,
+          create:: '${aws_alb.%s.timeouts.create}' % rname,
+          delete:: '${aws_alb.%s.timeouts.delete}' % rname,
+          update:: '${aws_alb.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -306,7 +306,7 @@
         id:: '${aws_alb_listener.%s.id}' % rname,
         protocol:: '${aws_alb_listener.%s.protocol}' % rname,
         ssl_policy:: '${aws_alb_listener.%s.ssl_policy}' % rname,
-        timeouts:: '${aws_alb_listener.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param certificate_arn (required) https://www.terraform.io/docs/providers/aws/r/alb_listener.html#certificate_arn.
       with_certificate_arn(certificate_arn):: {
@@ -330,15 +330,15 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          order:: '${aws_alb_listener.%s.order}' % rname,
-          target_group_arn:: '${aws_alb_listener.%s.target_group_arn}' % rname,
+          order:: '${aws_alb_listener.%s.default_action.order}' % rname,
+          target_group_arn:: '${aws_alb_listener.%s.default_action.target_group_arn}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          read:: '${aws_alb_listener.%s.read}' % rname,
+          read:: '${aws_alb_listener.%s.timeouts.read}' % rname,
         },
       },
     },
@@ -387,16 +387,16 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          order:: '${aws_alb_listener_rule.%s.order}' % rname,
-          target_group_arn:: '${aws_alb_listener_rule.%s.target_group_arn}' % rname,
+          order:: '${aws_alb_listener_rule.%s.action.order}' % rname,
+          target_group_arn:: '${aws_alb_listener_rule.%s.action.target_group_arn}' % rname,
         },
       },
       condition:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          field:: '${aws_alb_listener_rule.%s.field}' % rname,
-          values:: '${aws_alb_listener_rule.%s.values}' % rname,
+          field:: '${aws_alb_listener_rule.%s.condition.field}' % rname,
+          values:: '${aws_alb_listener_rule.%s.condition.values}' % rname,
         },
       },
     },
@@ -420,8 +420,8 @@
         tags:: '${aws_alb_target_group.%s.tags}' % rname,
         target_type:: '${aws_alb_target_group.%s.target_type}' % rname,
         vpc_id:: '${aws_alb_target_group.%s.vpc_id}' % rname,
-        health_check:: '${aws_alb_target_group.%s.health_check}' % rname,
-        stickiness:: '${aws_alb_target_group.%s.stickiness}' % rname,
+        health_check:: {},
+        stickiness:: {},
       },
       // @param deregistration_delay (required) https://www.terraform.io/docs/providers/aws/r/alb_target_group.html#deregistration_delay.
       with_deregistration_delay(deregistration_delay):: {
@@ -479,15 +479,15 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          enabled:: '${aws_alb_target_group.%s.enabled}' % rname,
-          healthy_threshold:: '${aws_alb_target_group.%s.healthy_threshold}' % rname,
-          interval:: '${aws_alb_target_group.%s.interval}' % rname,
-          matcher:: '${aws_alb_target_group.%s.matcher}' % rname,
-          path:: '${aws_alb_target_group.%s.path}' % rname,
-          port:: '${aws_alb_target_group.%s.port}' % rname,
-          protocol:: '${aws_alb_target_group.%s.protocol}' % rname,
-          timeout:: '${aws_alb_target_group.%s.timeout}' % rname,
-          unhealthy_threshold:: '${aws_alb_target_group.%s.unhealthy_threshold}' % rname,
+          enabled:: '${aws_alb_target_group.%s.health_check.enabled}' % rname,
+          healthy_threshold:: '${aws_alb_target_group.%s.health_check.healthy_threshold}' % rname,
+          interval:: '${aws_alb_target_group.%s.health_check.interval}' % rname,
+          matcher:: '${aws_alb_target_group.%s.health_check.matcher}' % rname,
+          path:: '${aws_alb_target_group.%s.health_check.path}' % rname,
+          port:: '${aws_alb_target_group.%s.health_check.port}' % rname,
+          protocol:: '${aws_alb_target_group.%s.health_check.protocol}' % rname,
+          timeout:: '${aws_alb_target_group.%s.health_check.timeout}' % rname,
+          unhealthy_threshold:: '${aws_alb_target_group.%s.health_check.unhealthy_threshold}' % rname,
         },
       },
       stickiness:: {
@@ -496,8 +496,8 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          cookie_duration:: '${aws_alb_target_group.%s.cookie_duration}' % rname,
-          enabled:: '${aws_alb_target_group.%s.enabled}' % rname,
+          cookie_duration:: '${aws_alb_target_group.%s.stickiness.cookie_duration}' % rname,
+          enabled:: '${aws_alb_target_group.%s.stickiness.enabled}' % rname,
         },
       },
     },
@@ -547,9 +547,9 @@
         sriov_net_support:: '${aws_ami.%s.sriov_net_support}' % rname,
         tags:: '${aws_ami.%s.tags}' % rname,
         virtualization_type:: '${aws_ami.%s.virtualization_type}' % rname,
-        ebs_block_device:: '${aws_ami.%s.ebs_block_device}' % rname,
-        ephemeral_block_device:: '${aws_ami.%s.ephemeral_block_device}' % rname,
-        timeouts:: '${aws_ami.%s.timeouts}' % rname,
+        ebs_block_device:: {},
+        ephemeral_block_device:: {},
+        timeouts:: {},
       },
       // @param architecture (required) https://www.terraform.io/docs/providers/aws/r/ami.html#architecture.
       with_architecture(architecture):: {
@@ -601,12 +601,12 @@
         new(rname, device_name):: {
           rname:: rname,
           device_name: device_name,
-          delete_on_termination:: '${aws_ami.%s.delete_on_termination}' % rname,
-          encrypted:: '${aws_ami.%s.encrypted}' % rname,
-          iops:: '${aws_ami.%s.iops}' % rname,
-          snapshot_id:: '${aws_ami.%s.snapshot_id}' % rname,
-          volume_size:: '${aws_ami.%s.volume_size}' % rname,
-          volume_type:: '${aws_ami.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_ami.%s.ebs_block_device.delete_on_termination}' % rname,
+          encrypted:: '${aws_ami.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_ami.%s.ebs_block_device.iops}' % rname,
+          snapshot_id:: '${aws_ami.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_size:: '${aws_ami.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_ami.%s.ebs_block_device.volume_type}' % rname,
         },
       },
       ephemeral_block_device:: {
@@ -623,9 +623,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_ami.%s.create}' % rname,
-          delete:: '${aws_ami.%s.delete}' % rname,
-          update:: '${aws_ami.%s.update}' % rname,
+          create:: '${aws_ami.%s.timeouts.create}' % rname,
+          delete:: '${aws_ami.%s.timeouts.delete}' % rname,
+          update:: '${aws_ami.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -655,9 +655,9 @@
         sriov_net_support:: '${aws_ami_copy.%s.sriov_net_support}' % rname,
         tags:: '${aws_ami_copy.%s.tags}' % rname,
         virtualization_type:: '${aws_ami_copy.%s.virtualization_type}' % rname,
-        ebs_block_device:: '${aws_ami_copy.%s.ebs_block_device}' % rname,
-        ephemeral_block_device:: '${aws_ami_copy.%s.ephemeral_block_device}' % rname,
-        timeouts:: '${aws_ami_copy.%s.timeouts}' % rname,
+        ebs_block_device:: {},
+        ephemeral_block_device:: {},
+        timeouts:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/ami_copy.html#description.
       with_description(description):: {
@@ -683,30 +683,30 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete_on_termination:: '${aws_ami_copy.%s.delete_on_termination}' % rname,
-          device_name:: '${aws_ami_copy.%s.device_name}' % rname,
-          encrypted:: '${aws_ami_copy.%s.encrypted}' % rname,
-          iops:: '${aws_ami_copy.%s.iops}' % rname,
-          snapshot_id:: '${aws_ami_copy.%s.snapshot_id}' % rname,
-          volume_size:: '${aws_ami_copy.%s.volume_size}' % rname,
-          volume_type:: '${aws_ami_copy.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_ami_copy.%s.ebs_block_device.delete_on_termination}' % rname,
+          device_name:: '${aws_ami_copy.%s.ebs_block_device.device_name}' % rname,
+          encrypted:: '${aws_ami_copy.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_ami_copy.%s.ebs_block_device.iops}' % rname,
+          snapshot_id:: '${aws_ami_copy.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_size:: '${aws_ami_copy.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_ami_copy.%s.ebs_block_device.volume_type}' % rname,
         },
       },
       ephemeral_block_device:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          device_name:: '${aws_ami_copy.%s.device_name}' % rname,
-          virtual_name:: '${aws_ami_copy.%s.virtual_name}' % rname,
+          device_name:: '${aws_ami_copy.%s.ephemeral_block_device.device_name}' % rname,
+          virtual_name:: '${aws_ami_copy.%s.ephemeral_block_device.virtual_name}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_ami_copy.%s.create}' % rname,
-          delete:: '${aws_ami_copy.%s.delete}' % rname,
-          update:: '${aws_ami_copy.%s.update}' % rname,
+          create:: '${aws_ami_copy.%s.timeouts.create}' % rname,
+          delete:: '${aws_ami_copy.%s.timeouts.delete}' % rname,
+          update:: '${aws_ami_copy.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -733,9 +733,9 @@
         sriov_net_support:: '${aws_ami_from_instance.%s.sriov_net_support}' % rname,
         tags:: '${aws_ami_from_instance.%s.tags}' % rname,
         virtualization_type:: '${aws_ami_from_instance.%s.virtualization_type}' % rname,
-        ebs_block_device:: '${aws_ami_from_instance.%s.ebs_block_device}' % rname,
-        ephemeral_block_device:: '${aws_ami_from_instance.%s.ephemeral_block_device}' % rname,
-        timeouts:: '${aws_ami_from_instance.%s.timeouts}' % rname,
+        ebs_block_device:: {},
+        ephemeral_block_device:: {},
+        timeouts:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/ami_from_instance.html#description.
       with_description(description):: {
@@ -757,30 +757,30 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete_on_termination:: '${aws_ami_from_instance.%s.delete_on_termination}' % rname,
-          device_name:: '${aws_ami_from_instance.%s.device_name}' % rname,
-          encrypted:: '${aws_ami_from_instance.%s.encrypted}' % rname,
-          iops:: '${aws_ami_from_instance.%s.iops}' % rname,
-          snapshot_id:: '${aws_ami_from_instance.%s.snapshot_id}' % rname,
-          volume_size:: '${aws_ami_from_instance.%s.volume_size}' % rname,
-          volume_type:: '${aws_ami_from_instance.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_ami_from_instance.%s.ebs_block_device.delete_on_termination}' % rname,
+          device_name:: '${aws_ami_from_instance.%s.ebs_block_device.device_name}' % rname,
+          encrypted:: '${aws_ami_from_instance.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_ami_from_instance.%s.ebs_block_device.iops}' % rname,
+          snapshot_id:: '${aws_ami_from_instance.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_size:: '${aws_ami_from_instance.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_ami_from_instance.%s.ebs_block_device.volume_type}' % rname,
         },
       },
       ephemeral_block_device:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          device_name:: '${aws_ami_from_instance.%s.device_name}' % rname,
-          virtual_name:: '${aws_ami_from_instance.%s.virtual_name}' % rname,
+          device_name:: '${aws_ami_from_instance.%s.ephemeral_block_device.device_name}' % rname,
+          virtual_name:: '${aws_ami_from_instance.%s.ephemeral_block_device.virtual_name}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_ami_from_instance.%s.create}' % rname,
-          delete:: '${aws_ami_from_instance.%s.delete}' % rname,
-          update:: '${aws_ami_from_instance.%s.update}' % rname,
+          create:: '${aws_ami_from_instance.%s.timeouts.create}' % rname,
+          delete:: '${aws_ami_from_instance.%s.timeouts.delete}' % rname,
+          update:: '${aws_ami_from_instance.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -833,7 +833,7 @@
         last_updated_date:: '${aws_api_gateway_api_key.%s.last_updated_date}' % rname,
         tags:: '${aws_api_gateway_api_key.%s.tags}' % rname,
         value:: '${aws_api_gateway_api_key.%s.value}' % rname,
-        stage_key:: '${aws_api_gateway_api_key.%s.stage_key}' % rname,
+        stage_key:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/api_gateway_api_key.html#description.
       with_description(description):: {
@@ -1029,10 +1029,10 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          method:: '${aws_api_gateway_documentation_part.%s.method}' % rname,
-          name:: '${aws_api_gateway_documentation_part.%s.name}' % rname,
-          path:: '${aws_api_gateway_documentation_part.%s.path}' % rname,
-          status_code:: '${aws_api_gateway_documentation_part.%s.status_code}' % rname,
+          method:: '${aws_api_gateway_documentation_part.%s.location.method}' % rname,
+          name:: '${aws_api_gateway_documentation_part.%s.location.name}' % rname,
+          path:: '${aws_api_gateway_documentation_part.%s.location.path}' % rname,
+          status_code:: '${aws_api_gateway_documentation_part.%s.location.status_code}' % rname,
         },
       },
     },
@@ -1080,7 +1080,7 @@
         regional_zone_id:: '${aws_api_gateway_domain_name.%s.regional_zone_id}' % rname,
         security_policy:: '${aws_api_gateway_domain_name.%s.security_policy}' % rname,
         tags:: '${aws_api_gateway_domain_name.%s.tags}' % rname,
-        endpoint_configuration:: '${aws_api_gateway_domain_name.%s.endpoint_configuration}' % rname,
+        endpoint_configuration:: {},
       },
       // @param certificate_arn (required) https://www.terraform.io/docs/providers/aws/r/api_gateway_domain_name.html#certificate_arn.
       with_certificate_arn(certificate_arn):: {
@@ -1405,16 +1405,16 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          cache_data_encrypted:: '${aws_api_gateway_method_settings.%s.cache_data_encrypted}' % rname,
-          cache_ttl_in_seconds:: '${aws_api_gateway_method_settings.%s.cache_ttl_in_seconds}' % rname,
-          caching_enabled:: '${aws_api_gateway_method_settings.%s.caching_enabled}' % rname,
-          data_trace_enabled:: '${aws_api_gateway_method_settings.%s.data_trace_enabled}' % rname,
-          logging_level:: '${aws_api_gateway_method_settings.%s.logging_level}' % rname,
-          metrics_enabled:: '${aws_api_gateway_method_settings.%s.metrics_enabled}' % rname,
-          require_authorization_for_cache_control:: '${aws_api_gateway_method_settings.%s.require_authorization_for_cache_control}' % rname,
-          throttling_burst_limit:: '${aws_api_gateway_method_settings.%s.throttling_burst_limit}' % rname,
-          throttling_rate_limit:: '${aws_api_gateway_method_settings.%s.throttling_rate_limit}' % rname,
-          unauthorized_cache_control_header_strategy:: '${aws_api_gateway_method_settings.%s.unauthorized_cache_control_header_strategy}' % rname,
+          cache_data_encrypted:: '${aws_api_gateway_method_settings.%s.settings.cache_data_encrypted}' % rname,
+          cache_ttl_in_seconds:: '${aws_api_gateway_method_settings.%s.settings.cache_ttl_in_seconds}' % rname,
+          caching_enabled:: '${aws_api_gateway_method_settings.%s.settings.caching_enabled}' % rname,
+          data_trace_enabled:: '${aws_api_gateway_method_settings.%s.settings.data_trace_enabled}' % rname,
+          logging_level:: '${aws_api_gateway_method_settings.%s.settings.logging_level}' % rname,
+          metrics_enabled:: '${aws_api_gateway_method_settings.%s.settings.metrics_enabled}' % rname,
+          require_authorization_for_cache_control:: '${aws_api_gateway_method_settings.%s.settings.require_authorization_for_cache_control}' % rname,
+          throttling_burst_limit:: '${aws_api_gateway_method_settings.%s.settings.throttling_burst_limit}' % rname,
+          throttling_rate_limit:: '${aws_api_gateway_method_settings.%s.settings.throttling_rate_limit}' % rname,
+          unauthorized_cache_control_header_strategy:: '${aws_api_gateway_method_settings.%s.settings.unauthorized_cache_control_header_strategy}' % rname,
         },
       },
     },
@@ -1510,7 +1510,7 @@
         policy:: '${aws_api_gateway_rest_api.%s.policy}' % rname,
         root_resource_id:: '${aws_api_gateway_rest_api.%s.root_resource_id}' % rname,
         tags:: '${aws_api_gateway_rest_api.%s.tags}' % rname,
-        endpoint_configuration:: '${aws_api_gateway_rest_api.%s.endpoint_configuration}' % rname,
+        endpoint_configuration:: {},
       },
       // @param api_key_source (required) https://www.terraform.io/docs/providers/aws/r/api_gateway_rest_api.html#api_key_source.
       with_api_key_source(api_key_source):: {
@@ -1550,7 +1550,7 @@
         new(rname, types):: {
           rname:: rname,
           types: types,
-          vpc_endpoint_ids:: '${aws_api_gateway_rest_api.%s.vpc_endpoint_ids}' % rname,
+          vpc_endpoint_ids:: '${aws_api_gateway_rest_api.%s.endpoint_configuration.vpc_endpoint_ids}' % rname,
         },
       },
     },
@@ -1577,7 +1577,7 @@
         tags:: '${aws_api_gateway_stage.%s.tags}' % rname,
         variables:: '${aws_api_gateway_stage.%s.variables}' % rname,
         xray_tracing_enabled:: '${aws_api_gateway_stage.%s.xray_tracing_enabled}' % rname,
-        access_log_settings:: '${aws_api_gateway_stage.%s.access_log_settings}' % rname,
+        access_log_settings:: {},
       },
       // @param cache_cluster_enabled (required) https://www.terraform.io/docs/providers/aws/r/api_gateway_stage.html#cache_cluster_enabled.
       with_cache_cluster_enabled(cache_cluster_enabled):: {
@@ -1638,9 +1638,9 @@
         id:: '${aws_api_gateway_usage_plan.%s.id}' % rname,
         product_code:: '${aws_api_gateway_usage_plan.%s.product_code}' % rname,
         tags:: '${aws_api_gateway_usage_plan.%s.tags}' % rname,
-        api_stages:: '${aws_api_gateway_usage_plan.%s.api_stages}' % rname,
-        quota_settings:: '${aws_api_gateway_usage_plan.%s.quota_settings}' % rname,
-        throttle_settings:: '${aws_api_gateway_usage_plan.%s.throttle_settings}' % rname,
+        api_stages:: {},
+        quota_settings:: {},
+        throttle_settings:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/api_gateway_usage_plan.html#description.
       with_description(description):: {
@@ -1676,15 +1676,15 @@
           rname:: rname,
           limit: limit,
           period: period,
-          offset:: '${aws_api_gateway_usage_plan.%s.offset}' % rname,
+          offset:: '${aws_api_gateway_usage_plan.%s.quota_settings.offset}' % rname,
         },
       },
       throttle_settings:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          burst_limit:: '${aws_api_gateway_usage_plan.%s.burst_limit}' % rname,
-          rate_limit:: '${aws_api_gateway_usage_plan.%s.rate_limit}' % rname,
+          burst_limit:: '${aws_api_gateway_usage_plan.%s.throttle_settings.burst_limit}' % rname,
+          rate_limit:: '${aws_api_gateway_usage_plan.%s.throttle_settings.rate_limit}' % rname,
         },
       },
     },
@@ -1775,9 +1775,9 @@
         metric_aggregation_type:: '${aws_appautoscaling_policy.%s.metric_aggregation_type}' % rname,
         min_adjustment_magnitude:: '${aws_appautoscaling_policy.%s.min_adjustment_magnitude}' % rname,
         policy_type:: '${aws_appautoscaling_policy.%s.policy_type}' % rname,
-        step_adjustment:: '${aws_appautoscaling_policy.%s.step_adjustment}' % rname,
-        step_scaling_policy_configuration:: '${aws_appautoscaling_policy.%s.step_scaling_policy_configuration}' % rname,
-        target_tracking_scaling_policy_configuration:: '${aws_appautoscaling_policy.%s.target_tracking_scaling_policy_configuration}' % rname,
+        step_adjustment:: {},
+        step_scaling_policy_configuration:: {},
+        target_tracking_scaling_policy_configuration:: {},
       },
       // @param adjustment_type (required) https://www.terraform.io/docs/providers/aws/r/appautoscaling_policy.html#adjustment_type.
       with_adjustment_type(adjustment_type):: {
@@ -1809,18 +1809,18 @@
         new(rname, scaling_adjustment):: {
           rname:: rname,
           scaling_adjustment: scaling_adjustment,
-          metric_interval_lower_bound:: '${aws_appautoscaling_policy.%s.metric_interval_lower_bound}' % rname,
-          metric_interval_upper_bound:: '${aws_appautoscaling_policy.%s.metric_interval_upper_bound}' % rname,
+          metric_interval_lower_bound:: '${aws_appautoscaling_policy.%s.step_adjustment.metric_interval_lower_bound}' % rname,
+          metric_interval_upper_bound:: '${aws_appautoscaling_policy.%s.step_adjustment.metric_interval_upper_bound}' % rname,
         },
       },
       step_scaling_policy_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          adjustment_type:: '${aws_appautoscaling_policy.%s.adjustment_type}' % rname,
-          cooldown:: '${aws_appautoscaling_policy.%s.cooldown}' % rname,
-          metric_aggregation_type:: '${aws_appautoscaling_policy.%s.metric_aggregation_type}' % rname,
-          min_adjustment_magnitude:: '${aws_appautoscaling_policy.%s.min_adjustment_magnitude}' % rname,
+          adjustment_type:: '${aws_appautoscaling_policy.%s.step_scaling_policy_configuration.adjustment_type}' % rname,
+          cooldown:: '${aws_appautoscaling_policy.%s.step_scaling_policy_configuration.cooldown}' % rname,
+          metric_aggregation_type:: '${aws_appautoscaling_policy.%s.step_scaling_policy_configuration.metric_aggregation_type}' % rname,
+          min_adjustment_magnitude:: '${aws_appautoscaling_policy.%s.step_scaling_policy_configuration.min_adjustment_magnitude}' % rname,
         },
       },
       target_tracking_scaling_policy_configuration:: {
@@ -1829,9 +1829,9 @@
         new(rname, target_value):: {
           rname:: rname,
           target_value: target_value,
-          disable_scale_in:: '${aws_appautoscaling_policy.%s.disable_scale_in}' % rname,
-          scale_in_cooldown:: '${aws_appautoscaling_policy.%s.scale_in_cooldown}' % rname,
-          scale_out_cooldown:: '${aws_appautoscaling_policy.%s.scale_out_cooldown}' % rname,
+          disable_scale_in:: '${aws_appautoscaling_policy.%s.target_tracking_scaling_policy_configuration.disable_scale_in}' % rname,
+          scale_in_cooldown:: '${aws_appautoscaling_policy.%s.target_tracking_scaling_policy_configuration.scale_in_cooldown}' % rname,
+          scale_out_cooldown:: '${aws_appautoscaling_policy.%s.target_tracking_scaling_policy_configuration.scale_out_cooldown}' % rname,
         },
       },
     },
@@ -1852,7 +1852,7 @@
         scalable_dimension:: '${aws_appautoscaling_scheduled_action.%s.scalable_dimension}' % rname,
         schedule:: '${aws_appautoscaling_scheduled_action.%s.schedule}' % rname,
         start_time:: '${aws_appautoscaling_scheduled_action.%s.start_time}' % rname,
-        scalable_target_action:: '${aws_appautoscaling_scheduled_action.%s.scalable_target_action}' % rname,
+        scalable_target_action:: {},
       },
       // @param end_time (required) https://www.terraform.io/docs/providers/aws/r/appautoscaling_scheduled_action.html#end_time.
       with_end_time(end_time):: {
@@ -1878,8 +1878,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          max_capacity:: '${aws_appautoscaling_scheduled_action.%s.max_capacity}' % rname,
-          min_capacity:: '${aws_appautoscaling_scheduled_action.%s.min_capacity}' % rname,
+          max_capacity:: '${aws_appautoscaling_scheduled_action.%s.scalable_target_action.max_capacity}' % rname,
+          min_capacity:: '${aws_appautoscaling_scheduled_action.%s.scalable_target_action.min_capacity}' % rname,
         },
       },
     },
@@ -1922,7 +1922,7 @@
         id:: '${aws_appmesh_mesh.%s.id}' % rname,
         last_updated_date:: '${aws_appmesh_mesh.%s.last_updated_date}' % rname,
         tags:: '${aws_appmesh_mesh.%s.tags}' % rname,
-        spec:: '${aws_appmesh_mesh.%s.spec}' % rname,
+        spec:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/appmesh_mesh.html#id.
       with_id(id):: {
@@ -1970,7 +1970,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          priority:: '${aws_appmesh_route.%s.priority}' % rname,
+          priority:: '${aws_appmesh_route.%s.spec.priority}' % rname,
         },
       },
     },
@@ -2003,7 +2003,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          backends:: '${aws_appmesh_virtual_node.%s.backends}' % rname,
+          backends:: '${aws_appmesh_virtual_node.%s.spec.backends}' % rname,
         },
       },
     },
@@ -2036,7 +2036,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          service_names:: '${aws_appmesh_virtual_router.%s.service_names}' % rname,
+          service_names:: '${aws_appmesh_virtual_router.%s.spec.service_names}' % rname,
         },
       },
     },
@@ -2112,10 +2112,10 @@
         description:: '${aws_appsync_datasource.%s.description}' % rname,
         id:: '${aws_appsync_datasource.%s.id}' % rname,
         service_role_arn:: '${aws_appsync_datasource.%s.service_role_arn}' % rname,
-        dynamodb_config:: '${aws_appsync_datasource.%s.dynamodb_config}' % rname,
-        elasticsearch_config:: '${aws_appsync_datasource.%s.elasticsearch_config}' % rname,
-        http_config:: '${aws_appsync_datasource.%s.http_config}' % rname,
-        lambda_config:: '${aws_appsync_datasource.%s.lambda_config}' % rname,
+        dynamodb_config:: {},
+        elasticsearch_config:: {},
+        http_config:: {},
+        lambda_config:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/appsync_datasource.html#description.
       with_description(description):: {
@@ -2135,8 +2135,8 @@
         new(rname, table_name):: {
           rname:: rname,
           table_name: table_name,
-          region:: '${aws_appsync_datasource.%s.region}' % rname,
-          use_caller_credentials:: '${aws_appsync_datasource.%s.use_caller_credentials}' % rname,
+          region:: '${aws_appsync_datasource.%s.dynamodb_config.region}' % rname,
+          use_caller_credentials:: '${aws_appsync_datasource.%s.dynamodb_config.use_caller_credentials}' % rname,
         },
       },
       elasticsearch_config:: {
@@ -2145,7 +2145,7 @@
         new(rname, endpoint):: {
           rname:: rname,
           endpoint: endpoint,
-          region:: '${aws_appsync_datasource.%s.region}' % rname,
+          region:: '${aws_appsync_datasource.%s.elasticsearch_config.region}' % rname,
         },
       },
       http_config:: {
@@ -2213,10 +2213,10 @@
         schema:: '${aws_appsync_graphql_api.%s.schema}' % rname,
         tags:: '${aws_appsync_graphql_api.%s.tags}' % rname,
         uris:: '${aws_appsync_graphql_api.%s.uris}' % rname,
-        additional_authentication_provider:: '${aws_appsync_graphql_api.%s.additional_authentication_provider}' % rname,
-        log_config:: '${aws_appsync_graphql_api.%s.log_config}' % rname,
-        openid_connect_config:: '${aws_appsync_graphql_api.%s.openid_connect_config}' % rname,
-        user_pool_config:: '${aws_appsync_graphql_api.%s.user_pool_config}' % rname,
+        additional_authentication_provider:: {},
+        log_config:: {},
+        openid_connect_config:: {},
+        user_pool_config:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/appsync_graphql_api.html#id.
       with_id(id):: {
@@ -2254,9 +2254,9 @@
         new(rname, issuer):: {
           rname:: rname,
           issuer: issuer,
-          auth_ttl:: '${aws_appsync_graphql_api.%s.auth_ttl}' % rname,
-          client_id:: '${aws_appsync_graphql_api.%s.client_id}' % rname,
-          iat_ttl:: '${aws_appsync_graphql_api.%s.iat_ttl}' % rname,
+          auth_ttl:: '${aws_appsync_graphql_api.%s.openid_connect_config.auth_ttl}' % rname,
+          client_id:: '${aws_appsync_graphql_api.%s.openid_connect_config.client_id}' % rname,
+          iat_ttl:: '${aws_appsync_graphql_api.%s.openid_connect_config.iat_ttl}' % rname,
         },
       },
       user_pool_config:: {
@@ -2267,8 +2267,8 @@
           rname:: rname,
           default_action: default_action,
           user_pool_id: user_pool_id,
-          app_id_client_regex:: '${aws_appsync_graphql_api.%s.app_id_client_regex}' % rname,
-          aws_region:: '${aws_appsync_graphql_api.%s.aws_region}' % rname,
+          app_id_client_regex:: '${aws_appsync_graphql_api.%s.user_pool_config.app_id_client_regex}' % rname,
+          aws_region:: '${aws_appsync_graphql_api.%s.user_pool_config.aws_region}' % rname,
         },
       },
     },
@@ -2291,7 +2291,7 @@
         data_source:: '${aws_appsync_resolver.%s.data_source}' % rname,
         id:: '${aws_appsync_resolver.%s.id}' % rname,
         kind:: '${aws_appsync_resolver.%s.kind}' % rname,
-        pipeline_config:: '${aws_appsync_resolver.%s.pipeline_config}' % rname,
+        pipeline_config:: {},
       },
       // @param data_source (required) https://www.terraform.io/docs/providers/aws/r/appsync_resolver.html#data_source.
       with_data_source(data_source):: {
@@ -2309,7 +2309,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          functions:: '${aws_appsync_resolver.%s.functions}' % rname,
+          functions:: '${aws_appsync_resolver.%s.pipeline_config.functions}' % rname,
         },
       },
     },
@@ -2324,7 +2324,7 @@
         name: name,
         force_destroy:: '${aws_athena_database.%s.force_destroy}' % rname,
         id:: '${aws_athena_database.%s.id}' % rname,
-        encryption_configuration:: '${aws_athena_database.%s.encryption_configuration}' % rname,
+        encryption_configuration:: {},
       },
       // @param force_destroy (required) https://www.terraform.io/docs/providers/aws/r/athena_database.html#force_destroy.
       with_force_destroy(force_destroy):: {
@@ -2340,7 +2340,7 @@
         new(rname, encryption_option):: {
           rname:: rname,
           encryption_option: encryption_option,
-          kms_key:: '${aws_athena_database.%s.kms_key}' % rname,
+          kms_key:: '${aws_athena_database.%s.encryption_configuration.kms_key}' % rname,
         },
       },
     },
@@ -2384,7 +2384,7 @@
         id:: '${aws_athena_workgroup.%s.id}' % rname,
         state:: '${aws_athena_workgroup.%s.state}' % rname,
         tags:: '${aws_athena_workgroup.%s.tags}' % rname,
-        configuration:: '${aws_athena_workgroup.%s.configuration}' % rname,
+        configuration:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/athena_workgroup.html#description.
       with_description(description):: {
@@ -2406,9 +2406,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          bytes_scanned_cutoff_per_query:: '${aws_athena_workgroup.%s.bytes_scanned_cutoff_per_query}' % rname,
-          enforce_workgroup_configuration:: '${aws_athena_workgroup.%s.enforce_workgroup_configuration}' % rname,
-          publish_cloudwatch_metrics_enabled:: '${aws_athena_workgroup.%s.publish_cloudwatch_metrics_enabled}' % rname,
+          bytes_scanned_cutoff_per_query:: '${aws_athena_workgroup.%s.configuration.bytes_scanned_cutoff_per_query}' % rname,
+          enforce_workgroup_configuration:: '${aws_athena_workgroup.%s.configuration.enforce_workgroup_configuration}' % rname,
+          publish_cloudwatch_metrics_enabled:: '${aws_athena_workgroup.%s.configuration.publish_cloudwatch_metrics_enabled}' % rname,
         },
       },
     },
@@ -2471,11 +2471,11 @@
         vpc_zone_identifier:: '${aws_autoscaling_group.%s.vpc_zone_identifier}' % rname,
         wait_for_capacity_timeout:: '${aws_autoscaling_group.%s.wait_for_capacity_timeout}' % rname,
         wait_for_elb_capacity:: '${aws_autoscaling_group.%s.wait_for_elb_capacity}' % rname,
-        initial_lifecycle_hook:: '${aws_autoscaling_group.%s.initial_lifecycle_hook}' % rname,
-        launch_template:: '${aws_autoscaling_group.%s.launch_template}' % rname,
-        mixed_instances_policy:: '${aws_autoscaling_group.%s.mixed_instances_policy}' % rname,
-        tag:: '${aws_autoscaling_group.%s.tag}' % rname,
-        timeouts:: '${aws_autoscaling_group.%s.timeouts}' % rname,
+        initial_lifecycle_hook:: {},
+        launch_template:: {},
+        mixed_instances_policy:: {},
+        tag:: {},
+        timeouts:: {},
       },
       // @param availability_zones (required) https://www.terraform.io/docs/providers/aws/r/autoscaling_group.html#availability_zones.
       with_availability_zones(availability_zones):: {
@@ -2585,20 +2585,20 @@
           rname:: rname,
           lifecycle_transition: lifecycle_transition,
           name: name,
-          default_result:: '${aws_autoscaling_group.%s.default_result}' % rname,
-          heartbeat_timeout:: '${aws_autoscaling_group.%s.heartbeat_timeout}' % rname,
-          notification_metadata:: '${aws_autoscaling_group.%s.notification_metadata}' % rname,
-          notification_target_arn:: '${aws_autoscaling_group.%s.notification_target_arn}' % rname,
-          role_arn:: '${aws_autoscaling_group.%s.role_arn}' % rname,
+          default_result:: '${aws_autoscaling_group.%s.initial_lifecycle_hook.default_result}' % rname,
+          heartbeat_timeout:: '${aws_autoscaling_group.%s.initial_lifecycle_hook.heartbeat_timeout}' % rname,
+          notification_metadata:: '${aws_autoscaling_group.%s.initial_lifecycle_hook.notification_metadata}' % rname,
+          notification_target_arn:: '${aws_autoscaling_group.%s.initial_lifecycle_hook.notification_target_arn}' % rname,
+          role_arn:: '${aws_autoscaling_group.%s.initial_lifecycle_hook.role_arn}' % rname,
         },
       },
       launch_template:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          id:: '${aws_autoscaling_group.%s.id}' % rname,
-          name:: '${aws_autoscaling_group.%s.name}' % rname,
-          version:: '${aws_autoscaling_group.%s.version}' % rname,
+          id:: '${aws_autoscaling_group.%s.launch_template.id}' % rname,
+          name:: '${aws_autoscaling_group.%s.launch_template.name}' % rname,
+          version:: '${aws_autoscaling_group.%s.launch_template.version}' % rname,
         },
       },
       mixed_instances_policy:: {
@@ -2623,7 +2623,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete:: '${aws_autoscaling_group.%s.delete}' % rname,
+          delete:: '${aws_autoscaling_group.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -2707,8 +2707,8 @@
         min_adjustment_step:: '${aws_autoscaling_policy.%s.min_adjustment_step}' % rname,
         policy_type:: '${aws_autoscaling_policy.%s.policy_type}' % rname,
         scaling_adjustment:: '${aws_autoscaling_policy.%s.scaling_adjustment}' % rname,
-        step_adjustment:: '${aws_autoscaling_policy.%s.step_adjustment}' % rname,
-        target_tracking_configuration:: '${aws_autoscaling_policy.%s.target_tracking_configuration}' % rname,
+        step_adjustment:: {},
+        target_tracking_configuration:: {},
       },
       // @param adjustment_type (required) https://www.terraform.io/docs/providers/aws/r/autoscaling_policy.html#adjustment_type.
       with_adjustment_type(adjustment_type):: {
@@ -2752,8 +2752,8 @@
         new(rname, scaling_adjustment):: {
           rname:: rname,
           scaling_adjustment: scaling_adjustment,
-          metric_interval_lower_bound:: '${aws_autoscaling_policy.%s.metric_interval_lower_bound}' % rname,
-          metric_interval_upper_bound:: '${aws_autoscaling_policy.%s.metric_interval_upper_bound}' % rname,
+          metric_interval_lower_bound:: '${aws_autoscaling_policy.%s.step_adjustment.metric_interval_lower_bound}' % rname,
+          metric_interval_upper_bound:: '${aws_autoscaling_policy.%s.step_adjustment.metric_interval_upper_bound}' % rname,
         },
       },
       target_tracking_configuration:: {
@@ -2762,7 +2762,7 @@
         new(rname, target_value):: {
           rname:: rname,
           target_value: target_value,
-          disable_scale_in:: '${aws_autoscaling_policy.%s.disable_scale_in}' % rname,
+          disable_scale_in:: '${aws_autoscaling_policy.%s.target_tracking_configuration.disable_scale_in}' % rname,
         },
       },
     },
@@ -2843,10 +2843,10 @@
           rname:: rname,
           rule_name: rule_name,
           target_vault_name: target_vault_name,
-          completion_window:: '${aws_backup_plan.%s.completion_window}' % rname,
-          recovery_point_tags:: '${aws_backup_plan.%s.recovery_point_tags}' % rname,
-          schedule:: '${aws_backup_plan.%s.schedule}' % rname,
-          start_window:: '${aws_backup_plan.%s.start_window}' % rname,
+          completion_window:: '${aws_backup_plan.%s.rule.completion_window}' % rname,
+          recovery_point_tags:: '${aws_backup_plan.%s.rule.recovery_point_tags}' % rname,
+          schedule:: '${aws_backup_plan.%s.rule.schedule}' % rname,
+          start_window:: '${aws_backup_plan.%s.rule.start_window}' % rname,
         },
       },
     },
@@ -2863,7 +2863,7 @@
         plan_id: plan_id,
         id:: '${aws_backup_selection.%s.id}' % rname,
         resources:: '${aws_backup_selection.%s.resources}' % rname,
-        selection_tag:: '${aws_backup_selection.%s.selection_tag}' % rname,
+        selection_tag:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/backup_selection.html#id.
       with_id(id):: {
@@ -2930,7 +2930,7 @@
         state:: '${aws_batch_compute_environment.%s.state}' % rname,
         status:: '${aws_batch_compute_environment.%s.status}' % rname,
         status_reason:: '${aws_batch_compute_environment.%s.status_reason}' % rname,
-        compute_resources:: '${aws_batch_compute_environment.%s.compute_resources}' % rname,
+        compute_resources:: {},
       },
       // @param compute_environment_name (required) https://www.terraform.io/docs/providers/aws/r/batch_compute_environment.html#compute_environment_name.
       with_compute_environment_name(compute_environment_name):: {
@@ -2966,13 +2966,13 @@
           security_group_ids: security_group_ids,
           subnets: subnets,
           type: type,
-          allocation_strategy:: '${aws_batch_compute_environment.%s.allocation_strategy}' % rname,
-          bid_percentage:: '${aws_batch_compute_environment.%s.bid_percentage}' % rname,
-          desired_vcpus:: '${aws_batch_compute_environment.%s.desired_vcpus}' % rname,
-          ec2_key_pair:: '${aws_batch_compute_environment.%s.ec2_key_pair}' % rname,
-          image_id:: '${aws_batch_compute_environment.%s.image_id}' % rname,
-          spot_iam_fleet_role:: '${aws_batch_compute_environment.%s.spot_iam_fleet_role}' % rname,
-          tags:: '${aws_batch_compute_environment.%s.tags}' % rname,
+          allocation_strategy:: '${aws_batch_compute_environment.%s.compute_resources.allocation_strategy}' % rname,
+          bid_percentage:: '${aws_batch_compute_environment.%s.compute_resources.bid_percentage}' % rname,
+          desired_vcpus:: '${aws_batch_compute_environment.%s.compute_resources.desired_vcpus}' % rname,
+          ec2_key_pair:: '${aws_batch_compute_environment.%s.compute_resources.ec2_key_pair}' % rname,
+          image_id:: '${aws_batch_compute_environment.%s.compute_resources.image_id}' % rname,
+          spot_iam_fleet_role:: '${aws_batch_compute_environment.%s.compute_resources.spot_iam_fleet_role}' % rname,
+          tags:: '${aws_batch_compute_environment.%s.compute_resources.tags}' % rname,
         },
       },
     },
@@ -2990,8 +2990,8 @@
         id:: '${aws_batch_job_definition.%s.id}' % rname,
         parameters:: '${aws_batch_job_definition.%s.parameters}' % rname,
         revision:: '${aws_batch_job_definition.%s.revision}' % rname,
-        retry_strategy:: '${aws_batch_job_definition.%s.retry_strategy}' % rname,
-        timeout:: '${aws_batch_job_definition.%s.timeout}' % rname,
+        retry_strategy:: {},
+        timeout:: {},
       },
       // @param container_properties (required) https://www.terraform.io/docs/providers/aws/r/batch_job_definition.html#container_properties.
       with_container_properties(container_properties):: {
@@ -3009,14 +3009,14 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          attempts:: '${aws_batch_job_definition.%s.attempts}' % rname,
+          attempts:: '${aws_batch_job_definition.%s.retry_strategy.attempts}' % rname,
         },
       },
       timeout:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          attempt_duration_seconds:: '${aws_batch_job_definition.%s.attempt_duration_seconds}' % rname,
+          attempt_duration_seconds:: '${aws_batch_job_definition.%s.timeout.attempt_duration_seconds}' % rname,
         },
       },
     },
@@ -3062,8 +3062,8 @@
         name:: '${aws_budgets_budget.%s.name}' % rname,
         name_prefix:: '${aws_budgets_budget.%s.name_prefix}' % rname,
         time_period_end:: '${aws_budgets_budget.%s.time_period_end}' % rname,
-        cost_types:: '${aws_budgets_budget.%s.cost_types}' % rname,
-        notification:: '${aws_budgets_budget.%s.notification}' % rname,
+        cost_types:: {},
+        notification:: {},
       },
       // @param account_id (required) https://www.terraform.io/docs/providers/aws/r/budgets_budget.html#account_id.
       with_account_id(account_id):: {
@@ -3093,17 +3093,17 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          include_credit:: '${aws_budgets_budget.%s.include_credit}' % rname,
-          include_discount:: '${aws_budgets_budget.%s.include_discount}' % rname,
-          include_other_subscription:: '${aws_budgets_budget.%s.include_other_subscription}' % rname,
-          include_recurring:: '${aws_budgets_budget.%s.include_recurring}' % rname,
-          include_refund:: '${aws_budgets_budget.%s.include_refund}' % rname,
-          include_subscription:: '${aws_budgets_budget.%s.include_subscription}' % rname,
-          include_support:: '${aws_budgets_budget.%s.include_support}' % rname,
-          include_tax:: '${aws_budgets_budget.%s.include_tax}' % rname,
-          include_upfront:: '${aws_budgets_budget.%s.include_upfront}' % rname,
-          use_amortized:: '${aws_budgets_budget.%s.use_amortized}' % rname,
-          use_blended:: '${aws_budgets_budget.%s.use_blended}' % rname,
+          include_credit:: '${aws_budgets_budget.%s.cost_types.include_credit}' % rname,
+          include_discount:: '${aws_budgets_budget.%s.cost_types.include_discount}' % rname,
+          include_other_subscription:: '${aws_budgets_budget.%s.cost_types.include_other_subscription}' % rname,
+          include_recurring:: '${aws_budgets_budget.%s.cost_types.include_recurring}' % rname,
+          include_refund:: '${aws_budgets_budget.%s.cost_types.include_refund}' % rname,
+          include_subscription:: '${aws_budgets_budget.%s.cost_types.include_subscription}' % rname,
+          include_support:: '${aws_budgets_budget.%s.cost_types.include_support}' % rname,
+          include_tax:: '${aws_budgets_budget.%s.cost_types.include_tax}' % rname,
+          include_upfront:: '${aws_budgets_budget.%s.cost_types.include_upfront}' % rname,
+          use_amortized:: '${aws_budgets_budget.%s.cost_types.use_amortized}' % rname,
+          use_blended:: '${aws_budgets_budget.%s.cost_types.use_blended}' % rname,
         },
       },
       notification:: {
@@ -3118,8 +3118,8 @@
           notification_type: notification_type,
           threshold: threshold,
           threshold_type: threshold_type,
-          subscriber_email_addresses:: '${aws_budgets_budget.%s.subscriber_email_addresses}' % rname,
-          subscriber_sns_topic_arns:: '${aws_budgets_budget.%s.subscriber_sns_topic_arns}' % rname,
+          subscriber_email_addresses:: '${aws_budgets_budget.%s.notification.subscriber_email_addresses}' % rname,
+          subscriber_sns_topic_arns:: '${aws_budgets_budget.%s.notification.subscriber_sns_topic_arns}' % rname,
         },
       },
     },
@@ -3182,7 +3182,7 @@
         template_body:: '${aws_cloudformation_stack.%s.template_body}' % rname,
         template_url:: '${aws_cloudformation_stack.%s.template_url}' % rname,
         timeout_in_minutes:: '${aws_cloudformation_stack.%s.timeout_in_minutes}' % rname,
-        timeouts:: '${aws_cloudformation_stack.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param capabilities (required) https://www.terraform.io/docs/providers/aws/r/cloudformation_stack.html#capabilities.
       with_capabilities(capabilities):: {
@@ -3240,9 +3240,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_cloudformation_stack.%s.create}' % rname,
-          delete:: '${aws_cloudformation_stack.%s.delete}' % rname,
-          update:: '${aws_cloudformation_stack.%s.update}' % rname,
+          create:: '${aws_cloudformation_stack.%s.timeouts.create}' % rname,
+          delete:: '${aws_cloudformation_stack.%s.timeouts.delete}' % rname,
+          update:: '${aws_cloudformation_stack.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -3265,7 +3265,7 @@
         tags:: '${aws_cloudformation_stack_set.%s.tags}' % rname,
         template_body:: '${aws_cloudformation_stack_set.%s.template_body}' % rname,
         template_url:: '${aws_cloudformation_stack_set.%s.template_url}' % rname,
-        timeouts:: '${aws_cloudformation_stack_set.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param capabilities (required) https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set.html#capabilities.
       with_capabilities(capabilities):: {
@@ -3303,7 +3303,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          update:: '${aws_cloudformation_stack_set.%s.update}' % rname,
+          update:: '${aws_cloudformation_stack_set.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -3320,7 +3320,7 @@
         region:: '${aws_cloudformation_stack_set_instance.%s.region}' % rname,
         retain_stack:: '${aws_cloudformation_stack_set_instance.%s.retain_stack}' % rname,
         stack_id:: '${aws_cloudformation_stack_set_instance.%s.stack_id}' % rname,
-        timeouts:: '${aws_cloudformation_stack_set_instance.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param account_id (required) https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set_instance.html#account_id.
       with_account_id(account_id):: {
@@ -3346,9 +3346,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_cloudformation_stack_set_instance.%s.create}' % rname,
-          delete:: '${aws_cloudformation_stack_set_instance.%s.delete}' % rname,
-          update:: '${aws_cloudformation_stack_set_instance.%s.update}' % rname,
+          create:: '${aws_cloudformation_stack_set_instance.%s.timeouts.create}' % rname,
+          delete:: '${aws_cloudformation_stack_set_instance.%s.timeouts.delete}' % rname,
+          update:: '${aws_cloudformation_stack_set_instance.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -3387,11 +3387,11 @@
         tags:: '${aws_cloudfront_distribution.%s.tags}' % rname,
         wait_for_deployment:: '${aws_cloudfront_distribution.%s.wait_for_deployment}' % rname,
         web_acl_id:: '${aws_cloudfront_distribution.%s.web_acl_id}' % rname,
-        cache_behavior:: '${aws_cloudfront_distribution.%s.cache_behavior}' % rname,
-        custom_error_response:: '${aws_cloudfront_distribution.%s.custom_error_response}' % rname,
-        logging_config:: '${aws_cloudfront_distribution.%s.logging_config}' % rname,
-        ordered_cache_behavior:: '${aws_cloudfront_distribution.%s.ordered_cache_behavior}' % rname,
-        origin_group:: '${aws_cloudfront_distribution.%s.origin_group}' % rname,
+        cache_behavior:: {},
+        custom_error_response:: {},
+        logging_config:: {},
+        ordered_cache_behavior:: {},
+        origin_group:: {},
       },
       // @param aliases (required) https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html#aliases.
       with_aliases(aliases):: {
@@ -3451,13 +3451,13 @@
           path_pattern: path_pattern,
           target_origin_id: target_origin_id,
           viewer_protocol_policy: viewer_protocol_policy,
-          compress:: '${aws_cloudfront_distribution.%s.compress}' % rname,
-          default_ttl:: '${aws_cloudfront_distribution.%s.default_ttl}' % rname,
-          field_level_encryption_id:: '${aws_cloudfront_distribution.%s.field_level_encryption_id}' % rname,
-          max_ttl:: '${aws_cloudfront_distribution.%s.max_ttl}' % rname,
-          min_ttl:: '${aws_cloudfront_distribution.%s.min_ttl}' % rname,
-          smooth_streaming:: '${aws_cloudfront_distribution.%s.smooth_streaming}' % rname,
-          trusted_signers:: '${aws_cloudfront_distribution.%s.trusted_signers}' % rname,
+          compress:: '${aws_cloudfront_distribution.%s.cache_behavior.compress}' % rname,
+          default_ttl:: '${aws_cloudfront_distribution.%s.cache_behavior.default_ttl}' % rname,
+          field_level_encryption_id:: '${aws_cloudfront_distribution.%s.cache_behavior.field_level_encryption_id}' % rname,
+          max_ttl:: '${aws_cloudfront_distribution.%s.cache_behavior.max_ttl}' % rname,
+          min_ttl:: '${aws_cloudfront_distribution.%s.cache_behavior.min_ttl}' % rname,
+          smooth_streaming:: '${aws_cloudfront_distribution.%s.cache_behavior.smooth_streaming}' % rname,
+          trusted_signers:: '${aws_cloudfront_distribution.%s.cache_behavior.trusted_signers}' % rname,
         },
       },
       custom_error_response:: {
@@ -3466,9 +3466,9 @@
         new(rname, error_code):: {
           rname:: rname,
           error_code: error_code,
-          error_caching_min_ttl:: '${aws_cloudfront_distribution.%s.error_caching_min_ttl}' % rname,
-          response_code:: '${aws_cloudfront_distribution.%s.response_code}' % rname,
-          response_page_path:: '${aws_cloudfront_distribution.%s.response_page_path}' % rname,
+          error_caching_min_ttl:: '${aws_cloudfront_distribution.%s.custom_error_response.error_caching_min_ttl}' % rname,
+          response_code:: '${aws_cloudfront_distribution.%s.custom_error_response.response_code}' % rname,
+          response_page_path:: '${aws_cloudfront_distribution.%s.custom_error_response.response_page_path}' % rname,
         },
       },
       default_cache_behavior:: {
@@ -3483,13 +3483,13 @@
           cached_methods: cached_methods,
           target_origin_id: target_origin_id,
           viewer_protocol_policy: viewer_protocol_policy,
-          compress:: '${aws_cloudfront_distribution.%s.compress}' % rname,
-          default_ttl:: '${aws_cloudfront_distribution.%s.default_ttl}' % rname,
-          field_level_encryption_id:: '${aws_cloudfront_distribution.%s.field_level_encryption_id}' % rname,
-          max_ttl:: '${aws_cloudfront_distribution.%s.max_ttl}' % rname,
-          min_ttl:: '${aws_cloudfront_distribution.%s.min_ttl}' % rname,
-          smooth_streaming:: '${aws_cloudfront_distribution.%s.smooth_streaming}' % rname,
-          trusted_signers:: '${aws_cloudfront_distribution.%s.trusted_signers}' % rname,
+          compress:: '${aws_cloudfront_distribution.%s.default_cache_behavior.compress}' % rname,
+          default_ttl:: '${aws_cloudfront_distribution.%s.default_cache_behavior.default_ttl}' % rname,
+          field_level_encryption_id:: '${aws_cloudfront_distribution.%s.default_cache_behavior.field_level_encryption_id}' % rname,
+          max_ttl:: '${aws_cloudfront_distribution.%s.default_cache_behavior.max_ttl}' % rname,
+          min_ttl:: '${aws_cloudfront_distribution.%s.default_cache_behavior.min_ttl}' % rname,
+          smooth_streaming:: '${aws_cloudfront_distribution.%s.default_cache_behavior.smooth_streaming}' % rname,
+          trusted_signers:: '${aws_cloudfront_distribution.%s.default_cache_behavior.trusted_signers}' % rname,
         },
       },
       logging_config:: {
@@ -3498,8 +3498,8 @@
         new(rname, bucket):: {
           rname:: rname,
           bucket: bucket,
-          include_cookies:: '${aws_cloudfront_distribution.%s.include_cookies}' % rname,
-          prefix:: '${aws_cloudfront_distribution.%s.prefix}' % rname,
+          include_cookies:: '${aws_cloudfront_distribution.%s.logging_config.include_cookies}' % rname,
+          prefix:: '${aws_cloudfront_distribution.%s.logging_config.prefix}' % rname,
         },
       },
       ordered_cache_behavior:: {
@@ -3516,13 +3516,13 @@
           path_pattern: path_pattern,
           target_origin_id: target_origin_id,
           viewer_protocol_policy: viewer_protocol_policy,
-          compress:: '${aws_cloudfront_distribution.%s.compress}' % rname,
-          default_ttl:: '${aws_cloudfront_distribution.%s.default_ttl}' % rname,
-          field_level_encryption_id:: '${aws_cloudfront_distribution.%s.field_level_encryption_id}' % rname,
-          max_ttl:: '${aws_cloudfront_distribution.%s.max_ttl}' % rname,
-          min_ttl:: '${aws_cloudfront_distribution.%s.min_ttl}' % rname,
-          smooth_streaming:: '${aws_cloudfront_distribution.%s.smooth_streaming}' % rname,
-          trusted_signers:: '${aws_cloudfront_distribution.%s.trusted_signers}' % rname,
+          compress:: '${aws_cloudfront_distribution.%s.ordered_cache_behavior.compress}' % rname,
+          default_ttl:: '${aws_cloudfront_distribution.%s.ordered_cache_behavior.default_ttl}' % rname,
+          field_level_encryption_id:: '${aws_cloudfront_distribution.%s.ordered_cache_behavior.field_level_encryption_id}' % rname,
+          max_ttl:: '${aws_cloudfront_distribution.%s.ordered_cache_behavior.max_ttl}' % rname,
+          min_ttl:: '${aws_cloudfront_distribution.%s.ordered_cache_behavior.min_ttl}' % rname,
+          smooth_streaming:: '${aws_cloudfront_distribution.%s.ordered_cache_behavior.smooth_streaming}' % rname,
+          trusted_signers:: '${aws_cloudfront_distribution.%s.ordered_cache_behavior.trusted_signers}' % rname,
         },
       },
       origin:: {
@@ -3533,7 +3533,7 @@
           rname:: rname,
           domain_name: domain_name,
           origin_id: origin_id,
-          origin_path:: '${aws_cloudfront_distribution.%s.origin_path}' % rname,
+          origin_path:: '${aws_cloudfront_distribution.%s.origin.origin_path}' % rname,
         },
       },
       origin_group:: {
@@ -3554,11 +3554,11 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          acm_certificate_arn:: '${aws_cloudfront_distribution.%s.acm_certificate_arn}' % rname,
-          cloudfront_default_certificate:: '${aws_cloudfront_distribution.%s.cloudfront_default_certificate}' % rname,
-          iam_certificate_id:: '${aws_cloudfront_distribution.%s.iam_certificate_id}' % rname,
-          minimum_protocol_version:: '${aws_cloudfront_distribution.%s.minimum_protocol_version}' % rname,
-          ssl_support_method:: '${aws_cloudfront_distribution.%s.ssl_support_method}' % rname,
+          acm_certificate_arn:: '${aws_cloudfront_distribution.%s.viewer_certificate.acm_certificate_arn}' % rname,
+          cloudfront_default_certificate:: '${aws_cloudfront_distribution.%s.viewer_certificate.cloudfront_default_certificate}' % rname,
+          iam_certificate_id:: '${aws_cloudfront_distribution.%s.viewer_certificate.iam_certificate_id}' % rname,
+          minimum_protocol_version:: '${aws_cloudfront_distribution.%s.viewer_certificate.minimum_protocol_version}' % rname,
+          ssl_support_method:: '${aws_cloudfront_distribution.%s.viewer_certificate.ssl_support_method}' % rname,
         },
       },
     },
@@ -3632,7 +3632,7 @@
         source_backup_identifier:: '${aws_cloudhsm_v2_cluster.%s.source_backup_identifier}' % rname,
         tags:: '${aws_cloudhsm_v2_cluster.%s.tags}' % rname,
         vpc_id:: '${aws_cloudhsm_v2_cluster.%s.vpc_id}' % rname,
-        timeouts:: '${aws_cloudhsm_v2_cluster.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/cloudhsm_v2_cluster.html#id.
       with_id(id):: {
@@ -3650,9 +3650,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_cloudhsm_v2_cluster.%s.create}' % rname,
-          delete:: '${aws_cloudhsm_v2_cluster.%s.delete}' % rname,
-          update:: '${aws_cloudhsm_v2_cluster.%s.update}' % rname,
+          create:: '${aws_cloudhsm_v2_cluster.%s.timeouts.create}' % rname,
+          delete:: '${aws_cloudhsm_v2_cluster.%s.timeouts.delete}' % rname,
+          update:: '${aws_cloudhsm_v2_cluster.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -3670,7 +3670,7 @@
         id:: '${aws_cloudhsm_v2_hsm.%s.id}' % rname,
         ip_address:: '${aws_cloudhsm_v2_hsm.%s.ip_address}' % rname,
         subnet_id:: '${aws_cloudhsm_v2_hsm.%s.subnet_id}' % rname,
-        timeouts:: '${aws_cloudhsm_v2_hsm.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param availability_zone (required) https://www.terraform.io/docs/providers/aws/r/cloudhsm_v2_hsm.html#availability_zone.
       with_availability_zone(availability_zone):: {
@@ -3692,9 +3692,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_cloudhsm_v2_hsm.%s.create}' % rname,
-          delete:: '${aws_cloudhsm_v2_hsm.%s.delete}' % rname,
-          update:: '${aws_cloudhsm_v2_hsm.%s.update}' % rname,
+          create:: '${aws_cloudhsm_v2_hsm.%s.timeouts.create}' % rname,
+          delete:: '${aws_cloudhsm_v2_hsm.%s.timeouts.delete}' % rname,
+          update:: '${aws_cloudhsm_v2_hsm.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -3721,7 +3721,7 @@
         s3_key_prefix:: '${aws_cloudtrail.%s.s3_key_prefix}' % rname,
         sns_topic_name:: '${aws_cloudtrail.%s.sns_topic_name}' % rname,
         tags:: '${aws_cloudtrail.%s.tags}' % rname,
-        event_selector:: '${aws_cloudtrail.%s.event_selector}' % rname,
+        event_selector:: {},
       },
       // @param cloud_watch_logs_group_arn (required) https://www.terraform.io/docs/providers/aws/r/cloudtrail.html#cloud_watch_logs_group_arn.
       with_cloud_watch_logs_group_arn(cloud_watch_logs_group_arn):: {
@@ -3775,8 +3775,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          include_management_events:: '${aws_cloudtrail.%s.include_management_events}' % rname,
-          read_write_type:: '${aws_cloudtrail.%s.read_write_type}' % rname,
+          include_management_events:: '${aws_cloudtrail.%s.event_selector.include_management_events}' % rname,
+          read_write_type:: '${aws_cloudtrail.%s.event_selector.read_write_type}' % rname,
         },
       },
     },
@@ -3808,7 +3808,7 @@
         statement_id: statement_id,
         action:: '${aws_cloudwatch_event_permission.%s.action}' % rname,
         id:: '${aws_cloudwatch_event_permission.%s.id}' % rname,
-        condition:: '${aws_cloudwatch_event_permission.%s.condition}' % rname,
+        condition:: {},
       },
       // @param action (required) https://www.terraform.io/docs/providers/aws/r/cloudwatch_event_permission.html#action.
       with_action(action):: {
@@ -3898,12 +3898,12 @@
         input_path:: '${aws_cloudwatch_event_target.%s.input_path}' % rname,
         role_arn:: '${aws_cloudwatch_event_target.%s.role_arn}' % rname,
         target_id:: '${aws_cloudwatch_event_target.%s.target_id}' % rname,
-        batch_target:: '${aws_cloudwatch_event_target.%s.batch_target}' % rname,
-        ecs_target:: '${aws_cloudwatch_event_target.%s.ecs_target}' % rname,
-        input_transformer:: '${aws_cloudwatch_event_target.%s.input_transformer}' % rname,
-        kinesis_target:: '${aws_cloudwatch_event_target.%s.kinesis_target}' % rname,
-        run_command_targets:: '${aws_cloudwatch_event_target.%s.run_command_targets}' % rname,
-        sqs_target:: '${aws_cloudwatch_event_target.%s.sqs_target}' % rname,
+        batch_target:: {},
+        ecs_target:: {},
+        input_transformer:: {},
+        kinesis_target:: {},
+        run_command_targets:: {},
+        sqs_target:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/cloudwatch_event_target.html#id.
       with_id(id):: {
@@ -3933,8 +3933,8 @@
           rname:: rname,
           job_definition: job_definition,
           job_name: job_name,
-          array_size:: '${aws_cloudwatch_event_target.%s.array_size}' % rname,
-          job_attempts:: '${aws_cloudwatch_event_target.%s.job_attempts}' % rname,
+          array_size:: '${aws_cloudwatch_event_target.%s.batch_target.array_size}' % rname,
+          job_attempts:: '${aws_cloudwatch_event_target.%s.batch_target.job_attempts}' % rname,
         },
       },
       ecs_target:: {
@@ -3943,10 +3943,10 @@
         new(rname, task_definition_arn):: {
           rname:: rname,
           task_definition_arn: task_definition_arn,
-          group:: '${aws_cloudwatch_event_target.%s.group}' % rname,
-          launch_type:: '${aws_cloudwatch_event_target.%s.launch_type}' % rname,
-          platform_version:: '${aws_cloudwatch_event_target.%s.platform_version}' % rname,
-          task_count:: '${aws_cloudwatch_event_target.%s.task_count}' % rname,
+          group:: '${aws_cloudwatch_event_target.%s.ecs_target.group}' % rname,
+          launch_type:: '${aws_cloudwatch_event_target.%s.ecs_target.launch_type}' % rname,
+          platform_version:: '${aws_cloudwatch_event_target.%s.ecs_target.platform_version}' % rname,
+          task_count:: '${aws_cloudwatch_event_target.%s.ecs_target.task_count}' % rname,
         },
       },
       input_transformer:: {
@@ -3955,14 +3955,14 @@
         new(rname, input_template):: {
           rname:: rname,
           input_template: input_template,
-          input_paths:: '${aws_cloudwatch_event_target.%s.input_paths}' % rname,
+          input_paths:: '${aws_cloudwatch_event_target.%s.input_transformer.input_paths}' % rname,
         },
       },
       kinesis_target:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          partition_key_path:: '${aws_cloudwatch_event_target.%s.partition_key_path}' % rname,
+          partition_key_path:: '${aws_cloudwatch_event_target.%s.kinesis_target.partition_key_path}' % rname,
         },
       },
       run_command_targets:: {
@@ -3979,7 +3979,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          message_group_id:: '${aws_cloudwatch_event_target.%s.message_group_id}' % rname,
+          message_group_id:: '${aws_cloudwatch_event_target.%s.sqs_target.message_group_id}' % rname,
         },
       },
     },
@@ -4085,7 +4085,7 @@
           name: name,
           namespace: namespace,
           value: value,
-          default_value:: '${aws_cloudwatch_log_metric_filter.%s.default_value}' % rname,
+          default_value:: '${aws_cloudwatch_log_metric_filter.%s.metric_transformation.default_value}' % rname,
         },
       },
     },
@@ -4183,7 +4183,7 @@
         threshold_metric_id:: '${aws_cloudwatch_metric_alarm.%s.threshold_metric_id}' % rname,
         treat_missing_data:: '${aws_cloudwatch_metric_alarm.%s.treat_missing_data}' % rname,
         unit:: '${aws_cloudwatch_metric_alarm.%s.unit}' % rname,
-        metric_query:: '${aws_cloudwatch_metric_alarm.%s.metric_query}' % rname,
+        metric_query:: {},
       },
       // @param actions_enabled (required) https://www.terraform.io/docs/providers/aws/r/cloudwatch_metric_alarm.html#actions_enabled.
       with_actions_enabled(actions_enabled):: {
@@ -4267,9 +4267,9 @@
         new(rname, id):: {
           rname:: rname,
           id: id,
-          expression:: '${aws_cloudwatch_metric_alarm.%s.expression}' % rname,
-          label:: '${aws_cloudwatch_metric_alarm.%s.label}' % rname,
-          return_data:: '${aws_cloudwatch_metric_alarm.%s.return_data}' % rname,
+          expression:: '${aws_cloudwatch_metric_alarm.%s.metric_query.expression}' % rname,
+          label:: '${aws_cloudwatch_metric_alarm.%s.metric_query.label}' % rname,
+          return_data:: '${aws_cloudwatch_metric_alarm.%s.metric_query.return_data}' % rname,
         },
       },
     },
@@ -4298,11 +4298,11 @@
         queued_timeout:: '${aws_codebuild_project.%s.queued_timeout}' % rname,
         source_version:: '${aws_codebuild_project.%s.source_version}' % rname,
         tags:: '${aws_codebuild_project.%s.tags}' % rname,
-        cache:: '${aws_codebuild_project.%s.cache}' % rname,
-        logs_config:: '${aws_codebuild_project.%s.logs_config}' % rname,
-        secondary_artifacts:: '${aws_codebuild_project.%s.secondary_artifacts}' % rname,
-        secondary_sources:: '${aws_codebuild_project.%s.secondary_sources}' % rname,
-        vpc_config:: '${aws_codebuild_project.%s.vpc_config}' % rname,
+        cache:: {},
+        logs_config:: {},
+        secondary_artifacts:: {},
+        secondary_sources:: {},
+        vpc_config:: {},
       },
       // @param badge_enabled (required) https://www.terraform.io/docs/providers/aws/r/codebuild_project.html#badge_enabled.
       with_badge_enabled(badge_enabled):: {
@@ -4342,23 +4342,23 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          artifact_identifier:: '${aws_codebuild_project.%s.artifact_identifier}' % rname,
-          encryption_disabled:: '${aws_codebuild_project.%s.encryption_disabled}' % rname,
-          location:: '${aws_codebuild_project.%s.location}' % rname,
-          name:: '${aws_codebuild_project.%s.name}' % rname,
-          namespace_type:: '${aws_codebuild_project.%s.namespace_type}' % rname,
-          override_artifact_name:: '${aws_codebuild_project.%s.override_artifact_name}' % rname,
-          packaging:: '${aws_codebuild_project.%s.packaging}' % rname,
-          path:: '${aws_codebuild_project.%s.path}' % rname,
+          artifact_identifier:: '${aws_codebuild_project.%s.artifacts.artifact_identifier}' % rname,
+          encryption_disabled:: '${aws_codebuild_project.%s.artifacts.encryption_disabled}' % rname,
+          location:: '${aws_codebuild_project.%s.artifacts.location}' % rname,
+          name:: '${aws_codebuild_project.%s.artifacts.name}' % rname,
+          namespace_type:: '${aws_codebuild_project.%s.artifacts.namespace_type}' % rname,
+          override_artifact_name:: '${aws_codebuild_project.%s.artifacts.override_artifact_name}' % rname,
+          packaging:: '${aws_codebuild_project.%s.artifacts.packaging}' % rname,
+          path:: '${aws_codebuild_project.%s.artifacts.path}' % rname,
         },
       },
       cache:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          location:: '${aws_codebuild_project.%s.location}' % rname,
-          modes:: '${aws_codebuild_project.%s.modes}' % rname,
-          type:: '${aws_codebuild_project.%s.type}' % rname,
+          location:: '${aws_codebuild_project.%s.cache.location}' % rname,
+          modes:: '${aws_codebuild_project.%s.cache.modes}' % rname,
+          type:: '${aws_codebuild_project.%s.cache.type}' % rname,
         },
       },
       environment:: {
@@ -4371,9 +4371,9 @@
           compute_type: compute_type,
           image: image,
           type: type,
-          certificate:: '${aws_codebuild_project.%s.certificate}' % rname,
-          image_pull_credentials_type:: '${aws_codebuild_project.%s.image_pull_credentials_type}' % rname,
-          privileged_mode:: '${aws_codebuild_project.%s.privileged_mode}' % rname,
+          certificate:: '${aws_codebuild_project.%s.environment.certificate}' % rname,
+          image_pull_credentials_type:: '${aws_codebuild_project.%s.environment.image_pull_credentials_type}' % rname,
+          privileged_mode:: '${aws_codebuild_project.%s.environment.privileged_mode}' % rname,
         },
       },
       logs_config:: {
@@ -4390,13 +4390,13 @@
           rname:: rname,
           artifact_identifier: artifact_identifier,
           type: type,
-          encryption_disabled:: '${aws_codebuild_project.%s.encryption_disabled}' % rname,
-          location:: '${aws_codebuild_project.%s.location}' % rname,
-          name:: '${aws_codebuild_project.%s.name}' % rname,
-          namespace_type:: '${aws_codebuild_project.%s.namespace_type}' % rname,
-          override_artifact_name:: '${aws_codebuild_project.%s.override_artifact_name}' % rname,
-          packaging:: '${aws_codebuild_project.%s.packaging}' % rname,
-          path:: '${aws_codebuild_project.%s.path}' % rname,
+          encryption_disabled:: '${aws_codebuild_project.%s.secondary_artifacts.encryption_disabled}' % rname,
+          location:: '${aws_codebuild_project.%s.secondary_artifacts.location}' % rname,
+          name:: '${aws_codebuild_project.%s.secondary_artifacts.name}' % rname,
+          namespace_type:: '${aws_codebuild_project.%s.secondary_artifacts.namespace_type}' % rname,
+          override_artifact_name:: '${aws_codebuild_project.%s.secondary_artifacts.override_artifact_name}' % rname,
+          packaging:: '${aws_codebuild_project.%s.secondary_artifacts.packaging}' % rname,
+          path:: '${aws_codebuild_project.%s.secondary_artifacts.path}' % rname,
         },
       },
       secondary_sources:: {
@@ -4407,11 +4407,11 @@
           rname:: rname,
           source_identifier: source_identifier,
           type: type,
-          buildspec:: '${aws_codebuild_project.%s.buildspec}' % rname,
-          git_clone_depth:: '${aws_codebuild_project.%s.git_clone_depth}' % rname,
-          insecure_ssl:: '${aws_codebuild_project.%s.insecure_ssl}' % rname,
-          location:: '${aws_codebuild_project.%s.location}' % rname,
-          report_build_status:: '${aws_codebuild_project.%s.report_build_status}' % rname,
+          buildspec:: '${aws_codebuild_project.%s.secondary_sources.buildspec}' % rname,
+          git_clone_depth:: '${aws_codebuild_project.%s.secondary_sources.git_clone_depth}' % rname,
+          insecure_ssl:: '${aws_codebuild_project.%s.secondary_sources.insecure_ssl}' % rname,
+          location:: '${aws_codebuild_project.%s.secondary_sources.location}' % rname,
+          report_build_status:: '${aws_codebuild_project.%s.secondary_sources.report_build_status}' % rname,
         },
       },
       source:: {
@@ -4420,11 +4420,11 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          buildspec:: '${aws_codebuild_project.%s.buildspec}' % rname,
-          git_clone_depth:: '${aws_codebuild_project.%s.git_clone_depth}' % rname,
-          insecure_ssl:: '${aws_codebuild_project.%s.insecure_ssl}' % rname,
-          location:: '${aws_codebuild_project.%s.location}' % rname,
-          report_build_status:: '${aws_codebuild_project.%s.report_build_status}' % rname,
+          buildspec:: '${aws_codebuild_project.%s.source.buildspec}' % rname,
+          git_clone_depth:: '${aws_codebuild_project.%s.source.git_clone_depth}' % rname,
+          insecure_ssl:: '${aws_codebuild_project.%s.source.insecure_ssl}' % rname,
+          location:: '${aws_codebuild_project.%s.source.location}' % rname,
+          report_build_status:: '${aws_codebuild_project.%s.source.report_build_status}' % rname,
         },
       },
       vpc_config:: {
@@ -4476,7 +4476,7 @@
         payload_url:: '${aws_codebuild_webhook.%s.payload_url}' % rname,
         secret:: '${aws_codebuild_webhook.%s.secret}' % rname,
         url:: '${aws_codebuild_webhook.%s.url}' % rname,
-        filter_group:: '${aws_codebuild_webhook.%s.filter_group}' % rname,
+        filter_group:: {},
       },
       // @param branch_filter (required) https://www.terraform.io/docs/providers/aws/r/codebuild_webhook.html#branch_filter.
       with_branch_filter(branch_filter):: {
@@ -4552,8 +4552,8 @@
           destination_arn: destination_arn,
           events: events,
           name: name,
-          branches:: '${aws_codecommit_trigger.%s.branches}' % rname,
-          custom_data:: '${aws_codecommit_trigger.%s.custom_data}' % rname,
+          branches:: '${aws_codecommit_trigger.%s.trigger.branches}' % rname,
+          custom_data:: '${aws_codecommit_trigger.%s.trigger.custom_data}' % rname,
         },
       },
     },
@@ -4591,8 +4591,8 @@
         compute_platform:: '${aws_codedeploy_deployment_config.%s.compute_platform}' % rname,
         deployment_config_id:: '${aws_codedeploy_deployment_config.%s.deployment_config_id}' % rname,
         id:: '${aws_codedeploy_deployment_config.%s.id}' % rname,
-        minimum_healthy_hosts:: '${aws_codedeploy_deployment_config.%s.minimum_healthy_hosts}' % rname,
-        traffic_routing_config:: '${aws_codedeploy_deployment_config.%s.traffic_routing_config}' % rname,
+        minimum_healthy_hosts:: {},
+        traffic_routing_config:: {},
       },
       // @param compute_platform (required) https://www.terraform.io/docs/providers/aws/r/codedeploy_deployment_config.html#compute_platform.
       with_compute_platform(compute_platform):: {
@@ -4606,15 +4606,15 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          type:: '${aws_codedeploy_deployment_config.%s.type}' % rname,
-          value:: '${aws_codedeploy_deployment_config.%s.value}' % rname,
+          type:: '${aws_codedeploy_deployment_config.%s.minimum_healthy_hosts.type}' % rname,
+          value:: '${aws_codedeploy_deployment_config.%s.minimum_healthy_hosts.value}' % rname,
         },
       },
       traffic_routing_config:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          type:: '${aws_codedeploy_deployment_config.%s.type}' % rname,
+          type:: '${aws_codedeploy_deployment_config.%s.traffic_routing_config.type}' % rname,
         },
       },
     },
@@ -4632,16 +4632,16 @@
         autoscaling_groups:: '${aws_codedeploy_deployment_group.%s.autoscaling_groups}' % rname,
         deployment_config_name:: '${aws_codedeploy_deployment_group.%s.deployment_config_name}' % rname,
         id:: '${aws_codedeploy_deployment_group.%s.id}' % rname,
-        alarm_configuration:: '${aws_codedeploy_deployment_group.%s.alarm_configuration}' % rname,
-        auto_rollback_configuration:: '${aws_codedeploy_deployment_group.%s.auto_rollback_configuration}' % rname,
-        blue_green_deployment_config:: '${aws_codedeploy_deployment_group.%s.blue_green_deployment_config}' % rname,
-        deployment_style:: '${aws_codedeploy_deployment_group.%s.deployment_style}' % rname,
-        ec2_tag_filter:: '${aws_codedeploy_deployment_group.%s.ec2_tag_filter}' % rname,
-        ec2_tag_set:: '${aws_codedeploy_deployment_group.%s.ec2_tag_set}' % rname,
-        ecs_service:: '${aws_codedeploy_deployment_group.%s.ecs_service}' % rname,
-        load_balancer_info:: '${aws_codedeploy_deployment_group.%s.load_balancer_info}' % rname,
-        on_premises_instance_tag_filter:: '${aws_codedeploy_deployment_group.%s.on_premises_instance_tag_filter}' % rname,
-        trigger_configuration:: '${aws_codedeploy_deployment_group.%s.trigger_configuration}' % rname,
+        alarm_configuration:: {},
+        auto_rollback_configuration:: {},
+        blue_green_deployment_config:: {},
+        deployment_style:: {},
+        ec2_tag_filter:: {},
+        ec2_tag_set:: {},
+        ecs_service:: {},
+        load_balancer_info:: {},
+        on_premises_instance_tag_filter:: {},
+        trigger_configuration:: {},
       },
       // @param autoscaling_groups (required) https://www.terraform.io/docs/providers/aws/r/codedeploy_deployment_group.html#autoscaling_groups.
       with_autoscaling_groups(autoscaling_groups):: {
@@ -4659,17 +4659,17 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          alarms:: '${aws_codedeploy_deployment_group.%s.alarms}' % rname,
-          enabled:: '${aws_codedeploy_deployment_group.%s.enabled}' % rname,
-          ignore_poll_alarm_failure:: '${aws_codedeploy_deployment_group.%s.ignore_poll_alarm_failure}' % rname,
+          alarms:: '${aws_codedeploy_deployment_group.%s.alarm_configuration.alarms}' % rname,
+          enabled:: '${aws_codedeploy_deployment_group.%s.alarm_configuration.enabled}' % rname,
+          ignore_poll_alarm_failure:: '${aws_codedeploy_deployment_group.%s.alarm_configuration.ignore_poll_alarm_failure}' % rname,
         },
       },
       auto_rollback_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          enabled:: '${aws_codedeploy_deployment_group.%s.enabled}' % rname,
-          events:: '${aws_codedeploy_deployment_group.%s.events}' % rname,
+          enabled:: '${aws_codedeploy_deployment_group.%s.auto_rollback_configuration.enabled}' % rname,
+          events:: '${aws_codedeploy_deployment_group.%s.auto_rollback_configuration.events}' % rname,
         },
       },
       blue_green_deployment_config:: {
@@ -4682,17 +4682,17 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          deployment_option:: '${aws_codedeploy_deployment_group.%s.deployment_option}' % rname,
-          deployment_type:: '${aws_codedeploy_deployment_group.%s.deployment_type}' % rname,
+          deployment_option:: '${aws_codedeploy_deployment_group.%s.deployment_style.deployment_option}' % rname,
+          deployment_type:: '${aws_codedeploy_deployment_group.%s.deployment_style.deployment_type}' % rname,
         },
       },
       ec2_tag_filter:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          key:: '${aws_codedeploy_deployment_group.%s.key}' % rname,
-          type:: '${aws_codedeploy_deployment_group.%s.type}' % rname,
-          value:: '${aws_codedeploy_deployment_group.%s.value}' % rname,
+          key:: '${aws_codedeploy_deployment_group.%s.ec2_tag_filter.key}' % rname,
+          type:: '${aws_codedeploy_deployment_group.%s.ec2_tag_filter.type}' % rname,
+          value:: '${aws_codedeploy_deployment_group.%s.ec2_tag_filter.value}' % rname,
         },
       },
       ec2_tag_set:: {
@@ -4721,9 +4721,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          key:: '${aws_codedeploy_deployment_group.%s.key}' % rname,
-          type:: '${aws_codedeploy_deployment_group.%s.type}' % rname,
-          value:: '${aws_codedeploy_deployment_group.%s.value}' % rname,
+          key:: '${aws_codedeploy_deployment_group.%s.on_premises_instance_tag_filter.key}' % rname,
+          type:: '${aws_codedeploy_deployment_group.%s.on_premises_instance_tag_filter.type}' % rname,
+          value:: '${aws_codedeploy_deployment_group.%s.on_premises_instance_tag_filter.value}' % rname,
         },
       },
       trigger_configuration:: {
@@ -4801,7 +4801,7 @@
         id:: '${aws_codepipeline_webhook.%s.id}' % rname,
         tags:: '${aws_codepipeline_webhook.%s.tags}' % rname,
         url:: '${aws_codepipeline_webhook.%s.url}' % rname,
-        authentication_configuration:: '${aws_codepipeline_webhook.%s.authentication_configuration}' % rname,
+        authentication_configuration:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/codepipeline_webhook.html#id.
       with_id(id):: {
@@ -4815,8 +4815,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allowed_ip_range:: '${aws_codepipeline_webhook.%s.allowed_ip_range}' % rname,
-          secret_token:: '${aws_codepipeline_webhook.%s.secret_token}' % rname,
+          allowed_ip_range:: '${aws_codepipeline_webhook.%s.authentication_configuration.allowed_ip_range}' % rname,
+          secret_token:: '${aws_codepipeline_webhook.%s.authentication_configuration.secret_token}' % rname,
         },
       },
       filter:: {
@@ -4847,7 +4847,7 @@
         id:: '${aws_codestarnotifications_notification_rule.%s.id}' % rname,
         status:: '${aws_codestarnotifications_notification_rule.%s.status}' % rname,
         tags:: '${aws_codestarnotifications_notification_rule.%s.tags}' % rname,
-        target:: '${aws_codestarnotifications_notification_rule.%s.target}' % rname,
+        target:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/codestarnotifications_notification_rule.html#id.
       with_id(id):: {
@@ -4867,8 +4867,8 @@
         new(rname, address):: {
           rname:: rname,
           address: address,
-          status:: '${aws_codestarnotifications_notification_rule.%s.status}' % rname,
-          type:: '${aws_codestarnotifications_notification_rule.%s.type}' % rname,
+          status:: '${aws_codestarnotifications_notification_rule.%s.target.status}' % rname,
+          type:: '${aws_codestarnotifications_notification_rule.%s.target.type}' % rname,
         },
       },
     },
@@ -4887,7 +4887,7 @@
         saml_provider_arns:: '${aws_cognito_identity_pool.%s.saml_provider_arns}' % rname,
         supported_login_providers:: '${aws_cognito_identity_pool.%s.supported_login_providers}' % rname,
         tags:: '${aws_cognito_identity_pool.%s.tags}' % rname,
-        cognito_identity_providers:: '${aws_cognito_identity_pool.%s.cognito_identity_providers}' % rname,
+        cognito_identity_providers:: {},
       },
       // @param allow_unauthenticated_identities (required) https://www.terraform.io/docs/providers/aws/r/cognito_identity_pool.html#allow_unauthenticated_identities.
       with_allow_unauthenticated_identities(allow_unauthenticated_identities):: {
@@ -4921,9 +4921,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          client_id:: '${aws_cognito_identity_pool.%s.client_id}' % rname,
-          provider_name:: '${aws_cognito_identity_pool.%s.provider_name}' % rname,
-          server_side_token_check:: '${aws_cognito_identity_pool.%s.server_side_token_check}' % rname,
+          client_id:: '${aws_cognito_identity_pool.%s.cognito_identity_providers.client_id}' % rname,
+          provider_name:: '${aws_cognito_identity_pool.%s.cognito_identity_providers.provider_name}' % rname,
+          server_side_token_check:: '${aws_cognito_identity_pool.%s.cognito_identity_providers.server_side_token_check}' % rname,
         },
       },
     },
@@ -4937,7 +4937,7 @@
         identity_pool_id: identity_pool_id,
         roles: roles,
         id:: '${aws_cognito_identity_pool_roles_attachment.%s.id}' % rname,
-        role_mapping:: '${aws_cognito_identity_pool_roles_attachment.%s.role_mapping}' % rname,
+        role_mapping:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/cognito_identity_pool_roles_attachment.html#id.
       with_id(id):: {
@@ -4951,7 +4951,7 @@
           rname:: rname,
           identity_provider: identity_provider,
           type: type,
-          ambiguous_role_resolution:: '${aws_cognito_identity_pool_roles_attachment.%s.ambiguous_role_resolution}' % rname,
+          ambiguous_role_resolution:: '${aws_cognito_identity_pool_roles_attachment.%s.role_mapping.ambiguous_role_resolution}' % rname,
         },
       },
     },
@@ -4998,7 +4998,7 @@
         user_pool_id: user_pool_id,
         id:: '${aws_cognito_resource_server.%s.id}' % rname,
         scope_identifiers:: '${aws_cognito_resource_server.%s.scope_identifiers}' % rname,
-        scope:: '${aws_cognito_resource_server.%s.scope}' % rname,
+        scope:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/cognito_resource_server.html#id.
       with_id(id):: {
@@ -5067,15 +5067,15 @@
         sms_verification_message:: '${aws_cognito_user_pool.%s.sms_verification_message}' % rname,
         tags:: '${aws_cognito_user_pool.%s.tags}' % rname,
         username_attributes:: '${aws_cognito_user_pool.%s.username_attributes}' % rname,
-        admin_create_user_config:: '${aws_cognito_user_pool.%s.admin_create_user_config}' % rname,
-        device_configuration:: '${aws_cognito_user_pool.%s.device_configuration}' % rname,
-        email_configuration:: '${aws_cognito_user_pool.%s.email_configuration}' % rname,
-        lambda_config:: '${aws_cognito_user_pool.%s.lambda_config}' % rname,
-        password_policy:: '${aws_cognito_user_pool.%s.password_policy}' % rname,
-        schema:: '${aws_cognito_user_pool.%s.schema}' % rname,
-        sms_configuration:: '${aws_cognito_user_pool.%s.sms_configuration}' % rname,
-        user_pool_add_ons:: '${aws_cognito_user_pool.%s.user_pool_add_ons}' % rname,
-        verification_message_template:: '${aws_cognito_user_pool.%s.verification_message_template}' % rname,
+        admin_create_user_config:: {},
+        device_configuration:: {},
+        email_configuration:: {},
+        lambda_config:: {},
+        password_policy:: {},
+        schema:: {},
+        sms_configuration:: {},
+        user_pool_add_ons:: {},
+        verification_message_template:: {},
       },
       // @param alias_attributes (required) https://www.terraform.io/docs/providers/aws/r/cognito_user_pool.html#alias_attributes.
       with_alias_attributes(alias_attributes):: {
@@ -5121,53 +5121,53 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allow_admin_create_user_only:: '${aws_cognito_user_pool.%s.allow_admin_create_user_only}' % rname,
-          unused_account_validity_days:: '${aws_cognito_user_pool.%s.unused_account_validity_days}' % rname,
+          allow_admin_create_user_only:: '${aws_cognito_user_pool.%s.admin_create_user_config.allow_admin_create_user_only}' % rname,
+          unused_account_validity_days:: '${aws_cognito_user_pool.%s.admin_create_user_config.unused_account_validity_days}' % rname,
         },
       },
       device_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          challenge_required_on_new_device:: '${aws_cognito_user_pool.%s.challenge_required_on_new_device}' % rname,
-          device_only_remembered_on_user_prompt:: '${aws_cognito_user_pool.%s.device_only_remembered_on_user_prompt}' % rname,
+          challenge_required_on_new_device:: '${aws_cognito_user_pool.%s.device_configuration.challenge_required_on_new_device}' % rname,
+          device_only_remembered_on_user_prompt:: '${aws_cognito_user_pool.%s.device_configuration.device_only_remembered_on_user_prompt}' % rname,
         },
       },
       email_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          email_sending_account:: '${aws_cognito_user_pool.%s.email_sending_account}' % rname,
-          reply_to_email_address:: '${aws_cognito_user_pool.%s.reply_to_email_address}' % rname,
-          source_arn:: '${aws_cognito_user_pool.%s.source_arn}' % rname,
+          email_sending_account:: '${aws_cognito_user_pool.%s.email_configuration.email_sending_account}' % rname,
+          reply_to_email_address:: '${aws_cognito_user_pool.%s.email_configuration.reply_to_email_address}' % rname,
+          source_arn:: '${aws_cognito_user_pool.%s.email_configuration.source_arn}' % rname,
         },
       },
       lambda_config:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create_auth_challenge:: '${aws_cognito_user_pool.%s.create_auth_challenge}' % rname,
-          custom_message:: '${aws_cognito_user_pool.%s.custom_message}' % rname,
-          define_auth_challenge:: '${aws_cognito_user_pool.%s.define_auth_challenge}' % rname,
-          post_authentication:: '${aws_cognito_user_pool.%s.post_authentication}' % rname,
-          post_confirmation:: '${aws_cognito_user_pool.%s.post_confirmation}' % rname,
-          pre_authentication:: '${aws_cognito_user_pool.%s.pre_authentication}' % rname,
-          pre_sign_up:: '${aws_cognito_user_pool.%s.pre_sign_up}' % rname,
-          pre_token_generation:: '${aws_cognito_user_pool.%s.pre_token_generation}' % rname,
-          user_migration:: '${aws_cognito_user_pool.%s.user_migration}' % rname,
-          verify_auth_challenge_response:: '${aws_cognito_user_pool.%s.verify_auth_challenge_response}' % rname,
+          create_auth_challenge:: '${aws_cognito_user_pool.%s.lambda_config.create_auth_challenge}' % rname,
+          custom_message:: '${aws_cognito_user_pool.%s.lambda_config.custom_message}' % rname,
+          define_auth_challenge:: '${aws_cognito_user_pool.%s.lambda_config.define_auth_challenge}' % rname,
+          post_authentication:: '${aws_cognito_user_pool.%s.lambda_config.post_authentication}' % rname,
+          post_confirmation:: '${aws_cognito_user_pool.%s.lambda_config.post_confirmation}' % rname,
+          pre_authentication:: '${aws_cognito_user_pool.%s.lambda_config.pre_authentication}' % rname,
+          pre_sign_up:: '${aws_cognito_user_pool.%s.lambda_config.pre_sign_up}' % rname,
+          pre_token_generation:: '${aws_cognito_user_pool.%s.lambda_config.pre_token_generation}' % rname,
+          user_migration:: '${aws_cognito_user_pool.%s.lambda_config.user_migration}' % rname,
+          verify_auth_challenge_response:: '${aws_cognito_user_pool.%s.lambda_config.verify_auth_challenge_response}' % rname,
         },
       },
       password_policy:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          minimum_length:: '${aws_cognito_user_pool.%s.minimum_length}' % rname,
-          require_lowercase:: '${aws_cognito_user_pool.%s.require_lowercase}' % rname,
-          require_numbers:: '${aws_cognito_user_pool.%s.require_numbers}' % rname,
-          require_symbols:: '${aws_cognito_user_pool.%s.require_symbols}' % rname,
-          require_uppercase:: '${aws_cognito_user_pool.%s.require_uppercase}' % rname,
-          temporary_password_validity_days:: '${aws_cognito_user_pool.%s.temporary_password_validity_days}' % rname,
+          minimum_length:: '${aws_cognito_user_pool.%s.password_policy.minimum_length}' % rname,
+          require_lowercase:: '${aws_cognito_user_pool.%s.password_policy.require_lowercase}' % rname,
+          require_numbers:: '${aws_cognito_user_pool.%s.password_policy.require_numbers}' % rname,
+          require_symbols:: '${aws_cognito_user_pool.%s.password_policy.require_symbols}' % rname,
+          require_uppercase:: '${aws_cognito_user_pool.%s.password_policy.require_uppercase}' % rname,
+          temporary_password_validity_days:: '${aws_cognito_user_pool.%s.password_policy.temporary_password_validity_days}' % rname,
         },
       },
       schema:: {
@@ -5178,9 +5178,9 @@
           rname:: rname,
           attribute_data_type: attribute_data_type,
           name: name,
-          developer_only_attribute:: '${aws_cognito_user_pool.%s.developer_only_attribute}' % rname,
-          mutable:: '${aws_cognito_user_pool.%s.mutable}' % rname,
-          required:: '${aws_cognito_user_pool.%s.required}' % rname,
+          developer_only_attribute:: '${aws_cognito_user_pool.%s.schema.developer_only_attribute}' % rname,
+          mutable:: '${aws_cognito_user_pool.%s.schema.mutable}' % rname,
+          required:: '${aws_cognito_user_pool.%s.schema.required}' % rname,
         },
       },
       sms_configuration:: {
@@ -5205,12 +5205,12 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          default_email_option:: '${aws_cognito_user_pool.%s.default_email_option}' % rname,
-          email_message:: '${aws_cognito_user_pool.%s.email_message}' % rname,
-          email_message_by_link:: '${aws_cognito_user_pool.%s.email_message_by_link}' % rname,
-          email_subject:: '${aws_cognito_user_pool.%s.email_subject}' % rname,
-          email_subject_by_link:: '${aws_cognito_user_pool.%s.email_subject_by_link}' % rname,
-          sms_message:: '${aws_cognito_user_pool.%s.sms_message}' % rname,
+          default_email_option:: '${aws_cognito_user_pool.%s.verification_message_template.default_email_option}' % rname,
+          email_message:: '${aws_cognito_user_pool.%s.verification_message_template.email_message}' % rname,
+          email_message_by_link:: '${aws_cognito_user_pool.%s.verification_message_template.email_message_by_link}' % rname,
+          email_subject:: '${aws_cognito_user_pool.%s.verification_message_template.email_subject}' % rname,
+          email_subject_by_link:: '${aws_cognito_user_pool.%s.verification_message_template.email_subject_by_link}' % rname,
+          sms_message:: '${aws_cognito_user_pool.%s.verification_message_template.sms_message}' % rname,
         },
       },
     },
@@ -5354,7 +5354,7 @@
         maximum_execution_frequency:: '${aws_config_config_rule.%s.maximum_execution_frequency}' % rname,
         rule_id:: '${aws_config_config_rule.%s.rule_id}' % rname,
         tags:: '${aws_config_config_rule.%s.tags}' % rname,
-        scope:: '${aws_config_config_rule.%s.scope}' % rname,
+        scope:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/config_config_rule.html#description.
       with_description(description):: {
@@ -5380,10 +5380,10 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          compliance_resource_id:: '${aws_config_config_rule.%s.compliance_resource_id}' % rname,
-          compliance_resource_types:: '${aws_config_config_rule.%s.compliance_resource_types}' % rname,
-          tag_key:: '${aws_config_config_rule.%s.tag_key}' % rname,
-          tag_value:: '${aws_config_config_rule.%s.tag_value}' % rname,
+          compliance_resource_id:: '${aws_config_config_rule.%s.scope.compliance_resource_id}' % rname,
+          compliance_resource_types:: '${aws_config_config_rule.%s.scope.compliance_resource_types}' % rname,
+          tag_key:: '${aws_config_config_rule.%s.scope.tag_key}' % rname,
+          tag_value:: '${aws_config_config_rule.%s.scope.tag_value}' % rname,
         },
       },
       source:: {
@@ -5407,8 +5407,8 @@
         arn:: '${aws_config_configuration_aggregator.%s.arn}' % rname,
         id:: '${aws_config_configuration_aggregator.%s.id}' % rname,
         tags:: '${aws_config_configuration_aggregator.%s.tags}' % rname,
-        account_aggregation_source:: '${aws_config_configuration_aggregator.%s.account_aggregation_source}' % rname,
-        organization_aggregation_source:: '${aws_config_configuration_aggregator.%s.organization_aggregation_source}' % rname,
+        account_aggregation_source:: {},
+        organization_aggregation_source:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/config_configuration_aggregator.html#id.
       with_id(id):: {
@@ -5424,8 +5424,8 @@
         new(rname, account_ids):: {
           rname:: rname,
           account_ids: account_ids,
-          all_regions:: '${aws_config_configuration_aggregator.%s.all_regions}' % rname,
-          regions:: '${aws_config_configuration_aggregator.%s.regions}' % rname,
+          all_regions:: '${aws_config_configuration_aggregator.%s.account_aggregation_source.all_regions}' % rname,
+          regions:: '${aws_config_configuration_aggregator.%s.account_aggregation_source.regions}' % rname,
         },
       },
       organization_aggregation_source:: {
@@ -5434,8 +5434,8 @@
         new(rname, role_arn):: {
           rname:: rname,
           role_arn: role_arn,
-          all_regions:: '${aws_config_configuration_aggregator.%s.all_regions}' % rname,
-          regions:: '${aws_config_configuration_aggregator.%s.regions}' % rname,
+          all_regions:: '${aws_config_configuration_aggregator.%s.organization_aggregation_source.all_regions}' % rname,
+          regions:: '${aws_config_configuration_aggregator.%s.organization_aggregation_source.regions}' % rname,
         },
       },
     },
@@ -5448,7 +5448,7 @@
         role_arn: role_arn,
         id:: '${aws_config_configuration_recorder.%s.id}' % rname,
         name:: '${aws_config_configuration_recorder.%s.name}' % rname,
-        recording_group:: '${aws_config_configuration_recorder.%s.recording_group}' % rname,
+        recording_group:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/config_configuration_recorder.html#id.
       with_id(id):: {
@@ -5462,9 +5462,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          all_supported:: '${aws_config_configuration_recorder.%s.all_supported}' % rname,
-          include_global_resource_types:: '${aws_config_configuration_recorder.%s.include_global_resource_types}' % rname,
-          resource_types:: '${aws_config_configuration_recorder.%s.resource_types}' % rname,
+          all_supported:: '${aws_config_configuration_recorder.%s.recording_group.all_supported}' % rname,
+          include_global_resource_types:: '${aws_config_configuration_recorder.%s.recording_group.include_global_resource_types}' % rname,
+          resource_types:: '${aws_config_configuration_recorder.%s.recording_group.resource_types}' % rname,
         },
       },
     },
@@ -5495,7 +5495,7 @@
         name:: '${aws_config_delivery_channel.%s.name}' % rname,
         s3_key_prefix:: '${aws_config_delivery_channel.%s.s3_key_prefix}' % rname,
         sns_topic_arn:: '${aws_config_delivery_channel.%s.sns_topic_arn}' % rname,
-        snapshot_delivery_properties:: '${aws_config_delivery_channel.%s.snapshot_delivery_properties}' % rname,
+        snapshot_delivery_properties:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/config_delivery_channel.html#id.
       with_id(id):: {
@@ -5517,7 +5517,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delivery_frequency:: '${aws_config_delivery_channel.%s.delivery_frequency}' % rname,
+          delivery_frequency:: '${aws_config_delivery_channel.%s.snapshot_delivery_properties.delivery_frequency}' % rname,
         },
       },
     },
@@ -5542,7 +5542,7 @@
         resource_types_scope:: '${aws_config_organization_custom_rule.%s.resource_types_scope}' % rname,
         tag_key_scope:: '${aws_config_organization_custom_rule.%s.tag_key_scope}' % rname,
         tag_value_scope:: '${aws_config_organization_custom_rule.%s.tag_value_scope}' % rname,
-        timeouts:: '${aws_config_organization_custom_rule.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/config_organization_custom_rule.html#description.
       with_description(description):: {
@@ -5584,9 +5584,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_config_organization_custom_rule.%s.create}' % rname,
-          delete:: '${aws_config_organization_custom_rule.%s.delete}' % rname,
-          update:: '${aws_config_organization_custom_rule.%s.update}' % rname,
+          create:: '${aws_config_organization_custom_rule.%s.timeouts.create}' % rname,
+          delete:: '${aws_config_organization_custom_rule.%s.timeouts.delete}' % rname,
+          update:: '${aws_config_organization_custom_rule.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -5609,7 +5609,7 @@
         resource_types_scope:: '${aws_config_organization_managed_rule.%s.resource_types_scope}' % rname,
         tag_key_scope:: '${aws_config_organization_managed_rule.%s.tag_key_scope}' % rname,
         tag_value_scope:: '${aws_config_organization_managed_rule.%s.tag_value_scope}' % rname,
-        timeouts:: '${aws_config_organization_managed_rule.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/config_organization_managed_rule.html#description.
       with_description(description):: {
@@ -5651,9 +5651,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_config_organization_managed_rule.%s.create}' % rname,
-          delete:: '${aws_config_organization_managed_rule.%s.delete}' % rname,
-          update:: '${aws_config_organization_managed_rule.%s.update}' % rname,
+          create:: '${aws_config_organization_managed_rule.%s.timeouts.create}' % rname,
+          delete:: '${aws_config_organization_managed_rule.%s.timeouts.delete}' % rname,
+          update:: '${aws_config_organization_managed_rule.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -5751,7 +5751,7 @@
         ip_address:: '${aws_datasync_agent.%s.ip_address}' % rname,
         name:: '${aws_datasync_agent.%s.name}' % rname,
         tags:: '${aws_datasync_agent.%s.tags}' % rname,
-        timeouts:: '${aws_datasync_agent.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param activation_key (required) https://www.terraform.io/docs/providers/aws/r/datasync_agent.html#activation_key.
       with_activation_key(activation_key):: {
@@ -5777,7 +5777,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_datasync_agent.%s.create}' % rname,
+          create:: '${aws_datasync_agent.%s.timeouts.create}' % rname,
         },
       },
     },
@@ -5905,7 +5905,7 @@
         id:: '${aws_datasync_location_smb.%s.id}' % rname,
         tags:: '${aws_datasync_location_smb.%s.tags}' % rname,
         uri:: '${aws_datasync_location_smb.%s.uri}' % rname,
-        mount_options:: '${aws_datasync_location_smb.%s.mount_options}' % rname,
+        mount_options:: {},
       },
       // @param domain (required) https://www.terraform.io/docs/providers/aws/r/datasync_location_smb.html#domain.
       with_domain(domain):: {
@@ -5923,7 +5923,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          version:: '${aws_datasync_location_smb.%s.version}' % rname,
+          version:: '${aws_datasync_location_smb.%s.mount_options.version}' % rname,
         },
       },
     },
@@ -5941,8 +5941,8 @@
         id:: '${aws_datasync_task.%s.id}' % rname,
         name:: '${aws_datasync_task.%s.name}' % rname,
         tags:: '${aws_datasync_task.%s.tags}' % rname,
-        options:: '${aws_datasync_task.%s.options}' % rname,
-        timeouts:: '${aws_datasync_task.%s.timeouts}' % rname,
+        options:: {},
+        timeouts:: {},
       },
       // @param cloudwatch_log_group_arn (required) https://www.terraform.io/docs/providers/aws/r/datasync_task.html#cloudwatch_log_group_arn.
       with_cloudwatch_log_group_arn(cloudwatch_log_group_arn):: {
@@ -5964,22 +5964,22 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          atime:: '${aws_datasync_task.%s.atime}' % rname,
-          bytes_per_second:: '${aws_datasync_task.%s.bytes_per_second}' % rname,
-          gid:: '${aws_datasync_task.%s.gid}' % rname,
-          mtime:: '${aws_datasync_task.%s.mtime}' % rname,
-          posix_permissions:: '${aws_datasync_task.%s.posix_permissions}' % rname,
-          preserve_deleted_files:: '${aws_datasync_task.%s.preserve_deleted_files}' % rname,
-          preserve_devices:: '${aws_datasync_task.%s.preserve_devices}' % rname,
-          uid:: '${aws_datasync_task.%s.uid}' % rname,
-          verify_mode:: '${aws_datasync_task.%s.verify_mode}' % rname,
+          atime:: '${aws_datasync_task.%s.options.atime}' % rname,
+          bytes_per_second:: '${aws_datasync_task.%s.options.bytes_per_second}' % rname,
+          gid:: '${aws_datasync_task.%s.options.gid}' % rname,
+          mtime:: '${aws_datasync_task.%s.options.mtime}' % rname,
+          posix_permissions:: '${aws_datasync_task.%s.options.posix_permissions}' % rname,
+          preserve_deleted_files:: '${aws_datasync_task.%s.options.preserve_deleted_files}' % rname,
+          preserve_devices:: '${aws_datasync_task.%s.options.preserve_devices}' % rname,
+          uid:: '${aws_datasync_task.%s.options.uid}' % rname,
+          verify_mode:: '${aws_datasync_task.%s.options.verify_mode}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_datasync_task.%s.create}' % rname,
+          create:: '${aws_datasync_task.%s.timeouts.create}' % rname,
         },
       },
     },
@@ -6010,8 +6010,8 @@
         security_group_ids:: '${aws_dax_cluster.%s.security_group_ids}' % rname,
         subnet_group_name:: '${aws_dax_cluster.%s.subnet_group_name}' % rname,
         tags:: '${aws_dax_cluster.%s.tags}' % rname,
-        server_side_encryption:: '${aws_dax_cluster.%s.server_side_encryption}' % rname,
-        timeouts:: '${aws_dax_cluster.%s.timeouts}' % rname,
+        server_side_encryption:: {},
+        timeouts:: {},
       },
       // @param availability_zones (required) https://www.terraform.io/docs/providers/aws/r/dax_cluster.html#availability_zones.
       with_availability_zones(availability_zones):: {
@@ -6053,16 +6053,16 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          enabled:: '${aws_dax_cluster.%s.enabled}' % rname,
+          enabled:: '${aws_dax_cluster.%s.server_side_encryption.enabled}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dax_cluster.%s.create}' % rname,
-          delete:: '${aws_dax_cluster.%s.delete}' % rname,
-          update:: '${aws_dax_cluster.%s.update}' % rname,
+          create:: '${aws_dax_cluster.%s.timeouts.create}' % rname,
+          delete:: '${aws_dax_cluster.%s.timeouts.delete}' % rname,
+          update:: '${aws_dax_cluster.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -6075,7 +6075,7 @@
         name: name,
         description:: '${aws_dax_parameter_group.%s.description}' % rname,
         id:: '${aws_dax_parameter_group.%s.id}' % rname,
-        parameters:: '${aws_dax_parameter_group.%s.parameters}' % rname,
+        parameters:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/dax_parameter_group.html#description.
       with_description(description):: {
@@ -6142,7 +6142,7 @@
         storage_encrypted:: '${aws_db_cluster_snapshot.%s.storage_encrypted}' % rname,
         tags:: '${aws_db_cluster_snapshot.%s.tags}' % rname,
         vpc_id:: '${aws_db_cluster_snapshot.%s.vpc_id}' % rname,
-        timeouts:: '${aws_db_cluster_snapshot.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/db_cluster_snapshot.html#id.
       with_id(id):: {
@@ -6156,7 +6156,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_db_cluster_snapshot.%s.create}' % rname,
+          create:: '${aws_db_cluster_snapshot.%s.timeouts.create}' % rname,
         },
       },
     },
@@ -6177,7 +6177,7 @@
         source_ids:: '${aws_db_event_subscription.%s.source_ids}' % rname,
         source_type:: '${aws_db_event_subscription.%s.source_type}' % rname,
         tags:: '${aws_db_event_subscription.%s.tags}' % rname,
-        timeouts:: '${aws_db_event_subscription.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param enabled (required) https://www.terraform.io/docs/providers/aws/r/db_event_subscription.html#enabled.
       with_enabled(enabled):: {
@@ -6215,9 +6215,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_db_event_subscription.%s.create}' % rname,
-          delete:: '${aws_db_event_subscription.%s.delete}' % rname,
-          update:: '${aws_db_event_subscription.%s.update}' % rname,
+          create:: '${aws_db_event_subscription.%s.timeouts.create}' % rname,
+          delete:: '${aws_db_event_subscription.%s.timeouts.delete}' % rname,
+          update:: '${aws_db_event_subscription.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -6285,8 +6285,8 @@
         timezone:: '${aws_db_instance.%s.timezone}' % rname,
         username:: '${aws_db_instance.%s.username}' % rname,
         vpc_security_group_ids:: '${aws_db_instance.%s.vpc_security_group_ids}' % rname,
-        s3_import:: '${aws_db_instance.%s.s3_import}' % rname,
-        timeouts:: '${aws_db_instance.%s.timeouts}' % rname,
+        s3_import:: {},
+        timeouts:: {},
       },
       // @param allocated_storage (required) https://www.terraform.io/docs/providers/aws/r/db_instance.html#allocated_storage.
       with_allocated_storage(allocated_storage):: {
@@ -6500,16 +6500,16 @@
           ingestion_role: ingestion_role,
           source_engine: source_engine,
           source_engine_version: source_engine_version,
-          bucket_prefix:: '${aws_db_instance.%s.bucket_prefix}' % rname,
+          bucket_prefix:: '${aws_db_instance.%s.s3_import.bucket_prefix}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_db_instance.%s.create}' % rname,
-          delete:: '${aws_db_instance.%s.delete}' % rname,
-          update:: '${aws_db_instance.%s.update}' % rname,
+          create:: '${aws_db_instance.%s.timeouts.create}' % rname,
+          delete:: '${aws_db_instance.%s.timeouts.delete}' % rname,
+          update:: '${aws_db_instance.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -6546,8 +6546,8 @@
         name_prefix:: '${aws_db_option_group.%s.name_prefix}' % rname,
         option_group_description:: '${aws_db_option_group.%s.option_group_description}' % rname,
         tags:: '${aws_db_option_group.%s.tags}' % rname,
-        option:: '${aws_db_option_group.%s.option}' % rname,
-        timeouts:: '${aws_db_option_group.%s.timeouts}' % rname,
+        option:: {},
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/db_option_group.html#id.
       with_id(id):: {
@@ -6575,17 +6575,17 @@
         new(rname, option_name):: {
           rname:: rname,
           option_name: option_name,
-          db_security_group_memberships:: '${aws_db_option_group.%s.db_security_group_memberships}' % rname,
-          port:: '${aws_db_option_group.%s.port}' % rname,
-          version:: '${aws_db_option_group.%s.version}' % rname,
-          vpc_security_group_memberships:: '${aws_db_option_group.%s.vpc_security_group_memberships}' % rname,
+          db_security_group_memberships:: '${aws_db_option_group.%s.option.db_security_group_memberships}' % rname,
+          port:: '${aws_db_option_group.%s.option.port}' % rname,
+          version:: '${aws_db_option_group.%s.option.version}' % rname,
+          vpc_security_group_memberships:: '${aws_db_option_group.%s.option.vpc_security_group_memberships}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete:: '${aws_db_option_group.%s.delete}' % rname,
+          delete:: '${aws_db_option_group.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -6602,7 +6602,7 @@
         name:: '${aws_db_parameter_group.%s.name}' % rname,
         name_prefix:: '${aws_db_parameter_group.%s.name_prefix}' % rname,
         tags:: '${aws_db_parameter_group.%s.tags}' % rname,
-        parameter:: '${aws_db_parameter_group.%s.parameter}' % rname,
+        parameter:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/db_parameter_group.html#description.
       with_description(description):: {
@@ -6632,7 +6632,7 @@
           rname:: rname,
           name: name,
           value: value,
-          apply_method:: '${aws_db_parameter_group.%s.apply_method}' % rname,
+          apply_method:: '${aws_db_parameter_group.%s.parameter.apply_method}' % rname,
         },
       },
     },
@@ -6666,10 +6666,10 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          cidr:: '${aws_db_security_group.%s.cidr}' % rname,
-          security_group_id:: '${aws_db_security_group.%s.security_group_id}' % rname,
-          security_group_name:: '${aws_db_security_group.%s.security_group_name}' % rname,
-          security_group_owner_id:: '${aws_db_security_group.%s.security_group_owner_id}' % rname,
+          cidr:: '${aws_db_security_group.%s.ingress.cidr}' % rname,
+          security_group_id:: '${aws_db_security_group.%s.ingress.security_group_id}' % rname,
+          security_group_name:: '${aws_db_security_group.%s.ingress.security_group_name}' % rname,
+          security_group_owner_id:: '${aws_db_security_group.%s.ingress.security_group_owner_id}' % rname,
         },
       },
     },
@@ -6701,7 +6701,7 @@
         storage_type:: '${aws_db_snapshot.%s.storage_type}' % rname,
         tags:: '${aws_db_snapshot.%s.tags}' % rname,
         vpc_id:: '${aws_db_snapshot.%s.vpc_id}' % rname,
-        timeouts:: '${aws_db_snapshot.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/db_snapshot.html#id.
       with_id(id):: {
@@ -6715,7 +6715,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          read:: '${aws_db_snapshot.%s.read}' % rname,
+          read:: '${aws_db_snapshot.%s.timeouts.read}' % rname,
         },
       },
     },
@@ -6766,8 +6766,8 @@
         subnet_ids:: '${aws_default_network_acl.%s.subnet_ids}' % rname,
         tags:: '${aws_default_network_acl.%s.tags}' % rname,
         vpc_id:: '${aws_default_network_acl.%s.vpc_id}' % rname,
-        egress:: '${aws_default_network_acl.%s.egress}' % rname,
-        ingress:: '${aws_default_network_acl.%s.ingress}' % rname,
+        egress:: {},
+        ingress:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/default_network_acl.html#id.
       with_id(id):: {
@@ -6795,10 +6795,10 @@
           protocol: protocol,
           rule_no: rule_no,
           to_port: to_port,
-          cidr_block:: '${aws_default_network_acl.%s.cidr_block}' % rname,
-          icmp_code:: '${aws_default_network_acl.%s.icmp_code}' % rname,
-          icmp_type:: '${aws_default_network_acl.%s.icmp_type}' % rname,
-          ipv6_cidr_block:: '${aws_default_network_acl.%s.ipv6_cidr_block}' % rname,
+          cidr_block:: '${aws_default_network_acl.%s.egress.cidr_block}' % rname,
+          icmp_code:: '${aws_default_network_acl.%s.egress.icmp_code}' % rname,
+          icmp_type:: '${aws_default_network_acl.%s.egress.icmp_type}' % rname,
+          ipv6_cidr_block:: '${aws_default_network_acl.%s.egress.ipv6_cidr_block}' % rname,
         },
       },
       ingress:: {
@@ -6815,10 +6815,10 @@
           protocol: protocol,
           rule_no: rule_no,
           to_port: to_port,
-          cidr_block:: '${aws_default_network_acl.%s.cidr_block}' % rname,
-          icmp_code:: '${aws_default_network_acl.%s.icmp_code}' % rname,
-          icmp_type:: '${aws_default_network_acl.%s.icmp_type}' % rname,
-          ipv6_cidr_block:: '${aws_default_network_acl.%s.ipv6_cidr_block}' % rname,
+          cidr_block:: '${aws_default_network_acl.%s.ingress.cidr_block}' % rname,
+          icmp_code:: '${aws_default_network_acl.%s.ingress.icmp_code}' % rname,
+          icmp_type:: '${aws_default_network_acl.%s.ingress.icmp_type}' % rname,
+          ipv6_cidr_block:: '${aws_default_network_acl.%s.ingress.ipv6_cidr_block}' % rname,
         },
       },
     },
@@ -6868,7 +6868,7 @@
         revoke_rules_on_delete:: '${aws_default_security_group.%s.revoke_rules_on_delete}' % rname,
         tags:: '${aws_default_security_group.%s.tags}' % rname,
         vpc_id:: '${aws_default_security_group.%s.vpc_id}' % rname,
-        timeouts:: '${aws_default_security_group.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param egress (required) https://www.terraform.io/docs/providers/aws/r/default_security_group.html#egress.
       with_egress(egress):: {
@@ -6898,8 +6898,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_default_security_group.%s.create}' % rname,
-          delete:: '${aws_default_security_group.%s.delete}' % rname,
+          create:: '${aws_default_security_group.%s.timeouts.create}' % rname,
+          delete:: '${aws_default_security_group.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -6921,7 +6921,7 @@
         owner_id:: '${aws_default_subnet.%s.owner_id}' % rname,
         tags:: '${aws_default_subnet.%s.tags}' % rname,
         vpc_id:: '${aws_default_subnet.%s.vpc_id}' % rname,
-        timeouts:: '${aws_default_subnet.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/default_subnet.html#id.
       with_id(id):: {
@@ -6939,8 +6939,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_default_subnet.%s.create}' % rname,
-          delete:: '${aws_default_subnet.%s.delete}' % rname,
+          create:: '${aws_default_subnet.%s.timeouts.create}' % rname,
+          delete:: '${aws_default_subnet.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -7078,8 +7078,8 @@
         size:: '${aws_directory_service_directory.%s.size}' % rname,
         tags:: '${aws_directory_service_directory.%s.tags}' % rname,
         type:: '${aws_directory_service_directory.%s.type}' % rname,
-        connect_settings:: '${aws_directory_service_directory.%s.connect_settings}' % rname,
-        vpc_settings:: '${aws_directory_service_directory.%s.vpc_settings}' % rname,
+        connect_settings:: {},
+        vpc_settings:: {},
       },
       // @param alias (required) https://www.terraform.io/docs/providers/aws/r/directory_service_directory.html#alias.
       with_alias(alias):: {
@@ -7246,8 +7246,8 @@
         ssl_mode:: '${aws_dms_endpoint.%s.ssl_mode}' % rname,
         tags:: '${aws_dms_endpoint.%s.tags}' % rname,
         username:: '${aws_dms_endpoint.%s.username}' % rname,
-        mongodb_settings:: '${aws_dms_endpoint.%s.mongodb_settings}' % rname,
-        s3_settings:: '${aws_dms_endpoint.%s.s3_settings}' % rname,
+        mongodb_settings:: {},
+        s3_settings:: {},
       },
       // @param certificate_arn (required) https://www.terraform.io/docs/providers/aws/r/dms_endpoint.html#certificate_arn.
       with_certificate_arn(certificate_arn):: {
@@ -7301,25 +7301,25 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          auth_mechanism:: '${aws_dms_endpoint.%s.auth_mechanism}' % rname,
-          auth_source:: '${aws_dms_endpoint.%s.auth_source}' % rname,
-          auth_type:: '${aws_dms_endpoint.%s.auth_type}' % rname,
-          docs_to_investigate:: '${aws_dms_endpoint.%s.docs_to_investigate}' % rname,
-          extract_doc_id:: '${aws_dms_endpoint.%s.extract_doc_id}' % rname,
-          nesting_level:: '${aws_dms_endpoint.%s.nesting_level}' % rname,
+          auth_mechanism:: '${aws_dms_endpoint.%s.mongodb_settings.auth_mechanism}' % rname,
+          auth_source:: '${aws_dms_endpoint.%s.mongodb_settings.auth_source}' % rname,
+          auth_type:: '${aws_dms_endpoint.%s.mongodb_settings.auth_type}' % rname,
+          docs_to_investigate:: '${aws_dms_endpoint.%s.mongodb_settings.docs_to_investigate}' % rname,
+          extract_doc_id:: '${aws_dms_endpoint.%s.mongodb_settings.extract_doc_id}' % rname,
+          nesting_level:: '${aws_dms_endpoint.%s.mongodb_settings.nesting_level}' % rname,
         },
       },
       s3_settings:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          bucket_folder:: '${aws_dms_endpoint.%s.bucket_folder}' % rname,
-          bucket_name:: '${aws_dms_endpoint.%s.bucket_name}' % rname,
-          compression_type:: '${aws_dms_endpoint.%s.compression_type}' % rname,
-          csv_delimiter:: '${aws_dms_endpoint.%s.csv_delimiter}' % rname,
-          csv_row_delimiter:: '${aws_dms_endpoint.%s.csv_row_delimiter}' % rname,
-          external_table_definition:: '${aws_dms_endpoint.%s.external_table_definition}' % rname,
-          service_access_role_arn:: '${aws_dms_endpoint.%s.service_access_role_arn}' % rname,
+          bucket_folder:: '${aws_dms_endpoint.%s.s3_settings.bucket_folder}' % rname,
+          bucket_name:: '${aws_dms_endpoint.%s.s3_settings.bucket_name}' % rname,
+          compression_type:: '${aws_dms_endpoint.%s.s3_settings.compression_type}' % rname,
+          csv_delimiter:: '${aws_dms_endpoint.%s.s3_settings.csv_delimiter}' % rname,
+          csv_row_delimiter:: '${aws_dms_endpoint.%s.s3_settings.csv_row_delimiter}' % rname,
+          external_table_definition:: '${aws_dms_endpoint.%s.s3_settings.external_table_definition}' % rname,
+          service_access_role_arn:: '${aws_dms_endpoint.%s.s3_settings.service_access_role_arn}' % rname,
         },
       },
     },
@@ -7348,7 +7348,7 @@
         replication_subnet_group_id:: '${aws_dms_replication_instance.%s.replication_subnet_group_id}' % rname,
         tags:: '${aws_dms_replication_instance.%s.tags}' % rname,
         vpc_security_group_ids:: '${aws_dms_replication_instance.%s.vpc_security_group_ids}' % rname,
-        timeouts:: '${aws_dms_replication_instance.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param allocated_storage (required) https://www.terraform.io/docs/providers/aws/r/dms_replication_instance.html#allocated_storage.
       with_allocated_storage(allocated_storage):: {
@@ -7406,9 +7406,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dms_replication_instance.%s.create}' % rname,
-          delete:: '${aws_dms_replication_instance.%s.delete}' % rname,
-          update:: '${aws_dms_replication_instance.%s.update}' % rname,
+          create:: '${aws_dms_replication_instance.%s.timeouts.create}' % rname,
+          delete:: '${aws_dms_replication_instance.%s.timeouts.delete}' % rname,
+          update:: '${aws_dms_replication_instance.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -7511,7 +7511,7 @@
         storage_encrypted:: '${aws_docdb_cluster.%s.storage_encrypted}' % rname,
         tags:: '${aws_docdb_cluster.%s.tags}' % rname,
         vpc_security_group_ids:: '${aws_docdb_cluster.%s.vpc_security_group_ids}' % rname,
-        timeouts:: '${aws_docdb_cluster.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param apply_immediately (required) https://www.terraform.io/docs/providers/aws/r/docdb_cluster.html#apply_immediately.
       with_apply_immediately(apply_immediately):: {
@@ -7613,9 +7613,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_docdb_cluster.%s.create}' % rname,
-          delete:: '${aws_docdb_cluster.%s.delete}' % rname,
-          update:: '${aws_docdb_cluster.%s.update}' % rname,
+          create:: '${aws_docdb_cluster.%s.timeouts.create}' % rname,
+          delete:: '${aws_docdb_cluster.%s.timeouts.delete}' % rname,
+          update:: '${aws_docdb_cluster.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -7650,7 +7650,7 @@
         storage_encrypted:: '${aws_docdb_cluster_instance.%s.storage_encrypted}' % rname,
         tags:: '${aws_docdb_cluster_instance.%s.tags}' % rname,
         writer:: '${aws_docdb_cluster_instance.%s.writer}' % rname,
-        timeouts:: '${aws_docdb_cluster_instance.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param apply_immediately (required) https://www.terraform.io/docs/providers/aws/r/docdb_cluster_instance.html#apply_immediately.
       with_apply_immediately(apply_immediately):: {
@@ -7700,9 +7700,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_docdb_cluster_instance.%s.create}' % rname,
-          delete:: '${aws_docdb_cluster_instance.%s.delete}' % rname,
-          update:: '${aws_docdb_cluster_instance.%s.update}' % rname,
+          create:: '${aws_docdb_cluster_instance.%s.timeouts.create}' % rname,
+          delete:: '${aws_docdb_cluster_instance.%s.timeouts.delete}' % rname,
+          update:: '${aws_docdb_cluster_instance.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -7719,7 +7719,7 @@
         name:: '${aws_docdb_cluster_parameter_group.%s.name}' % rname,
         name_prefix:: '${aws_docdb_cluster_parameter_group.%s.name_prefix}' % rname,
         tags:: '${aws_docdb_cluster_parameter_group.%s.tags}' % rname,
-        parameter:: '${aws_docdb_cluster_parameter_group.%s.parameter}' % rname,
+        parameter:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/docdb_cluster_parameter_group.html#description.
       with_description(description):: {
@@ -7749,7 +7749,7 @@
           rname:: rname,
           name: name,
           value: value,
-          apply_method:: '${aws_docdb_cluster_parameter_group.%s.apply_method}' % rname,
+          apply_method:: '${aws_docdb_cluster_parameter_group.%s.parameter.apply_method}' % rname,
         },
       },
     },
@@ -7774,7 +7774,7 @@
         status:: '${aws_docdb_cluster_snapshot.%s.status}' % rname,
         storage_encrypted:: '${aws_docdb_cluster_snapshot.%s.storage_encrypted}' % rname,
         vpc_id:: '${aws_docdb_cluster_snapshot.%s.vpc_id}' % rname,
-        timeouts:: '${aws_docdb_cluster_snapshot.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/docdb_cluster_snapshot.html#id.
       with_id(id):: {
@@ -7784,7 +7784,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_docdb_cluster_snapshot.%s.create}' % rname,
+          create:: '${aws_docdb_cluster_snapshot.%s.timeouts.create}' % rname,
         },
       },
     },
@@ -7841,7 +7841,7 @@
         bgp_status:: '${aws_dx_bgp_peer.%s.bgp_status}' % rname,
         customer_address:: '${aws_dx_bgp_peer.%s.customer_address}' % rname,
         id:: '${aws_dx_bgp_peer.%s.id}' % rname,
-        timeouts:: '${aws_dx_bgp_peer.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param amazon_address (required) https://www.terraform.io/docs/providers/aws/r/dx_bgp_peer.html#amazon_address.
       with_amazon_address(amazon_address):: {
@@ -7863,8 +7863,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_bgp_peer.%s.create}' % rname,
-          delete:: '${aws_dx_bgp_peer.%s.delete}' % rname,
+          create:: '${aws_dx_bgp_peer.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_bgp_peer.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -7922,7 +7922,7 @@
         name: name,
         id:: '${aws_dx_gateway.%s.id}' % rname,
         owner_account_id:: '${aws_dx_gateway.%s.owner_account_id}' % rname,
-        timeouts:: '${aws_dx_gateway.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/dx_gateway.html#id.
       with_id(id):: {
@@ -7932,8 +7932,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_gateway.%s.create}' % rname,
-          delete:: '${aws_dx_gateway.%s.delete}' % rname,
+          create:: '${aws_dx_gateway.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_gateway.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -7953,7 +7953,7 @@
         id:: '${aws_dx_gateway_association.%s.id}' % rname,
         proposal_id:: '${aws_dx_gateway_association.%s.proposal_id}' % rname,
         vpn_gateway_id:: '${aws_dx_gateway_association.%s.vpn_gateway_id}' % rname,
-        timeouts:: '${aws_dx_gateway_association.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param allowed_prefixes (required) https://www.terraform.io/docs/providers/aws/r/dx_gateway_association.html#allowed_prefixes.
       with_allowed_prefixes(allowed_prefixes):: {
@@ -7983,9 +7983,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_gateway_association.%s.create}' % rname,
-          delete:: '${aws_dx_gateway_association.%s.delete}' % rname,
-          update:: '${aws_dx_gateway_association.%s.update}' % rname,
+          create:: '${aws_dx_gateway_association.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_gateway_association.%s.timeouts.delete}' % rname,
+          update:: '${aws_dx_gateway_association.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -8048,7 +8048,7 @@
         id:: '${aws_dx_hosted_private_virtual_interface.%s.id}' % rname,
         jumbo_frame_capable:: '${aws_dx_hosted_private_virtual_interface.%s.jumbo_frame_capable}' % rname,
         mtu:: '${aws_dx_hosted_private_virtual_interface.%s.mtu}' % rname,
-        timeouts:: '${aws_dx_hosted_private_virtual_interface.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param amazon_address (required) https://www.terraform.io/docs/providers/aws/r/dx_hosted_private_virtual_interface.html#amazon_address.
       with_amazon_address(amazon_address):: {
@@ -8074,9 +8074,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_hosted_private_virtual_interface.%s.create}' % rname,
-          delete:: '${aws_dx_hosted_private_virtual_interface.%s.delete}' % rname,
-          update:: '${aws_dx_hosted_private_virtual_interface.%s.update}' % rname,
+          create:: '${aws_dx_hosted_private_virtual_interface.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_hosted_private_virtual_interface.%s.timeouts.delete}' % rname,
+          update:: '${aws_dx_hosted_private_virtual_interface.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -8092,7 +8092,7 @@
         id:: '${aws_dx_hosted_private_virtual_interface_accepter.%s.id}' % rname,
         tags:: '${aws_dx_hosted_private_virtual_interface_accepter.%s.tags}' % rname,
         vpn_gateway_id:: '${aws_dx_hosted_private_virtual_interface_accepter.%s.vpn_gateway_id}' % rname,
-        timeouts:: '${aws_dx_hosted_private_virtual_interface_accepter.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param dx_gateway_id (required) https://www.terraform.io/docs/providers/aws/r/dx_hosted_private_virtual_interface_accepter.html#dx_gateway_id.
       with_dx_gateway_id(dx_gateway_id):: {
@@ -8114,8 +8114,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_hosted_private_virtual_interface_accepter.%s.create}' % rname,
-          delete:: '${aws_dx_hosted_private_virtual_interface_accepter.%s.delete}' % rname,
+          create:: '${aws_dx_hosted_private_virtual_interface_accepter.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_hosted_private_virtual_interface_accepter.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -8145,7 +8145,7 @@
         bgp_auth_key:: '${aws_dx_hosted_public_virtual_interface.%s.bgp_auth_key}' % rname,
         customer_address:: '${aws_dx_hosted_public_virtual_interface.%s.customer_address}' % rname,
         id:: '${aws_dx_hosted_public_virtual_interface.%s.id}' % rname,
-        timeouts:: '${aws_dx_hosted_public_virtual_interface.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param amazon_address (required) https://www.terraform.io/docs/providers/aws/r/dx_hosted_public_virtual_interface.html#amazon_address.
       with_amazon_address(amazon_address):: {
@@ -8167,8 +8167,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_hosted_public_virtual_interface.%s.create}' % rname,
-          delete:: '${aws_dx_hosted_public_virtual_interface.%s.delete}' % rname,
+          create:: '${aws_dx_hosted_public_virtual_interface.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_hosted_public_virtual_interface.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -8182,7 +8182,7 @@
         arn:: '${aws_dx_hosted_public_virtual_interface_accepter.%s.arn}' % rname,
         id:: '${aws_dx_hosted_public_virtual_interface_accepter.%s.id}' % rname,
         tags:: '${aws_dx_hosted_public_virtual_interface_accepter.%s.tags}' % rname,
-        timeouts:: '${aws_dx_hosted_public_virtual_interface_accepter.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/dx_hosted_public_virtual_interface_accepter.html#id.
       with_id(id):: {
@@ -8196,8 +8196,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_hosted_public_virtual_interface_accepter.%s.create}' % rname,
-          delete:: '${aws_dx_hosted_public_virtual_interface_accepter.%s.delete}' % rname,
+          create:: '${aws_dx_hosted_public_virtual_interface_accepter.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_hosted_public_virtual_interface_accepter.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -8227,7 +8227,7 @@
         id:: '${aws_dx_hosted_transit_virtual_interface.%s.id}' % rname,
         jumbo_frame_capable:: '${aws_dx_hosted_transit_virtual_interface.%s.jumbo_frame_capable}' % rname,
         mtu:: '${aws_dx_hosted_transit_virtual_interface.%s.mtu}' % rname,
-        timeouts:: '${aws_dx_hosted_transit_virtual_interface.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param amazon_address (required) https://www.terraform.io/docs/providers/aws/r/dx_hosted_transit_virtual_interface.html#amazon_address.
       with_amazon_address(amazon_address):: {
@@ -8253,9 +8253,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_hosted_transit_virtual_interface.%s.create}' % rname,
-          delete:: '${aws_dx_hosted_transit_virtual_interface.%s.delete}' % rname,
-          update:: '${aws_dx_hosted_transit_virtual_interface.%s.update}' % rname,
+          create:: '${aws_dx_hosted_transit_virtual_interface.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_hosted_transit_virtual_interface.%s.timeouts.delete}' % rname,
+          update:: '${aws_dx_hosted_transit_virtual_interface.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -8271,7 +8271,7 @@
         arn:: '${aws_dx_hosted_transit_virtual_interface_accepter.%s.arn}' % rname,
         id:: '${aws_dx_hosted_transit_virtual_interface_accepter.%s.id}' % rname,
         tags:: '${aws_dx_hosted_transit_virtual_interface_accepter.%s.tags}' % rname,
-        timeouts:: '${aws_dx_hosted_transit_virtual_interface_accepter.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/dx_hosted_transit_virtual_interface_accepter.html#id.
       with_id(id):: {
@@ -8285,8 +8285,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_hosted_transit_virtual_interface_accepter.%s.create}' % rname,
-          delete:: '${aws_dx_hosted_transit_virtual_interface_accepter.%s.delete}' % rname,
+          create:: '${aws_dx_hosted_transit_virtual_interface_accepter.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_hosted_transit_virtual_interface_accepter.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -8353,7 +8353,7 @@
         mtu:: '${aws_dx_private_virtual_interface.%s.mtu}' % rname,
         tags:: '${aws_dx_private_virtual_interface.%s.tags}' % rname,
         vpn_gateway_id:: '${aws_dx_private_virtual_interface.%s.vpn_gateway_id}' % rname,
-        timeouts:: '${aws_dx_private_virtual_interface.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param amazon_address (required) https://www.terraform.io/docs/providers/aws/r/dx_private_virtual_interface.html#amazon_address.
       with_amazon_address(amazon_address):: {
@@ -8391,9 +8391,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_private_virtual_interface.%s.create}' % rname,
-          delete:: '${aws_dx_private_virtual_interface.%s.delete}' % rname,
-          update:: '${aws_dx_private_virtual_interface.%s.update}' % rname,
+          create:: '${aws_dx_private_virtual_interface.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_private_virtual_interface.%s.timeouts.delete}' % rname,
+          update:: '${aws_dx_private_virtual_interface.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -8422,7 +8422,7 @@
         customer_address:: '${aws_dx_public_virtual_interface.%s.customer_address}' % rname,
         id:: '${aws_dx_public_virtual_interface.%s.id}' % rname,
         tags:: '${aws_dx_public_virtual_interface.%s.tags}' % rname,
-        timeouts:: '${aws_dx_public_virtual_interface.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param amazon_address (required) https://www.terraform.io/docs/providers/aws/r/dx_public_virtual_interface.html#amazon_address.
       with_amazon_address(amazon_address):: {
@@ -8448,8 +8448,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_public_virtual_interface.%s.create}' % rname,
-          delete:: '${aws_dx_public_virtual_interface.%s.delete}' % rname,
+          create:: '${aws_dx_public_virtual_interface.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_public_virtual_interface.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -8480,7 +8480,7 @@
         jumbo_frame_capable:: '${aws_dx_transit_virtual_interface.%s.jumbo_frame_capable}' % rname,
         mtu:: '${aws_dx_transit_virtual_interface.%s.mtu}' % rname,
         tags:: '${aws_dx_transit_virtual_interface.%s.tags}' % rname,
-        timeouts:: '${aws_dx_transit_virtual_interface.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param amazon_address (required) https://www.terraform.io/docs/providers/aws/r/dx_transit_virtual_interface.html#amazon_address.
       with_amazon_address(amazon_address):: {
@@ -8510,9 +8510,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dx_transit_virtual_interface.%s.create}' % rname,
-          delete:: '${aws_dx_transit_virtual_interface.%s.delete}' % rname,
-          update:: '${aws_dx_transit_virtual_interface.%s.update}' % rname,
+          create:: '${aws_dx_transit_virtual_interface.%s.timeouts.create}' % rname,
+          delete:: '${aws_dx_transit_virtual_interface.%s.timeouts.delete}' % rname,
+          update:: '${aws_dx_transit_virtual_interface.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -8527,7 +8527,7 @@
         replica: replica,
         arn:: '${aws_dynamodb_global_table.%s.arn}' % rname,
         id:: '${aws_dynamodb_global_table.%s.id}' % rname,
-        timeouts:: '${aws_dynamodb_global_table.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/dynamodb_global_table.html#id.
       with_id(id):: {
@@ -8545,9 +8545,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dynamodb_global_table.%s.create}' % rname,
-          delete:: '${aws_dynamodb_global_table.%s.delete}' % rname,
-          update:: '${aws_dynamodb_global_table.%s.update}' % rname,
+          create:: '${aws_dynamodb_global_table.%s.timeouts.create}' % rname,
+          delete:: '${aws_dynamodb_global_table.%s.timeouts.delete}' % rname,
+          update:: '${aws_dynamodb_global_table.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -8573,12 +8573,12 @@
         stream_view_type:: '${aws_dynamodb_table.%s.stream_view_type}' % rname,
         tags:: '${aws_dynamodb_table.%s.tags}' % rname,
         write_capacity:: '${aws_dynamodb_table.%s.write_capacity}' % rname,
-        global_secondary_index:: '${aws_dynamodb_table.%s.global_secondary_index}' % rname,
-        local_secondary_index:: '${aws_dynamodb_table.%s.local_secondary_index}' % rname,
-        point_in_time_recovery:: '${aws_dynamodb_table.%s.point_in_time_recovery}' % rname,
-        server_side_encryption:: '${aws_dynamodb_table.%s.server_side_encryption}' % rname,
-        timeouts:: '${aws_dynamodb_table.%s.timeouts}' % rname,
-        ttl:: '${aws_dynamodb_table.%s.ttl}' % rname,
+        global_secondary_index:: {},
+        local_secondary_index:: {},
+        point_in_time_recovery:: {},
+        server_side_encryption:: {},
+        timeouts:: {},
+        ttl:: {},
       },
       // @param billing_mode (required) https://www.terraform.io/docs/providers/aws/r/dynamodb_table.html#billing_mode.
       with_billing_mode(billing_mode):: {
@@ -8632,10 +8632,10 @@
           hash_key: hash_key,
           name: name,
           projection_type: projection_type,
-          non_key_attributes:: '${aws_dynamodb_table.%s.non_key_attributes}' % rname,
-          range_key:: '${aws_dynamodb_table.%s.range_key}' % rname,
-          read_capacity:: '${aws_dynamodb_table.%s.read_capacity}' % rname,
-          write_capacity:: '${aws_dynamodb_table.%s.write_capacity}' % rname,
+          non_key_attributes:: '${aws_dynamodb_table.%s.global_secondary_index.non_key_attributes}' % rname,
+          range_key:: '${aws_dynamodb_table.%s.global_secondary_index.range_key}' % rname,
+          read_capacity:: '${aws_dynamodb_table.%s.global_secondary_index.read_capacity}' % rname,
+          write_capacity:: '${aws_dynamodb_table.%s.global_secondary_index.write_capacity}' % rname,
         },
       },
       local_secondary_index:: {
@@ -8648,7 +8648,7 @@
           name: name,
           projection_type: projection_type,
           range_key: range_key,
-          non_key_attributes:: '${aws_dynamodb_table.%s.non_key_attributes}' % rname,
+          non_key_attributes:: '${aws_dynamodb_table.%s.local_secondary_index.non_key_attributes}' % rname,
         },
       },
       point_in_time_recovery:: {
@@ -8665,16 +8665,16 @@
         new(rname, enabled):: {
           rname:: rname,
           enabled: enabled,
-          kms_key_arn:: '${aws_dynamodb_table.%s.kms_key_arn}' % rname,
+          kms_key_arn:: '${aws_dynamodb_table.%s.server_side_encryption.kms_key_arn}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_dynamodb_table.%s.create}' % rname,
-          delete:: '${aws_dynamodb_table.%s.delete}' % rname,
-          update:: '${aws_dynamodb_table.%s.update}' % rname,
+          create:: '${aws_dynamodb_table.%s.timeouts.create}' % rname,
+          delete:: '${aws_dynamodb_table.%s.timeouts.delete}' % rname,
+          update:: '${aws_dynamodb_table.%s.timeouts.update}' % rname,
         },
       },
       ttl:: {
@@ -8683,7 +8683,7 @@
         new(rname, attribute_name):: {
           rname:: rname,
           attribute_name: attribute_name,
-          enabled:: '${aws_dynamodb_table.%s.enabled}' % rname,
+          enabled:: '${aws_dynamodb_table.%s.ttl.enabled}' % rname,
         },
       },
     },
@@ -8757,7 +8757,7 @@
         owner_id:: '${aws_ebs_snapshot.%s.owner_id}' % rname,
         tags:: '${aws_ebs_snapshot.%s.tags}' % rname,
         volume_size:: '${aws_ebs_snapshot.%s.volume_size}' % rname,
-        timeouts:: '${aws_ebs_snapshot.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/ebs_snapshot.html#description.
       with_description(description):: {
@@ -8775,8 +8775,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_ebs_snapshot.%s.create}' % rname,
-          delete:: '${aws_ebs_snapshot.%s.delete}' % rname,
+          create:: '${aws_ebs_snapshot.%s.timeouts.create}' % rname,
+          delete:: '${aws_ebs_snapshot.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -8978,8 +8978,8 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          active_directory_id:: '${aws_ec2_client_vpn_endpoint.%s.active_directory_id}' % rname,
-          root_certificate_chain_arn:: '${aws_ec2_client_vpn_endpoint.%s.root_certificate_chain_arn}' % rname,
+          active_directory_id:: '${aws_ec2_client_vpn_endpoint.%s.authentication_options.active_directory_id}' % rname,
+          root_certificate_chain_arn:: '${aws_ec2_client_vpn_endpoint.%s.authentication_options.root_certificate_chain_arn}' % rname,
         },
       },
       connection_log_options:: {
@@ -8988,8 +8988,8 @@
         new(rname, enabled):: {
           rname:: rname,
           enabled: enabled,
-          cloudwatch_log_group:: '${aws_ec2_client_vpn_endpoint.%s.cloudwatch_log_group}' % rname,
-          cloudwatch_log_stream:: '${aws_ec2_client_vpn_endpoint.%s.cloudwatch_log_stream}' % rname,
+          cloudwatch_log_group:: '${aws_ec2_client_vpn_endpoint.%s.connection_log_options.cloudwatch_log_group}' % rname,
+          cloudwatch_log_stream:: '${aws_ec2_client_vpn_endpoint.%s.connection_log_options.cloudwatch_log_stream}' % rname,
         },
       },
     },
@@ -9028,9 +9028,9 @@
         terminate_instances:: '${aws_ec2_fleet.%s.terminate_instances}' % rname,
         terminate_instances_with_expiration:: '${aws_ec2_fleet.%s.terminate_instances_with_expiration}' % rname,
         type:: '${aws_ec2_fleet.%s.type}' % rname,
-        on_demand_options:: '${aws_ec2_fleet.%s.on_demand_options}' % rname,
-        spot_options:: '${aws_ec2_fleet.%s.spot_options}' % rname,
-        timeouts:: '${aws_ec2_fleet.%s.timeouts}' % rname,
+        on_demand_options:: {},
+        spot_options:: {},
+        timeouts:: {},
       },
       // @param excess_capacity_termination_policy (required) https://www.terraform.io/docs/providers/aws/r/ec2_fleet.html#excess_capacity_termination_policy.
       with_excess_capacity_termination_policy(excess_capacity_termination_policy):: {
@@ -9070,16 +9070,16 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allocation_strategy:: '${aws_ec2_fleet.%s.allocation_strategy}' % rname,
+          allocation_strategy:: '${aws_ec2_fleet.%s.on_demand_options.allocation_strategy}' % rname,
         },
       },
       spot_options:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allocation_strategy:: '${aws_ec2_fleet.%s.allocation_strategy}' % rname,
-          instance_interruption_behavior:: '${aws_ec2_fleet.%s.instance_interruption_behavior}' % rname,
-          instance_pools_to_use_count:: '${aws_ec2_fleet.%s.instance_pools_to_use_count}' % rname,
+          allocation_strategy:: '${aws_ec2_fleet.%s.spot_options.allocation_strategy}' % rname,
+          instance_interruption_behavior:: '${aws_ec2_fleet.%s.spot_options.instance_interruption_behavior}' % rname,
+          instance_pools_to_use_count:: '${aws_ec2_fleet.%s.spot_options.instance_pools_to_use_count}' % rname,
         },
       },
       target_capacity_specification:: {
@@ -9090,17 +9090,17 @@
           rname:: rname,
           default_target_capacity_type: default_target_capacity_type,
           total_target_capacity: total_target_capacity,
-          on_demand_target_capacity:: '${aws_ec2_fleet.%s.on_demand_target_capacity}' % rname,
-          spot_target_capacity:: '${aws_ec2_fleet.%s.spot_target_capacity}' % rname,
+          on_demand_target_capacity:: '${aws_ec2_fleet.%s.target_capacity_specification.on_demand_target_capacity}' % rname,
+          spot_target_capacity:: '${aws_ec2_fleet.%s.target_capacity_specification.spot_target_capacity}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_ec2_fleet.%s.create}' % rname,
-          delete:: '${aws_ec2_fleet.%s.delete}' % rname,
-          update:: '${aws_ec2_fleet.%s.update}' % rname,
+          create:: '${aws_ec2_fleet.%s.timeouts.create}' % rname,
+          delete:: '${aws_ec2_fleet.%s.timeouts.delete}' % rname,
+          update:: '${aws_ec2_fleet.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -9146,8 +9146,8 @@
         description:: '${aws_ec2_traffic_mirror_filter_rule.%s.description}' % rname,
         id:: '${aws_ec2_traffic_mirror_filter_rule.%s.id}' % rname,
         protocol:: '${aws_ec2_traffic_mirror_filter_rule.%s.protocol}' % rname,
-        destination_port_range:: '${aws_ec2_traffic_mirror_filter_rule.%s.destination_port_range}' % rname,
-        source_port_range:: '${aws_ec2_traffic_mirror_filter_rule.%s.source_port_range}' % rname,
+        destination_port_range:: {},
+        source_port_range:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/ec2_traffic_mirror_filter_rule.html#description.
       with_description(description):: {
@@ -9165,16 +9165,16 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          from_port:: '${aws_ec2_traffic_mirror_filter_rule.%s.from_port}' % rname,
-          to_port:: '${aws_ec2_traffic_mirror_filter_rule.%s.to_port}' % rname,
+          from_port:: '${aws_ec2_traffic_mirror_filter_rule.%s.destination_port_range.from_port}' % rname,
+          to_port:: '${aws_ec2_traffic_mirror_filter_rule.%s.destination_port_range.to_port}' % rname,
         },
       },
       source_port_range:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          from_port:: '${aws_ec2_traffic_mirror_filter_rule.%s.from_port}' % rname,
-          to_port:: '${aws_ec2_traffic_mirror_filter_rule.%s.to_port}' % rname,
+          from_port:: '${aws_ec2_traffic_mirror_filter_rule.%s.source_port_range.from_port}' % rname,
+          to_port:: '${aws_ec2_traffic_mirror_filter_rule.%s.source_port_range.to_port}' % rname,
         },
       },
     },
@@ -9488,8 +9488,8 @@
         registry_id:: '${aws_ecr_repository.%s.registry_id}' % rname,
         repository_url:: '${aws_ecr_repository.%s.repository_url}' % rname,
         tags:: '${aws_ecr_repository.%s.tags}' % rname,
-        image_scanning_configuration:: '${aws_ecr_repository.%s.image_scanning_configuration}' % rname,
-        timeouts:: '${aws_ecr_repository.%s.timeouts}' % rname,
+        image_scanning_configuration:: {},
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/ecr_repository.html#id.
       with_id(id):: {
@@ -9515,7 +9515,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete:: '${aws_ecr_repository.%s.delete}' % rname,
+          delete:: '${aws_ecr_repository.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -9563,7 +9563,7 @@
         new(rname, auto_scaling_group_arn):: {
           rname:: rname,
           auto_scaling_group_arn: auto_scaling_group_arn,
-          managed_termination_protection:: '${aws_ecs_capacity_provider.%s.managed_termination_protection}' % rname,
+          managed_termination_protection:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_termination_protection}' % rname,
         },
       },
     },
@@ -9578,8 +9578,8 @@
         capacity_providers:: '${aws_ecs_cluster.%s.capacity_providers}' % rname,
         id:: '${aws_ecs_cluster.%s.id}' % rname,
         tags:: '${aws_ecs_cluster.%s.tags}' % rname,
-        default_capacity_provider_strategy:: '${aws_ecs_cluster.%s.default_capacity_provider_strategy}' % rname,
-        setting:: '${aws_ecs_cluster.%s.setting}' % rname,
+        default_capacity_provider_strategy:: {},
+        setting:: {},
       },
       // @param capacity_providers (required) https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html#capacity_providers.
       with_capacity_providers(capacity_providers):: {
@@ -9599,8 +9599,8 @@
         new(rname, capacity_provider):: {
           rname:: rname,
           capacity_provider: capacity_provider,
-          base:: '${aws_ecs_cluster.%s.base}' % rname,
-          weight:: '${aws_ecs_cluster.%s.weight}' % rname,
+          base:: '${aws_ecs_cluster.%s.default_capacity_provider_strategy.base}' % rname,
+          weight:: '${aws_ecs_cluster.%s.default_capacity_provider_strategy.weight}' % rname,
         },
       },
       setting:: {
@@ -9636,14 +9636,14 @@
         propagate_tags:: '${aws_ecs_service.%s.propagate_tags}' % rname,
         scheduling_strategy:: '${aws_ecs_service.%s.scheduling_strategy}' % rname,
         tags:: '${aws_ecs_service.%s.tags}' % rname,
-        capacity_provider_strategy:: '${aws_ecs_service.%s.capacity_provider_strategy}' % rname,
-        deployment_controller:: '${aws_ecs_service.%s.deployment_controller}' % rname,
-        load_balancer:: '${aws_ecs_service.%s.load_balancer}' % rname,
-        network_configuration:: '${aws_ecs_service.%s.network_configuration}' % rname,
-        ordered_placement_strategy:: '${aws_ecs_service.%s.ordered_placement_strategy}' % rname,
-        placement_constraints:: '${aws_ecs_service.%s.placement_constraints}' % rname,
-        placement_strategy:: '${aws_ecs_service.%s.placement_strategy}' % rname,
-        service_registries:: '${aws_ecs_service.%s.service_registries}' % rname,
+        capacity_provider_strategy:: {},
+        deployment_controller:: {},
+        load_balancer:: {},
+        network_configuration:: {},
+        ordered_placement_strategy:: {},
+        placement_constraints:: {},
+        placement_strategy:: {},
+        service_registries:: {},
       },
       // @param cluster (required) https://www.terraform.io/docs/providers/aws/r/ecs_service.html#cluster.
       with_cluster(cluster):: {
@@ -9703,15 +9703,15 @@
         new(rname, capacity_provider):: {
           rname:: rname,
           capacity_provider: capacity_provider,
-          base:: '${aws_ecs_service.%s.base}' % rname,
-          weight:: '${aws_ecs_service.%s.weight}' % rname,
+          base:: '${aws_ecs_service.%s.capacity_provider_strategy.base}' % rname,
+          weight:: '${aws_ecs_service.%s.capacity_provider_strategy.weight}' % rname,
         },
       },
       deployment_controller:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          type:: '${aws_ecs_service.%s.type}' % rname,
+          type:: '${aws_ecs_service.%s.deployment_controller.type}' % rname,
         },
       },
       load_balancer:: {
@@ -9722,8 +9722,8 @@
           rname:: rname,
           container_name: container_name,
           container_port: container_port,
-          elb_name:: '${aws_ecs_service.%s.elb_name}' % rname,
-          target_group_arn:: '${aws_ecs_service.%s.target_group_arn}' % rname,
+          elb_name:: '${aws_ecs_service.%s.load_balancer.elb_name}' % rname,
+          target_group_arn:: '${aws_ecs_service.%s.load_balancer.target_group_arn}' % rname,
         },
       },
       network_configuration:: {
@@ -9732,8 +9732,8 @@
         new(rname, subnets):: {
           rname:: rname,
           subnets: subnets,
-          assign_public_ip:: '${aws_ecs_service.%s.assign_public_ip}' % rname,
-          security_groups:: '${aws_ecs_service.%s.security_groups}' % rname,
+          assign_public_ip:: '${aws_ecs_service.%s.network_configuration.assign_public_ip}' % rname,
+          security_groups:: '${aws_ecs_service.%s.network_configuration.security_groups}' % rname,
         },
       },
       ordered_placement_strategy:: {
@@ -9742,7 +9742,7 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          field:: '${aws_ecs_service.%s.field}' % rname,
+          field:: '${aws_ecs_service.%s.ordered_placement_strategy.field}' % rname,
         },
       },
       placement_constraints:: {
@@ -9751,7 +9751,7 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          expression:: '${aws_ecs_service.%s.expression}' % rname,
+          expression:: '${aws_ecs_service.%s.placement_constraints.expression}' % rname,
         },
       },
       placement_strategy:: {
@@ -9760,7 +9760,7 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          field:: '${aws_ecs_service.%s.field}' % rname,
+          field:: '${aws_ecs_service.%s.placement_strategy.field}' % rname,
         },
       },
       service_registries:: {
@@ -9769,9 +9769,9 @@
         new(rname, registry_arn):: {
           rname:: rname,
           registry_arn: registry_arn,
-          container_name:: '${aws_ecs_service.%s.container_name}' % rname,
-          container_port:: '${aws_ecs_service.%s.container_port}' % rname,
-          port:: '${aws_ecs_service.%s.port}' % rname,
+          container_name:: '${aws_ecs_service.%s.service_registries.container_name}' % rname,
+          container_port:: '${aws_ecs_service.%s.service_registries.container_port}' % rname,
+          port:: '${aws_ecs_service.%s.service_registries.port}' % rname,
         },
       },
     },
@@ -9796,9 +9796,9 @@
         revision:: '${aws_ecs_task_definition.%s.revision}' % rname,
         tags:: '${aws_ecs_task_definition.%s.tags}' % rname,
         task_role_arn:: '${aws_ecs_task_definition.%s.task_role_arn}' % rname,
-        placement_constraints:: '${aws_ecs_task_definition.%s.placement_constraints}' % rname,
-        proxy_configuration:: '${aws_ecs_task_definition.%s.proxy_configuration}' % rname,
-        volume:: '${aws_ecs_task_definition.%s.volume}' % rname,
+        placement_constraints:: {},
+        proxy_configuration:: {},
+        volume:: {},
       },
       // @param cpu (required) https://www.terraform.io/docs/providers/aws/r/ecs_task_definition.html#cpu.
       with_cpu(cpu):: {
@@ -9846,7 +9846,7 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          expression:: '${aws_ecs_task_definition.%s.expression}' % rname,
+          expression:: '${aws_ecs_task_definition.%s.placement_constraints.expression}' % rname,
         },
       },
       proxy_configuration:: {
@@ -9855,8 +9855,8 @@
         new(rname, container_name):: {
           rname:: rname,
           container_name: container_name,
-          properties:: '${aws_ecs_task_definition.%s.properties}' % rname,
-          type:: '${aws_ecs_task_definition.%s.type}' % rname,
+          properties:: '${aws_ecs_task_definition.%s.proxy_configuration.properties}' % rname,
+          type:: '${aws_ecs_task_definition.%s.proxy_configuration.type}' % rname,
         },
       },
       volume:: {
@@ -9865,7 +9865,7 @@
         new(rname, name):: {
           rname:: rname,
           name: name,
-          host_path:: '${aws_ecs_task_definition.%s.host_path}' % rname,
+          host_path:: '${aws_ecs_task_definition.%s.volume.host_path}' % rname,
         },
       },
     },
@@ -9885,7 +9885,7 @@
         reference_name:: '${aws_efs_file_system.%s.reference_name}' % rname,
         tags:: '${aws_efs_file_system.%s.tags}' % rname,
         throughput_mode:: '${aws_efs_file_system.%s.throughput_mode}' % rname,
-        lifecycle_policy:: '${aws_efs_file_system.%s.lifecycle_policy}' % rname,
+        lifecycle_policy:: {},
       },
       // @param creation_token (required) https://www.terraform.io/docs/providers/aws/r/efs_file_system.html#creation_token.
       with_creation_token(creation_token):: {
@@ -9927,7 +9927,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          transition_to_ia:: '${aws_efs_file_system.%s.transition_to_ia}' % rname,
+          transition_to_ia:: '${aws_efs_file_system.%s.lifecycle_policy.transition_to_ia}' % rname,
         },
       },
     },
@@ -9993,7 +9993,7 @@
         public_ipv4_pool:: '${aws_eip.%s.public_ipv4_pool}' % rname,
         tags:: '${aws_eip.%s.tags}' % rname,
         vpc:: '${aws_eip.%s.vpc}' % rname,
-        timeouts:: '${aws_eip.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param associate_with_private_ip (required) https://www.terraform.io/docs/providers/aws/r/eip.html#associate_with_private_ip.
       with_associate_with_private_ip(associate_with_private_ip):: {
@@ -10027,9 +10027,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete:: '${aws_eip.%s.delete}' % rname,
-          read:: '${aws_eip.%s.read}' % rname,
-          update:: '${aws_eip.%s.update}' % rname,
+          delete:: '${aws_eip.%s.timeouts.delete}' % rname,
+          read:: '${aws_eip.%s.timeouts.read}' % rname,
+          update:: '${aws_eip.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -10097,8 +10097,8 @@
         status:: '${aws_eks_cluster.%s.status}' % rname,
         tags:: '${aws_eks_cluster.%s.tags}' % rname,
         version:: '${aws_eks_cluster.%s.version}' % rname,
-        encryption_config:: '${aws_eks_cluster.%s.encryption_config}' % rname,
-        timeouts:: '${aws_eks_cluster.%s.timeouts}' % rname,
+        encryption_config:: {},
+        timeouts:: {},
       },
       // @param enabled_cluster_log_types (required) https://www.terraform.io/docs/providers/aws/r/eks_cluster.html#enabled_cluster_log_types.
       with_enabled_cluster_log_types(enabled_cluster_log_types):: {
@@ -10128,9 +10128,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_eks_cluster.%s.create}' % rname,
-          delete:: '${aws_eks_cluster.%s.delete}' % rname,
-          update:: '${aws_eks_cluster.%s.update}' % rname,
+          create:: '${aws_eks_cluster.%s.timeouts.create}' % rname,
+          delete:: '${aws_eks_cluster.%s.timeouts.delete}' % rname,
+          update:: '${aws_eks_cluster.%s.timeouts.update}' % rname,
         },
       },
       vpc_config:: {
@@ -10139,12 +10139,12 @@
         new(rname, subnet_ids):: {
           rname:: rname,
           subnet_ids: subnet_ids,
-          cluster_security_group_id:: '${aws_eks_cluster.%s.cluster_security_group_id}' % rname,
-          endpoint_private_access:: '${aws_eks_cluster.%s.endpoint_private_access}' % rname,
-          endpoint_public_access:: '${aws_eks_cluster.%s.endpoint_public_access}' % rname,
-          public_access_cidrs:: '${aws_eks_cluster.%s.public_access_cidrs}' % rname,
-          security_group_ids:: '${aws_eks_cluster.%s.security_group_ids}' % rname,
-          vpc_id:: '${aws_eks_cluster.%s.vpc_id}' % rname,
+          cluster_security_group_id:: '${aws_eks_cluster.%s.vpc_config.cluster_security_group_id}' % rname,
+          endpoint_private_access:: '${aws_eks_cluster.%s.vpc_config.endpoint_private_access}' % rname,
+          endpoint_public_access:: '${aws_eks_cluster.%s.vpc_config.endpoint_public_access}' % rname,
+          public_access_cidrs:: '${aws_eks_cluster.%s.vpc_config.public_access_cidrs}' % rname,
+          security_group_ids:: '${aws_eks_cluster.%s.vpc_config.security_group_ids}' % rname,
+          vpc_id:: '${aws_eks_cluster.%s.vpc_config.vpc_id}' % rname,
         },
       },
     },
@@ -10166,7 +10166,7 @@
         status:: '${aws_eks_fargate_profile.%s.status}' % rname,
         subnet_ids:: '${aws_eks_fargate_profile.%s.subnet_ids}' % rname,
         tags:: '${aws_eks_fargate_profile.%s.tags}' % rname,
-        timeouts:: '${aws_eks_fargate_profile.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/eks_fargate_profile.html#id.
       with_id(id):: {
@@ -10186,15 +10186,15 @@
         new(rname, namespace):: {
           rname:: rname,
           namespace: namespace,
-          labels:: '${aws_eks_fargate_profile.%s.labels}' % rname,
+          labels:: '${aws_eks_fargate_profile.%s.selector.labels}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_eks_fargate_profile.%s.create}' % rname,
-          delete:: '${aws_eks_fargate_profile.%s.delete}' % rname,
+          create:: '${aws_eks_fargate_profile.%s.timeouts.create}' % rname,
+          delete:: '${aws_eks_fargate_profile.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -10224,8 +10224,8 @@
         status:: '${aws_eks_node_group.%s.status}' % rname,
         tags:: '${aws_eks_node_group.%s.tags}' % rname,
         version:: '${aws_eks_node_group.%s.version}' % rname,
-        remote_access:: '${aws_eks_node_group.%s.remote_access}' % rname,
-        timeouts:: '${aws_eks_node_group.%s.timeouts}' % rname,
+        remote_access:: {},
+        timeouts:: {},
       },
       // @param ami_type (required) https://www.terraform.io/docs/providers/aws/r/eks_node_group.html#ami_type.
       with_ami_type(ami_type):: {
@@ -10263,8 +10263,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          ec2_ssh_key:: '${aws_eks_node_group.%s.ec2_ssh_key}' % rname,
-          source_security_group_ids:: '${aws_eks_node_group.%s.source_security_group_ids}' % rname,
+          ec2_ssh_key:: '${aws_eks_node_group.%s.remote_access.ec2_ssh_key}' % rname,
+          source_security_group_ids:: '${aws_eks_node_group.%s.remote_access.source_security_group_ids}' % rname,
         },
       },
       scaling_config:: {
@@ -10283,9 +10283,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_eks_node_group.%s.create}' % rname,
-          delete:: '${aws_eks_node_group.%s.delete}' % rname,
-          update:: '${aws_eks_node_group.%s.update}' % rname,
+          create:: '${aws_eks_node_group.%s.timeouts.create}' % rname,
+          delete:: '${aws_eks_node_group.%s.timeouts.delete}' % rname,
+          update:: '${aws_eks_node_group.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -10300,7 +10300,7 @@
         description:: '${aws_elastic_beanstalk_application.%s.description}' % rname,
         id:: '${aws_elastic_beanstalk_application.%s.id}' % rname,
         tags:: '${aws_elastic_beanstalk_application.%s.tags}' % rname,
-        appversion_lifecycle:: '${aws_elastic_beanstalk_application.%s.appversion_lifecycle}' % rname,
+        appversion_lifecycle:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/elastic_beanstalk_application.html#description.
       with_description(description):: {
@@ -10320,9 +10320,9 @@
         new(rname, service_role):: {
           rname:: rname,
           service_role: service_role,
-          delete_source_from_s3:: '${aws_elastic_beanstalk_application.%s.delete_source_from_s3}' % rname,
-          max_age_in_days:: '${aws_elastic_beanstalk_application.%s.max_age_in_days}' % rname,
-          max_count:: '${aws_elastic_beanstalk_application.%s.max_count}' % rname,
+          delete_source_from_s3:: '${aws_elastic_beanstalk_application.%s.appversion_lifecycle.delete_source_from_s3}' % rname,
+          max_age_in_days:: '${aws_elastic_beanstalk_application.%s.appversion_lifecycle.max_age_in_days}' % rname,
+          max_count:: '${aws_elastic_beanstalk_application.%s.appversion_lifecycle.max_count}' % rname,
         },
       },
     },
@@ -10375,7 +10375,7 @@
         environment_id:: '${aws_elastic_beanstalk_configuration_template.%s.environment_id}' % rname,
         id:: '${aws_elastic_beanstalk_configuration_template.%s.id}' % rname,
         solution_stack_name:: '${aws_elastic_beanstalk_configuration_template.%s.solution_stack_name}' % rname,
-        setting:: '${aws_elastic_beanstalk_configuration_template.%s.setting}' % rname,
+        setting:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/elastic_beanstalk_configuration_template.html#description.
       with_description(description):: {
@@ -10403,7 +10403,7 @@
           name: name,
           namespace: namespace,
           value: value,
-          resource:: '${aws_elastic_beanstalk_configuration_template.%s.resource}' % rname,
+          resource:: '${aws_elastic_beanstalk_configuration_template.%s.setting.resource}' % rname,
         },
       },
     },
@@ -10437,7 +10437,7 @@
         triggers:: '${aws_elastic_beanstalk_environment.%s.triggers}' % rname,
         version_label:: '${aws_elastic_beanstalk_environment.%s.version_label}' % rname,
         wait_for_ready_timeout:: '${aws_elastic_beanstalk_environment.%s.wait_for_ready_timeout}' % rname,
-        setting:: '${aws_elastic_beanstalk_environment.%s.setting}' % rname,
+        setting:: {},
       },
       // @param cname_prefix (required) https://www.terraform.io/docs/providers/aws/r/elastic_beanstalk_environment.html#cname_prefix.
       with_cname_prefix(cname_prefix):: {
@@ -10493,7 +10493,7 @@
           name: name,
           namespace: namespace,
           value: value,
-          resource:: '${aws_elastic_beanstalk_environment.%s.resource}' % rname,
+          resource:: '${aws_elastic_beanstalk_environment.%s.setting.resource}' % rname,
         },
       },
     },
@@ -10636,7 +10636,7 @@
         name: name,
         description:: '${aws_elasticache_parameter_group.%s.description}' % rname,
         id:: '${aws_elasticache_parameter_group.%s.id}' % rname,
-        parameter:: '${aws_elasticache_parameter_group.%s.parameter}' % rname,
+        parameter:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/elasticache_parameter_group.html#description.
       with_description(description):: {
@@ -10694,8 +10694,8 @@
         subnet_group_name:: '${aws_elasticache_replication_group.%s.subnet_group_name}' % rname,
         tags:: '${aws_elasticache_replication_group.%s.tags}' % rname,
         transit_encryption_enabled:: '${aws_elasticache_replication_group.%s.transit_encryption_enabled}' % rname,
-        cluster_mode:: '${aws_elasticache_replication_group.%s.cluster_mode}' % rname,
-        timeouts:: '${aws_elasticache_replication_group.%s.timeouts}' % rname,
+        cluster_mode:: {},
+        timeouts:: {},
       },
       // @param apply_immediately (required) https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group.html#apply_immediately.
       with_apply_immediately(apply_immediately):: {
@@ -10811,9 +10811,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_elasticache_replication_group.%s.create}' % rname,
-          delete:: '${aws_elasticache_replication_group.%s.delete}' % rname,
-          update:: '${aws_elasticache_replication_group.%s.update}' % rname,
+          create:: '${aws_elasticache_replication_group.%s.timeouts.create}' % rname,
+          delete:: '${aws_elasticache_replication_group.%s.timeouts.delete}' % rname,
+          update:: '${aws_elasticache_replication_group.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -10875,15 +10875,15 @@
         id:: '${aws_elasticsearch_domain.%s.id}' % rname,
         kibana_endpoint:: '${aws_elasticsearch_domain.%s.kibana_endpoint}' % rname,
         tags:: '${aws_elasticsearch_domain.%s.tags}' % rname,
-        cluster_config:: '${aws_elasticsearch_domain.%s.cluster_config}' % rname,
-        cognito_options:: '${aws_elasticsearch_domain.%s.cognito_options}' % rname,
-        domain_endpoint_options:: '${aws_elasticsearch_domain.%s.domain_endpoint_options}' % rname,
-        ebs_options:: '${aws_elasticsearch_domain.%s.ebs_options}' % rname,
-        encrypt_at_rest:: '${aws_elasticsearch_domain.%s.encrypt_at_rest}' % rname,
-        log_publishing_options:: '${aws_elasticsearch_domain.%s.log_publishing_options}' % rname,
-        node_to_node_encryption:: '${aws_elasticsearch_domain.%s.node_to_node_encryption}' % rname,
-        snapshot_options:: '${aws_elasticsearch_domain.%s.snapshot_options}' % rname,
-        vpc_options:: '${aws_elasticsearch_domain.%s.vpc_options}' % rname,
+        cluster_config:: {},
+        cognito_options:: {},
+        domain_endpoint_options:: {},
+        ebs_options:: {},
+        encrypt_at_rest:: {},
+        log_publishing_options:: {},
+        node_to_node_encryption:: {},
+        snapshot_options:: {},
+        vpc_options:: {},
       },
       // @param access_policies (required) https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain.html#access_policies.
       with_access_policies(access_policies):: {
@@ -10909,12 +10909,12 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          dedicated_master_count:: '${aws_elasticsearch_domain.%s.dedicated_master_count}' % rname,
-          dedicated_master_enabled:: '${aws_elasticsearch_domain.%s.dedicated_master_enabled}' % rname,
-          dedicated_master_type:: '${aws_elasticsearch_domain.%s.dedicated_master_type}' % rname,
-          instance_count:: '${aws_elasticsearch_domain.%s.instance_count}' % rname,
-          instance_type:: '${aws_elasticsearch_domain.%s.instance_type}' % rname,
-          zone_awareness_enabled:: '${aws_elasticsearch_domain.%s.zone_awareness_enabled}' % rname,
+          dedicated_master_count:: '${aws_elasticsearch_domain.%s.cluster_config.dedicated_master_count}' % rname,
+          dedicated_master_enabled:: '${aws_elasticsearch_domain.%s.cluster_config.dedicated_master_enabled}' % rname,
+          dedicated_master_type:: '${aws_elasticsearch_domain.%s.cluster_config.dedicated_master_type}' % rname,
+          instance_count:: '${aws_elasticsearch_domain.%s.cluster_config.instance_count}' % rname,
+          instance_type:: '${aws_elasticsearch_domain.%s.cluster_config.instance_type}' % rname,
+          zone_awareness_enabled:: '${aws_elasticsearch_domain.%s.cluster_config.zone_awareness_enabled}' % rname,
         },
       },
       cognito_options:: {
@@ -10927,7 +10927,7 @@
           identity_pool_id: identity_pool_id,
           role_arn: role_arn,
           user_pool_id: user_pool_id,
-          enabled:: '${aws_elasticsearch_domain.%s.enabled}' % rname,
+          enabled:: '${aws_elasticsearch_domain.%s.cognito_options.enabled}' % rname,
         },
       },
       domain_endpoint_options:: {
@@ -10936,7 +10936,7 @@
         new(rname, enforce_https):: {
           rname:: rname,
           enforce_https: enforce_https,
-          tls_security_policy:: '${aws_elasticsearch_domain.%s.tls_security_policy}' % rname,
+          tls_security_policy:: '${aws_elasticsearch_domain.%s.domain_endpoint_options.tls_security_policy}' % rname,
         },
       },
       ebs_options:: {
@@ -10945,9 +10945,9 @@
         new(rname, ebs_enabled):: {
           rname:: rname,
           ebs_enabled: ebs_enabled,
-          iops:: '${aws_elasticsearch_domain.%s.iops}' % rname,
-          volume_size:: '${aws_elasticsearch_domain.%s.volume_size}' % rname,
-          volume_type:: '${aws_elasticsearch_domain.%s.volume_type}' % rname,
+          iops:: '${aws_elasticsearch_domain.%s.ebs_options.iops}' % rname,
+          volume_size:: '${aws_elasticsearch_domain.%s.ebs_options.volume_size}' % rname,
+          volume_type:: '${aws_elasticsearch_domain.%s.ebs_options.volume_type}' % rname,
         },
       },
       encrypt_at_rest:: {
@@ -10956,7 +10956,7 @@
         new(rname, enabled):: {
           rname:: rname,
           enabled: enabled,
-          kms_key_id:: '${aws_elasticsearch_domain.%s.kms_key_id}' % rname,
+          kms_key_id:: '${aws_elasticsearch_domain.%s.encrypt_at_rest.kms_key_id}' % rname,
         },
       },
       log_publishing_options:: {
@@ -10967,7 +10967,7 @@
           rname:: rname,
           cloudwatch_log_group_arn: cloudwatch_log_group_arn,
           log_type: log_type,
-          enabled:: '${aws_elasticsearch_domain.%s.enabled}' % rname,
+          enabled:: '${aws_elasticsearch_domain.%s.log_publishing_options.enabled}' % rname,
         },
       },
       node_to_node_encryption:: {
@@ -10990,10 +10990,10 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          availability_zones:: '${aws_elasticsearch_domain.%s.availability_zones}' % rname,
-          security_group_ids:: '${aws_elasticsearch_domain.%s.security_group_ids}' % rname,
-          subnet_ids:: '${aws_elasticsearch_domain.%s.subnet_ids}' % rname,
-          vpc_id:: '${aws_elasticsearch_domain.%s.vpc_id}' % rname,
+          availability_zones:: '${aws_elasticsearch_domain.%s.vpc_options.availability_zones}' % rname,
+          security_group_ids:: '${aws_elasticsearch_domain.%s.vpc_options.security_group_ids}' % rname,
+          subnet_ids:: '${aws_elasticsearch_domain.%s.vpc_options.subnet_ids}' % rname,
+          vpc_id:: '${aws_elasticsearch_domain.%s.vpc_options.vpc_id}' % rname,
         },
       },
     },
@@ -11027,11 +11027,11 @@
         id:: '${aws_elastictranscoder_pipeline.%s.id}' % rname,
         name:: '${aws_elastictranscoder_pipeline.%s.name}' % rname,
         output_bucket:: '${aws_elastictranscoder_pipeline.%s.output_bucket}' % rname,
-        content_config:: '${aws_elastictranscoder_pipeline.%s.content_config}' % rname,
-        content_config_permissions:: '${aws_elastictranscoder_pipeline.%s.content_config_permissions}' % rname,
-        notifications:: '${aws_elastictranscoder_pipeline.%s.notifications}' % rname,
-        thumbnail_config:: '${aws_elastictranscoder_pipeline.%s.thumbnail_config}' % rname,
-        thumbnail_config_permissions:: '${aws_elastictranscoder_pipeline.%s.thumbnail_config_permissions}' % rname,
+        content_config:: {},
+        content_config_permissions:: {},
+        notifications:: {},
+        thumbnail_config:: {},
+        thumbnail_config_permissions:: {},
       },
       // @param aws_kms_key_arn (required) https://www.terraform.io/docs/providers/aws/r/elastictranscoder_pipeline.html#aws_kms_key_arn.
       with_aws_kms_key_arn(aws_kms_key_arn):: {
@@ -11053,44 +11053,44 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          bucket:: '${aws_elastictranscoder_pipeline.%s.bucket}' % rname,
-          storage_class:: '${aws_elastictranscoder_pipeline.%s.storage_class}' % rname,
+          bucket:: '${aws_elastictranscoder_pipeline.%s.content_config.bucket}' % rname,
+          storage_class:: '${aws_elastictranscoder_pipeline.%s.content_config.storage_class}' % rname,
         },
       },
       content_config_permissions:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          access:: '${aws_elastictranscoder_pipeline.%s.access}' % rname,
-          grantee:: '${aws_elastictranscoder_pipeline.%s.grantee}' % rname,
-          grantee_type:: '${aws_elastictranscoder_pipeline.%s.grantee_type}' % rname,
+          access:: '${aws_elastictranscoder_pipeline.%s.content_config_permissions.access}' % rname,
+          grantee:: '${aws_elastictranscoder_pipeline.%s.content_config_permissions.grantee}' % rname,
+          grantee_type:: '${aws_elastictranscoder_pipeline.%s.content_config_permissions.grantee_type}' % rname,
         },
       },
       notifications:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          completed:: '${aws_elastictranscoder_pipeline.%s.completed}' % rname,
-          'error':: '${aws_elastictranscoder_pipeline.%s.error}' % rname,
-          progressing:: '${aws_elastictranscoder_pipeline.%s.progressing}' % rname,
-          warning:: '${aws_elastictranscoder_pipeline.%s.warning}' % rname,
+          completed:: '${aws_elastictranscoder_pipeline.%s.notifications.completed}' % rname,
+          'error':: '${aws_elastictranscoder_pipeline.%s.notifications.error}' % rname,
+          progressing:: '${aws_elastictranscoder_pipeline.%s.notifications.progressing}' % rname,
+          warning:: '${aws_elastictranscoder_pipeline.%s.notifications.warning}' % rname,
         },
       },
       thumbnail_config:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          bucket:: '${aws_elastictranscoder_pipeline.%s.bucket}' % rname,
-          storage_class:: '${aws_elastictranscoder_pipeline.%s.storage_class}' % rname,
+          bucket:: '${aws_elastictranscoder_pipeline.%s.thumbnail_config.bucket}' % rname,
+          storage_class:: '${aws_elastictranscoder_pipeline.%s.thumbnail_config.storage_class}' % rname,
         },
       },
       thumbnail_config_permissions:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          access:: '${aws_elastictranscoder_pipeline.%s.access}' % rname,
-          grantee:: '${aws_elastictranscoder_pipeline.%s.grantee}' % rname,
-          grantee_type:: '${aws_elastictranscoder_pipeline.%s.grantee_type}' % rname,
+          access:: '${aws_elastictranscoder_pipeline.%s.thumbnail_config_permissions.access}' % rname,
+          grantee:: '${aws_elastictranscoder_pipeline.%s.thumbnail_config_permissions.grantee}' % rname,
+          grantee_type:: '${aws_elastictranscoder_pipeline.%s.thumbnail_config_permissions.grantee_type}' % rname,
         },
       },
     },
@@ -11107,11 +11107,11 @@
         name:: '${aws_elastictranscoder_preset.%s.name}' % rname,
         type:: '${aws_elastictranscoder_preset.%s.type}' % rname,
         video_codec_options:: '${aws_elastictranscoder_preset.%s.video_codec_options}' % rname,
-        audio:: '${aws_elastictranscoder_preset.%s.audio}' % rname,
-        audio_codec_options:: '${aws_elastictranscoder_preset.%s.audio_codec_options}' % rname,
-        thumbnails:: '${aws_elastictranscoder_preset.%s.thumbnails}' % rname,
-        video:: '${aws_elastictranscoder_preset.%s.video}' % rname,
-        video_watermarks:: '${aws_elastictranscoder_preset.%s.video_watermarks}' % rname,
+        audio:: {},
+        audio_codec_options:: {},
+        thumbnails:: {},
+        video:: {},
+        video_watermarks:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/elastictranscoder_preset.html#description.
       with_description(description):: {
@@ -11137,70 +11137,70 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          audio_packing_mode:: '${aws_elastictranscoder_preset.%s.audio_packing_mode}' % rname,
-          bit_rate:: '${aws_elastictranscoder_preset.%s.bit_rate}' % rname,
-          channels:: '${aws_elastictranscoder_preset.%s.channels}' % rname,
-          codec:: '${aws_elastictranscoder_preset.%s.codec}' % rname,
-          sample_rate:: '${aws_elastictranscoder_preset.%s.sample_rate}' % rname,
+          audio_packing_mode:: '${aws_elastictranscoder_preset.%s.audio.audio_packing_mode}' % rname,
+          bit_rate:: '${aws_elastictranscoder_preset.%s.audio.bit_rate}' % rname,
+          channels:: '${aws_elastictranscoder_preset.%s.audio.channels}' % rname,
+          codec:: '${aws_elastictranscoder_preset.%s.audio.codec}' % rname,
+          sample_rate:: '${aws_elastictranscoder_preset.%s.audio.sample_rate}' % rname,
         },
       },
       audio_codec_options:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          bit_depth:: '${aws_elastictranscoder_preset.%s.bit_depth}' % rname,
-          bit_order:: '${aws_elastictranscoder_preset.%s.bit_order}' % rname,
-          profile:: '${aws_elastictranscoder_preset.%s.profile}' % rname,
-          signed:: '${aws_elastictranscoder_preset.%s.signed}' % rname,
+          bit_depth:: '${aws_elastictranscoder_preset.%s.audio_codec_options.bit_depth}' % rname,
+          bit_order:: '${aws_elastictranscoder_preset.%s.audio_codec_options.bit_order}' % rname,
+          profile:: '${aws_elastictranscoder_preset.%s.audio_codec_options.profile}' % rname,
+          signed:: '${aws_elastictranscoder_preset.%s.audio_codec_options.signed}' % rname,
         },
       },
       thumbnails:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          aspect_ratio:: '${aws_elastictranscoder_preset.%s.aspect_ratio}' % rname,
-          format:: '${aws_elastictranscoder_preset.%s.format}' % rname,
-          interval:: '${aws_elastictranscoder_preset.%s.interval}' % rname,
-          max_height:: '${aws_elastictranscoder_preset.%s.max_height}' % rname,
-          max_width:: '${aws_elastictranscoder_preset.%s.max_width}' % rname,
-          padding_policy:: '${aws_elastictranscoder_preset.%s.padding_policy}' % rname,
-          resolution:: '${aws_elastictranscoder_preset.%s.resolution}' % rname,
-          sizing_policy:: '${aws_elastictranscoder_preset.%s.sizing_policy}' % rname,
+          aspect_ratio:: '${aws_elastictranscoder_preset.%s.thumbnails.aspect_ratio}' % rname,
+          format:: '${aws_elastictranscoder_preset.%s.thumbnails.format}' % rname,
+          interval:: '${aws_elastictranscoder_preset.%s.thumbnails.interval}' % rname,
+          max_height:: '${aws_elastictranscoder_preset.%s.thumbnails.max_height}' % rname,
+          max_width:: '${aws_elastictranscoder_preset.%s.thumbnails.max_width}' % rname,
+          padding_policy:: '${aws_elastictranscoder_preset.%s.thumbnails.padding_policy}' % rname,
+          resolution:: '${aws_elastictranscoder_preset.%s.thumbnails.resolution}' % rname,
+          sizing_policy:: '${aws_elastictranscoder_preset.%s.thumbnails.sizing_policy}' % rname,
         },
       },
       video:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          aspect_ratio:: '${aws_elastictranscoder_preset.%s.aspect_ratio}' % rname,
-          bit_rate:: '${aws_elastictranscoder_preset.%s.bit_rate}' % rname,
-          codec:: '${aws_elastictranscoder_preset.%s.codec}' % rname,
-          display_aspect_ratio:: '${aws_elastictranscoder_preset.%s.display_aspect_ratio}' % rname,
-          fixed_gop:: '${aws_elastictranscoder_preset.%s.fixed_gop}' % rname,
-          frame_rate:: '${aws_elastictranscoder_preset.%s.frame_rate}' % rname,
-          keyframes_max_dist:: '${aws_elastictranscoder_preset.%s.keyframes_max_dist}' % rname,
-          max_frame_rate:: '${aws_elastictranscoder_preset.%s.max_frame_rate}' % rname,
-          max_height:: '${aws_elastictranscoder_preset.%s.max_height}' % rname,
-          max_width:: '${aws_elastictranscoder_preset.%s.max_width}' % rname,
-          padding_policy:: '${aws_elastictranscoder_preset.%s.padding_policy}' % rname,
-          resolution:: '${aws_elastictranscoder_preset.%s.resolution}' % rname,
-          sizing_policy:: '${aws_elastictranscoder_preset.%s.sizing_policy}' % rname,
+          aspect_ratio:: '${aws_elastictranscoder_preset.%s.video.aspect_ratio}' % rname,
+          bit_rate:: '${aws_elastictranscoder_preset.%s.video.bit_rate}' % rname,
+          codec:: '${aws_elastictranscoder_preset.%s.video.codec}' % rname,
+          display_aspect_ratio:: '${aws_elastictranscoder_preset.%s.video.display_aspect_ratio}' % rname,
+          fixed_gop:: '${aws_elastictranscoder_preset.%s.video.fixed_gop}' % rname,
+          frame_rate:: '${aws_elastictranscoder_preset.%s.video.frame_rate}' % rname,
+          keyframes_max_dist:: '${aws_elastictranscoder_preset.%s.video.keyframes_max_dist}' % rname,
+          max_frame_rate:: '${aws_elastictranscoder_preset.%s.video.max_frame_rate}' % rname,
+          max_height:: '${aws_elastictranscoder_preset.%s.video.max_height}' % rname,
+          max_width:: '${aws_elastictranscoder_preset.%s.video.max_width}' % rname,
+          padding_policy:: '${aws_elastictranscoder_preset.%s.video.padding_policy}' % rname,
+          resolution:: '${aws_elastictranscoder_preset.%s.video.resolution}' % rname,
+          sizing_policy:: '${aws_elastictranscoder_preset.%s.video.sizing_policy}' % rname,
         },
       },
       video_watermarks:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          horizontal_align:: '${aws_elastictranscoder_preset.%s.horizontal_align}' % rname,
-          horizontal_offset:: '${aws_elastictranscoder_preset.%s.horizontal_offset}' % rname,
-          id:: '${aws_elastictranscoder_preset.%s.id}' % rname,
-          max_height:: '${aws_elastictranscoder_preset.%s.max_height}' % rname,
-          max_width:: '${aws_elastictranscoder_preset.%s.max_width}' % rname,
-          opacity:: '${aws_elastictranscoder_preset.%s.opacity}' % rname,
-          sizing_policy:: '${aws_elastictranscoder_preset.%s.sizing_policy}' % rname,
-          target:: '${aws_elastictranscoder_preset.%s.target}' % rname,
-          vertical_align:: '${aws_elastictranscoder_preset.%s.vertical_align}' % rname,
-          vertical_offset:: '${aws_elastictranscoder_preset.%s.vertical_offset}' % rname,
+          horizontal_align:: '${aws_elastictranscoder_preset.%s.video_watermarks.horizontal_align}' % rname,
+          horizontal_offset:: '${aws_elastictranscoder_preset.%s.video_watermarks.horizontal_offset}' % rname,
+          id:: '${aws_elastictranscoder_preset.%s.video_watermarks.id}' % rname,
+          max_height:: '${aws_elastictranscoder_preset.%s.video_watermarks.max_height}' % rname,
+          max_width:: '${aws_elastictranscoder_preset.%s.video_watermarks.max_width}' % rname,
+          opacity:: '${aws_elastictranscoder_preset.%s.video_watermarks.opacity}' % rname,
+          sizing_policy:: '${aws_elastictranscoder_preset.%s.video_watermarks.sizing_policy}' % rname,
+          target:: '${aws_elastictranscoder_preset.%s.video_watermarks.target}' % rname,
+          vertical_align:: '${aws_elastictranscoder_preset.%s.video_watermarks.vertical_align}' % rname,
+          vertical_offset:: '${aws_elastictranscoder_preset.%s.video_watermarks.vertical_offset}' % rname,
         },
       },
     },
@@ -11229,8 +11229,8 @@
         subnets:: '${aws_elb.%s.subnets}' % rname,
         tags:: '${aws_elb.%s.tags}' % rname,
         zone_id:: '${aws_elb.%s.zone_id}' % rname,
-        access_logs:: '${aws_elb.%s.access_logs}' % rname,
-        health_check:: '${aws_elb.%s.health_check}' % rname,
+        access_logs:: {},
+        health_check:: {},
       },
       // @param availability_zones (required) https://www.terraform.io/docs/providers/aws/r/elb.html#availability_zones.
       with_availability_zones(availability_zones):: {
@@ -11294,9 +11294,9 @@
         new(rname, bucket):: {
           rname:: rname,
           bucket: bucket,
-          bucket_prefix:: '${aws_elb.%s.bucket_prefix}' % rname,
-          enabled:: '${aws_elb.%s.enabled}' % rname,
-          interval:: '${aws_elb.%s.interval}' % rname,
+          bucket_prefix:: '${aws_elb.%s.access_logs.bucket_prefix}' % rname,
+          enabled:: '${aws_elb.%s.access_logs.enabled}' % rname,
+          interval:: '${aws_elb.%s.access_logs.interval}' % rname,
         },
       },
       health_check:: {
@@ -11327,7 +11327,7 @@
           instance_protocol: instance_protocol,
           lb_port: lb_port,
           lb_protocol: lb_protocol,
-          ssl_certificate_id:: '${aws_elb.%s.ssl_certificate_id}' % rname,
+          ssl_certificate_id:: '${aws_elb.%s.listener.ssl_certificate_id}' % rname,
         },
       },
     },
@@ -11381,12 +11381,12 @@
         tags:: '${aws_emr_cluster.%s.tags}' % rname,
         termination_protection:: '${aws_emr_cluster.%s.termination_protection}' % rname,
         visible_to_all_users:: '${aws_emr_cluster.%s.visible_to_all_users}' % rname,
-        bootstrap_action:: '${aws_emr_cluster.%s.bootstrap_action}' % rname,
-        core_instance_group:: '${aws_emr_cluster.%s.core_instance_group}' % rname,
-        ec2_attributes:: '${aws_emr_cluster.%s.ec2_attributes}' % rname,
-        instance_group:: '${aws_emr_cluster.%s.instance_group}' % rname,
-        kerberos_attributes:: '${aws_emr_cluster.%s.kerberos_attributes}' % rname,
-        master_instance_group:: '${aws_emr_cluster.%s.master_instance_group}' % rname,
+        bootstrap_action:: {},
+        core_instance_group:: {},
+        ec2_attributes:: {},
+        instance_group:: {},
+        kerberos_attributes:: {},
+        master_instance_group:: {},
       },
       // @param additional_info (required) https://www.terraform.io/docs/providers/aws/r/emr_cluster.html#additional_info.
       with_additional_info(additional_info):: {
@@ -11476,7 +11476,7 @@
           rname:: rname,
           name: name,
           path: path,
-          args:: '${aws_emr_cluster.%s.args}' % rname,
+          args:: '${aws_emr_cluster.%s.bootstrap_action.args}' % rname,
         },
       },
       core_instance_group:: {
@@ -11485,11 +11485,11 @@
         new(rname, instance_type):: {
           rname:: rname,
           instance_type: instance_type,
-          autoscaling_policy:: '${aws_emr_cluster.%s.autoscaling_policy}' % rname,
-          bid_price:: '${aws_emr_cluster.%s.bid_price}' % rname,
-          id:: '${aws_emr_cluster.%s.id}' % rname,
-          instance_count:: '${aws_emr_cluster.%s.instance_count}' % rname,
-          name:: '${aws_emr_cluster.%s.name}' % rname,
+          autoscaling_policy:: '${aws_emr_cluster.%s.core_instance_group.autoscaling_policy}' % rname,
+          bid_price:: '${aws_emr_cluster.%s.core_instance_group.bid_price}' % rname,
+          id:: '${aws_emr_cluster.%s.core_instance_group.id}' % rname,
+          instance_count:: '${aws_emr_cluster.%s.core_instance_group.instance_count}' % rname,
+          name:: '${aws_emr_cluster.%s.core_instance_group.name}' % rname,
         },
       },
       ec2_attributes:: {
@@ -11498,13 +11498,13 @@
         new(rname, instance_profile):: {
           rname:: rname,
           instance_profile: instance_profile,
-          additional_master_security_groups:: '${aws_emr_cluster.%s.additional_master_security_groups}' % rname,
-          additional_slave_security_groups:: '${aws_emr_cluster.%s.additional_slave_security_groups}' % rname,
-          emr_managed_master_security_group:: '${aws_emr_cluster.%s.emr_managed_master_security_group}' % rname,
-          emr_managed_slave_security_group:: '${aws_emr_cluster.%s.emr_managed_slave_security_group}' % rname,
-          key_name:: '${aws_emr_cluster.%s.key_name}' % rname,
-          service_access_security_group:: '${aws_emr_cluster.%s.service_access_security_group}' % rname,
-          subnet_id:: '${aws_emr_cluster.%s.subnet_id}' % rname,
+          additional_master_security_groups:: '${aws_emr_cluster.%s.ec2_attributes.additional_master_security_groups}' % rname,
+          additional_slave_security_groups:: '${aws_emr_cluster.%s.ec2_attributes.additional_slave_security_groups}' % rname,
+          emr_managed_master_security_group:: '${aws_emr_cluster.%s.ec2_attributes.emr_managed_master_security_group}' % rname,
+          emr_managed_slave_security_group:: '${aws_emr_cluster.%s.ec2_attributes.emr_managed_slave_security_group}' % rname,
+          key_name:: '${aws_emr_cluster.%s.ec2_attributes.key_name}' % rname,
+          service_access_security_group:: '${aws_emr_cluster.%s.ec2_attributes.service_access_security_group}' % rname,
+          subnet_id:: '${aws_emr_cluster.%s.ec2_attributes.subnet_id}' % rname,
         },
       },
       instance_group:: {
@@ -11515,11 +11515,11 @@
           rname:: rname,
           instance_role: instance_role,
           instance_type: instance_type,
-          autoscaling_policy:: '${aws_emr_cluster.%s.autoscaling_policy}' % rname,
-          bid_price:: '${aws_emr_cluster.%s.bid_price}' % rname,
-          id:: '${aws_emr_cluster.%s.id}' % rname,
-          instance_count:: '${aws_emr_cluster.%s.instance_count}' % rname,
-          name:: '${aws_emr_cluster.%s.name}' % rname,
+          autoscaling_policy:: '${aws_emr_cluster.%s.instance_group.autoscaling_policy}' % rname,
+          bid_price:: '${aws_emr_cluster.%s.instance_group.bid_price}' % rname,
+          id:: '${aws_emr_cluster.%s.instance_group.id}' % rname,
+          instance_count:: '${aws_emr_cluster.%s.instance_group.instance_count}' % rname,
+          name:: '${aws_emr_cluster.%s.instance_group.name}' % rname,
         },
       },
       kerberos_attributes:: {
@@ -11530,9 +11530,9 @@
           rname:: rname,
           kdc_admin_password: kdc_admin_password,
           realm: realm,
-          ad_domain_join_password:: '${aws_emr_cluster.%s.ad_domain_join_password}' % rname,
-          ad_domain_join_user:: '${aws_emr_cluster.%s.ad_domain_join_user}' % rname,
-          cross_realm_trust_principal_password:: '${aws_emr_cluster.%s.cross_realm_trust_principal_password}' % rname,
+          ad_domain_join_password:: '${aws_emr_cluster.%s.kerberos_attributes.ad_domain_join_password}' % rname,
+          ad_domain_join_user:: '${aws_emr_cluster.%s.kerberos_attributes.ad_domain_join_user}' % rname,
+          cross_realm_trust_principal_password:: '${aws_emr_cluster.%s.kerberos_attributes.cross_realm_trust_principal_password}' % rname,
         },
       },
       master_instance_group:: {
@@ -11541,10 +11541,10 @@
         new(rname, instance_type):: {
           rname:: rname,
           instance_type: instance_type,
-          bid_price:: '${aws_emr_cluster.%s.bid_price}' % rname,
-          id:: '${aws_emr_cluster.%s.id}' % rname,
-          instance_count:: '${aws_emr_cluster.%s.instance_count}' % rname,
-          name:: '${aws_emr_cluster.%s.name}' % rname,
+          bid_price:: '${aws_emr_cluster.%s.master_instance_group.bid_price}' % rname,
+          id:: '${aws_emr_cluster.%s.master_instance_group.id}' % rname,
+          instance_count:: '${aws_emr_cluster.%s.master_instance_group.instance_count}' % rname,
+          name:: '${aws_emr_cluster.%s.master_instance_group.name}' % rname,
         },
       },
     },
@@ -11566,7 +11566,7 @@
         name:: '${aws_emr_instance_group.%s.name}' % rname,
         running_instance_count:: '${aws_emr_instance_group.%s.running_instance_count}' % rname,
         status:: '${aws_emr_instance_group.%s.status}' % rname,
-        ebs_config:: '${aws_emr_instance_group.%s.ebs_config}' % rname,
+        ebs_config:: {},
       },
       // @param autoscaling_policy (required) https://www.terraform.io/docs/providers/aws/r/emr_instance_group.html#autoscaling_policy.
       with_autoscaling_policy(autoscaling_policy):: {
@@ -11604,8 +11604,8 @@
           rname:: rname,
           size: size,
           type: type,
-          iops:: '${aws_emr_instance_group.%s.iops}' % rname,
-          volumes_per_instance:: '${aws_emr_instance_group.%s.volumes_per_instance}' % rname,
+          iops:: '${aws_emr_instance_group.%s.ebs_config.iops}' % rname,
+          volumes_per_instance:: '${aws_emr_instance_group.%s.ebs_config.volumes_per_instance}' % rname,
         },
       },
     },
@@ -11726,7 +11726,7 @@
         tags:: '${aws_fsx_lustre_file_system.%s.tags}' % rname,
         vpc_id:: '${aws_fsx_lustre_file_system.%s.vpc_id}' % rname,
         weekly_maintenance_start_time:: '${aws_fsx_lustre_file_system.%s.weekly_maintenance_start_time}' % rname,
-        timeouts:: '${aws_fsx_lustre_file_system.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param export_path (required) https://www.terraform.io/docs/providers/aws/r/fsx_lustre_file_system.html#export_path.
       with_export_path(export_path):: {
@@ -11760,8 +11760,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_fsx_lustre_file_system.%s.create}' % rname,
-          delete:: '${aws_fsx_lustre_file_system.%s.delete}' % rname,
+          create:: '${aws_fsx_lustre_file_system.%s.timeouts.create}' % rname,
+          delete:: '${aws_fsx_lustre_file_system.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -11791,8 +11791,8 @@
         tags:: '${aws_fsx_windows_file_system.%s.tags}' % rname,
         vpc_id:: '${aws_fsx_windows_file_system.%s.vpc_id}' % rname,
         weekly_maintenance_start_time:: '${aws_fsx_windows_file_system.%s.weekly_maintenance_start_time}' % rname,
-        self_managed_active_directory:: '${aws_fsx_windows_file_system.%s.self_managed_active_directory}' % rname,
-        timeouts:: '${aws_fsx_windows_file_system.%s.timeouts}' % rname,
+        self_managed_active_directory:: {},
+        timeouts:: {},
       },
       // @param active_directory_id (required) https://www.terraform.io/docs/providers/aws/r/fsx_windows_file_system.html#active_directory_id.
       with_active_directory_id(active_directory_id):: {
@@ -11846,16 +11846,16 @@
           domain_name: domain_name,
           password: password,
           username: username,
-          file_system_administrators_group:: '${aws_fsx_windows_file_system.%s.file_system_administrators_group}' % rname,
-          organizational_unit_distinguished_name:: '${aws_fsx_windows_file_system.%s.organizational_unit_distinguished_name}' % rname,
+          file_system_administrators_group:: '${aws_fsx_windows_file_system.%s.self_managed_active_directory.file_system_administrators_group}' % rname,
+          organizational_unit_distinguished_name:: '${aws_fsx_windows_file_system.%s.self_managed_active_directory.organizational_unit_distinguished_name}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_fsx_windows_file_system.%s.create}' % rname,
-          delete:: '${aws_fsx_windows_file_system.%s.delete}' % rname,
+          create:: '${aws_fsx_windows_file_system.%s.timeouts.create}' % rname,
+          delete:: '${aws_fsx_windows_file_system.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -11891,8 +11891,8 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          fleet_id:: '${aws_gamelift_alias.%s.fleet_id}' % rname,
-          message:: '${aws_gamelift_alias.%s.message}' % rname,
+          fleet_id:: '${aws_gamelift_alias.%s.routing_strategy.fleet_id}' % rname,
+          message:: '${aws_gamelift_alias.%s.routing_strategy.message}' % rname,
         },
       },
     },
@@ -11958,10 +11958,10 @@
         new_game_session_protection_policy:: '${aws_gamelift_fleet.%s.new_game_session_protection_policy}' % rname,
         operating_system:: '${aws_gamelift_fleet.%s.operating_system}' % rname,
         tags:: '${aws_gamelift_fleet.%s.tags}' % rname,
-        ec2_inbound_permission:: '${aws_gamelift_fleet.%s.ec2_inbound_permission}' % rname,
-        resource_creation_limit_policy:: '${aws_gamelift_fleet.%s.resource_creation_limit_policy}' % rname,
-        runtime_configuration:: '${aws_gamelift_fleet.%s.runtime_configuration}' % rname,
-        timeouts:: '${aws_gamelift_fleet.%s.timeouts}' % rname,
+        ec2_inbound_permission:: {},
+        resource_creation_limit_policy:: {},
+        runtime_configuration:: {},
+        timeouts:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/gamelift_fleet.html#description.
       with_description(description):: {
@@ -12009,24 +12009,24 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          new_game_sessions_per_creator:: '${aws_gamelift_fleet.%s.new_game_sessions_per_creator}' % rname,
-          policy_period_in_minutes:: '${aws_gamelift_fleet.%s.policy_period_in_minutes}' % rname,
+          new_game_sessions_per_creator:: '${aws_gamelift_fleet.%s.resource_creation_limit_policy.new_game_sessions_per_creator}' % rname,
+          policy_period_in_minutes:: '${aws_gamelift_fleet.%s.resource_creation_limit_policy.policy_period_in_minutes}' % rname,
         },
       },
       runtime_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          game_session_activation_timeout_seconds:: '${aws_gamelift_fleet.%s.game_session_activation_timeout_seconds}' % rname,
-          max_concurrent_game_session_activations:: '${aws_gamelift_fleet.%s.max_concurrent_game_session_activations}' % rname,
+          game_session_activation_timeout_seconds:: '${aws_gamelift_fleet.%s.runtime_configuration.game_session_activation_timeout_seconds}' % rname,
+          max_concurrent_game_session_activations:: '${aws_gamelift_fleet.%s.runtime_configuration.max_concurrent_game_session_activations}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_gamelift_fleet.%s.create}' % rname,
-          delete:: '${aws_gamelift_fleet.%s.delete}' % rname,
+          create:: '${aws_gamelift_fleet.%s.timeouts.create}' % rname,
+          delete:: '${aws_gamelift_fleet.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -12042,7 +12042,7 @@
         id:: '${aws_gamelift_game_session_queue.%s.id}' % rname,
         tags:: '${aws_gamelift_game_session_queue.%s.tags}' % rname,
         timeout_in_seconds:: '${aws_gamelift_game_session_queue.%s.timeout_in_seconds}' % rname,
-        player_latency_policy:: '${aws_gamelift_game_session_queue.%s.player_latency_policy}' % rname,
+        player_latency_policy:: {},
       },
       // @param destinations (required) https://www.terraform.io/docs/providers/aws/r/gamelift_game_session_queue.html#destinations.
       with_destinations(destinations):: {
@@ -12066,7 +12066,7 @@
         new(rname, maximum_individual_player_latency_milliseconds):: {
           rname:: rname,
           maximum_individual_player_latency_milliseconds: maximum_individual_player_latency_milliseconds,
-          policy_duration_seconds:: '${aws_gamelift_game_session_queue.%s.policy_duration_seconds}' % rname,
+          policy_duration_seconds:: '${aws_gamelift_game_session_queue.%s.player_latency_policy.policy_duration_seconds}' % rname,
         },
       },
     },
@@ -12082,7 +12082,7 @@
         id:: '${aws_glacier_vault.%s.id}' % rname,
         location:: '${aws_glacier_vault.%s.location}' % rname,
         tags:: '${aws_glacier_vault.%s.tags}' % rname,
-        notification:: '${aws_glacier_vault.%s.notification}' % rname,
+        notification:: {},
       },
       // @param access_policy (required) https://www.terraform.io/docs/providers/aws/r/glacier_vault.html#access_policy.
       with_access_policy(access_policy):: {
@@ -12143,7 +12143,7 @@
         id:: '${aws_globalaccelerator_accelerator.%s.id}' % rname,
         ip_address_type:: '${aws_globalaccelerator_accelerator.%s.ip_address_type}' % rname,
         ip_sets:: '${aws_globalaccelerator_accelerator.%s.ip_sets}' % rname,
-        attributes:: '${aws_globalaccelerator_accelerator.%s.attributes}' % rname,
+        attributes:: {},
       },
       // @param enabled (required) https://www.terraform.io/docs/providers/aws/r/globalaccelerator_accelerator.html#enabled.
       with_enabled(enabled):: {
@@ -12161,9 +12161,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          flow_logs_enabled:: '${aws_globalaccelerator_accelerator.%s.flow_logs_enabled}' % rname,
-          flow_logs_s3_bucket:: '${aws_globalaccelerator_accelerator.%s.flow_logs_s3_bucket}' % rname,
-          flow_logs_s3_prefix:: '${aws_globalaccelerator_accelerator.%s.flow_logs_s3_prefix}' % rname,
+          flow_logs_enabled:: '${aws_globalaccelerator_accelerator.%s.attributes.flow_logs_enabled}' % rname,
+          flow_logs_s3_bucket:: '${aws_globalaccelerator_accelerator.%s.attributes.flow_logs_s3_bucket}' % rname,
+          flow_logs_s3_prefix:: '${aws_globalaccelerator_accelerator.%s.attributes.flow_logs_s3_prefix}' % rname,
         },
       },
     },
@@ -12182,7 +12182,7 @@
         id:: '${aws_globalaccelerator_endpoint_group.%s.id}' % rname,
         threshold_count:: '${aws_globalaccelerator_endpoint_group.%s.threshold_count}' % rname,
         traffic_dial_percentage:: '${aws_globalaccelerator_endpoint_group.%s.traffic_dial_percentage}' % rname,
-        endpoint_configuration:: '${aws_globalaccelerator_endpoint_group.%s.endpoint_configuration}' % rname,
+        endpoint_configuration:: {},
       },
       // @param endpoint_group_region (required) https://www.terraform.io/docs/providers/aws/r/globalaccelerator_endpoint_group.html#endpoint_group_region.
       with_endpoint_group_region(endpoint_group_region):: {
@@ -12220,8 +12220,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          endpoint_id:: '${aws_globalaccelerator_endpoint_group.%s.endpoint_id}' % rname,
-          weight:: '${aws_globalaccelerator_endpoint_group.%s.weight}' % rname,
+          endpoint_id:: '${aws_globalaccelerator_endpoint_group.%s.endpoint_configuration.endpoint_id}' % rname,
+          weight:: '${aws_globalaccelerator_endpoint_group.%s.endpoint_configuration.weight}' % rname,
         },
       },
     },
@@ -12251,8 +12251,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          from_port:: '${aws_globalaccelerator_listener.%s.from_port}' % rname,
-          to_port:: '${aws_globalaccelerator_listener.%s.to_port}' % rname,
+          from_port:: '${aws_globalaccelerator_listener.%s.port_range.from_port}' % rname,
+          to_port:: '${aws_globalaccelerator_listener.%s.port_range.to_port}' % rname,
         },
       },
     },
@@ -12308,8 +12308,8 @@
         table_type:: '${aws_glue_catalog_table.%s.table_type}' % rname,
         view_expanded_text:: '${aws_glue_catalog_table.%s.view_expanded_text}' % rname,
         view_original_text:: '${aws_glue_catalog_table.%s.view_original_text}' % rname,
-        partition_keys:: '${aws_glue_catalog_table.%s.partition_keys}' % rname,
-        storage_descriptor:: '${aws_glue_catalog_table.%s.storage_descriptor}' % rname,
+        partition_keys:: {},
+        storage_descriptor:: {},
       },
       // @param catalog_id (required) https://www.terraform.io/docs/providers/aws/r/glue_catalog_table.html#catalog_id.
       with_catalog_id(catalog_id):: {
@@ -12353,22 +12353,22 @@
         new(rname, name):: {
           rname:: rname,
           name: name,
-          comment:: '${aws_glue_catalog_table.%s.comment}' % rname,
-          type:: '${aws_glue_catalog_table.%s.type}' % rname,
+          comment:: '${aws_glue_catalog_table.%s.partition_keys.comment}' % rname,
+          type:: '${aws_glue_catalog_table.%s.partition_keys.type}' % rname,
         },
       },
       storage_descriptor:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          bucket_columns:: '${aws_glue_catalog_table.%s.bucket_columns}' % rname,
-          compressed:: '${aws_glue_catalog_table.%s.compressed}' % rname,
-          input_format:: '${aws_glue_catalog_table.%s.input_format}' % rname,
-          location:: '${aws_glue_catalog_table.%s.location}' % rname,
-          number_of_buckets:: '${aws_glue_catalog_table.%s.number_of_buckets}' % rname,
-          output_format:: '${aws_glue_catalog_table.%s.output_format}' % rname,
-          parameters:: '${aws_glue_catalog_table.%s.parameters}' % rname,
-          stored_as_sub_directories:: '${aws_glue_catalog_table.%s.stored_as_sub_directories}' % rname,
+          bucket_columns:: '${aws_glue_catalog_table.%s.storage_descriptor.bucket_columns}' % rname,
+          compressed:: '${aws_glue_catalog_table.%s.storage_descriptor.compressed}' % rname,
+          input_format:: '${aws_glue_catalog_table.%s.storage_descriptor.input_format}' % rname,
+          location:: '${aws_glue_catalog_table.%s.storage_descriptor.location}' % rname,
+          number_of_buckets:: '${aws_glue_catalog_table.%s.storage_descriptor.number_of_buckets}' % rname,
+          output_format:: '${aws_glue_catalog_table.%s.storage_descriptor.output_format}' % rname,
+          parameters:: '${aws_glue_catalog_table.%s.storage_descriptor.parameters}' % rname,
+          stored_as_sub_directories:: '${aws_glue_catalog_table.%s.storage_descriptor.stored_as_sub_directories}' % rname,
         },
       },
     },
@@ -12380,10 +12380,10 @@
         rname:: rname,
         name: name,
         id:: '${aws_glue_classifier.%s.id}' % rname,
-        csv_classifier:: '${aws_glue_classifier.%s.csv_classifier}' % rname,
-        grok_classifier:: '${aws_glue_classifier.%s.grok_classifier}' % rname,
-        json_classifier:: '${aws_glue_classifier.%s.json_classifier}' % rname,
-        xml_classifier:: '${aws_glue_classifier.%s.xml_classifier}' % rname,
+        csv_classifier:: {},
+        grok_classifier:: {},
+        json_classifier:: {},
+        xml_classifier:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/glue_classifier.html#id.
       with_id(id):: {
@@ -12393,12 +12393,12 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allow_single_column:: '${aws_glue_classifier.%s.allow_single_column}' % rname,
-          contains_header:: '${aws_glue_classifier.%s.contains_header}' % rname,
-          delimiter:: '${aws_glue_classifier.%s.delimiter}' % rname,
-          disable_value_trimming:: '${aws_glue_classifier.%s.disable_value_trimming}' % rname,
-          header:: '${aws_glue_classifier.%s.header}' % rname,
-          quote_symbol:: '${aws_glue_classifier.%s.quote_symbol}' % rname,
+          allow_single_column:: '${aws_glue_classifier.%s.csv_classifier.allow_single_column}' % rname,
+          contains_header:: '${aws_glue_classifier.%s.csv_classifier.contains_header}' % rname,
+          delimiter:: '${aws_glue_classifier.%s.csv_classifier.delimiter}' % rname,
+          disable_value_trimming:: '${aws_glue_classifier.%s.csv_classifier.disable_value_trimming}' % rname,
+          header:: '${aws_glue_classifier.%s.csv_classifier.header}' % rname,
+          quote_symbol:: '${aws_glue_classifier.%s.csv_classifier.quote_symbol}' % rname,
         },
       },
       grok_classifier:: {
@@ -12409,7 +12409,7 @@
           rname:: rname,
           classification: classification,
           grok_pattern: grok_pattern,
-          custom_patterns:: '${aws_glue_classifier.%s.custom_patterns}' % rname,
+          custom_patterns:: '${aws_glue_classifier.%s.grok_classifier.custom_patterns}' % rname,
         },
       },
       json_classifier:: {
@@ -12445,7 +12445,7 @@
         description:: '${aws_glue_connection.%s.description}' % rname,
         id:: '${aws_glue_connection.%s.id}' % rname,
         match_criteria:: '${aws_glue_connection.%s.match_criteria}' % rname,
-        physical_connection_requirements:: '${aws_glue_connection.%s.physical_connection_requirements}' % rname,
+        physical_connection_requirements:: {},
       },
       // @param catalog_id (required) https://www.terraform.io/docs/providers/aws/r/glue_connection.html#catalog_id.
       with_catalog_id(catalog_id):: {
@@ -12471,9 +12471,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          availability_zone:: '${aws_glue_connection.%s.availability_zone}' % rname,
-          security_group_id_list:: '${aws_glue_connection.%s.security_group_id_list}' % rname,
-          subnet_id:: '${aws_glue_connection.%s.subnet_id}' % rname,
+          availability_zone:: '${aws_glue_connection.%s.physical_connection_requirements.availability_zone}' % rname,
+          security_group_id_list:: '${aws_glue_connection.%s.physical_connection_requirements.security_group_id_list}' % rname,
+          subnet_id:: '${aws_glue_connection.%s.physical_connection_requirements.subnet_id}' % rname,
         },
       },
     },
@@ -12497,11 +12497,11 @@
         security_configuration:: '${aws_glue_crawler.%s.security_configuration}' % rname,
         table_prefix:: '${aws_glue_crawler.%s.table_prefix}' % rname,
         tags:: '${aws_glue_crawler.%s.tags}' % rname,
-        catalog_target:: '${aws_glue_crawler.%s.catalog_target}' % rname,
-        dynamodb_target:: '${aws_glue_crawler.%s.dynamodb_target}' % rname,
-        jdbc_target:: '${aws_glue_crawler.%s.jdbc_target}' % rname,
-        s3_target:: '${aws_glue_crawler.%s.s3_target}' % rname,
-        schema_change_policy:: '${aws_glue_crawler.%s.schema_change_policy}' % rname,
+        catalog_target:: {},
+        dynamodb_target:: {},
+        jdbc_target:: {},
+        s3_target:: {},
+        schema_change_policy:: {},
       },
       // @param classifiers (required) https://www.terraform.io/docs/providers/aws/r/glue_crawler.html#classifiers.
       with_classifiers(classifiers):: {
@@ -12561,7 +12561,7 @@
           rname:: rname,
           connection_name: connection_name,
           path: path,
-          exclusions:: '${aws_glue_crawler.%s.exclusions}' % rname,
+          exclusions:: '${aws_glue_crawler.%s.jdbc_target.exclusions}' % rname,
         },
       },
       s3_target:: {
@@ -12570,15 +12570,15 @@
         new(rname, path):: {
           rname:: rname,
           path: path,
-          exclusions:: '${aws_glue_crawler.%s.exclusions}' % rname,
+          exclusions:: '${aws_glue_crawler.%s.s3_target.exclusions}' % rname,
         },
       },
       schema_change_policy:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete_behavior:: '${aws_glue_crawler.%s.delete_behavior}' % rname,
-          update_behavior:: '${aws_glue_crawler.%s.update_behavior}' % rname,
+          delete_behavior:: '${aws_glue_crawler.%s.schema_change_policy.delete_behavior}' % rname,
+          update_behavior:: '${aws_glue_crawler.%s.schema_change_policy.update_behavior}' % rname,
         },
       },
     },
@@ -12607,8 +12607,8 @@
         tags:: '${aws_glue_job.%s.tags}' % rname,
         timeout:: '${aws_glue_job.%s.timeout}' % rname,
         worker_type:: '${aws_glue_job.%s.worker_type}' % rname,
-        execution_property:: '${aws_glue_job.%s.execution_property}' % rname,
-        notification_property:: '${aws_glue_job.%s.notification_property}' % rname,
+        execution_property:: {},
+        notification_property:: {},
       },
       // @param allocated_capacity (required) https://www.terraform.io/docs/providers/aws/r/glue_job.html#allocated_capacity.
       with_allocated_capacity(allocated_capacity):: {
@@ -12668,22 +12668,22 @@
         new(rname, script_location):: {
           rname:: rname,
           script_location: script_location,
-          name:: '${aws_glue_job.%s.name}' % rname,
-          python_version:: '${aws_glue_job.%s.python_version}' % rname,
+          name:: '${aws_glue_job.%s.command.name}' % rname,
+          python_version:: '${aws_glue_job.%s.command.python_version}' % rname,
         },
       },
       execution_property:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          max_concurrent_runs:: '${aws_glue_job.%s.max_concurrent_runs}' % rname,
+          max_concurrent_runs:: '${aws_glue_job.%s.execution_property.max_concurrent_runs}' % rname,
         },
       },
       notification_property:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          notify_delay_after:: '${aws_glue_job.%s.notify_delay_after}' % rname,
+          notify_delay_after:: '${aws_glue_job.%s.notification_property.notify_delay_after}' % rname,
         },
       },
     },
@@ -12727,8 +12727,8 @@
         schedule:: '${aws_glue_trigger.%s.schedule}' % rname,
         tags:: '${aws_glue_trigger.%s.tags}' % rname,
         workflow_name:: '${aws_glue_trigger.%s.workflow_name}' % rname,
-        predicate:: '${aws_glue_trigger.%s.predicate}' % rname,
-        timeouts:: '${aws_glue_trigger.%s.timeouts}' % rname,
+        predicate:: {},
+        timeouts:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/glue_trigger.html#description.
       with_description(description):: {
@@ -12758,25 +12758,25 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          arguments:: '${aws_glue_trigger.%s.arguments}' % rname,
-          crawler_name:: '${aws_glue_trigger.%s.crawler_name}' % rname,
-          job_name:: '${aws_glue_trigger.%s.job_name}' % rname,
-          timeout:: '${aws_glue_trigger.%s.timeout}' % rname,
+          arguments:: '${aws_glue_trigger.%s.actions.arguments}' % rname,
+          crawler_name:: '${aws_glue_trigger.%s.actions.crawler_name}' % rname,
+          job_name:: '${aws_glue_trigger.%s.actions.job_name}' % rname,
+          timeout:: '${aws_glue_trigger.%s.actions.timeout}' % rname,
         },
       },
       predicate:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          logical:: '${aws_glue_trigger.%s.logical}' % rname,
+          logical:: '${aws_glue_trigger.%s.predicate.logical}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_glue_trigger.%s.create}' % rname,
-          delete:: '${aws_glue_trigger.%s.delete}' % rname,
+          create:: '${aws_glue_trigger.%s.timeouts.create}' % rname,
+          delete:: '${aws_glue_trigger.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -12840,7 +12840,7 @@
         detector_id: detector_id,
         master_account_id: master_account_id,
         id:: '${aws_guardduty_invite_accepter.%s.id}' % rname,
-        timeouts:: '${aws_guardduty_invite_accepter.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/guardduty_invite_accepter.html#id.
       with_id(id):: {
@@ -12850,7 +12850,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_guardduty_invite_accepter.%s.create}' % rname,
+          create:: '${aws_guardduty_invite_accepter.%s.timeouts.create}' % rname,
         },
       },
     },
@@ -12892,7 +12892,7 @@
         invitation_message:: '${aws_guardduty_member.%s.invitation_message}' % rname,
         invite:: '${aws_guardduty_member.%s.invite}' % rname,
         relationship_status:: '${aws_guardduty_member.%s.relationship_status}' % rname,
-        timeouts:: '${aws_guardduty_member.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param disable_email_notification (required) https://www.terraform.io/docs/providers/aws/r/guardduty_member.html#disable_email_notification.
       with_disable_email_notification(disable_email_notification):: {
@@ -12914,8 +12914,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_guardduty_member.%s.create}' % rname,
-          update:: '${aws_guardduty_member.%s.update}' % rname,
+          create:: '${aws_guardduty_member.%s.timeouts.create}' % rname,
+          update:: '${aws_guardduty_member.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -13682,12 +13682,12 @@
         user_data_base64:: '${aws_instance.%s.user_data_base64}' % rname,
         volume_tags:: '${aws_instance.%s.volume_tags}' % rname,
         vpc_security_group_ids:: '${aws_instance.%s.vpc_security_group_ids}' % rname,
-        credit_specification:: '${aws_instance.%s.credit_specification}' % rname,
-        ebs_block_device:: '${aws_instance.%s.ebs_block_device}' % rname,
-        ephemeral_block_device:: '${aws_instance.%s.ephemeral_block_device}' % rname,
-        network_interface:: '${aws_instance.%s.network_interface}' % rname,
-        root_block_device:: '${aws_instance.%s.root_block_device}' % rname,
-        timeouts:: '${aws_instance.%s.timeouts}' % rname,
+        credit_specification:: {},
+        ebs_block_device:: {},
+        ephemeral_block_device:: {},
+        network_interface:: {},
+        root_block_device:: {},
+        timeouts:: {},
       },
       // @param associate_public_ip_address (required) https://www.terraform.io/docs/providers/aws/r/instance.html#associate_public_ip_address.
       with_associate_public_ip_address(associate_public_ip_address):: {
@@ -13801,7 +13801,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          cpu_credits:: '${aws_instance.%s.cpu_credits}' % rname,
+          cpu_credits:: '${aws_instance.%s.credit_specification.cpu_credits}' % rname,
         },
       },
       ebs_block_device:: {
@@ -13810,14 +13810,14 @@
         new(rname, device_name):: {
           rname:: rname,
           device_name: device_name,
-          delete_on_termination:: '${aws_instance.%s.delete_on_termination}' % rname,
-          encrypted:: '${aws_instance.%s.encrypted}' % rname,
-          iops:: '${aws_instance.%s.iops}' % rname,
-          kms_key_id:: '${aws_instance.%s.kms_key_id}' % rname,
-          snapshot_id:: '${aws_instance.%s.snapshot_id}' % rname,
-          volume_id:: '${aws_instance.%s.volume_id}' % rname,
-          volume_size:: '${aws_instance.%s.volume_size}' % rname,
-          volume_type:: '${aws_instance.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_instance.%s.ebs_block_device.delete_on_termination}' % rname,
+          encrypted:: '${aws_instance.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_instance.%s.ebs_block_device.iops}' % rname,
+          kms_key_id:: '${aws_instance.%s.ebs_block_device.kms_key_id}' % rname,
+          snapshot_id:: '${aws_instance.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_id:: '${aws_instance.%s.ebs_block_device.volume_id}' % rname,
+          volume_size:: '${aws_instance.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_instance.%s.ebs_block_device.volume_type}' % rname,
         },
       },
       ephemeral_block_device:: {
@@ -13826,8 +13826,8 @@
         new(rname, device_name):: {
           rname:: rname,
           device_name: device_name,
-          no_device:: '${aws_instance.%s.no_device}' % rname,
-          virtual_name:: '${aws_instance.%s.virtual_name}' % rname,
+          no_device:: '${aws_instance.%s.ephemeral_block_device.no_device}' % rname,
+          virtual_name:: '${aws_instance.%s.ephemeral_block_device.virtual_name}' % rname,
         },
       },
       network_interface:: {
@@ -13838,29 +13838,29 @@
           rname:: rname,
           device_index: device_index,
           network_interface_id: network_interface_id,
-          delete_on_termination:: '${aws_instance.%s.delete_on_termination}' % rname,
+          delete_on_termination:: '${aws_instance.%s.network_interface.delete_on_termination}' % rname,
         },
       },
       root_block_device:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete_on_termination:: '${aws_instance.%s.delete_on_termination}' % rname,
-          encrypted:: '${aws_instance.%s.encrypted}' % rname,
-          iops:: '${aws_instance.%s.iops}' % rname,
-          kms_key_id:: '${aws_instance.%s.kms_key_id}' % rname,
-          volume_id:: '${aws_instance.%s.volume_id}' % rname,
-          volume_size:: '${aws_instance.%s.volume_size}' % rname,
-          volume_type:: '${aws_instance.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_instance.%s.root_block_device.delete_on_termination}' % rname,
+          encrypted:: '${aws_instance.%s.root_block_device.encrypted}' % rname,
+          iops:: '${aws_instance.%s.root_block_device.iops}' % rname,
+          kms_key_id:: '${aws_instance.%s.root_block_device.kms_key_id}' % rname,
+          volume_id:: '${aws_instance.%s.root_block_device.volume_id}' % rname,
+          volume_size:: '${aws_instance.%s.root_block_device.volume_size}' % rname,
+          volume_type:: '${aws_instance.%s.root_block_device.volume_type}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_instance.%s.create}' % rname,
-          delete:: '${aws_instance.%s.delete}' % rname,
-          update:: '${aws_instance.%s.update}' % rname,
+          create:: '${aws_instance.%s.timeouts.create}' % rname,
+          delete:: '${aws_instance.%s.timeouts.delete}' % rname,
+          update:: '${aws_instance.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -14019,7 +14019,7 @@
         arn:: '${aws_iot_thing_type.%s.arn}' % rname,
         deprecated:: '${aws_iot_thing_type.%s.deprecated}' % rname,
         id:: '${aws_iot_thing_type.%s.id}' % rname,
-        properties:: '${aws_iot_thing_type.%s.properties}' % rname,
+        properties:: {},
       },
       // @param deprecated (required) https://www.terraform.io/docs/providers/aws/r/iot_thing_type.html#deprecated.
       with_deprecated(deprecated):: {
@@ -14033,8 +14033,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          description:: '${aws_iot_thing_type.%s.description}' % rname,
-          searchable_attributes:: '${aws_iot_thing_type.%s.searchable_attributes}' % rname,
+          description:: '${aws_iot_thing_type.%s.properties.description}' % rname,
+          searchable_attributes:: '${aws_iot_thing_type.%s.properties.searchable_attributes}' % rname,
         },
       },
     },
@@ -14054,17 +14054,17 @@
         arn:: '${aws_iot_topic_rule.%s.arn}' % rname,
         description:: '${aws_iot_topic_rule.%s.description}' % rname,
         id:: '${aws_iot_topic_rule.%s.id}' % rname,
-        cloudwatch_alarm:: '${aws_iot_topic_rule.%s.cloudwatch_alarm}' % rname,
-        cloudwatch_metric:: '${aws_iot_topic_rule.%s.cloudwatch_metric}' % rname,
-        dynamodb:: '${aws_iot_topic_rule.%s.dynamodb}' % rname,
-        elasticsearch:: '${aws_iot_topic_rule.%s.elasticsearch}' % rname,
-        firehose:: '${aws_iot_topic_rule.%s.firehose}' % rname,
-        kinesis:: '${aws_iot_topic_rule.%s.kinesis}' % rname,
-        lambda:: '${aws_iot_topic_rule.%s.lambda}' % rname,
-        republish:: '${aws_iot_topic_rule.%s.republish}' % rname,
-        s3:: '${aws_iot_topic_rule.%s.s3}' % rname,
-        sns:: '${aws_iot_topic_rule.%s.sns}' % rname,
-        sqs:: '${aws_iot_topic_rule.%s.sqs}' % rname,
+        cloudwatch_alarm:: {},
+        cloudwatch_metric:: {},
+        dynamodb:: {},
+        elasticsearch:: {},
+        firehose:: {},
+        kinesis:: {},
+        lambda:: {},
+        republish:: {},
+        s3:: {},
+        sns:: {},
+        sqs:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/iot_topic_rule.html#description.
       with_description(description):: {
@@ -14102,7 +14102,7 @@
           metric_unit: metric_unit,
           metric_value: metric_value,
           role_arn: role_arn,
-          metric_timestamp:: '${aws_iot_topic_rule.%s.metric_timestamp}' % rname,
+          metric_timestamp:: '${aws_iot_topic_rule.%s.cloudwatch_metric.metric_timestamp}' % rname,
         },
       },
       dynamodb:: {
@@ -14117,11 +14117,11 @@
           hash_key_value: hash_key_value,
           role_arn: role_arn,
           table_name: table_name,
-          hash_key_type:: '${aws_iot_topic_rule.%s.hash_key_type}' % rname,
-          payload_field:: '${aws_iot_topic_rule.%s.payload_field}' % rname,
-          range_key_field:: '${aws_iot_topic_rule.%s.range_key_field}' % rname,
-          range_key_type:: '${aws_iot_topic_rule.%s.range_key_type}' % rname,
-          range_key_value:: '${aws_iot_topic_rule.%s.range_key_value}' % rname,
+          hash_key_type:: '${aws_iot_topic_rule.%s.dynamodb.hash_key_type}' % rname,
+          payload_field:: '${aws_iot_topic_rule.%s.dynamodb.payload_field}' % rname,
+          range_key_field:: '${aws_iot_topic_rule.%s.dynamodb.range_key_field}' % rname,
+          range_key_type:: '${aws_iot_topic_rule.%s.dynamodb.range_key_type}' % rname,
+          range_key_value:: '${aws_iot_topic_rule.%s.dynamodb.range_key_value}' % rname,
         },
       },
       elasticsearch:: {
@@ -14148,7 +14148,7 @@
           rname:: rname,
           delivery_stream_name: delivery_stream_name,
           role_arn: role_arn,
-          separator:: '${aws_iot_topic_rule.%s.separator}' % rname,
+          separator:: '${aws_iot_topic_rule.%s.firehose.separator}' % rname,
         },
       },
       kinesis:: {
@@ -14159,7 +14159,7 @@
           rname:: rname,
           role_arn: role_arn,
           stream_name: stream_name,
-          partition_key:: '${aws_iot_topic_rule.%s.partition_key}' % rname,
+          partition_key:: '${aws_iot_topic_rule.%s.kinesis.partition_key}' % rname,
         },
       },
       lambda:: {
@@ -14200,7 +14200,7 @@
           rname:: rname,
           role_arn: role_arn,
           target_arn: target_arn,
-          message_format:: '${aws_iot_topic_rule.%s.message_format}' % rname,
+          message_format:: '${aws_iot_topic_rule.%s.sns.message_format}' % rname,
         },
       },
       sqs:: {
@@ -14263,10 +14263,10 @@
         status:: '${aws_kinesis_analytics_application.%s.status}' % rname,
         tags:: '${aws_kinesis_analytics_application.%s.tags}' % rname,
         version:: '${aws_kinesis_analytics_application.%s.version}' % rname,
-        cloudwatch_logging_options:: '${aws_kinesis_analytics_application.%s.cloudwatch_logging_options}' % rname,
-        inputs:: '${aws_kinesis_analytics_application.%s.inputs}' % rname,
-        outputs:: '${aws_kinesis_analytics_application.%s.outputs}' % rname,
-        reference_data_sources:: '${aws_kinesis_analytics_application.%s.reference_data_sources}' % rname,
+        cloudwatch_logging_options:: {},
+        inputs:: {},
+        outputs:: {},
+        reference_data_sources:: {},
       },
       // @param code (required) https://www.terraform.io/docs/providers/aws/r/kinesis_analytics_application.html#code.
       with_code(code):: {
@@ -14292,7 +14292,7 @@
           rname:: rname,
           log_stream_arn: log_stream_arn,
           role_arn: role_arn,
-          id:: '${aws_kinesis_analytics_application.%s.id}' % rname,
+          id:: '${aws_kinesis_analytics_application.%s.cloudwatch_logging_options.id}' % rname,
         },
       },
       inputs:: {
@@ -14301,9 +14301,9 @@
         new(rname, name_prefix):: {
           rname:: rname,
           name_prefix: name_prefix,
-          id:: '${aws_kinesis_analytics_application.%s.id}' % rname,
-          starting_position_configuration:: '${aws_kinesis_analytics_application.%s.starting_position_configuration}' % rname,
-          stream_names:: '${aws_kinesis_analytics_application.%s.stream_names}' % rname,
+          id:: '${aws_kinesis_analytics_application.%s.inputs.id}' % rname,
+          starting_position_configuration:: '${aws_kinesis_analytics_application.%s.inputs.starting_position_configuration}' % rname,
+          stream_names:: '${aws_kinesis_analytics_application.%s.inputs.stream_names}' % rname,
         },
       },
       outputs:: {
@@ -14312,7 +14312,7 @@
         new(rname, name):: {
           rname:: rname,
           name: name,
-          id:: '${aws_kinesis_analytics_application.%s.id}' % rname,
+          id:: '${aws_kinesis_analytics_application.%s.outputs.id}' % rname,
         },
       },
       reference_data_sources:: {
@@ -14321,7 +14321,7 @@
         new(rname, table_name):: {
           rname:: rname,
           table_name: table_name,
-          id:: '${aws_kinesis_analytics_application.%s.id}' % rname,
+          id:: '${aws_kinesis_analytics_application.%s.reference_data_sources.id}' % rname,
         },
       },
     },
@@ -14339,13 +14339,13 @@
         id:: '${aws_kinesis_firehose_delivery_stream.%s.id}' % rname,
         tags:: '${aws_kinesis_firehose_delivery_stream.%s.tags}' % rname,
         version_id:: '${aws_kinesis_firehose_delivery_stream.%s.version_id}' % rname,
-        elasticsearch_configuration:: '${aws_kinesis_firehose_delivery_stream.%s.elasticsearch_configuration}' % rname,
-        extended_s3_configuration:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration}' % rname,
-        kinesis_source_configuration:: '${aws_kinesis_firehose_delivery_stream.%s.kinesis_source_configuration}' % rname,
-        redshift_configuration:: '${aws_kinesis_firehose_delivery_stream.%s.redshift_configuration}' % rname,
-        s3_configuration:: '${aws_kinesis_firehose_delivery_stream.%s.s3_configuration}' % rname,
-        server_side_encryption:: '${aws_kinesis_firehose_delivery_stream.%s.server_side_encryption}' % rname,
-        splunk_configuration:: '${aws_kinesis_firehose_delivery_stream.%s.splunk_configuration}' % rname,
+        elasticsearch_configuration:: {},
+        extended_s3_configuration:: {},
+        kinesis_source_configuration:: {},
+        redshift_configuration:: {},
+        s3_configuration:: {},
+        server_side_encryption:: {},
+        splunk_configuration:: {},
       },
       // @param arn (required) https://www.terraform.io/docs/providers/aws/r/kinesis_firehose_delivery_stream.html#arn.
       with_arn(arn):: {
@@ -14377,12 +14377,12 @@
           domain_arn: domain_arn,
           index_name: index_name,
           role_arn: role_arn,
-          buffering_interval:: '${aws_kinesis_firehose_delivery_stream.%s.buffering_interval}' % rname,
-          buffering_size:: '${aws_kinesis_firehose_delivery_stream.%s.buffering_size}' % rname,
-          index_rotation_period:: '${aws_kinesis_firehose_delivery_stream.%s.index_rotation_period}' % rname,
-          retry_duration:: '${aws_kinesis_firehose_delivery_stream.%s.retry_duration}' % rname,
-          s3_backup_mode:: '${aws_kinesis_firehose_delivery_stream.%s.s3_backup_mode}' % rname,
-          type_name:: '${aws_kinesis_firehose_delivery_stream.%s.type_name}' % rname,
+          buffering_interval:: '${aws_kinesis_firehose_delivery_stream.%s.elasticsearch_configuration.buffering_interval}' % rname,
+          buffering_size:: '${aws_kinesis_firehose_delivery_stream.%s.elasticsearch_configuration.buffering_size}' % rname,
+          index_rotation_period:: '${aws_kinesis_firehose_delivery_stream.%s.elasticsearch_configuration.index_rotation_period}' % rname,
+          retry_duration:: '${aws_kinesis_firehose_delivery_stream.%s.elasticsearch_configuration.retry_duration}' % rname,
+          s3_backup_mode:: '${aws_kinesis_firehose_delivery_stream.%s.elasticsearch_configuration.s3_backup_mode}' % rname,
+          type_name:: '${aws_kinesis_firehose_delivery_stream.%s.elasticsearch_configuration.type_name}' % rname,
         },
       },
       extended_s3_configuration:: {
@@ -14393,13 +14393,13 @@
           rname:: rname,
           bucket_arn: bucket_arn,
           role_arn: role_arn,
-          buffer_interval:: '${aws_kinesis_firehose_delivery_stream.%s.buffer_interval}' % rname,
-          buffer_size:: '${aws_kinesis_firehose_delivery_stream.%s.buffer_size}' % rname,
-          compression_format:: '${aws_kinesis_firehose_delivery_stream.%s.compression_format}' % rname,
-          error_output_prefix:: '${aws_kinesis_firehose_delivery_stream.%s.error_output_prefix}' % rname,
-          kms_key_arn:: '${aws_kinesis_firehose_delivery_stream.%s.kms_key_arn}' % rname,
-          prefix:: '${aws_kinesis_firehose_delivery_stream.%s.prefix}' % rname,
-          s3_backup_mode:: '${aws_kinesis_firehose_delivery_stream.%s.s3_backup_mode}' % rname,
+          buffer_interval:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.buffer_interval}' % rname,
+          buffer_size:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.buffer_size}' % rname,
+          compression_format:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.compression_format}' % rname,
+          error_output_prefix:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.error_output_prefix}' % rname,
+          kms_key_arn:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.kms_key_arn}' % rname,
+          prefix:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.prefix}' % rname,
+          s3_backup_mode:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.s3_backup_mode}' % rname,
         },
       },
       kinesis_source_configuration:: {
@@ -14426,10 +14426,10 @@
           password: password,
           role_arn: role_arn,
           username: username,
-          copy_options:: '${aws_kinesis_firehose_delivery_stream.%s.copy_options}' % rname,
-          data_table_columns:: '${aws_kinesis_firehose_delivery_stream.%s.data_table_columns}' % rname,
-          retry_duration:: '${aws_kinesis_firehose_delivery_stream.%s.retry_duration}' % rname,
-          s3_backup_mode:: '${aws_kinesis_firehose_delivery_stream.%s.s3_backup_mode}' % rname,
+          copy_options:: '${aws_kinesis_firehose_delivery_stream.%s.redshift_configuration.copy_options}' % rname,
+          data_table_columns:: '${aws_kinesis_firehose_delivery_stream.%s.redshift_configuration.data_table_columns}' % rname,
+          retry_duration:: '${aws_kinesis_firehose_delivery_stream.%s.redshift_configuration.retry_duration}' % rname,
+          s3_backup_mode:: '${aws_kinesis_firehose_delivery_stream.%s.redshift_configuration.s3_backup_mode}' % rname,
         },
       },
       s3_configuration:: {
@@ -14440,18 +14440,18 @@
           rname:: rname,
           bucket_arn: bucket_arn,
           role_arn: role_arn,
-          buffer_interval:: '${aws_kinesis_firehose_delivery_stream.%s.buffer_interval}' % rname,
-          buffer_size:: '${aws_kinesis_firehose_delivery_stream.%s.buffer_size}' % rname,
-          compression_format:: '${aws_kinesis_firehose_delivery_stream.%s.compression_format}' % rname,
-          kms_key_arn:: '${aws_kinesis_firehose_delivery_stream.%s.kms_key_arn}' % rname,
-          prefix:: '${aws_kinesis_firehose_delivery_stream.%s.prefix}' % rname,
+          buffer_interval:: '${aws_kinesis_firehose_delivery_stream.%s.s3_configuration.buffer_interval}' % rname,
+          buffer_size:: '${aws_kinesis_firehose_delivery_stream.%s.s3_configuration.buffer_size}' % rname,
+          compression_format:: '${aws_kinesis_firehose_delivery_stream.%s.s3_configuration.compression_format}' % rname,
+          kms_key_arn:: '${aws_kinesis_firehose_delivery_stream.%s.s3_configuration.kms_key_arn}' % rname,
+          prefix:: '${aws_kinesis_firehose_delivery_stream.%s.s3_configuration.prefix}' % rname,
         },
       },
       server_side_encryption:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          enabled:: '${aws_kinesis_firehose_delivery_stream.%s.enabled}' % rname,
+          enabled:: '${aws_kinesis_firehose_delivery_stream.%s.server_side_encryption.enabled}' % rname,
         },
       },
       splunk_configuration:: {
@@ -14462,10 +14462,10 @@
           rname:: rname,
           hec_endpoint: hec_endpoint,
           hec_token: hec_token,
-          hec_acknowledgment_timeout:: '${aws_kinesis_firehose_delivery_stream.%s.hec_acknowledgment_timeout}' % rname,
-          hec_endpoint_type:: '${aws_kinesis_firehose_delivery_stream.%s.hec_endpoint_type}' % rname,
-          retry_duration:: '${aws_kinesis_firehose_delivery_stream.%s.retry_duration}' % rname,
-          s3_backup_mode:: '${aws_kinesis_firehose_delivery_stream.%s.s3_backup_mode}' % rname,
+          hec_acknowledgment_timeout:: '${aws_kinesis_firehose_delivery_stream.%s.splunk_configuration.hec_acknowledgment_timeout}' % rname,
+          hec_endpoint_type:: '${aws_kinesis_firehose_delivery_stream.%s.splunk_configuration.hec_endpoint_type}' % rname,
+          retry_duration:: '${aws_kinesis_firehose_delivery_stream.%s.splunk_configuration.retry_duration}' % rname,
+          s3_backup_mode:: '${aws_kinesis_firehose_delivery_stream.%s.splunk_configuration.s3_backup_mode}' % rname,
         },
       },
     },
@@ -14486,7 +14486,7 @@
         retention_period:: '${aws_kinesis_stream.%s.retention_period}' % rname,
         shard_level_metrics:: '${aws_kinesis_stream.%s.shard_level_metrics}' % rname,
         tags:: '${aws_kinesis_stream.%s.tags}' % rname,
-        timeouts:: '${aws_kinesis_stream.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param arn (required) https://www.terraform.io/docs/providers/aws/r/kinesis_stream.html#arn.
       with_arn(arn):: {
@@ -14524,9 +14524,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_kinesis_stream.%s.create}' % rname,
-          delete:: '${aws_kinesis_stream.%s.delete}' % rname,
-          update:: '${aws_kinesis_stream.%s.update}' % rname,
+          create:: '${aws_kinesis_stream.%s.timeouts.create}' % rname,
+          delete:: '${aws_kinesis_stream.%s.timeouts.delete}' % rname,
+          update:: '${aws_kinesis_stream.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -14647,7 +14647,7 @@
         name:: '${aws_kms_grant.%s.name}' % rname,
         retire_on_delete:: '${aws_kms_grant.%s.retire_on_delete}' % rname,
         retiring_principal:: '${aws_kms_grant.%s.retiring_principal}' % rname,
-        constraints:: '${aws_kms_grant.%s.constraints}' % rname,
+        constraints:: {},
       },
       // @param grant_creation_tokens (required) https://www.terraform.io/docs/providers/aws/r/kms_grant.html#grant_creation_tokens.
       with_grant_creation_tokens(grant_creation_tokens):: {
@@ -14673,8 +14673,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          encryption_context_equals:: '${aws_kms_grant.%s.encryption_context_equals}' % rname,
-          encryption_context_subset:: '${aws_kms_grant.%s.encryption_context_subset}' % rname,
+          encryption_context_equals:: '${aws_kms_grant.%s.constraints.encryption_context_equals}' % rname,
+          encryption_context_subset:: '${aws_kms_grant.%s.constraints.encryption_context_subset}' % rname,
         },
       },
     },
@@ -14747,7 +14747,7 @@
         description:: '${aws_lambda_alias.%s.description}' % rname,
         id:: '${aws_lambda_alias.%s.id}' % rname,
         invoke_arn:: '${aws_lambda_alias.%s.invoke_arn}' % rname,
-        routing_config:: '${aws_lambda_alias.%s.routing_config}' % rname,
+        routing_config:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/lambda_alias.html#description.
       with_description(description):: {
@@ -14761,7 +14761,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          additional_version_weights:: '${aws_lambda_alias.%s.additional_version_weights}' % rname,
+          additional_version_weights:: '${aws_lambda_alias.%s.routing_config.additional_version_weights}' % rname,
         },
       },
     },
@@ -14790,7 +14790,7 @@
         state:: '${aws_lambda_event_source_mapping.%s.state}' % rname,
         state_transition_reason:: '${aws_lambda_event_source_mapping.%s.state_transition_reason}' % rname,
         uuid:: '${aws_lambda_event_source_mapping.%s.uuid}' % rname,
-        destination_config:: '${aws_lambda_event_source_mapping.%s.destination_config}' % rname,
+        destination_config:: {},
       },
       // @param batch_size (required) https://www.terraform.io/docs/providers/aws/r/lambda_event_source_mapping.html#batch_size.
       with_batch_size(batch_size):: {
@@ -14872,11 +14872,11 @@
         tags:: '${aws_lambda_function.%s.tags}' % rname,
         timeout:: '${aws_lambda_function.%s.timeout}' % rname,
         version:: '${aws_lambda_function.%s.version}' % rname,
-        dead_letter_config:: '${aws_lambda_function.%s.dead_letter_config}' % rname,
-        environment:: '${aws_lambda_function.%s.environment}' % rname,
-        timeouts:: '${aws_lambda_function.%s.timeouts}' % rname,
-        tracing_config:: '${aws_lambda_function.%s.tracing_config}' % rname,
-        vpc_config:: '${aws_lambda_function.%s.vpc_config}' % rname,
+        dead_letter_config:: {},
+        environment:: {},
+        timeouts:: {},
+        tracing_config:: {},
+        vpc_config:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/lambda_function.html#description.
       with_description(description):: {
@@ -14946,14 +14946,14 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          variables:: '${aws_lambda_function.%s.variables}' % rname,
+          variables:: '${aws_lambda_function.%s.environment.variables}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_lambda_function.%s.create}' % rname,
+          create:: '${aws_lambda_function.%s.timeouts.create}' % rname,
         },
       },
       tracing_config:: {
@@ -14972,7 +14972,7 @@
           rname:: rname,
           security_group_ids: security_group_ids,
           subnet_ids: subnet_ids,
-          vpc_id:: '${aws_lambda_function.%s.vpc_id}' % rname,
+          vpc_id:: '${aws_lambda_function.%s.vpc_config.vpc_id}' % rname,
         },
       },
     },
@@ -14987,7 +14987,7 @@
         maximum_event_age_in_seconds:: '${aws_lambda_function_event_invoke_config.%s.maximum_event_age_in_seconds}' % rname,
         maximum_retry_attempts:: '${aws_lambda_function_event_invoke_config.%s.maximum_retry_attempts}' % rname,
         qualifier:: '${aws_lambda_function_event_invoke_config.%s.qualifier}' % rname,
-        destination_config:: '${aws_lambda_function_event_invoke_config.%s.destination_config}' % rname,
+        destination_config:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/lambda_function_event_invoke_config.html#id.
       with_id(id):: {
@@ -15131,7 +15131,7 @@
         provisioned_concurrent_executions: provisioned_concurrent_executions,
         qualifier: qualifier,
         id:: '${aws_lambda_provisioned_concurrency_config.%s.id}' % rname,
-        timeouts:: '${aws_lambda_provisioned_concurrency_config.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/lambda_provisioned_concurrency_config.html#id.
       with_id(id):: {
@@ -15141,8 +15141,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_lambda_provisioned_concurrency_config.%s.create}' % rname,
-          update:: '${aws_lambda_provisioned_concurrency_config.%s.update}' % rname,
+          create:: '${aws_lambda_provisioned_concurrency_config.%s.timeouts.create}' % rname,
+          update:: '${aws_lambda_provisioned_concurrency_config.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -15171,9 +15171,9 @@
         user_data_base64:: '${aws_launch_configuration.%s.user_data_base64}' % rname,
         vpc_classic_link_id:: '${aws_launch_configuration.%s.vpc_classic_link_id}' % rname,
         vpc_classic_link_security_groups:: '${aws_launch_configuration.%s.vpc_classic_link_security_groups}' % rname,
-        ebs_block_device:: '${aws_launch_configuration.%s.ebs_block_device}' % rname,
-        ephemeral_block_device:: '${aws_launch_configuration.%s.ephemeral_block_device}' % rname,
-        root_block_device:: '${aws_launch_configuration.%s.root_block_device}' % rname,
+        ebs_block_device:: {},
+        ephemeral_block_device:: {},
+        root_block_device:: {},
       },
       // @param associate_public_ip_address (required) https://www.terraform.io/docs/providers/aws/r/launch_configuration.html#associate_public_ip_address.
       with_associate_public_ip_address(associate_public_ip_address):: {
@@ -15241,13 +15241,13 @@
         new(rname, device_name):: {
           rname:: rname,
           device_name: device_name,
-          delete_on_termination:: '${aws_launch_configuration.%s.delete_on_termination}' % rname,
-          encrypted:: '${aws_launch_configuration.%s.encrypted}' % rname,
-          iops:: '${aws_launch_configuration.%s.iops}' % rname,
-          no_device:: '${aws_launch_configuration.%s.no_device}' % rname,
-          snapshot_id:: '${aws_launch_configuration.%s.snapshot_id}' % rname,
-          volume_size:: '${aws_launch_configuration.%s.volume_size}' % rname,
-          volume_type:: '${aws_launch_configuration.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_launch_configuration.%s.ebs_block_device.delete_on_termination}' % rname,
+          encrypted:: '${aws_launch_configuration.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_launch_configuration.%s.ebs_block_device.iops}' % rname,
+          no_device:: '${aws_launch_configuration.%s.ebs_block_device.no_device}' % rname,
+          snapshot_id:: '${aws_launch_configuration.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_size:: '${aws_launch_configuration.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_launch_configuration.%s.ebs_block_device.volume_type}' % rname,
         },
       },
       ephemeral_block_device:: {
@@ -15264,11 +15264,11 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete_on_termination:: '${aws_launch_configuration.%s.delete_on_termination}' % rname,
-          encrypted:: '${aws_launch_configuration.%s.encrypted}' % rname,
-          iops:: '${aws_launch_configuration.%s.iops}' % rname,
-          volume_size:: '${aws_launch_configuration.%s.volume_size}' % rname,
-          volume_type:: '${aws_launch_configuration.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_launch_configuration.%s.root_block_device.delete_on_termination}' % rname,
+          encrypted:: '${aws_launch_configuration.%s.root_block_device.encrypted}' % rname,
+          iops:: '${aws_launch_configuration.%s.root_block_device.iops}' % rname,
+          volume_size:: '${aws_launch_configuration.%s.root_block_device.volume_size}' % rname,
+          volume_type:: '${aws_launch_configuration.%s.root_block_device.volume_type}' % rname,
         },
       },
     },
@@ -15296,19 +15296,19 @@
         tags:: '${aws_launch_template.%s.tags}' % rname,
         user_data:: '${aws_launch_template.%s.user_data}' % rname,
         vpc_security_group_ids:: '${aws_launch_template.%s.vpc_security_group_ids}' % rname,
-        block_device_mappings:: '${aws_launch_template.%s.block_device_mappings}' % rname,
-        capacity_reservation_specification:: '${aws_launch_template.%s.capacity_reservation_specification}' % rname,
-        cpu_options:: '${aws_launch_template.%s.cpu_options}' % rname,
-        credit_specification:: '${aws_launch_template.%s.credit_specification}' % rname,
-        elastic_gpu_specifications:: '${aws_launch_template.%s.elastic_gpu_specifications}' % rname,
-        elastic_inference_accelerator:: '${aws_launch_template.%s.elastic_inference_accelerator}' % rname,
-        iam_instance_profile:: '${aws_launch_template.%s.iam_instance_profile}' % rname,
-        instance_market_options:: '${aws_launch_template.%s.instance_market_options}' % rname,
-        license_specification:: '${aws_launch_template.%s.license_specification}' % rname,
-        monitoring:: '${aws_launch_template.%s.monitoring}' % rname,
-        network_interfaces:: '${aws_launch_template.%s.network_interfaces}' % rname,
-        placement:: '${aws_launch_template.%s.placement}' % rname,
-        tag_specifications:: '${aws_launch_template.%s.tag_specifications}' % rname,
+        block_device_mappings:: {},
+        capacity_reservation_specification:: {},
+        cpu_options:: {},
+        credit_specification:: {},
+        elastic_gpu_specifications:: {},
+        elastic_inference_accelerator:: {},
+        iam_instance_profile:: {},
+        instance_market_options:: {},
+        license_specification:: {},
+        monitoring:: {},
+        network_interfaces:: {},
+        placement:: {},
+        tag_specifications:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/launch_template.html#description.
       with_description(description):: {
@@ -15378,31 +15378,31 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          device_name:: '${aws_launch_template.%s.device_name}' % rname,
-          no_device:: '${aws_launch_template.%s.no_device}' % rname,
-          virtual_name:: '${aws_launch_template.%s.virtual_name}' % rname,
+          device_name:: '${aws_launch_template.%s.block_device_mappings.device_name}' % rname,
+          no_device:: '${aws_launch_template.%s.block_device_mappings.no_device}' % rname,
+          virtual_name:: '${aws_launch_template.%s.block_device_mappings.virtual_name}' % rname,
         },
       },
       capacity_reservation_specification:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          capacity_reservation_preference:: '${aws_launch_template.%s.capacity_reservation_preference}' % rname,
+          capacity_reservation_preference:: '${aws_launch_template.%s.capacity_reservation_specification.capacity_reservation_preference}' % rname,
         },
       },
       cpu_options:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          core_count:: '${aws_launch_template.%s.core_count}' % rname,
-          threads_per_core:: '${aws_launch_template.%s.threads_per_core}' % rname,
+          core_count:: '${aws_launch_template.%s.cpu_options.core_count}' % rname,
+          threads_per_core:: '${aws_launch_template.%s.cpu_options.threads_per_core}' % rname,
         },
       },
       credit_specification:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          cpu_credits:: '${aws_launch_template.%s.cpu_credits}' % rname,
+          cpu_credits:: '${aws_launch_template.%s.credit_specification.cpu_credits}' % rname,
         },
       },
       elastic_gpu_specifications:: {
@@ -15425,15 +15425,15 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          arn:: '${aws_launch_template.%s.arn}' % rname,
-          name:: '${aws_launch_template.%s.name}' % rname,
+          arn:: '${aws_launch_template.%s.iam_instance_profile.arn}' % rname,
+          name:: '${aws_launch_template.%s.iam_instance_profile.name}' % rname,
         },
       },
       instance_market_options:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          market_type:: '${aws_launch_template.%s.market_type}' % rname,
+          market_type:: '${aws_launch_template.%s.instance_market_options.market_type}' % rname,
         },
       },
       license_specification:: {
@@ -15448,45 +15448,45 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          enabled:: '${aws_launch_template.%s.enabled}' % rname,
+          enabled:: '${aws_launch_template.%s.monitoring.enabled}' % rname,
         },
       },
       network_interfaces:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          associate_public_ip_address:: '${aws_launch_template.%s.associate_public_ip_address}' % rname,
-          delete_on_termination:: '${aws_launch_template.%s.delete_on_termination}' % rname,
-          description:: '${aws_launch_template.%s.description}' % rname,
-          device_index:: '${aws_launch_template.%s.device_index}' % rname,
-          ipv4_address_count:: '${aws_launch_template.%s.ipv4_address_count}' % rname,
-          ipv4_addresses:: '${aws_launch_template.%s.ipv4_addresses}' % rname,
-          ipv6_address_count:: '${aws_launch_template.%s.ipv6_address_count}' % rname,
-          ipv6_addresses:: '${aws_launch_template.%s.ipv6_addresses}' % rname,
-          network_interface_id:: '${aws_launch_template.%s.network_interface_id}' % rname,
-          private_ip_address:: '${aws_launch_template.%s.private_ip_address}' % rname,
-          security_groups:: '${aws_launch_template.%s.security_groups}' % rname,
-          subnet_id:: '${aws_launch_template.%s.subnet_id}' % rname,
+          associate_public_ip_address:: '${aws_launch_template.%s.network_interfaces.associate_public_ip_address}' % rname,
+          delete_on_termination:: '${aws_launch_template.%s.network_interfaces.delete_on_termination}' % rname,
+          description:: '${aws_launch_template.%s.network_interfaces.description}' % rname,
+          device_index:: '${aws_launch_template.%s.network_interfaces.device_index}' % rname,
+          ipv4_address_count:: '${aws_launch_template.%s.network_interfaces.ipv4_address_count}' % rname,
+          ipv4_addresses:: '${aws_launch_template.%s.network_interfaces.ipv4_addresses}' % rname,
+          ipv6_address_count:: '${aws_launch_template.%s.network_interfaces.ipv6_address_count}' % rname,
+          ipv6_addresses:: '${aws_launch_template.%s.network_interfaces.ipv6_addresses}' % rname,
+          network_interface_id:: '${aws_launch_template.%s.network_interfaces.network_interface_id}' % rname,
+          private_ip_address:: '${aws_launch_template.%s.network_interfaces.private_ip_address}' % rname,
+          security_groups:: '${aws_launch_template.%s.network_interfaces.security_groups}' % rname,
+          subnet_id:: '${aws_launch_template.%s.network_interfaces.subnet_id}' % rname,
         },
       },
       placement:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          affinity:: '${aws_launch_template.%s.affinity}' % rname,
-          availability_zone:: '${aws_launch_template.%s.availability_zone}' % rname,
-          group_name:: '${aws_launch_template.%s.group_name}' % rname,
-          host_id:: '${aws_launch_template.%s.host_id}' % rname,
-          spread_domain:: '${aws_launch_template.%s.spread_domain}' % rname,
-          tenancy:: '${aws_launch_template.%s.tenancy}' % rname,
+          affinity:: '${aws_launch_template.%s.placement.affinity}' % rname,
+          availability_zone:: '${aws_launch_template.%s.placement.availability_zone}' % rname,
+          group_name:: '${aws_launch_template.%s.placement.group_name}' % rname,
+          host_id:: '${aws_launch_template.%s.placement.host_id}' % rname,
+          spread_domain:: '${aws_launch_template.%s.placement.spread_domain}' % rname,
+          tenancy:: '${aws_launch_template.%s.placement.tenancy}' % rname,
         },
       },
       tag_specifications:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          resource_type:: '${aws_launch_template.%s.resource_type}' % rname,
-          tags:: '${aws_launch_template.%s.tags}' % rname,
+          resource_type:: '${aws_launch_template.%s.tag_specifications.resource_type}' % rname,
+          tags:: '${aws_launch_template.%s.tag_specifications.tags}' % rname,
         },
       },
     },
@@ -15513,9 +15513,9 @@
         tags:: '${aws_lb.%s.tags}' % rname,
         vpc_id:: '${aws_lb.%s.vpc_id}' % rname,
         zone_id:: '${aws_lb.%s.zone_id}' % rname,
-        access_logs:: '${aws_lb.%s.access_logs}' % rname,
-        subnet_mapping:: '${aws_lb.%s.subnet_mapping}' % rname,
-        timeouts:: '${aws_lb.%s.timeouts}' % rname,
+        access_logs:: {},
+        subnet_mapping:: {},
+        timeouts:: {},
       },
       // @param enable_cross_zone_load_balancing (required) https://www.terraform.io/docs/providers/aws/r/lb.html#enable_cross_zone_load_balancing.
       with_enable_cross_zone_load_balancing(enable_cross_zone_load_balancing):: {
@@ -15575,8 +15575,8 @@
         new(rname, bucket):: {
           rname:: rname,
           bucket: bucket,
-          enabled:: '${aws_lb.%s.enabled}' % rname,
-          prefix:: '${aws_lb.%s.prefix}' % rname,
+          enabled:: '${aws_lb.%s.access_logs.enabled}' % rname,
+          prefix:: '${aws_lb.%s.access_logs.prefix}' % rname,
         },
       },
       subnet_mapping:: {
@@ -15585,16 +15585,16 @@
         new(rname, subnet_id):: {
           rname:: rname,
           subnet_id: subnet_id,
-          allocation_id:: '${aws_lb.%s.allocation_id}' % rname,
+          allocation_id:: '${aws_lb.%s.subnet_mapping.allocation_id}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_lb.%s.create}' % rname,
-          delete:: '${aws_lb.%s.delete}' % rname,
-          update:: '${aws_lb.%s.update}' % rname,
+          create:: '${aws_lb.%s.timeouts.create}' % rname,
+          delete:: '${aws_lb.%s.timeouts.delete}' % rname,
+          update:: '${aws_lb.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -15637,7 +15637,7 @@
         id:: '${aws_lb_listener.%s.id}' % rname,
         protocol:: '${aws_lb_listener.%s.protocol}' % rname,
         ssl_policy:: '${aws_lb_listener.%s.ssl_policy}' % rname,
-        timeouts:: '${aws_lb_listener.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param certificate_arn (required) https://www.terraform.io/docs/providers/aws/r/lb_listener.html#certificate_arn.
       with_certificate_arn(certificate_arn):: {
@@ -15661,15 +15661,15 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          order:: '${aws_lb_listener.%s.order}' % rname,
-          target_group_arn:: '${aws_lb_listener.%s.target_group_arn}' % rname,
+          order:: '${aws_lb_listener.%s.default_action.order}' % rname,
+          target_group_arn:: '${aws_lb_listener.%s.default_action.target_group_arn}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          read:: '${aws_lb_listener.%s.read}' % rname,
+          read:: '${aws_lb_listener.%s.timeouts.read}' % rname,
         },
       },
     },
@@ -15718,16 +15718,16 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          order:: '${aws_lb_listener_rule.%s.order}' % rname,
-          target_group_arn:: '${aws_lb_listener_rule.%s.target_group_arn}' % rname,
+          order:: '${aws_lb_listener_rule.%s.action.order}' % rname,
+          target_group_arn:: '${aws_lb_listener_rule.%s.action.target_group_arn}' % rname,
         },
       },
       condition:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          field:: '${aws_lb_listener_rule.%s.field}' % rname,
-          values:: '${aws_lb_listener_rule.%s.values}' % rname,
+          field:: '${aws_lb_listener_rule.%s.condition.field}' % rname,
+          values:: '${aws_lb_listener_rule.%s.condition.values}' % rname,
         },
       },
     },
@@ -15743,7 +15743,7 @@
         load_balancer: load_balancer,
         name: name,
         id:: '${aws_lb_ssl_negotiation_policy.%s.id}' % rname,
-        attribute:: '${aws_lb_ssl_negotiation_policy.%s.attribute}' % rname,
+        attribute:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/lb_ssl_negotiation_policy.html#id.
       with_id(id):: {
@@ -15780,8 +15780,8 @@
         tags:: '${aws_lb_target_group.%s.tags}' % rname,
         target_type:: '${aws_lb_target_group.%s.target_type}' % rname,
         vpc_id:: '${aws_lb_target_group.%s.vpc_id}' % rname,
-        health_check:: '${aws_lb_target_group.%s.health_check}' % rname,
-        stickiness:: '${aws_lb_target_group.%s.stickiness}' % rname,
+        health_check:: {},
+        stickiness:: {},
       },
       // @param deregistration_delay (required) https://www.terraform.io/docs/providers/aws/r/lb_target_group.html#deregistration_delay.
       with_deregistration_delay(deregistration_delay):: {
@@ -15839,15 +15839,15 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          enabled:: '${aws_lb_target_group.%s.enabled}' % rname,
-          healthy_threshold:: '${aws_lb_target_group.%s.healthy_threshold}' % rname,
-          interval:: '${aws_lb_target_group.%s.interval}' % rname,
-          matcher:: '${aws_lb_target_group.%s.matcher}' % rname,
-          path:: '${aws_lb_target_group.%s.path}' % rname,
-          port:: '${aws_lb_target_group.%s.port}' % rname,
-          protocol:: '${aws_lb_target_group.%s.protocol}' % rname,
-          timeout:: '${aws_lb_target_group.%s.timeout}' % rname,
-          unhealthy_threshold:: '${aws_lb_target_group.%s.unhealthy_threshold}' % rname,
+          enabled:: '${aws_lb_target_group.%s.health_check.enabled}' % rname,
+          healthy_threshold:: '${aws_lb_target_group.%s.health_check.healthy_threshold}' % rname,
+          interval:: '${aws_lb_target_group.%s.health_check.interval}' % rname,
+          matcher:: '${aws_lb_target_group.%s.health_check.matcher}' % rname,
+          path:: '${aws_lb_target_group.%s.health_check.path}' % rname,
+          port:: '${aws_lb_target_group.%s.health_check.port}' % rname,
+          protocol:: '${aws_lb_target_group.%s.health_check.protocol}' % rname,
+          timeout:: '${aws_lb_target_group.%s.health_check.timeout}' % rname,
+          unhealthy_threshold:: '${aws_lb_target_group.%s.health_check.unhealthy_threshold}' % rname,
         },
       },
       stickiness:: {
@@ -15856,8 +15856,8 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          cookie_duration:: '${aws_lb_target_group.%s.cookie_duration}' % rname,
-          enabled:: '${aws_lb_target_group.%s.enabled}' % rname,
+          cookie_duration:: '${aws_lb_target_group.%s.stickiness.cookie_duration}' % rname,
+          enabled:: '${aws_lb_target_group.%s.stickiness.enabled}' % rname,
         },
       },
     },
@@ -16128,7 +16128,7 @@
         policy_name: policy_name,
         policy_type_name: policy_type_name,
         id:: '${aws_load_balancer_policy.%s.id}' % rname,
-        policy_attribute:: '${aws_load_balancer_policy.%s.policy_attribute}' % rname,
+        policy_attribute:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/load_balancer_policy.html#id.
       with_id(id):: {
@@ -16138,8 +16138,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          name:: '${aws_load_balancer_policy.%s.name}' % rname,
-          value:: '${aws_load_balancer_policy.%s.value}' % rname,
+          name:: '${aws_load_balancer_policy.%s.policy_attribute.name}' % rname,
+          value:: '${aws_load_balancer_policy.%s.policy_attribute.value}' % rname,
         },
       },
     },
@@ -16167,7 +16167,7 @@
         id:: '${aws_macie_s3_bucket_association.%s.id}' % rname,
         member_account_id:: '${aws_macie_s3_bucket_association.%s.member_account_id}' % rname,
         prefix:: '${aws_macie_s3_bucket_association.%s.prefix}' % rname,
-        classification_type:: '${aws_macie_s3_bucket_association.%s.classification_type}' % rname,
+        classification_type:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/macie_s3_bucket_association.html#id.
       with_id(id):: {
@@ -16185,8 +16185,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          continuous:: '${aws_macie_s3_bucket_association.%s.continuous}' % rname,
-          one_time:: '${aws_macie_s3_bucket_association.%s.one_time}' % rname,
+          continuous:: '${aws_macie_s3_bucket_association.%s.classification_type.continuous}' % rname,
+          one_time:: '${aws_macie_s3_bucket_association.%s.classification_type.one_time}' % rname,
         },
       },
     },
@@ -16220,7 +16220,7 @@
         pricing_plan:: '${aws_media_convert_queue.%s.pricing_plan}' % rname,
         status:: '${aws_media_convert_queue.%s.status}' % rname,
         tags:: '${aws_media_convert_queue.%s.tags}' % rname,
-        reservation_plan_settings:: '${aws_media_convert_queue.%s.reservation_plan_settings}' % rname,
+        reservation_plan_settings:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/media_convert_queue.html#description.
       with_description(description):: {
@@ -16344,10 +16344,10 @@
         publicly_accessible:: '${aws_mq_broker.%s.publicly_accessible}' % rname,
         subnet_ids:: '${aws_mq_broker.%s.subnet_ids}' % rname,
         tags:: '${aws_mq_broker.%s.tags}' % rname,
-        configuration:: '${aws_mq_broker.%s.configuration}' % rname,
-        encryption_options:: '${aws_mq_broker.%s.encryption_options}' % rname,
-        logs:: '${aws_mq_broker.%s.logs}' % rname,
-        maintenance_window_start_time:: '${aws_mq_broker.%s.maintenance_window_start_time}' % rname,
+        configuration:: {},
+        encryption_options:: {},
+        logs:: {},
+        maintenance_window_start_time:: {},
       },
       // @param apply_immediately (required) https://www.terraform.io/docs/providers/aws/r/mq_broker.html#apply_immediately.
       with_apply_immediately(apply_immediately):: {
@@ -16381,24 +16381,24 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          id:: '${aws_mq_broker.%s.id}' % rname,
-          revision:: '${aws_mq_broker.%s.revision}' % rname,
+          id:: '${aws_mq_broker.%s.configuration.id}' % rname,
+          revision:: '${aws_mq_broker.%s.configuration.revision}' % rname,
         },
       },
       encryption_options:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          kms_key_id:: '${aws_mq_broker.%s.kms_key_id}' % rname,
-          use_aws_owned_key:: '${aws_mq_broker.%s.use_aws_owned_key}' % rname,
+          kms_key_id:: '${aws_mq_broker.%s.encryption_options.kms_key_id}' % rname,
+          use_aws_owned_key:: '${aws_mq_broker.%s.encryption_options.use_aws_owned_key}' % rname,
         },
       },
       logs:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          audit:: '${aws_mq_broker.%s.audit}' % rname,
-          general:: '${aws_mq_broker.%s.general}' % rname,
+          audit:: '${aws_mq_broker.%s.logs.audit}' % rname,
+          general:: '${aws_mq_broker.%s.logs.general}' % rname,
         },
       },
       maintenance_window_start_time:: {
@@ -16421,8 +16421,8 @@
           rname:: rname,
           password: password,
           username: username,
-          console_access:: '${aws_mq_broker.%s.console_access}' % rname,
-          groups:: '${aws_mq_broker.%s.groups}' % rname,
+          console_access:: '${aws_mq_broker.%s.user.console_access}' % rname,
+          groups:: '${aws_mq_broker.%s.user.groups}' % rname,
         },
       },
     },
@@ -16479,10 +16479,10 @@
         id:: '${aws_msk_cluster.%s.id}' % rname,
         tags:: '${aws_msk_cluster.%s.tags}' % rname,
         zookeeper_connect_string:: '${aws_msk_cluster.%s.zookeeper_connect_string}' % rname,
-        client_authentication:: '${aws_msk_cluster.%s.client_authentication}' % rname,
-        configuration_info:: '${aws_msk_cluster.%s.configuration_info}' % rname,
-        encryption_info:: '${aws_msk_cluster.%s.encryption_info}' % rname,
-        open_monitoring:: '${aws_msk_cluster.%s.open_monitoring}' % rname,
+        client_authentication:: {},
+        configuration_info:: {},
+        encryption_info:: {},
+        open_monitoring:: {},
       },
       // @param enhanced_monitoring (required) https://www.terraform.io/docs/providers/aws/r/msk_cluster.html#enhanced_monitoring.
       with_enhanced_monitoring(enhanced_monitoring):: {
@@ -16508,7 +16508,7 @@
           ebs_volume_size: ebs_volume_size,
           instance_type: instance_type,
           security_groups: security_groups,
-          az_distribution:: '${aws_msk_cluster.%s.az_distribution}' % rname,
+          az_distribution:: '${aws_msk_cluster.%s.broker_node_group_info.az_distribution}' % rname,
         },
       },
       client_authentication:: {
@@ -16531,7 +16531,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          encryption_at_rest_kms_key_arn:: '${aws_msk_cluster.%s.encryption_at_rest_kms_key_arn}' % rname,
+          encryption_at_rest_kms_key_arn:: '${aws_msk_cluster.%s.encryption_info.encryption_at_rest_kms_key_arn}' % rname,
         },
       },
       open_monitoring:: {
@@ -16626,7 +16626,7 @@
         storage_encrypted:: '${aws_neptune_cluster.%s.storage_encrypted}' % rname,
         tags:: '${aws_neptune_cluster.%s.tags}' % rname,
         vpc_security_group_ids:: '${aws_neptune_cluster.%s.vpc_security_group_ids}' % rname,
-        timeouts:: '${aws_neptune_cluster.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param apply_immediately (required) https://www.terraform.io/docs/providers/aws/r/neptune_cluster.html#apply_immediately.
       with_apply_immediately(apply_immediately):: {
@@ -16732,9 +16732,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_neptune_cluster.%s.create}' % rname,
-          delete:: '${aws_neptune_cluster.%s.delete}' % rname,
-          update:: '${aws_neptune_cluster.%s.update}' % rname,
+          create:: '${aws_neptune_cluster.%s.timeouts.create}' % rname,
+          delete:: '${aws_neptune_cluster.%s.timeouts.delete}' % rname,
+          update:: '${aws_neptune_cluster.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -16770,7 +16770,7 @@
         storage_encrypted:: '${aws_neptune_cluster_instance.%s.storage_encrypted}' % rname,
         tags:: '${aws_neptune_cluster_instance.%s.tags}' % rname,
         writer:: '${aws_neptune_cluster_instance.%s.writer}' % rname,
-        timeouts:: '${aws_neptune_cluster_instance.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param apply_immediately (required) https://www.terraform.io/docs/providers/aws/r/neptune_cluster_instance.html#apply_immediately.
       with_apply_immediately(apply_immediately):: {
@@ -16840,9 +16840,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_neptune_cluster_instance.%s.create}' % rname,
-          delete:: '${aws_neptune_cluster_instance.%s.delete}' % rname,
-          update:: '${aws_neptune_cluster_instance.%s.update}' % rname,
+          create:: '${aws_neptune_cluster_instance.%s.timeouts.create}' % rname,
+          delete:: '${aws_neptune_cluster_instance.%s.timeouts.delete}' % rname,
+          update:: '${aws_neptune_cluster_instance.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -16859,7 +16859,7 @@
         name:: '${aws_neptune_cluster_parameter_group.%s.name}' % rname,
         name_prefix:: '${aws_neptune_cluster_parameter_group.%s.name_prefix}' % rname,
         tags:: '${aws_neptune_cluster_parameter_group.%s.tags}' % rname,
-        parameter:: '${aws_neptune_cluster_parameter_group.%s.parameter}' % rname,
+        parameter:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/neptune_cluster_parameter_group.html#description.
       with_description(description):: {
@@ -16889,7 +16889,7 @@
           rname:: rname,
           name: name,
           value: value,
-          apply_method:: '${aws_neptune_cluster_parameter_group.%s.apply_method}' % rname,
+          apply_method:: '${aws_neptune_cluster_parameter_group.%s.parameter.apply_method}' % rname,
         },
       },
     },
@@ -16916,7 +16916,7 @@
         status:: '${aws_neptune_cluster_snapshot.%s.status}' % rname,
         storage_encrypted:: '${aws_neptune_cluster_snapshot.%s.storage_encrypted}' % rname,
         vpc_id:: '${aws_neptune_cluster_snapshot.%s.vpc_id}' % rname,
-        timeouts:: '${aws_neptune_cluster_snapshot.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/neptune_cluster_snapshot.html#id.
       with_id(id):: {
@@ -16926,7 +16926,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_neptune_cluster_snapshot.%s.create}' % rname,
+          create:: '${aws_neptune_cluster_snapshot.%s.timeouts.create}' % rname,
         },
       },
     },
@@ -16947,7 +16947,7 @@
         source_ids:: '${aws_neptune_event_subscription.%s.source_ids}' % rname,
         source_type:: '${aws_neptune_event_subscription.%s.source_type}' % rname,
         tags:: '${aws_neptune_event_subscription.%s.tags}' % rname,
-        timeouts:: '${aws_neptune_event_subscription.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param enabled (required) https://www.terraform.io/docs/providers/aws/r/neptune_event_subscription.html#enabled.
       with_enabled(enabled):: {
@@ -16985,9 +16985,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_neptune_event_subscription.%s.create}' % rname,
-          delete:: '${aws_neptune_event_subscription.%s.delete}' % rname,
-          update:: '${aws_neptune_event_subscription.%s.update}' % rname,
+          create:: '${aws_neptune_event_subscription.%s.timeouts.create}' % rname,
+          delete:: '${aws_neptune_event_subscription.%s.timeouts.delete}' % rname,
+          update:: '${aws_neptune_event_subscription.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -17004,7 +17004,7 @@
         description:: '${aws_neptune_parameter_group.%s.description}' % rname,
         id:: '${aws_neptune_parameter_group.%s.id}' % rname,
         tags:: '${aws_neptune_parameter_group.%s.tags}' % rname,
-        parameter:: '${aws_neptune_parameter_group.%s.parameter}' % rname,
+        parameter:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/neptune_parameter_group.html#description.
       with_description(description):: {
@@ -17026,7 +17026,7 @@
           rname:: rname,
           name: name,
           value: value,
-          apply_method:: '${aws_neptune_parameter_group.%s.apply_method}' % rname,
+          apply_method:: '${aws_neptune_parameter_group.%s.parameter.apply_method}' % rname,
         },
       },
     },
@@ -17177,7 +17177,7 @@
         security_groups:: '${aws_network_interface.%s.security_groups}' % rname,
         source_dest_check:: '${aws_network_interface.%s.source_dest_check}' % rname,
         tags:: '${aws_network_interface.%s.tags}' % rname,
-        attachment:: '${aws_network_interface.%s.attachment}' % rname,
+        attachment:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/network_interface.html#description.
       with_description(description):: {
@@ -17219,7 +17219,7 @@
           rname:: rname,
           device_index: device_index,
           instance: instance,
-          attachment_id:: '${aws_network_interface.%s.attachment_id}' % rname,
+          attachment_id:: '${aws_network_interface.%s.attachment.attachment_id}' % rname,
         },
       },
     },
@@ -17282,9 +17282,9 @@
         id:: '${aws_opsworks_application.%s.id}' % rname,
         rails_env:: '${aws_opsworks_application.%s.rails_env}' % rname,
         short_name:: '${aws_opsworks_application.%s.short_name}' % rname,
-        app_source:: '${aws_opsworks_application.%s.app_source}' % rname,
-        environment:: '${aws_opsworks_application.%s.environment}' % rname,
-        ssl_configuration:: '${aws_opsworks_application.%s.ssl_configuration}' % rname,
+        app_source:: {},
+        environment:: {},
+        ssl_configuration:: {},
       },
       // @param auto_bundle_on_deploy (required) https://www.terraform.io/docs/providers/aws/r/opsworks_application.html#auto_bundle_on_deploy.
       with_auto_bundle_on_deploy(auto_bundle_on_deploy):: {
@@ -17340,11 +17340,11 @@
         new(rname, type):: {
           rname:: rname,
           type: type,
-          password:: '${aws_opsworks_application.%s.password}' % rname,
-          revision:: '${aws_opsworks_application.%s.revision}' % rname,
-          ssh_key:: '${aws_opsworks_application.%s.ssh_key}' % rname,
-          url:: '${aws_opsworks_application.%s.url}' % rname,
-          username:: '${aws_opsworks_application.%s.username}' % rname,
+          password:: '${aws_opsworks_application.%s.app_source.password}' % rname,
+          revision:: '${aws_opsworks_application.%s.app_source.revision}' % rname,
+          ssh_key:: '${aws_opsworks_application.%s.app_source.ssh_key}' % rname,
+          url:: '${aws_opsworks_application.%s.app_source.url}' % rname,
+          username:: '${aws_opsworks_application.%s.app_source.username}' % rname,
         },
       },
       environment:: {
@@ -17355,7 +17355,7 @@
           rname:: rname,
           key: key,
           value: value,
-          secure:: '${aws_opsworks_application.%s.secure}' % rname,
+          secure:: '${aws_opsworks_application.%s.environment.secure}' % rname,
         },
       },
       ssl_configuration:: {
@@ -17366,7 +17366,7 @@
           rname:: rname,
           certificate: certificate,
           private_key: private_key,
-          chain:: '${aws_opsworks_application.%s.chain}' % rname,
+          chain:: '${aws_opsworks_application.%s.ssl_configuration.chain}' % rname,
         },
       },
     },
@@ -17399,7 +17399,7 @@
         instance_shutdown_timeout:: '${aws_opsworks_custom_layer.%s.instance_shutdown_timeout}' % rname,
         system_packages:: '${aws_opsworks_custom_layer.%s.system_packages}' % rname,
         use_ebs_optimized_instances:: '${aws_opsworks_custom_layer.%s.use_ebs_optimized_instances}' % rname,
-        ebs_volume:: '${aws_opsworks_custom_layer.%s.ebs_volume}' % rname,
+        ebs_volume:: {},
       },
       // @param auto_assign_elastic_ips (required) https://www.terraform.io/docs/providers/aws/r/opsworks_custom_layer.html#auto_assign_elastic_ips.
       with_auto_assign_elastic_ips(auto_assign_elastic_ips):: {
@@ -17483,10 +17483,10 @@
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
-          encrypted:: '${aws_opsworks_custom_layer.%s.encrypted}' % rname,
-          iops:: '${aws_opsworks_custom_layer.%s.iops}' % rname,
-          raid_level:: '${aws_opsworks_custom_layer.%s.raid_level}' % rname,
-          type:: '${aws_opsworks_custom_layer.%s.type}' % rname,
+          encrypted:: '${aws_opsworks_custom_layer.%s.ebs_volume.encrypted}' % rname,
+          iops:: '${aws_opsworks_custom_layer.%s.ebs_volume.iops}' % rname,
+          raid_level:: '${aws_opsworks_custom_layer.%s.ebs_volume.raid_level}' % rname,
+          type:: '${aws_opsworks_custom_layer.%s.ebs_volume.type}' % rname,
         },
       },
     },
@@ -17520,7 +17520,7 @@
         url:: '${aws_opsworks_ganglia_layer.%s.url}' % rname,
         use_ebs_optimized_instances:: '${aws_opsworks_ganglia_layer.%s.use_ebs_optimized_instances}' % rname,
         username:: '${aws_opsworks_ganglia_layer.%s.username}' % rname,
-        ebs_volume:: '${aws_opsworks_ganglia_layer.%s.ebs_volume}' % rname,
+        ebs_volume:: {},
       },
       // @param auto_assign_elastic_ips (required) https://www.terraform.io/docs/providers/aws/r/opsworks_ganglia_layer.html#auto_assign_elastic_ips.
       with_auto_assign_elastic_ips(auto_assign_elastic_ips):: {
@@ -17616,10 +17616,10 @@
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
-          encrypted:: '${aws_opsworks_ganglia_layer.%s.encrypted}' % rname,
-          iops:: '${aws_opsworks_ganglia_layer.%s.iops}' % rname,
-          raid_level:: '${aws_opsworks_ganglia_layer.%s.raid_level}' % rname,
-          type:: '${aws_opsworks_ganglia_layer.%s.type}' % rname,
+          encrypted:: '${aws_opsworks_ganglia_layer.%s.ebs_volume.encrypted}' % rname,
+          iops:: '${aws_opsworks_ganglia_layer.%s.ebs_volume.iops}' % rname,
+          raid_level:: '${aws_opsworks_ganglia_layer.%s.ebs_volume.raid_level}' % rname,
+          type:: '${aws_opsworks_ganglia_layer.%s.ebs_volume.type}' % rname,
         },
       },
     },
@@ -17656,7 +17656,7 @@
         stats_user:: '${aws_opsworks_haproxy_layer.%s.stats_user}' % rname,
         system_packages:: '${aws_opsworks_haproxy_layer.%s.system_packages}' % rname,
         use_ebs_optimized_instances:: '${aws_opsworks_haproxy_layer.%s.use_ebs_optimized_instances}' % rname,
-        ebs_volume:: '${aws_opsworks_haproxy_layer.%s.ebs_volume}' % rname,
+        ebs_volume:: {},
       },
       // @param auto_assign_elastic_ips (required) https://www.terraform.io/docs/providers/aws/r/opsworks_haproxy_layer.html#auto_assign_elastic_ips.
       with_auto_assign_elastic_ips(auto_assign_elastic_ips):: {
@@ -17764,10 +17764,10 @@
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
-          encrypted:: '${aws_opsworks_haproxy_layer.%s.encrypted}' % rname,
-          iops:: '${aws_opsworks_haproxy_layer.%s.iops}' % rname,
-          raid_level:: '${aws_opsworks_haproxy_layer.%s.raid_level}' % rname,
-          type:: '${aws_opsworks_haproxy_layer.%s.type}' % rname,
+          encrypted:: '${aws_opsworks_haproxy_layer.%s.ebs_volume.encrypted}' % rname,
+          iops:: '${aws_opsworks_haproxy_layer.%s.ebs_volume.iops}' % rname,
+          raid_level:: '${aws_opsworks_haproxy_layer.%s.ebs_volume.raid_level}' % rname,
+          type:: '${aws_opsworks_haproxy_layer.%s.ebs_volume.type}' % rname,
         },
       },
     },
@@ -17821,10 +17821,10 @@
         subnet_id:: '${aws_opsworks_instance.%s.subnet_id}' % rname,
         tenancy:: '${aws_opsworks_instance.%s.tenancy}' % rname,
         virtualization_type:: '${aws_opsworks_instance.%s.virtualization_type}' % rname,
-        ebs_block_device:: '${aws_opsworks_instance.%s.ebs_block_device}' % rname,
-        ephemeral_block_device:: '${aws_opsworks_instance.%s.ephemeral_block_device}' % rname,
-        root_block_device:: '${aws_opsworks_instance.%s.root_block_device}' % rname,
-        timeouts:: '${aws_opsworks_instance.%s.timeouts}' % rname,
+        ebs_block_device:: {},
+        ephemeral_block_device:: {},
+        root_block_device:: {},
+        timeouts:: {},
       },
       // @param agent_version (required) https://www.terraform.io/docs/providers/aws/r/opsworks_instance.html#agent_version.
       with_agent_version(agent_version):: {
@@ -17992,11 +17992,11 @@
         new(rname, device_name):: {
           rname:: rname,
           device_name: device_name,
-          delete_on_termination:: '${aws_opsworks_instance.%s.delete_on_termination}' % rname,
-          iops:: '${aws_opsworks_instance.%s.iops}' % rname,
-          snapshot_id:: '${aws_opsworks_instance.%s.snapshot_id}' % rname,
-          volume_size:: '${aws_opsworks_instance.%s.volume_size}' % rname,
-          volume_type:: '${aws_opsworks_instance.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_opsworks_instance.%s.ebs_block_device.delete_on_termination}' % rname,
+          iops:: '${aws_opsworks_instance.%s.ebs_block_device.iops}' % rname,
+          snapshot_id:: '${aws_opsworks_instance.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_size:: '${aws_opsworks_instance.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_opsworks_instance.%s.ebs_block_device.volume_type}' % rname,
         },
       },
       ephemeral_block_device:: {
@@ -18013,19 +18013,19 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete_on_termination:: '${aws_opsworks_instance.%s.delete_on_termination}' % rname,
-          iops:: '${aws_opsworks_instance.%s.iops}' % rname,
-          volume_size:: '${aws_opsworks_instance.%s.volume_size}' % rname,
-          volume_type:: '${aws_opsworks_instance.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_opsworks_instance.%s.root_block_device.delete_on_termination}' % rname,
+          iops:: '${aws_opsworks_instance.%s.root_block_device.iops}' % rname,
+          volume_size:: '${aws_opsworks_instance.%s.root_block_device.volume_size}' % rname,
+          volume_type:: '${aws_opsworks_instance.%s.root_block_device.volume_type}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_opsworks_instance.%s.create}' % rname,
-          delete:: '${aws_opsworks_instance.%s.delete}' % rname,
-          update:: '${aws_opsworks_instance.%s.update}' % rname,
+          create:: '${aws_opsworks_instance.%s.timeouts.create}' % rname,
+          delete:: '${aws_opsworks_instance.%s.timeouts.delete}' % rname,
+          update:: '${aws_opsworks_instance.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -18060,7 +18060,7 @@
         name:: '${aws_opsworks_java_app_layer.%s.name}' % rname,
         system_packages:: '${aws_opsworks_java_app_layer.%s.system_packages}' % rname,
         use_ebs_optimized_instances:: '${aws_opsworks_java_app_layer.%s.use_ebs_optimized_instances}' % rname,
-        ebs_volume:: '${aws_opsworks_java_app_layer.%s.ebs_volume}' % rname,
+        ebs_volume:: {},
       },
       // @param app_server (required) https://www.terraform.io/docs/providers/aws/r/opsworks_java_app_layer.html#app_server.
       with_app_server(app_server):: {
@@ -18168,10 +18168,10 @@
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
-          encrypted:: '${aws_opsworks_java_app_layer.%s.encrypted}' % rname,
-          iops:: '${aws_opsworks_java_app_layer.%s.iops}' % rname,
-          raid_level:: '${aws_opsworks_java_app_layer.%s.raid_level}' % rname,
-          type:: '${aws_opsworks_java_app_layer.%s.type}' % rname,
+          encrypted:: '${aws_opsworks_java_app_layer.%s.ebs_volume.encrypted}' % rname,
+          iops:: '${aws_opsworks_java_app_layer.%s.ebs_volume.iops}' % rname,
+          raid_level:: '${aws_opsworks_java_app_layer.%s.ebs_volume.raid_level}' % rname,
+          type:: '${aws_opsworks_java_app_layer.%s.ebs_volume.type}' % rname,
         },
       },
     },
@@ -18202,7 +18202,7 @@
         name:: '${aws_opsworks_memcached_layer.%s.name}' % rname,
         system_packages:: '${aws_opsworks_memcached_layer.%s.system_packages}' % rname,
         use_ebs_optimized_instances:: '${aws_opsworks_memcached_layer.%s.use_ebs_optimized_instances}' % rname,
-        ebs_volume:: '${aws_opsworks_memcached_layer.%s.ebs_volume}' % rname,
+        ebs_volume:: {},
       },
       // @param allocated_memory (required) https://www.terraform.io/docs/providers/aws/r/opsworks_memcached_layer.html#allocated_memory.
       with_allocated_memory(allocated_memory):: {
@@ -18294,10 +18294,10 @@
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
-          encrypted:: '${aws_opsworks_memcached_layer.%s.encrypted}' % rname,
-          iops:: '${aws_opsworks_memcached_layer.%s.iops}' % rname,
-          raid_level:: '${aws_opsworks_memcached_layer.%s.raid_level}' % rname,
-          type:: '${aws_opsworks_memcached_layer.%s.type}' % rname,
+          encrypted:: '${aws_opsworks_memcached_layer.%s.ebs_volume.encrypted}' % rname,
+          iops:: '${aws_opsworks_memcached_layer.%s.ebs_volume.iops}' % rname,
+          raid_level:: '${aws_opsworks_memcached_layer.%s.ebs_volume.raid_level}' % rname,
+          type:: '${aws_opsworks_memcached_layer.%s.ebs_volume.type}' % rname,
         },
       },
     },
@@ -18329,7 +18329,7 @@
         root_password_on_all_instances:: '${aws_opsworks_mysql_layer.%s.root_password_on_all_instances}' % rname,
         system_packages:: '${aws_opsworks_mysql_layer.%s.system_packages}' % rname,
         use_ebs_optimized_instances:: '${aws_opsworks_mysql_layer.%s.use_ebs_optimized_instances}' % rname,
-        ebs_volume:: '${aws_opsworks_mysql_layer.%s.ebs_volume}' % rname,
+        ebs_volume:: {},
       },
       // @param auto_assign_elastic_ips (required) https://www.terraform.io/docs/providers/aws/r/opsworks_mysql_layer.html#auto_assign_elastic_ips.
       with_auto_assign_elastic_ips(auto_assign_elastic_ips):: {
@@ -18425,10 +18425,10 @@
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
-          encrypted:: '${aws_opsworks_mysql_layer.%s.encrypted}' % rname,
-          iops:: '${aws_opsworks_mysql_layer.%s.iops}' % rname,
-          raid_level:: '${aws_opsworks_mysql_layer.%s.raid_level}' % rname,
-          type:: '${aws_opsworks_mysql_layer.%s.type}' % rname,
+          encrypted:: '${aws_opsworks_mysql_layer.%s.ebs_volume.encrypted}' % rname,
+          iops:: '${aws_opsworks_mysql_layer.%s.ebs_volume.iops}' % rname,
+          raid_level:: '${aws_opsworks_mysql_layer.%s.ebs_volume.raid_level}' % rname,
+          type:: '${aws_opsworks_mysql_layer.%s.ebs_volume.type}' % rname,
         },
       },
     },
@@ -18459,7 +18459,7 @@
         nodejs_version:: '${aws_opsworks_nodejs_app_layer.%s.nodejs_version}' % rname,
         system_packages:: '${aws_opsworks_nodejs_app_layer.%s.system_packages}' % rname,
         use_ebs_optimized_instances:: '${aws_opsworks_nodejs_app_layer.%s.use_ebs_optimized_instances}' % rname,
-        ebs_volume:: '${aws_opsworks_nodejs_app_layer.%s.ebs_volume}' % rname,
+        ebs_volume:: {},
       },
       // @param auto_assign_elastic_ips (required) https://www.terraform.io/docs/providers/aws/r/opsworks_nodejs_app_layer.html#auto_assign_elastic_ips.
       with_auto_assign_elastic_ips(auto_assign_elastic_ips):: {
@@ -18551,10 +18551,10 @@
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
-          encrypted:: '${aws_opsworks_nodejs_app_layer.%s.encrypted}' % rname,
-          iops:: '${aws_opsworks_nodejs_app_layer.%s.iops}' % rname,
-          raid_level:: '${aws_opsworks_nodejs_app_layer.%s.raid_level}' % rname,
-          type:: '${aws_opsworks_nodejs_app_layer.%s.type}' % rname,
+          encrypted:: '${aws_opsworks_nodejs_app_layer.%s.ebs_volume.encrypted}' % rname,
+          iops:: '${aws_opsworks_nodejs_app_layer.%s.ebs_volume.iops}' % rname,
+          raid_level:: '${aws_opsworks_nodejs_app_layer.%s.ebs_volume.raid_level}' % rname,
+          type:: '${aws_opsworks_nodejs_app_layer.%s.ebs_volume.type}' % rname,
         },
       },
     },
@@ -18618,7 +18618,7 @@
         name:: '${aws_opsworks_php_app_layer.%s.name}' % rname,
         system_packages:: '${aws_opsworks_php_app_layer.%s.system_packages}' % rname,
         use_ebs_optimized_instances:: '${aws_opsworks_php_app_layer.%s.use_ebs_optimized_instances}' % rname,
-        ebs_volume:: '${aws_opsworks_php_app_layer.%s.ebs_volume}' % rname,
+        ebs_volume:: {},
       },
       // @param auto_assign_elastic_ips (required) https://www.terraform.io/docs/providers/aws/r/opsworks_php_app_layer.html#auto_assign_elastic_ips.
       with_auto_assign_elastic_ips(auto_assign_elastic_ips):: {
@@ -18706,10 +18706,10 @@
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
-          encrypted:: '${aws_opsworks_php_app_layer.%s.encrypted}' % rname,
-          iops:: '${aws_opsworks_php_app_layer.%s.iops}' % rname,
-          raid_level:: '${aws_opsworks_php_app_layer.%s.raid_level}' % rname,
-          type:: '${aws_opsworks_php_app_layer.%s.type}' % rname,
+          encrypted:: '${aws_opsworks_php_app_layer.%s.ebs_volume.encrypted}' % rname,
+          iops:: '${aws_opsworks_php_app_layer.%s.ebs_volume.iops}' % rname,
+          raid_level:: '${aws_opsworks_php_app_layer.%s.ebs_volume.raid_level}' % rname,
+          type:: '${aws_opsworks_php_app_layer.%s.ebs_volume.type}' % rname,
         },
       },
     },
@@ -18745,7 +18745,7 @@
         rubygems_version:: '${aws_opsworks_rails_app_layer.%s.rubygems_version}' % rname,
         system_packages:: '${aws_opsworks_rails_app_layer.%s.system_packages}' % rname,
         use_ebs_optimized_instances:: '${aws_opsworks_rails_app_layer.%s.use_ebs_optimized_instances}' % rname,
-        ebs_volume:: '${aws_opsworks_rails_app_layer.%s.ebs_volume}' % rname,
+        ebs_volume:: {},
       },
       // @param app_server (required) https://www.terraform.io/docs/providers/aws/r/opsworks_rails_app_layer.html#app_server.
       with_app_server(app_server):: {
@@ -18857,10 +18857,10 @@
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
-          encrypted:: '${aws_opsworks_rails_app_layer.%s.encrypted}' % rname,
-          iops:: '${aws_opsworks_rails_app_layer.%s.iops}' % rname,
-          raid_level:: '${aws_opsworks_rails_app_layer.%s.raid_level}' % rname,
-          type:: '${aws_opsworks_rails_app_layer.%s.type}' % rname,
+          encrypted:: '${aws_opsworks_rails_app_layer.%s.ebs_volume.encrypted}' % rname,
+          iops:: '${aws_opsworks_rails_app_layer.%s.ebs_volume.iops}' % rname,
+          raid_level:: '${aws_opsworks_rails_app_layer.%s.ebs_volume.raid_level}' % rname,
+          type:: '${aws_opsworks_rails_app_layer.%s.ebs_volume.type}' % rname,
         },
       },
     },
@@ -18917,7 +18917,7 @@
         use_custom_cookbooks:: '${aws_opsworks_stack.%s.use_custom_cookbooks}' % rname,
         use_opsworks_security_groups:: '${aws_opsworks_stack.%s.use_opsworks_security_groups}' % rname,
         vpc_id:: '${aws_opsworks_stack.%s.vpc_id}' % rname,
-        custom_cookbooks_source:: '${aws_opsworks_stack.%s.custom_cookbooks_source}' % rname,
+        custom_cookbooks_source:: {},
       },
       // @param agent_version (required) https://www.terraform.io/docs/providers/aws/r/opsworks_stack.html#agent_version.
       with_agent_version(agent_version):: {
@@ -18999,10 +18999,10 @@
           rname:: rname,
           type: type,
           url: url,
-          password:: '${aws_opsworks_stack.%s.password}' % rname,
-          revision:: '${aws_opsworks_stack.%s.revision}' % rname,
-          ssh_key:: '${aws_opsworks_stack.%s.ssh_key}' % rname,
-          username:: '${aws_opsworks_stack.%s.username}' % rname,
+          password:: '${aws_opsworks_stack.%s.custom_cookbooks_source.password}' % rname,
+          revision:: '${aws_opsworks_stack.%s.custom_cookbooks_source.revision}' % rname,
+          ssh_key:: '${aws_opsworks_stack.%s.custom_cookbooks_source.ssh_key}' % rname,
+          username:: '${aws_opsworks_stack.%s.custom_cookbooks_source.username}' % rname,
         },
       },
     },
@@ -19032,7 +19032,7 @@
         name:: '${aws_opsworks_static_web_layer.%s.name}' % rname,
         system_packages:: '${aws_opsworks_static_web_layer.%s.system_packages}' % rname,
         use_ebs_optimized_instances:: '${aws_opsworks_static_web_layer.%s.use_ebs_optimized_instances}' % rname,
-        ebs_volume:: '${aws_opsworks_static_web_layer.%s.ebs_volume}' % rname,
+        ebs_volume:: {},
       },
       // @param auto_assign_elastic_ips (required) https://www.terraform.io/docs/providers/aws/r/opsworks_static_web_layer.html#auto_assign_elastic_ips.
       with_auto_assign_elastic_ips(auto_assign_elastic_ips):: {
@@ -19120,10 +19120,10 @@
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
-          encrypted:: '${aws_opsworks_static_web_layer.%s.encrypted}' % rname,
-          iops:: '${aws_opsworks_static_web_layer.%s.iops}' % rname,
-          raid_level:: '${aws_opsworks_static_web_layer.%s.raid_level}' % rname,
-          type:: '${aws_opsworks_static_web_layer.%s.type}' % rname,
+          encrypted:: '${aws_opsworks_static_web_layer.%s.ebs_volume.encrypted}' % rname,
+          iops:: '${aws_opsworks_static_web_layer.%s.ebs_volume.iops}' % rname,
+          raid_level:: '${aws_opsworks_static_web_layer.%s.ebs_volume.raid_level}' % rname,
+          type:: '${aws_opsworks_static_web_layer.%s.ebs_volume.type}' % rname,
         },
       },
     },
@@ -19538,9 +19538,9 @@
         name:: '${aws_pinpoint_app.%s.name}' % rname,
         name_prefix:: '${aws_pinpoint_app.%s.name_prefix}' % rname,
         tags:: '${aws_pinpoint_app.%s.tags}' % rname,
-        campaign_hook:: '${aws_pinpoint_app.%s.campaign_hook}' % rname,
-        limits:: '${aws_pinpoint_app.%s.limits}' % rname,
-        quiet_time:: '${aws_pinpoint_app.%s.quiet_time}' % rname,
+        campaign_hook:: {},
+        limits:: {},
+        quiet_time:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/pinpoint_app.html#id.
       with_id(id):: {
@@ -19562,27 +19562,27 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          lambda_function_name:: '${aws_pinpoint_app.%s.lambda_function_name}' % rname,
-          mode:: '${aws_pinpoint_app.%s.mode}' % rname,
-          web_url:: '${aws_pinpoint_app.%s.web_url}' % rname,
+          lambda_function_name:: '${aws_pinpoint_app.%s.campaign_hook.lambda_function_name}' % rname,
+          mode:: '${aws_pinpoint_app.%s.campaign_hook.mode}' % rname,
+          web_url:: '${aws_pinpoint_app.%s.campaign_hook.web_url}' % rname,
         },
       },
       limits:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          daily:: '${aws_pinpoint_app.%s.daily}' % rname,
-          maximum_duration:: '${aws_pinpoint_app.%s.maximum_duration}' % rname,
-          messages_per_second:: '${aws_pinpoint_app.%s.messages_per_second}' % rname,
-          total:: '${aws_pinpoint_app.%s.total}' % rname,
+          daily:: '${aws_pinpoint_app.%s.limits.daily}' % rname,
+          maximum_duration:: '${aws_pinpoint_app.%s.limits.maximum_duration}' % rname,
+          messages_per_second:: '${aws_pinpoint_app.%s.limits.messages_per_second}' % rname,
+          total:: '${aws_pinpoint_app.%s.limits.total}' % rname,
         },
       },
       quiet_time:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          end:: '${aws_pinpoint_app.%s.end}' % rname,
-          start:: '${aws_pinpoint_app.%s.start}' % rname,
+          end:: '${aws_pinpoint_app.%s.quiet_time.end}' % rname,
+          start:: '${aws_pinpoint_app.%s.quiet_time.start}' % rname,
         },
       },
     },
@@ -19888,7 +19888,7 @@
         arn:: '${aws_ram_resource_share.%s.arn}' % rname,
         id:: '${aws_ram_resource_share.%s.id}' % rname,
         tags:: '${aws_ram_resource_share.%s.tags}' % rname,
-        timeouts:: '${aws_ram_resource_share.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param allow_external_principals (required) https://www.terraform.io/docs/providers/aws/r/ram_resource_share.html#allow_external_principals.
       with_allow_external_principals(allow_external_principals):: {
@@ -19906,8 +19906,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_ram_resource_share.%s.create}' % rname,
-          delete:: '${aws_ram_resource_share.%s.delete}' % rname,
+          create:: '${aws_ram_resource_share.%s.timeouts.create}' % rname,
+          delete:: '${aws_ram_resource_share.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -19926,7 +19926,7 @@
         share_id:: '${aws_ram_resource_share_accepter.%s.share_id}' % rname,
         share_name:: '${aws_ram_resource_share_accepter.%s.share_name}' % rname,
         status:: '${aws_ram_resource_share_accepter.%s.status}' % rname,
-        timeouts:: '${aws_ram_resource_share_accepter.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/ram_resource_share_accepter.html#id.
       with_id(id):: {
@@ -19936,8 +19936,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_ram_resource_share_accepter.%s.create}' % rname,
-          delete:: '${aws_ram_resource_share_accepter.%s.delete}' % rname,
+          create:: '${aws_ram_resource_share_accepter.%s.timeouts.create}' % rname,
+          delete:: '${aws_ram_resource_share_accepter.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -19986,9 +19986,9 @@
         storage_encrypted:: '${aws_rds_cluster.%s.storage_encrypted}' % rname,
         tags:: '${aws_rds_cluster.%s.tags}' % rname,
         vpc_security_group_ids:: '${aws_rds_cluster.%s.vpc_security_group_ids}' % rname,
-        s3_import:: '${aws_rds_cluster.%s.s3_import}' % rname,
-        scaling_configuration:: '${aws_rds_cluster.%s.scaling_configuration}' % rname,
-        timeouts:: '${aws_rds_cluster.%s.timeouts}' % rname,
+        s3_import:: {},
+        scaling_configuration:: {},
+        timeouts:: {},
       },
       // @param apply_immediately (required) https://www.terraform.io/docs/providers/aws/r/rds_cluster.html#apply_immediately.
       with_apply_immediately(apply_immediately):: {
@@ -20142,27 +20142,27 @@
           ingestion_role: ingestion_role,
           source_engine: source_engine,
           source_engine_version: source_engine_version,
-          bucket_prefix:: '${aws_rds_cluster.%s.bucket_prefix}' % rname,
+          bucket_prefix:: '${aws_rds_cluster.%s.s3_import.bucket_prefix}' % rname,
         },
       },
       scaling_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          auto_pause:: '${aws_rds_cluster.%s.auto_pause}' % rname,
-          max_capacity:: '${aws_rds_cluster.%s.max_capacity}' % rname,
-          min_capacity:: '${aws_rds_cluster.%s.min_capacity}' % rname,
-          seconds_until_auto_pause:: '${aws_rds_cluster.%s.seconds_until_auto_pause}' % rname,
-          timeout_action:: '${aws_rds_cluster.%s.timeout_action}' % rname,
+          auto_pause:: '${aws_rds_cluster.%s.scaling_configuration.auto_pause}' % rname,
+          max_capacity:: '${aws_rds_cluster.%s.scaling_configuration.max_capacity}' % rname,
+          min_capacity:: '${aws_rds_cluster.%s.scaling_configuration.min_capacity}' % rname,
+          seconds_until_auto_pause:: '${aws_rds_cluster.%s.scaling_configuration.seconds_until_auto_pause}' % rname,
+          timeout_action:: '${aws_rds_cluster.%s.scaling_configuration.timeout_action}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_rds_cluster.%s.create}' % rname,
-          delete:: '${aws_rds_cluster.%s.delete}' % rname,
-          update:: '${aws_rds_cluster.%s.update}' % rname,
+          create:: '${aws_rds_cluster.%s.timeouts.create}' % rname,
+          delete:: '${aws_rds_cluster.%s.timeouts.delete}' % rname,
+          update:: '${aws_rds_cluster.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -20238,7 +20238,7 @@
         storage_encrypted:: '${aws_rds_cluster_instance.%s.storage_encrypted}' % rname,
         tags:: '${aws_rds_cluster_instance.%s.tags}' % rname,
         writer:: '${aws_rds_cluster_instance.%s.writer}' % rname,
-        timeouts:: '${aws_rds_cluster_instance.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param apply_immediately (required) https://www.terraform.io/docs/providers/aws/r/rds_cluster_instance.html#apply_immediately.
       with_apply_immediately(apply_immediately):: {
@@ -20328,9 +20328,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_rds_cluster_instance.%s.create}' % rname,
-          delete:: '${aws_rds_cluster_instance.%s.delete}' % rname,
-          update:: '${aws_rds_cluster_instance.%s.update}' % rname,
+          create:: '${aws_rds_cluster_instance.%s.timeouts.create}' % rname,
+          delete:: '${aws_rds_cluster_instance.%s.timeouts.delete}' % rname,
+          update:: '${aws_rds_cluster_instance.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -20347,7 +20347,7 @@
         name:: '${aws_rds_cluster_parameter_group.%s.name}' % rname,
         name_prefix:: '${aws_rds_cluster_parameter_group.%s.name_prefix}' % rname,
         tags:: '${aws_rds_cluster_parameter_group.%s.tags}' % rname,
-        parameter:: '${aws_rds_cluster_parameter_group.%s.parameter}' % rname,
+        parameter:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/rds_cluster_parameter_group.html#description.
       with_description(description):: {
@@ -20377,7 +20377,7 @@
           rname:: rname,
           name: name,
           value: value,
-          apply_method:: '${aws_rds_cluster_parameter_group.%s.apply_method}' % rname,
+          apply_method:: '${aws_rds_cluster_parameter_group.%s.parameter.apply_method}' % rname,
         },
       },
     },
@@ -20467,9 +20467,9 @@
         snapshot_identifier:: '${aws_redshift_cluster.%s.snapshot_identifier}' % rname,
         tags:: '${aws_redshift_cluster.%s.tags}' % rname,
         vpc_security_group_ids:: '${aws_redshift_cluster.%s.vpc_security_group_ids}' % rname,
-        logging:: '${aws_redshift_cluster.%s.logging}' % rname,
-        snapshot_copy:: '${aws_redshift_cluster.%s.snapshot_copy}' % rname,
-        timeouts:: '${aws_redshift_cluster.%s.timeouts}' % rname,
+        logging:: {},
+        snapshot_copy:: {},
+        timeouts:: {},
       },
       // @param allow_version_upgrade (required) https://www.terraform.io/docs/providers/aws/r/redshift_cluster.html#allow_version_upgrade.
       with_allow_version_upgrade(allow_version_upgrade):: {
@@ -20613,8 +20613,8 @@
         new(rname, enable):: {
           rname:: rname,
           enable: enable,
-          bucket_name:: '${aws_redshift_cluster.%s.bucket_name}' % rname,
-          s3_key_prefix:: '${aws_redshift_cluster.%s.s3_key_prefix}' % rname,
+          bucket_name:: '${aws_redshift_cluster.%s.logging.bucket_name}' % rname,
+          s3_key_prefix:: '${aws_redshift_cluster.%s.logging.s3_key_prefix}' % rname,
         },
       },
       snapshot_copy:: {
@@ -20623,17 +20623,17 @@
         new(rname, destination_region):: {
           rname:: rname,
           destination_region: destination_region,
-          grant_name:: '${aws_redshift_cluster.%s.grant_name}' % rname,
-          retention_period:: '${aws_redshift_cluster.%s.retention_period}' % rname,
+          grant_name:: '${aws_redshift_cluster.%s.snapshot_copy.grant_name}' % rname,
+          retention_period:: '${aws_redshift_cluster.%s.snapshot_copy.retention_period}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_redshift_cluster.%s.create}' % rname,
-          delete:: '${aws_redshift_cluster.%s.delete}' % rname,
-          update:: '${aws_redshift_cluster.%s.update}' % rname,
+          create:: '${aws_redshift_cluster.%s.timeouts.create}' % rname,
+          delete:: '${aws_redshift_cluster.%s.timeouts.delete}' % rname,
+          update:: '${aws_redshift_cluster.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -20656,7 +20656,7 @@
         source_type:: '${aws_redshift_event_subscription.%s.source_type}' % rname,
         status:: '${aws_redshift_event_subscription.%s.status}' % rname,
         tags:: '${aws_redshift_event_subscription.%s.tags}' % rname,
-        timeouts:: '${aws_redshift_event_subscription.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param enabled (required) https://www.terraform.io/docs/providers/aws/r/redshift_event_subscription.html#enabled.
       with_enabled(enabled):: {
@@ -20690,9 +20690,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_redshift_event_subscription.%s.create}' % rname,
-          delete:: '${aws_redshift_event_subscription.%s.delete}' % rname,
-          update:: '${aws_redshift_event_subscription.%s.update}' % rname,
+          create:: '${aws_redshift_event_subscription.%s.timeouts.create}' % rname,
+          delete:: '${aws_redshift_event_subscription.%s.timeouts.delete}' % rname,
+          update:: '${aws_redshift_event_subscription.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -20709,7 +20709,7 @@
         description:: '${aws_redshift_parameter_group.%s.description}' % rname,
         id:: '${aws_redshift_parameter_group.%s.id}' % rname,
         tags:: '${aws_redshift_parameter_group.%s.tags}' % rname,
-        parameter:: '${aws_redshift_parameter_group.%s.parameter}' % rname,
+        parameter:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/redshift_parameter_group.html#description.
       with_description(description):: {
@@ -20758,9 +20758,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          cidr:: '${aws_redshift_security_group.%s.cidr}' % rname,
-          security_group_name:: '${aws_redshift_security_group.%s.security_group_name}' % rname,
-          security_group_owner_id:: '${aws_redshift_security_group.%s.security_group_owner_id}' % rname,
+          cidr:: '${aws_redshift_security_group.%s.ingress.cidr}' % rname,
+          security_group_name:: '${aws_redshift_security_group.%s.ingress.security_group_name}' % rname,
+          security_group_owner_id:: '${aws_redshift_security_group.%s.ingress.security_group_owner_id}' % rname,
         },
       },
     },
@@ -20904,7 +20904,7 @@
         new(rname, query):: {
           rname:: rname,
           query: query,
-          type:: '${aws_resourcegroups_group.%s.type}' % rname,
+          type:: '${aws_resourcegroups_group.%s.resource_query.type}' % rname,
         },
       },
     },
@@ -20929,7 +20929,7 @@
         state:: '${aws_route.%s.state}' % rname,
         transit_gateway_id:: '${aws_route.%s.transit_gateway_id}' % rname,
         vpc_peering_connection_id:: '${aws_route.%s.vpc_peering_connection_id}' % rname,
-        timeouts:: '${aws_route.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param destination_cidr_block (required) https://www.terraform.io/docs/providers/aws/r/route.html#destination_cidr_block.
       with_destination_cidr_block(destination_cidr_block):: {
@@ -20975,8 +20975,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_route.%s.create}' % rname,
-          delete:: '${aws_route.%s.delete}' % rname,
+          create:: '${aws_route.%s.timeouts.create}' % rname,
+          delete:: '${aws_route.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -21137,11 +21137,11 @@
         records:: '${aws_route53_record.%s.records}' % rname,
         set_identifier:: '${aws_route53_record.%s.set_identifier}' % rname,
         ttl:: '${aws_route53_record.%s.ttl}' % rname,
-        alias:: '${aws_route53_record.%s.alias}' % rname,
-        failover_routing_policy:: '${aws_route53_record.%s.failover_routing_policy}' % rname,
-        geolocation_routing_policy:: '${aws_route53_record.%s.geolocation_routing_policy}' % rname,
-        latency_routing_policy:: '${aws_route53_record.%s.latency_routing_policy}' % rname,
-        weighted_routing_policy:: '${aws_route53_record.%s.weighted_routing_policy}' % rname,
+        alias:: {},
+        failover_routing_policy:: {},
+        geolocation_routing_policy:: {},
+        latency_routing_policy:: {},
+        weighted_routing_policy:: {},
       },
       // @param allow_overwrite (required) https://www.terraform.io/docs/providers/aws/r/route53_record.html#allow_overwrite.
       with_allow_overwrite(allow_overwrite):: {
@@ -21195,9 +21195,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          continent:: '${aws_route53_record.%s.continent}' % rname,
-          country:: '${aws_route53_record.%s.country}' % rname,
-          subdivision:: '${aws_route53_record.%s.subdivision}' % rname,
+          continent:: '${aws_route53_record.%s.geolocation_routing_policy.continent}' % rname,
+          country:: '${aws_route53_record.%s.geolocation_routing_policy.country}' % rname,
+          subdivision:: '${aws_route53_record.%s.geolocation_routing_policy.subdivision}' % rname,
         },
       },
       latency_routing_policy:: {
@@ -21233,7 +21233,7 @@
         id:: '${aws_route53_resolver_endpoint.%s.id}' % rname,
         name:: '${aws_route53_resolver_endpoint.%s.name}' % rname,
         tags:: '${aws_route53_resolver_endpoint.%s.tags}' % rname,
-        timeouts:: '${aws_route53_resolver_endpoint.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/route53_resolver_endpoint.html#id.
       with_id(id):: {
@@ -21253,17 +21253,17 @@
         new(rname, subnet_id):: {
           rname:: rname,
           subnet_id: subnet_id,
-          ip:: '${aws_route53_resolver_endpoint.%s.ip}' % rname,
-          ip_id:: '${aws_route53_resolver_endpoint.%s.ip_id}' % rname,
+          ip:: '${aws_route53_resolver_endpoint.%s.ip_address.ip}' % rname,
+          ip_id:: '${aws_route53_resolver_endpoint.%s.ip_address.ip_id}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_route53_resolver_endpoint.%s.create}' % rname,
-          delete:: '${aws_route53_resolver_endpoint.%s.delete}' % rname,
-          update:: '${aws_route53_resolver_endpoint.%s.update}' % rname,
+          create:: '${aws_route53_resolver_endpoint.%s.timeouts.create}' % rname,
+          delete:: '${aws_route53_resolver_endpoint.%s.timeouts.delete}' % rname,
+          update:: '${aws_route53_resolver_endpoint.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -21283,8 +21283,8 @@
         resolver_endpoint_id:: '${aws_route53_resolver_rule.%s.resolver_endpoint_id}' % rname,
         share_status:: '${aws_route53_resolver_rule.%s.share_status}' % rname,
         tags:: '${aws_route53_resolver_rule.%s.tags}' % rname,
-        target_ip:: '${aws_route53_resolver_rule.%s.target_ip}' % rname,
-        timeouts:: '${aws_route53_resolver_rule.%s.timeouts}' % rname,
+        target_ip:: {},
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/route53_resolver_rule.html#id.
       with_id(id):: {
@@ -21308,16 +21308,16 @@
         new(rname, ip):: {
           rname:: rname,
           ip: ip,
-          port:: '${aws_route53_resolver_rule.%s.port}' % rname,
+          port:: '${aws_route53_resolver_rule.%s.target_ip.port}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_route53_resolver_rule.%s.create}' % rname,
-          delete:: '${aws_route53_resolver_rule.%s.delete}' % rname,
-          update:: '${aws_route53_resolver_rule.%s.update}' % rname,
+          create:: '${aws_route53_resolver_rule.%s.timeouts.create}' % rname,
+          delete:: '${aws_route53_resolver_rule.%s.timeouts.delete}' % rname,
+          update:: '${aws_route53_resolver_rule.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -21332,7 +21332,7 @@
         vpc_id: vpc_id,
         id:: '${aws_route53_resolver_rule_association.%s.id}' % rname,
         name:: '${aws_route53_resolver_rule_association.%s.name}' % rname,
-        timeouts:: '${aws_route53_resolver_rule_association.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/route53_resolver_rule_association.html#id.
       with_id(id):: {
@@ -21346,8 +21346,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_route53_resolver_rule_association.%s.create}' % rname,
-          delete:: '${aws_route53_resolver_rule_association.%s.delete}' % rname,
+          create:: '${aws_route53_resolver_rule_association.%s.timeouts.create}' % rname,
+          delete:: '${aws_route53_resolver_rule_association.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -21367,7 +21367,7 @@
         vpc_id:: '${aws_route53_zone.%s.vpc_id}' % rname,
         vpc_region:: '${aws_route53_zone.%s.vpc_region}' % rname,
         zone_id:: '${aws_route53_zone.%s.zone_id}' % rname,
-        vpc:: '${aws_route53_zone.%s.vpc}' % rname,
+        vpc:: {},
       },
       // @param comment (required) https://www.terraform.io/docs/providers/aws/r/route53_zone.html#comment.
       with_comment(comment):: {
@@ -21403,7 +21403,7 @@
         new(rname, vpc_id):: {
           rname:: rname,
           vpc_id: vpc_id,
-          vpc_region:: '${aws_route53_zone.%s.vpc_region}' % rname,
+          vpc_region:: '${aws_route53_zone.%s.vpc.vpc_region}' % rname,
         },
       },
     },
@@ -21498,8 +21498,8 @@
         id:: '${aws_s3_access_point.%s.id}' % rname,
         network_origin:: '${aws_s3_access_point.%s.network_origin}' % rname,
         policy:: '${aws_s3_access_point.%s.policy}' % rname,
-        public_access_block_configuration:: '${aws_s3_access_point.%s.public_access_block_configuration}' % rname,
-        vpc_configuration:: '${aws_s3_access_point.%s.vpc_configuration}' % rname,
+        public_access_block_configuration:: {},
+        vpc_configuration:: {},
       },
       // @param account_id (required) https://www.terraform.io/docs/providers/aws/r/s3_access_point.html#account_id.
       with_account_id(account_id):: {
@@ -21517,10 +21517,10 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          block_public_acls:: '${aws_s3_access_point.%s.block_public_acls}' % rname,
-          block_public_policy:: '${aws_s3_access_point.%s.block_public_policy}' % rname,
-          ignore_public_acls:: '${aws_s3_access_point.%s.ignore_public_acls}' % rname,
-          restrict_public_buckets:: '${aws_s3_access_point.%s.restrict_public_buckets}' % rname,
+          block_public_acls:: '${aws_s3_access_point.%s.public_access_block_configuration.block_public_acls}' % rname,
+          block_public_policy:: '${aws_s3_access_point.%s.public_access_block_configuration.block_public_policy}' % rname,
+          ignore_public_acls:: '${aws_s3_access_point.%s.public_access_block_configuration.ignore_public_acls}' % rname,
+          restrict_public_buckets:: '${aws_s3_access_point.%s.public_access_block_configuration.restrict_public_buckets}' % rname,
         },
       },
       vpc_configuration:: {
@@ -21590,15 +21590,15 @@
         tags:: '${aws_s3_bucket.%s.tags}' % rname,
         website_domain:: '${aws_s3_bucket.%s.website_domain}' % rname,
         website_endpoint:: '${aws_s3_bucket.%s.website_endpoint}' % rname,
-        cors_rule:: '${aws_s3_bucket.%s.cors_rule}' % rname,
-        grant:: '${aws_s3_bucket.%s.grant}' % rname,
-        lifecycle_rule:: '${aws_s3_bucket.%s.lifecycle_rule}' % rname,
-        logging:: '${aws_s3_bucket.%s.logging}' % rname,
-        object_lock_configuration:: '${aws_s3_bucket.%s.object_lock_configuration}' % rname,
-        replication_configuration:: '${aws_s3_bucket.%s.replication_configuration}' % rname,
-        server_side_encryption_configuration:: '${aws_s3_bucket.%s.server_side_encryption_configuration}' % rname,
-        versioning:: '${aws_s3_bucket.%s.versioning}' % rname,
-        website:: '${aws_s3_bucket.%s.website}' % rname,
+        cors_rule:: {},
+        grant:: {},
+        lifecycle_rule:: {},
+        logging:: {},
+        object_lock_configuration:: {},
+        replication_configuration:: {},
+        server_side_encryption_configuration:: {},
+        versioning:: {},
+        website:: {},
       },
       // @param acceleration_status (required) https://www.terraform.io/docs/providers/aws/r/s3_bucket.html#acceleration_status.
       with_acceleration_status(acceleration_status):: {
@@ -21664,9 +21664,9 @@
           rname:: rname,
           allowed_methods: allowed_methods,
           allowed_origins: allowed_origins,
-          allowed_headers:: '${aws_s3_bucket.%s.allowed_headers}' % rname,
-          expose_headers:: '${aws_s3_bucket.%s.expose_headers}' % rname,
-          max_age_seconds:: '${aws_s3_bucket.%s.max_age_seconds}' % rname,
+          allowed_headers:: '${aws_s3_bucket.%s.cors_rule.allowed_headers}' % rname,
+          expose_headers:: '${aws_s3_bucket.%s.cors_rule.expose_headers}' % rname,
+          max_age_seconds:: '${aws_s3_bucket.%s.cors_rule.max_age_seconds}' % rname,
         },
       },
       grant:: {
@@ -21677,8 +21677,8 @@
           rname:: rname,
           permissions: permissions,
           type: type,
-          id:: '${aws_s3_bucket.%s.id}' % rname,
-          uri:: '${aws_s3_bucket.%s.uri}' % rname,
+          id:: '${aws_s3_bucket.%s.grant.id}' % rname,
+          uri:: '${aws_s3_bucket.%s.grant.uri}' % rname,
         },
       },
       lifecycle_rule:: {
@@ -21687,10 +21687,10 @@
         new(rname, enabled):: {
           rname:: rname,
           enabled: enabled,
-          abort_incomplete_multipart_upload_days:: '${aws_s3_bucket.%s.abort_incomplete_multipart_upload_days}' % rname,
-          id:: '${aws_s3_bucket.%s.id}' % rname,
-          prefix:: '${aws_s3_bucket.%s.prefix}' % rname,
-          tags:: '${aws_s3_bucket.%s.tags}' % rname,
+          abort_incomplete_multipart_upload_days:: '${aws_s3_bucket.%s.lifecycle_rule.abort_incomplete_multipart_upload_days}' % rname,
+          id:: '${aws_s3_bucket.%s.lifecycle_rule.id}' % rname,
+          prefix:: '${aws_s3_bucket.%s.lifecycle_rule.prefix}' % rname,
+          tags:: '${aws_s3_bucket.%s.lifecycle_rule.tags}' % rname,
         },
       },
       logging:: {
@@ -21699,7 +21699,7 @@
         new(rname, target_bucket):: {
           rname:: rname,
           target_bucket: target_bucket,
-          target_prefix:: '${aws_s3_bucket.%s.target_prefix}' % rname,
+          target_prefix:: '${aws_s3_bucket.%s.logging.target_prefix}' % rname,
         },
       },
       object_lock_configuration:: {
@@ -21728,18 +21728,18 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          enabled:: '${aws_s3_bucket.%s.enabled}' % rname,
-          mfa_delete:: '${aws_s3_bucket.%s.mfa_delete}' % rname,
+          enabled:: '${aws_s3_bucket.%s.versioning.enabled}' % rname,
+          mfa_delete:: '${aws_s3_bucket.%s.versioning.mfa_delete}' % rname,
         },
       },
       website:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          error_document:: '${aws_s3_bucket.%s.error_document}' % rname,
-          index_document:: '${aws_s3_bucket.%s.index_document}' % rname,
-          redirect_all_requests_to:: '${aws_s3_bucket.%s.redirect_all_requests_to}' % rname,
-          routing_rules:: '${aws_s3_bucket.%s.routing_rules}' % rname,
+          error_document:: '${aws_s3_bucket.%s.website.error_document}' % rname,
+          index_document:: '${aws_s3_bucket.%s.website.index_document}' % rname,
+          redirect_all_requests_to:: '${aws_s3_bucket.%s.website.redirect_all_requests_to}' % rname,
+          routing_rules:: '${aws_s3_bucket.%s.website.routing_rules}' % rname,
         },
       },
     },
@@ -21753,8 +21753,8 @@
         bucket: bucket,
         name: name,
         id:: '${aws_s3_bucket_analytics_configuration.%s.id}' % rname,
-        filter:: '${aws_s3_bucket_analytics_configuration.%s.filter}' % rname,
-        storage_class_analysis:: '${aws_s3_bucket_analytics_configuration.%s.storage_class_analysis}' % rname,
+        filter:: {},
+        storage_class_analysis:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/s3_bucket_analytics_configuration.html#id.
       with_id(id):: {
@@ -21764,8 +21764,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          prefix:: '${aws_s3_bucket_analytics_configuration.%s.prefix}' % rname,
-          tags:: '${aws_s3_bucket_analytics_configuration.%s.tags}' % rname,
+          prefix:: '${aws_s3_bucket_analytics_configuration.%s.filter.prefix}' % rname,
+          tags:: '${aws_s3_bucket_analytics_configuration.%s.filter.tags}' % rname,
         },
       },
       storage_class_analysis:: {
@@ -21793,7 +21793,7 @@
         enabled:: '${aws_s3_bucket_inventory.%s.enabled}' % rname,
         id:: '${aws_s3_bucket_inventory.%s.id}' % rname,
         optional_fields:: '${aws_s3_bucket_inventory.%s.optional_fields}' % rname,
-        filter:: '${aws_s3_bucket_inventory.%s.filter}' % rname,
+        filter:: {},
       },
       // @param enabled (required) https://www.terraform.io/docs/providers/aws/r/s3_bucket_inventory.html#enabled.
       with_enabled(enabled):: {
@@ -21817,7 +21817,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          prefix:: '${aws_s3_bucket_inventory.%s.prefix}' % rname,
+          prefix:: '${aws_s3_bucket_inventory.%s.filter.prefix}' % rname,
         },
       },
       schedule:: {
@@ -21839,7 +21839,7 @@
         bucket: bucket,
         name: name,
         id:: '${aws_s3_bucket_metric.%s.id}' % rname,
-        filter:: '${aws_s3_bucket_metric.%s.filter}' % rname,
+        filter:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/s3_bucket_metric.html#id.
       with_id(id):: {
@@ -21849,8 +21849,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          prefix:: '${aws_s3_bucket_metric.%s.prefix}' % rname,
-          tags:: '${aws_s3_bucket_metric.%s.tags}' % rname,
+          prefix:: '${aws_s3_bucket_metric.%s.filter.prefix}' % rname,
+          tags:: '${aws_s3_bucket_metric.%s.filter.tags}' % rname,
         },
       },
     },
@@ -21862,9 +21862,9 @@
         rname:: rname,
         bucket: bucket,
         id:: '${aws_s3_bucket_notification.%s.id}' % rname,
-        lambda_function:: '${aws_s3_bucket_notification.%s.lambda_function}' % rname,
-        queue:: '${aws_s3_bucket_notification.%s.queue}' % rname,
-        topic:: '${aws_s3_bucket_notification.%s.topic}' % rname,
+        lambda_function:: {},
+        queue:: {},
+        topic:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/s3_bucket_notification.html#id.
       with_id(id):: {
@@ -21876,10 +21876,10 @@
         new(rname, events):: {
           rname:: rname,
           events: events,
-          filter_prefix:: '${aws_s3_bucket_notification.%s.filter_prefix}' % rname,
-          filter_suffix:: '${aws_s3_bucket_notification.%s.filter_suffix}' % rname,
-          id:: '${aws_s3_bucket_notification.%s.id}' % rname,
-          lambda_function_arn:: '${aws_s3_bucket_notification.%s.lambda_function_arn}' % rname,
+          filter_prefix:: '${aws_s3_bucket_notification.%s.lambda_function.filter_prefix}' % rname,
+          filter_suffix:: '${aws_s3_bucket_notification.%s.lambda_function.filter_suffix}' % rname,
+          id:: '${aws_s3_bucket_notification.%s.lambda_function.id}' % rname,
+          lambda_function_arn:: '${aws_s3_bucket_notification.%s.lambda_function.lambda_function_arn}' % rname,
         },
       },
       queue:: {
@@ -21890,9 +21890,9 @@
           rname:: rname,
           events: events,
           queue_arn: queue_arn,
-          filter_prefix:: '${aws_s3_bucket_notification.%s.filter_prefix}' % rname,
-          filter_suffix:: '${aws_s3_bucket_notification.%s.filter_suffix}' % rname,
-          id:: '${aws_s3_bucket_notification.%s.id}' % rname,
+          filter_prefix:: '${aws_s3_bucket_notification.%s.queue.filter_prefix}' % rname,
+          filter_suffix:: '${aws_s3_bucket_notification.%s.queue.filter_suffix}' % rname,
+          id:: '${aws_s3_bucket_notification.%s.queue.id}' % rname,
         },
       },
       topic:: {
@@ -21903,9 +21903,9 @@
           rname:: rname,
           events: events,
           topic_arn: topic_arn,
-          filter_prefix:: '${aws_s3_bucket_notification.%s.filter_prefix}' % rname,
-          filter_suffix:: '${aws_s3_bucket_notification.%s.filter_suffix}' % rname,
-          id:: '${aws_s3_bucket_notification.%s.id}' % rname,
+          filter_prefix:: '${aws_s3_bucket_notification.%s.topic.filter_prefix}' % rname,
+          filter_suffix:: '${aws_s3_bucket_notification.%s.topic.filter_suffix}' % rname,
+          id:: '${aws_s3_bucket_notification.%s.topic.id}' % rname,
         },
       },
     },
@@ -22140,9 +22140,9 @@
           initial_instance_count: initial_instance_count,
           instance_type: instance_type,
           model_name: model_name,
-          accelerator_type:: '${aws_sagemaker_endpoint_configuration.%s.accelerator_type}' % rname,
-          initial_variant_weight:: '${aws_sagemaker_endpoint_configuration.%s.initial_variant_weight}' % rname,
-          variant_name:: '${aws_sagemaker_endpoint_configuration.%s.variant_name}' % rname,
+          accelerator_type:: '${aws_sagemaker_endpoint_configuration.%s.production_variants.accelerator_type}' % rname,
+          initial_variant_weight:: '${aws_sagemaker_endpoint_configuration.%s.production_variants.initial_variant_weight}' % rname,
+          variant_name:: '${aws_sagemaker_endpoint_configuration.%s.production_variants.variant_name}' % rname,
         },
       },
     },
@@ -22158,9 +22158,9 @@
         id:: '${aws_sagemaker_model.%s.id}' % rname,
         name:: '${aws_sagemaker_model.%s.name}' % rname,
         tags:: '${aws_sagemaker_model.%s.tags}' % rname,
-        container:: '${aws_sagemaker_model.%s.container}' % rname,
-        primary_container:: '${aws_sagemaker_model.%s.primary_container}' % rname,
-        vpc_config:: '${aws_sagemaker_model.%s.vpc_config}' % rname,
+        container:: {},
+        primary_container:: {},
+        vpc_config:: {},
       },
       // @param enable_network_isolation (required) https://www.terraform.io/docs/providers/aws/r/sagemaker_model.html#enable_network_isolation.
       with_enable_network_isolation(enable_network_isolation):: {
@@ -22184,9 +22184,9 @@
         new(rname, image):: {
           rname:: rname,
           image: image,
-          container_hostname:: '${aws_sagemaker_model.%s.container_hostname}' % rname,
-          environment:: '${aws_sagemaker_model.%s.environment}' % rname,
-          model_data_url:: '${aws_sagemaker_model.%s.model_data_url}' % rname,
+          container_hostname:: '${aws_sagemaker_model.%s.container.container_hostname}' % rname,
+          environment:: '${aws_sagemaker_model.%s.container.environment}' % rname,
+          model_data_url:: '${aws_sagemaker_model.%s.container.model_data_url}' % rname,
         },
       },
       primary_container:: {
@@ -22195,9 +22195,9 @@
         new(rname, image):: {
           rname:: rname,
           image: image,
-          container_hostname:: '${aws_sagemaker_model.%s.container_hostname}' % rname,
-          environment:: '${aws_sagemaker_model.%s.environment}' % rname,
-          model_data_url:: '${aws_sagemaker_model.%s.model_data_url}' % rname,
+          container_hostname:: '${aws_sagemaker_model.%s.primary_container.container_hostname}' % rname,
+          environment:: '${aws_sagemaker_model.%s.primary_container.environment}' % rname,
+          model_data_url:: '${aws_sagemaker_model.%s.primary_container.model_data_url}' % rname,
         },
       },
       vpc_config:: {
@@ -22304,7 +22304,7 @@
         rotation_enabled:: '${aws_secretsmanager_secret.%s.rotation_enabled}' % rname,
         rotation_lambda_arn:: '${aws_secretsmanager_secret.%s.rotation_lambda_arn}' % rname,
         tags:: '${aws_secretsmanager_secret.%s.tags}' % rname,
-        rotation_rules:: '${aws_secretsmanager_secret.%s.rotation_rules}' % rname,
+        rotation_rules:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/secretsmanager_secret.html#description.
       with_description(description):: {
@@ -22398,7 +22398,7 @@
         revoke_rules_on_delete:: '${aws_security_group.%s.revoke_rules_on_delete}' % rname,
         tags:: '${aws_security_group.%s.tags}' % rname,
         vpc_id:: '${aws_security_group.%s.vpc_id}' % rname,
-        timeouts:: '${aws_security_group.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/security_group.html#description.
       with_description(description):: {
@@ -22440,8 +22440,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_security_group.%s.create}' % rname,
-          delete:: '${aws_security_group.%s.delete}' % rname,
+          create:: '${aws_security_group.%s.timeouts.create}' % rname,
+          delete:: '${aws_security_group.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -22613,9 +22613,9 @@
         description:: '${aws_service_discovery_service.%s.description}' % rname,
         id:: '${aws_service_discovery_service.%s.id}' % rname,
         namespace_id:: '${aws_service_discovery_service.%s.namespace_id}' % rname,
-        dns_config:: '${aws_service_discovery_service.%s.dns_config}' % rname,
-        health_check_config:: '${aws_service_discovery_service.%s.health_check_config}' % rname,
-        health_check_custom_config:: '${aws_service_discovery_service.%s.health_check_custom_config}' % rname,
+        dns_config:: {},
+        health_check_config:: {},
+        health_check_custom_config:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/service_discovery_service.html#description.
       with_description(description):: {
@@ -22635,23 +22635,23 @@
         new(rname, namespace_id):: {
           rname:: rname,
           namespace_id: namespace_id,
-          routing_policy:: '${aws_service_discovery_service.%s.routing_policy}' % rname,
+          routing_policy:: '${aws_service_discovery_service.%s.dns_config.routing_policy}' % rname,
         },
       },
       health_check_config:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          failure_threshold:: '${aws_service_discovery_service.%s.failure_threshold}' % rname,
-          resource_path:: '${aws_service_discovery_service.%s.resource_path}' % rname,
-          type:: '${aws_service_discovery_service.%s.type}' % rname,
+          failure_threshold:: '${aws_service_discovery_service.%s.health_check_config.failure_threshold}' % rname,
+          resource_path:: '${aws_service_discovery_service.%s.health_check_config.resource_path}' % rname,
+          type:: '${aws_service_discovery_service.%s.health_check_config.type}' % rname,
         },
       },
       health_check_custom_config:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          failure_threshold:: '${aws_service_discovery_service.%s.failure_threshold}' % rname,
+          failure_threshold:: '${aws_service_discovery_service.%s.health_check_custom_config.failure_threshold}' % rname,
         },
       },
     },
@@ -22668,7 +22668,7 @@
         id:: '${aws_servicecatalog_portfolio.%s.id}' % rname,
         provider_name:: '${aws_servicecatalog_portfolio.%s.provider_name}' % rname,
         tags:: '${aws_servicecatalog_portfolio.%s.tags}' % rname,
-        timeouts:: '${aws_servicecatalog_portfolio.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/servicecatalog_portfolio.html#description.
       with_description(description):: {
@@ -22690,9 +22690,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_servicecatalog_portfolio.%s.create}' % rname,
-          delete:: '${aws_servicecatalog_portfolio.%s.delete}' % rname,
-          update:: '${aws_servicecatalog_portfolio.%s.update}' % rname,
+          create:: '${aws_servicecatalog_portfolio.%s.timeouts.create}' % rname,
+          delete:: '${aws_servicecatalog_portfolio.%s.timeouts.delete}' % rname,
+          update:: '${aws_servicecatalog_portfolio.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -22789,7 +22789,7 @@
         domain: domain,
         arn:: '${aws_ses_domain_identity_verification.%s.arn}' % rname,
         id:: '${aws_ses_domain_identity_verification.%s.id}' % rname,
-        timeouts:: '${aws_ses_domain_identity_verification.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/ses_domain_identity_verification.html#id.
       with_id(id):: {
@@ -22799,7 +22799,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_ses_domain_identity_verification.%s.create}' % rname,
+          create:: '${aws_ses_domain_identity_verification.%s.timeouts.create}' % rname,
         },
       },
     },
@@ -22852,9 +22852,9 @@
         name: name,
         enabled:: '${aws_ses_event_destination.%s.enabled}' % rname,
         id:: '${aws_ses_event_destination.%s.id}' % rname,
-        cloudwatch_destination:: '${aws_ses_event_destination.%s.cloudwatch_destination}' % rname,
-        kinesis_destination:: '${aws_ses_event_destination.%s.kinesis_destination}' % rname,
-        sns_destination:: '${aws_ses_event_destination.%s.sns_destination}' % rname,
+        cloudwatch_destination:: {},
+        kinesis_destination:: {},
+        sns_destination:: {},
       },
       // @param enabled (required) https://www.terraform.io/docs/providers/aws/r/ses_event_destination.html#enabled.
       with_enabled(enabled):: {
@@ -22972,13 +22972,13 @@
         recipients:: '${aws_ses_receipt_rule.%s.recipients}' % rname,
         scan_enabled:: '${aws_ses_receipt_rule.%s.scan_enabled}' % rname,
         tls_policy:: '${aws_ses_receipt_rule.%s.tls_policy}' % rname,
-        add_header_action:: '${aws_ses_receipt_rule.%s.add_header_action}' % rname,
-        bounce_action:: '${aws_ses_receipt_rule.%s.bounce_action}' % rname,
-        lambda_action:: '${aws_ses_receipt_rule.%s.lambda_action}' % rname,
-        s3_action:: '${aws_ses_receipt_rule.%s.s3_action}' % rname,
-        sns_action:: '${aws_ses_receipt_rule.%s.sns_action}' % rname,
-        stop_action:: '${aws_ses_receipt_rule.%s.stop_action}' % rname,
-        workmail_action:: '${aws_ses_receipt_rule.%s.workmail_action}' % rname,
+        add_header_action:: {},
+        bounce_action:: {},
+        lambda_action:: {},
+        s3_action:: {},
+        sns_action:: {},
+        stop_action:: {},
+        workmail_action:: {},
       },
       // @param after (required) https://www.terraform.io/docs/providers/aws/r/ses_receipt_rule.html#after.
       with_after(after):: {
@@ -23028,8 +23028,8 @@
           position: position,
           sender: sender,
           smtp_reply_code: smtp_reply_code,
-          status_code:: '${aws_ses_receipt_rule.%s.status_code}' % rname,
-          topic_arn:: '${aws_ses_receipt_rule.%s.topic_arn}' % rname,
+          status_code:: '${aws_ses_receipt_rule.%s.bounce_action.status_code}' % rname,
+          topic_arn:: '${aws_ses_receipt_rule.%s.bounce_action.topic_arn}' % rname,
         },
       },
       lambda_action:: {
@@ -23040,8 +23040,8 @@
           rname:: rname,
           function_arn: function_arn,
           position: position,
-          invocation_type:: '${aws_ses_receipt_rule.%s.invocation_type}' % rname,
-          topic_arn:: '${aws_ses_receipt_rule.%s.topic_arn}' % rname,
+          invocation_type:: '${aws_ses_receipt_rule.%s.lambda_action.invocation_type}' % rname,
+          topic_arn:: '${aws_ses_receipt_rule.%s.lambda_action.topic_arn}' % rname,
         },
       },
       s3_action:: {
@@ -23052,9 +23052,9 @@
           rname:: rname,
           bucket_name: bucket_name,
           position: position,
-          kms_key_arn:: '${aws_ses_receipt_rule.%s.kms_key_arn}' % rname,
-          object_key_prefix:: '${aws_ses_receipt_rule.%s.object_key_prefix}' % rname,
-          topic_arn:: '${aws_ses_receipt_rule.%s.topic_arn}' % rname,
+          kms_key_arn:: '${aws_ses_receipt_rule.%s.s3_action.kms_key_arn}' % rname,
+          object_key_prefix:: '${aws_ses_receipt_rule.%s.s3_action.object_key_prefix}' % rname,
+          topic_arn:: '${aws_ses_receipt_rule.%s.s3_action.topic_arn}' % rname,
         },
       },
       sns_action:: {
@@ -23075,7 +23075,7 @@
           rname:: rname,
           position: position,
           scope: scope,
-          topic_arn:: '${aws_ses_receipt_rule.%s.topic_arn}' % rname,
+          topic_arn:: '${aws_ses_receipt_rule.%s.stop_action.topic_arn}' % rname,
         },
       },
       workmail_action:: {
@@ -23086,7 +23086,7 @@
           rname:: rname,
           organization_arn: organization_arn,
           position: position,
-          topic_arn:: '${aws_ses_receipt_rule.%s.topic_arn}' % rname,
+          topic_arn:: '${aws_ses_receipt_rule.%s.workmail_action.topic_arn}' % rname,
         },
       },
     },
@@ -23539,7 +23539,7 @@
         valid_from:: '${aws_spot_fleet_request.%s.valid_from}' % rname,
         valid_until:: '${aws_spot_fleet_request.%s.valid_until}' % rname,
         wait_for_fulfillment:: '${aws_spot_fleet_request.%s.wait_for_fulfillment}' % rname,
-        timeouts:: '${aws_spot_fleet_request.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param allocation_strategy (required) https://www.terraform.io/docs/providers/aws/r/spot_fleet_request.html#allocation_strategy.
       with_allocation_strategy(allocation_strategy):: {
@@ -23605,29 +23605,29 @@
           rname:: rname,
           ami: ami,
           instance_type: instance_type,
-          associate_public_ip_address:: '${aws_spot_fleet_request.%s.associate_public_ip_address}' % rname,
-          availability_zone:: '${aws_spot_fleet_request.%s.availability_zone}' % rname,
-          ebs_optimized:: '${aws_spot_fleet_request.%s.ebs_optimized}' % rname,
-          iam_instance_profile:: '${aws_spot_fleet_request.%s.iam_instance_profile}' % rname,
-          iam_instance_profile_arn:: '${aws_spot_fleet_request.%s.iam_instance_profile_arn}' % rname,
-          key_name:: '${aws_spot_fleet_request.%s.key_name}' % rname,
-          monitoring:: '${aws_spot_fleet_request.%s.monitoring}' % rname,
-          placement_group:: '${aws_spot_fleet_request.%s.placement_group}' % rname,
-          placement_tenancy:: '${aws_spot_fleet_request.%s.placement_tenancy}' % rname,
-          spot_price:: '${aws_spot_fleet_request.%s.spot_price}' % rname,
-          subnet_id:: '${aws_spot_fleet_request.%s.subnet_id}' % rname,
-          tags:: '${aws_spot_fleet_request.%s.tags}' % rname,
-          user_data:: '${aws_spot_fleet_request.%s.user_data}' % rname,
-          vpc_security_group_ids:: '${aws_spot_fleet_request.%s.vpc_security_group_ids}' % rname,
-          weighted_capacity:: '${aws_spot_fleet_request.%s.weighted_capacity}' % rname,
+          associate_public_ip_address:: '${aws_spot_fleet_request.%s.launch_specification.associate_public_ip_address}' % rname,
+          availability_zone:: '${aws_spot_fleet_request.%s.launch_specification.availability_zone}' % rname,
+          ebs_optimized:: '${aws_spot_fleet_request.%s.launch_specification.ebs_optimized}' % rname,
+          iam_instance_profile:: '${aws_spot_fleet_request.%s.launch_specification.iam_instance_profile}' % rname,
+          iam_instance_profile_arn:: '${aws_spot_fleet_request.%s.launch_specification.iam_instance_profile_arn}' % rname,
+          key_name:: '${aws_spot_fleet_request.%s.launch_specification.key_name}' % rname,
+          monitoring:: '${aws_spot_fleet_request.%s.launch_specification.monitoring}' % rname,
+          placement_group:: '${aws_spot_fleet_request.%s.launch_specification.placement_group}' % rname,
+          placement_tenancy:: '${aws_spot_fleet_request.%s.launch_specification.placement_tenancy}' % rname,
+          spot_price:: '${aws_spot_fleet_request.%s.launch_specification.spot_price}' % rname,
+          subnet_id:: '${aws_spot_fleet_request.%s.launch_specification.subnet_id}' % rname,
+          tags:: '${aws_spot_fleet_request.%s.launch_specification.tags}' % rname,
+          user_data:: '${aws_spot_fleet_request.%s.launch_specification.user_data}' % rname,
+          vpc_security_group_ids:: '${aws_spot_fleet_request.%s.launch_specification.vpc_security_group_ids}' % rname,
+          weighted_capacity:: '${aws_spot_fleet_request.%s.launch_specification.weighted_capacity}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_spot_fleet_request.%s.create}' % rname,
-          delete:: '${aws_spot_fleet_request.%s.delete}' % rname,
+          create:: '${aws_spot_fleet_request.%s.timeouts.create}' % rname,
+          delete:: '${aws_spot_fleet_request.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -23686,12 +23686,12 @@
         volume_tags:: '${aws_spot_instance_request.%s.volume_tags}' % rname,
         vpc_security_group_ids:: '${aws_spot_instance_request.%s.vpc_security_group_ids}' % rname,
         wait_for_fulfillment:: '${aws_spot_instance_request.%s.wait_for_fulfillment}' % rname,
-        credit_specification:: '${aws_spot_instance_request.%s.credit_specification}' % rname,
-        ebs_block_device:: '${aws_spot_instance_request.%s.ebs_block_device}' % rname,
-        ephemeral_block_device:: '${aws_spot_instance_request.%s.ephemeral_block_device}' % rname,
-        network_interface:: '${aws_spot_instance_request.%s.network_interface}' % rname,
-        root_block_device:: '${aws_spot_instance_request.%s.root_block_device}' % rname,
-        timeouts:: '${aws_spot_instance_request.%s.timeouts}' % rname,
+        credit_specification:: {},
+        ebs_block_device:: {},
+        ephemeral_block_device:: {},
+        network_interface:: {},
+        root_block_device:: {},
+        timeouts:: {},
       },
       // @param associate_public_ip_address (required) https://www.terraform.io/docs/providers/aws/r/spot_instance_request.html#associate_public_ip_address.
       with_associate_public_ip_address(associate_public_ip_address):: {
@@ -23837,7 +23837,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          cpu_credits:: '${aws_spot_instance_request.%s.cpu_credits}' % rname,
+          cpu_credits:: '${aws_spot_instance_request.%s.credit_specification.cpu_credits}' % rname,
         },
       },
       ebs_block_device:: {
@@ -23846,14 +23846,14 @@
         new(rname, device_name):: {
           rname:: rname,
           device_name: device_name,
-          delete_on_termination:: '${aws_spot_instance_request.%s.delete_on_termination}' % rname,
-          encrypted:: '${aws_spot_instance_request.%s.encrypted}' % rname,
-          iops:: '${aws_spot_instance_request.%s.iops}' % rname,
-          kms_key_id:: '${aws_spot_instance_request.%s.kms_key_id}' % rname,
-          snapshot_id:: '${aws_spot_instance_request.%s.snapshot_id}' % rname,
-          volume_id:: '${aws_spot_instance_request.%s.volume_id}' % rname,
-          volume_size:: '${aws_spot_instance_request.%s.volume_size}' % rname,
-          volume_type:: '${aws_spot_instance_request.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_spot_instance_request.%s.ebs_block_device.delete_on_termination}' % rname,
+          encrypted:: '${aws_spot_instance_request.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_spot_instance_request.%s.ebs_block_device.iops}' % rname,
+          kms_key_id:: '${aws_spot_instance_request.%s.ebs_block_device.kms_key_id}' % rname,
+          snapshot_id:: '${aws_spot_instance_request.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_id:: '${aws_spot_instance_request.%s.ebs_block_device.volume_id}' % rname,
+          volume_size:: '${aws_spot_instance_request.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_spot_instance_request.%s.ebs_block_device.volume_type}' % rname,
         },
       },
       ephemeral_block_device:: {
@@ -23862,8 +23862,8 @@
         new(rname, device_name):: {
           rname:: rname,
           device_name: device_name,
-          no_device:: '${aws_spot_instance_request.%s.no_device}' % rname,
-          virtual_name:: '${aws_spot_instance_request.%s.virtual_name}' % rname,
+          no_device:: '${aws_spot_instance_request.%s.ephemeral_block_device.no_device}' % rname,
+          virtual_name:: '${aws_spot_instance_request.%s.ephemeral_block_device.virtual_name}' % rname,
         },
       },
       network_interface:: {
@@ -23874,28 +23874,28 @@
           rname:: rname,
           device_index: device_index,
           network_interface_id: network_interface_id,
-          delete_on_termination:: '${aws_spot_instance_request.%s.delete_on_termination}' % rname,
+          delete_on_termination:: '${aws_spot_instance_request.%s.network_interface.delete_on_termination}' % rname,
         },
       },
       root_block_device:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          delete_on_termination:: '${aws_spot_instance_request.%s.delete_on_termination}' % rname,
-          encrypted:: '${aws_spot_instance_request.%s.encrypted}' % rname,
-          iops:: '${aws_spot_instance_request.%s.iops}' % rname,
-          kms_key_id:: '${aws_spot_instance_request.%s.kms_key_id}' % rname,
-          volume_id:: '${aws_spot_instance_request.%s.volume_id}' % rname,
-          volume_size:: '${aws_spot_instance_request.%s.volume_size}' % rname,
-          volume_type:: '${aws_spot_instance_request.%s.volume_type}' % rname,
+          delete_on_termination:: '${aws_spot_instance_request.%s.root_block_device.delete_on_termination}' % rname,
+          encrypted:: '${aws_spot_instance_request.%s.root_block_device.encrypted}' % rname,
+          iops:: '${aws_spot_instance_request.%s.root_block_device.iops}' % rname,
+          kms_key_id:: '${aws_spot_instance_request.%s.root_block_device.kms_key_id}' % rname,
+          volume_id:: '${aws_spot_instance_request.%s.root_block_device.volume_id}' % rname,
+          volume_size:: '${aws_spot_instance_request.%s.root_block_device.volume_size}' % rname,
+          volume_type:: '${aws_spot_instance_request.%s.root_block_device.volume_type}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_spot_instance_request.%s.create}' % rname,
-          delete:: '${aws_spot_instance_request.%s.delete}' % rname,
+          create:: '${aws_spot_instance_request.%s.timeouts.create}' % rname,
+          delete:: '${aws_spot_instance_request.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -24058,8 +24058,8 @@
         max_errors:: '${aws_ssm_association.%s.max_errors}' % rname,
         parameters:: '${aws_ssm_association.%s.parameters}' % rname,
         schedule_expression:: '${aws_ssm_association.%s.schedule_expression}' % rname,
-        output_location:: '${aws_ssm_association.%s.output_location}' % rname,
-        targets:: '${aws_ssm_association.%s.targets}' % rname,
+        output_location:: {},
+        targets:: {},
       },
       // @param association_name (required) https://www.terraform.io/docs/providers/aws/r/ssm_association.html#association_name.
       with_association_name(association_name):: {
@@ -24107,7 +24107,7 @@
         new(rname, s3_bucket_name):: {
           rname:: rname,
           s3_bucket_name: s3_bucket_name,
-          s3_key_prefix:: '${aws_ssm_association.%s.s3_key_prefix}' % rname,
+          s3_key_prefix:: '${aws_ssm_association.%s.output_location.s3_key_prefix}' % rname,
         },
       },
       targets:: {
@@ -24149,7 +24149,7 @@
         status:: '${aws_ssm_document.%s.status}' % rname,
         tags:: '${aws_ssm_document.%s.tags}' % rname,
         target_type:: '${aws_ssm_document.%s.target_type}' % rname,
-        attachments_source:: '${aws_ssm_document.%s.attachments_source}' % rname,
+        attachments_source:: {},
       },
       // @param document_format (required) https://www.terraform.io/docs/providers/aws/r/ssm_document.html#document_format.
       with_document_format(document_format):: {
@@ -24179,7 +24179,7 @@
           rname:: rname,
           key: key,
           values: values,
-          name:: '${aws_ssm_document.%s.name}' % rname,
+          name:: '${aws_ssm_document.%s.attachments_source.name}' % rname,
         },
       },
     },
@@ -24304,9 +24304,9 @@
         id:: '${aws_ssm_maintenance_window_task.%s.id}' % rname,
         name:: '${aws_ssm_maintenance_window_task.%s.name}' % rname,
         priority:: '${aws_ssm_maintenance_window_task.%s.priority}' % rname,
-        logging_info:: '${aws_ssm_maintenance_window_task.%s.logging_info}' % rname,
-        task_invocation_parameters:: '${aws_ssm_maintenance_window_task.%s.task_invocation_parameters}' % rname,
-        task_parameters:: '${aws_ssm_maintenance_window_task.%s.task_parameters}' % rname,
+        logging_info:: {},
+        task_invocation_parameters:: {},
+        task_parameters:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/ssm_maintenance_window_task.html#description.
       with_description(description):: {
@@ -24332,7 +24332,7 @@
           rname:: rname,
           s3_bucket_name: s3_bucket_name,
           s3_region: s3_region,
-          s3_bucket_prefix:: '${aws_ssm_maintenance_window_task.%s.s3_bucket_prefix}' % rname,
+          s3_bucket_prefix:: '${aws_ssm_maintenance_window_task.%s.logging_info.s3_bucket_prefix}' % rname,
         },
       },
       targets:: {
@@ -24430,8 +24430,8 @@
         operating_system:: '${aws_ssm_patch_baseline.%s.operating_system}' % rname,
         rejected_patches:: '${aws_ssm_patch_baseline.%s.rejected_patches}' % rname,
         tags:: '${aws_ssm_patch_baseline.%s.tags}' % rname,
-        approval_rule:: '${aws_ssm_patch_baseline.%s.approval_rule}' % rname,
-        global_filter:: '${aws_ssm_patch_baseline.%s.global_filter}' % rname,
+        approval_rule:: {},
+        global_filter:: {},
       },
       // @param approved_patches (required) https://www.terraform.io/docs/providers/aws/r/ssm_patch_baseline.html#approved_patches.
       with_approved_patches(approved_patches):: {
@@ -24467,8 +24467,8 @@
         new(rname, approve_after_days):: {
           rname:: rname,
           approve_after_days: approve_after_days,
-          compliance_level:: '${aws_ssm_patch_baseline.%s.compliance_level}' % rname,
-          enable_non_security:: '${aws_ssm_patch_baseline.%s.enable_non_security}' % rname,
+          compliance_level:: '${aws_ssm_patch_baseline.%s.approval_rule.compliance_level}' % rname,
+          enable_non_security:: '${aws_ssm_patch_baseline.%s.approval_rule.enable_non_security}' % rname,
         },
       },
       global_filter:: {
@@ -24521,9 +24521,9 @@
           rname:: rname,
           bucket_name: bucket_name,
           region: region,
-          kms_key_arn:: '${aws_ssm_resource_data_sync.%s.kms_key_arn}' % rname,
-          prefix:: '${aws_ssm_resource_data_sync.%s.prefix}' % rname,
-          sync_format:: '${aws_ssm_resource_data_sync.%s.sync_format}' % rname,
+          kms_key_arn:: '${aws_ssm_resource_data_sync.%s.s3_destination.kms_key_arn}' % rname,
+          prefix:: '${aws_ssm_resource_data_sync.%s.s3_destination.prefix}' % rname,
+          sync_format:: '${aws_ssm_resource_data_sync.%s.s3_destination.sync_format}' % rname,
         },
       },
     },
@@ -24605,8 +24605,8 @@
         smb_guest_password:: '${aws_storagegateway_gateway.%s.smb_guest_password}' % rname,
         tags:: '${aws_storagegateway_gateway.%s.tags}' % rname,
         tape_drive_type:: '${aws_storagegateway_gateway.%s.tape_drive_type}' % rname,
-        smb_active_directory_settings:: '${aws_storagegateway_gateway.%s.smb_active_directory_settings}' % rname,
-        timeouts:: '${aws_storagegateway_gateway.%s.timeouts}' % rname,
+        smb_active_directory_settings:: {},
+        timeouts:: {},
       },
       // @param activation_key (required) https://www.terraform.io/docs/providers/aws/r/storagegateway_gateway.html#activation_key.
       with_activation_key(activation_key):: {
@@ -24660,7 +24660,7 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_storagegateway_gateway.%s.create}' % rname,
+          create:: '${aws_storagegateway_gateway.%s.timeouts.create}' % rname,
         },
       },
     },
@@ -24689,8 +24689,8 @@
         requester_pays:: '${aws_storagegateway_nfs_file_share.%s.requester_pays}' % rname,
         squash:: '${aws_storagegateway_nfs_file_share.%s.squash}' % rname,
         tags:: '${aws_storagegateway_nfs_file_share.%s.tags}' % rname,
-        nfs_file_share_defaults:: '${aws_storagegateway_nfs_file_share.%s.nfs_file_share_defaults}' % rname,
-        timeouts:: '${aws_storagegateway_nfs_file_share.%s.timeouts}' % rname,
+        nfs_file_share_defaults:: {},
+        timeouts:: {},
       },
       // @param default_storage_class (required) https://www.terraform.io/docs/providers/aws/r/storagegateway_nfs_file_share.html#default_storage_class.
       with_default_storage_class(default_storage_class):: {
@@ -24736,19 +24736,19 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          directory_mode:: '${aws_storagegateway_nfs_file_share.%s.directory_mode}' % rname,
-          file_mode:: '${aws_storagegateway_nfs_file_share.%s.file_mode}' % rname,
-          group_id:: '${aws_storagegateway_nfs_file_share.%s.group_id}' % rname,
-          owner_id:: '${aws_storagegateway_nfs_file_share.%s.owner_id}' % rname,
+          directory_mode:: '${aws_storagegateway_nfs_file_share.%s.nfs_file_share_defaults.directory_mode}' % rname,
+          file_mode:: '${aws_storagegateway_nfs_file_share.%s.nfs_file_share_defaults.file_mode}' % rname,
+          group_id:: '${aws_storagegateway_nfs_file_share.%s.nfs_file_share_defaults.group_id}' % rname,
+          owner_id:: '${aws_storagegateway_nfs_file_share.%s.nfs_file_share_defaults.owner_id}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_storagegateway_nfs_file_share.%s.create}' % rname,
-          delete:: '${aws_storagegateway_nfs_file_share.%s.delete}' % rname,
-          update:: '${aws_storagegateway_nfs_file_share.%s.update}' % rname,
+          create:: '${aws_storagegateway_nfs_file_share.%s.timeouts.create}' % rname,
+          delete:: '${aws_storagegateway_nfs_file_share.%s.timeouts.delete}' % rname,
+          update:: '${aws_storagegateway_nfs_file_share.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -24777,7 +24777,7 @@
         requester_pays:: '${aws_storagegateway_smb_file_share.%s.requester_pays}' % rname,
         tags:: '${aws_storagegateway_smb_file_share.%s.tags}' % rname,
         valid_user_list:: '${aws_storagegateway_smb_file_share.%s.valid_user_list}' % rname,
-        timeouts:: '${aws_storagegateway_smb_file_share.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param authentication (required) https://www.terraform.io/docs/providers/aws/r/storagegateway_smb_file_share.html#authentication.
       with_authentication(authentication):: {
@@ -24831,9 +24831,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_storagegateway_smb_file_share.%s.create}' % rname,
-          delete:: '${aws_storagegateway_smb_file_share.%s.delete}' % rname,
-          update:: '${aws_storagegateway_smb_file_share.%s.update}' % rname,
+          create:: '${aws_storagegateway_smb_file_share.%s.timeouts.create}' % rname,
+          delete:: '${aws_storagegateway_smb_file_share.%s.timeouts.delete}' % rname,
+          update:: '${aws_storagegateway_smb_file_share.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -24888,7 +24888,7 @@
         map_public_ip_on_launch:: '${aws_subnet.%s.map_public_ip_on_launch}' % rname,
         owner_id:: '${aws_subnet.%s.owner_id}' % rname,
         tags:: '${aws_subnet.%s.tags}' % rname,
-        timeouts:: '${aws_subnet.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param assign_ipv6_address_on_creation (required) https://www.terraform.io/docs/providers/aws/r/subnet.html#assign_ipv6_address_on_creation.
       with_assign_ipv6_address_on_creation(assign_ipv6_address_on_creation):: {
@@ -24922,8 +24922,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_subnet.%s.create}' % rname,
-          delete:: '${aws_subnet.%s.delete}' % rname,
+          create:: '${aws_subnet.%s.timeouts.create}' % rname,
+          delete:: '${aws_subnet.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -24979,7 +24979,7 @@
         logging_role:: '${aws_transfer_server.%s.logging_role}' % rname,
         tags:: '${aws_transfer_server.%s.tags}' % rname,
         url:: '${aws_transfer_server.%s.url}' % rname,
-        endpoint_details:: '${aws_transfer_server.%s.endpoint_details}' % rname,
+        endpoint_details:: {},
       },
       // @param endpoint_type (required) https://www.terraform.io/docs/providers/aws/r/transfer_server.html#endpoint_type.
       with_endpoint_type(endpoint_type):: {
@@ -25248,7 +25248,7 @@
         subnet_ids:: '${aws_vpc_endpoint.%s.subnet_ids}' % rname,
         tags:: '${aws_vpc_endpoint.%s.tags}' % rname,
         vpc_endpoint_type:: '${aws_vpc_endpoint.%s.vpc_endpoint_type}' % rname,
-        timeouts:: '${aws_vpc_endpoint.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param auto_accept (required) https://www.terraform.io/docs/providers/aws/r/vpc_endpoint.html#auto_accept.
       with_auto_accept(auto_accept):: {
@@ -25290,9 +25290,9 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_vpc_endpoint.%s.create}' % rname,
-          delete:: '${aws_vpc_endpoint.%s.delete}' % rname,
-          update:: '${aws_vpc_endpoint.%s.update}' % rname,
+          create:: '${aws_vpc_endpoint.%s.timeouts.create}' % rname,
+          delete:: '${aws_vpc_endpoint.%s.timeouts.delete}' % rname,
+          update:: '${aws_vpc_endpoint.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -25399,7 +25399,7 @@
         subnet_id: subnet_id,
         vpc_endpoint_id: vpc_endpoint_id,
         id:: '${aws_vpc_endpoint_subnet_association.%s.id}' % rname,
-        timeouts:: '${aws_vpc_endpoint_subnet_association.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/vpc_endpoint_subnet_association.html#id.
       with_id(id):: {
@@ -25409,8 +25409,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_vpc_endpoint_subnet_association.%s.create}' % rname,
-          delete:: '${aws_vpc_endpoint_subnet_association.%s.delete}' % rname,
+          create:: '${aws_vpc_endpoint_subnet_association.%s.timeouts.create}' % rname,
+          delete:: '${aws_vpc_endpoint_subnet_association.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -25424,7 +25424,7 @@
         cidr_block: cidr_block,
         vpc_id: vpc_id,
         id:: '${aws_vpc_ipv4_cidr_block_association.%s.id}' % rname,
-        timeouts:: '${aws_vpc_ipv4_cidr_block_association.%s.timeouts}' % rname,
+        timeouts:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/vpc_ipv4_cidr_block_association.html#id.
       with_id(id):: {
@@ -25434,8 +25434,8 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_vpc_ipv4_cidr_block_association.%s.create}' % rname,
-          delete:: '${aws_vpc_ipv4_cidr_block_association.%s.delete}' % rname,
+          create:: '${aws_vpc_ipv4_cidr_block_association.%s.timeouts.create}' % rname,
+          delete:: '${aws_vpc_ipv4_cidr_block_association.%s.timeouts.delete}' % rname,
         },
       },
     },
@@ -25454,9 +25454,9 @@
         peer_owner_id:: '${aws_vpc_peering_connection.%s.peer_owner_id}' % rname,
         peer_region:: '${aws_vpc_peering_connection.%s.peer_region}' % rname,
         tags:: '${aws_vpc_peering_connection.%s.tags}' % rname,
-        accepter:: '${aws_vpc_peering_connection.%s.accepter}' % rname,
-        requester:: '${aws_vpc_peering_connection.%s.requester}' % rname,
-        timeouts:: '${aws_vpc_peering_connection.%s.timeouts}' % rname,
+        accepter:: {},
+        requester:: {},
+        timeouts:: {},
       },
       // @param auto_accept (required) https://www.terraform.io/docs/providers/aws/r/vpc_peering_connection.html#auto_accept.
       with_auto_accept(auto_accept):: {
@@ -25482,27 +25482,27 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection.%s.allow_classic_link_to_remote_vpc}' % rname,
-          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection.%s.allow_remote_vpc_dns_resolution}' % rname,
-          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection.%s.allow_vpc_to_remote_classic_link}' % rname,
+          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection.%s.accepter.allow_classic_link_to_remote_vpc}' % rname,
+          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection.%s.accepter.allow_remote_vpc_dns_resolution}' % rname,
+          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection.%s.accepter.allow_vpc_to_remote_classic_link}' % rname,
         },
       },
       requester:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection.%s.allow_classic_link_to_remote_vpc}' % rname,
-          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection.%s.allow_remote_vpc_dns_resolution}' % rname,
-          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection.%s.allow_vpc_to_remote_classic_link}' % rname,
+          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection.%s.requester.allow_classic_link_to_remote_vpc}' % rname,
+          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection.%s.requester.allow_remote_vpc_dns_resolution}' % rname,
+          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection.%s.requester.allow_vpc_to_remote_classic_link}' % rname,
         },
       },
       timeouts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          create:: '${aws_vpc_peering_connection.%s.create}' % rname,
-          delete:: '${aws_vpc_peering_connection.%s.delete}' % rname,
-          update:: '${aws_vpc_peering_connection.%s.update}' % rname,
+          create:: '${aws_vpc_peering_connection.%s.timeouts.create}' % rname,
+          delete:: '${aws_vpc_peering_connection.%s.timeouts.delete}' % rname,
+          update:: '${aws_vpc_peering_connection.%s.timeouts.update}' % rname,
         },
       },
     },
@@ -25521,8 +25521,8 @@
         peer_vpc_id:: '${aws_vpc_peering_connection_accepter.%s.peer_vpc_id}' % rname,
         tags:: '${aws_vpc_peering_connection_accepter.%s.tags}' % rname,
         vpc_id:: '${aws_vpc_peering_connection_accepter.%s.vpc_id}' % rname,
-        accepter:: '${aws_vpc_peering_connection_accepter.%s.accepter}' % rname,
-        requester:: '${aws_vpc_peering_connection_accepter.%s.requester}' % rname,
+        accepter:: {},
+        requester:: {},
       },
       // @param auto_accept (required) https://www.terraform.io/docs/providers/aws/r/vpc_peering_connection_accepter.html#auto_accept.
       with_auto_accept(auto_accept):: {
@@ -25540,18 +25540,18 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection_accepter.%s.allow_classic_link_to_remote_vpc}' % rname,
-          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection_accepter.%s.allow_remote_vpc_dns_resolution}' % rname,
-          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection_accepter.%s.allow_vpc_to_remote_classic_link}' % rname,
+          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection_accepter.%s.accepter.allow_classic_link_to_remote_vpc}' % rname,
+          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection_accepter.%s.accepter.allow_remote_vpc_dns_resolution}' % rname,
+          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection_accepter.%s.accepter.allow_vpc_to_remote_classic_link}' % rname,
         },
       },
       requester:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection_accepter.%s.allow_classic_link_to_remote_vpc}' % rname,
-          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection_accepter.%s.allow_remote_vpc_dns_resolution}' % rname,
-          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection_accepter.%s.allow_vpc_to_remote_classic_link}' % rname,
+          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection_accepter.%s.requester.allow_classic_link_to_remote_vpc}' % rname,
+          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection_accepter.%s.requester.allow_remote_vpc_dns_resolution}' % rname,
+          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection_accepter.%s.requester.allow_vpc_to_remote_classic_link}' % rname,
         },
       },
     },
@@ -25563,8 +25563,8 @@
         rname:: rname,
         vpc_peering_connection_id: vpc_peering_connection_id,
         id:: '${aws_vpc_peering_connection_options.%s.id}' % rname,
-        accepter:: '${aws_vpc_peering_connection_options.%s.accepter}' % rname,
-        requester:: '${aws_vpc_peering_connection_options.%s.requester}' % rname,
+        accepter:: {},
+        requester:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/vpc_peering_connection_options.html#id.
       with_id(id):: {
@@ -25574,18 +25574,18 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection_options.%s.allow_classic_link_to_remote_vpc}' % rname,
-          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection_options.%s.allow_remote_vpc_dns_resolution}' % rname,
-          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection_options.%s.allow_vpc_to_remote_classic_link}' % rname,
+          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection_options.%s.accepter.allow_classic_link_to_remote_vpc}' % rname,
+          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection_options.%s.accepter.allow_remote_vpc_dns_resolution}' % rname,
+          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection_options.%s.accepter.allow_vpc_to_remote_classic_link}' % rname,
         },
       },
       requester:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection_options.%s.allow_classic_link_to_remote_vpc}' % rname,
-          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection_options.%s.allow_remote_vpc_dns_resolution}' % rname,
-          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection_options.%s.allow_vpc_to_remote_classic_link}' % rname,
+          allow_classic_link_to_remote_vpc:: '${aws_vpc_peering_connection_options.%s.requester.allow_classic_link_to_remote_vpc}' % rname,
+          allow_remote_vpc_dns_resolution:: '${aws_vpc_peering_connection_options.%s.requester.allow_remote_vpc_dns_resolution}' % rname,
+          allow_vpc_to_remote_classic_link:: '${aws_vpc_peering_connection_options.%s.requester.allow_vpc_to_remote_classic_link}' % rname,
         },
       },
     },
@@ -25747,7 +25747,7 @@
         rname:: rname,
         name: name,
         id:: '${aws_waf_byte_match_set.%s.id}' % rname,
-        byte_match_tuples:: '${aws_waf_byte_match_set.%s.byte_match_tuples}' % rname,
+        byte_match_tuples:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_byte_match_set.html#id.
       with_id(id):: {
@@ -25761,7 +25761,7 @@
           rname:: rname,
           positional_constraint: positional_constraint,
           text_transformation: text_transformation,
-          target_string:: '${aws_waf_byte_match_set.%s.target_string}' % rname,
+          target_string:: '${aws_waf_byte_match_set.%s.byte_match_tuples.target_string}' % rname,
         },
       },
     },
@@ -25774,7 +25774,7 @@
         name: name,
         arn:: '${aws_waf_geo_match_set.%s.arn}' % rname,
         id:: '${aws_waf_geo_match_set.%s.id}' % rname,
-        geo_match_constraint:: '${aws_waf_geo_match_set.%s.geo_match_constraint}' % rname,
+        geo_match_constraint:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_geo_match_set.html#id.
       with_id(id):: {
@@ -25800,7 +25800,7 @@
         name: name,
         arn:: '${aws_waf_ipset.%s.arn}' % rname,
         id:: '${aws_waf_ipset.%s.id}' % rname,
-        ip_set_descriptors:: '${aws_waf_ipset.%s.ip_set_descriptors}' % rname,
+        ip_set_descriptors:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_ipset.html#id.
       with_id(id):: {
@@ -25833,7 +25833,7 @@
         arn:: '${aws_waf_rate_based_rule.%s.arn}' % rname,
         id:: '${aws_waf_rate_based_rule.%s.id}' % rname,
         tags:: '${aws_waf_rate_based_rule.%s.tags}' % rname,
-        predicates:: '${aws_waf_rate_based_rule.%s.predicates}' % rname,
+        predicates:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_rate_based_rule.html#id.
       with_id(id):: {
@@ -25865,7 +25865,7 @@
         name: name,
         arn:: '${aws_waf_regex_match_set.%s.arn}' % rname,
         id:: '${aws_waf_regex_match_set.%s.id}' % rname,
-        regex_match_tuple:: '${aws_waf_regex_match_set.%s.regex_match_tuple}' % rname,
+        regex_match_tuple:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_regex_match_set.html#id.
       with_id(id):: {
@@ -25914,7 +25914,7 @@
         arn:: '${aws_waf_rule.%s.arn}' % rname,
         id:: '${aws_waf_rule.%s.id}' % rname,
         tags:: '${aws_waf_rule.%s.tags}' % rname,
-        predicates:: '${aws_waf_rule.%s.predicates}' % rname,
+        predicates:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_rule.html#id.
       with_id(id):: {
@@ -25949,7 +25949,7 @@
         arn:: '${aws_waf_rule_group.%s.arn}' % rname,
         id:: '${aws_waf_rule_group.%s.id}' % rname,
         tags:: '${aws_waf_rule_group.%s.tags}' % rname,
-        activated_rule:: '${aws_waf_rule_group.%s.activated_rule}' % rname,
+        activated_rule:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_rule_group.html#id.
       with_id(id):: {
@@ -25967,7 +25967,7 @@
           rname:: rname,
           priority: priority,
           rule_id: rule_id,
-          type:: '${aws_waf_rule_group.%s.type}' % rname,
+          type:: '${aws_waf_rule_group.%s.activated_rule.type}' % rname,
         },
       },
     },
@@ -25980,7 +25980,7 @@
         name: name,
         arn:: '${aws_waf_size_constraint_set.%s.arn}' % rname,
         id:: '${aws_waf_size_constraint_set.%s.id}' % rname,
-        size_constraints:: '${aws_waf_size_constraint_set.%s.size_constraints}' % rname,
+        size_constraints:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_size_constraint_set.html#id.
       with_id(id):: {
@@ -26007,7 +26007,7 @@
         rname:: rname,
         name: name,
         id:: '${aws_waf_sql_injection_match_set.%s.id}' % rname,
-        sql_injection_match_tuples:: '${aws_waf_sql_injection_match_set.%s.sql_injection_match_tuples}' % rname,
+        sql_injection_match_tuples:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_sql_injection_match_set.html#id.
       with_id(id):: {
@@ -26036,8 +26036,8 @@
         arn:: '${aws_waf_web_acl.%s.arn}' % rname,
         id:: '${aws_waf_web_acl.%s.id}' % rname,
         tags:: '${aws_waf_web_acl.%s.tags}' % rname,
-        logging_configuration:: '${aws_waf_web_acl.%s.logging_configuration}' % rname,
-        rules:: '${aws_waf_web_acl.%s.rules}' % rname,
+        logging_configuration:: {},
+        rules:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_web_acl.html#id.
       with_id(id):: {
@@ -26071,7 +26071,7 @@
           rname:: rname,
           priority: priority,
           rule_id: rule_id,
-          type:: '${aws_waf_web_acl.%s.type}' % rname,
+          type:: '${aws_waf_web_acl.%s.rules.type}' % rname,
         },
       },
     },
@@ -26084,7 +26084,7 @@
         name: name,
         arn:: '${aws_waf_xss_match_set.%s.arn}' % rname,
         id:: '${aws_waf_xss_match_set.%s.id}' % rname,
-        xss_match_tuples:: '${aws_waf_xss_match_set.%s.xss_match_tuples}' % rname,
+        xss_match_tuples:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/waf_xss_match_set.html#id.
       with_id(id):: {
@@ -26107,8 +26107,8 @@
         rname:: rname,
         name: name,
         id:: '${aws_wafregional_byte_match_set.%s.id}' % rname,
-        byte_match_tuple:: '${aws_wafregional_byte_match_set.%s.byte_match_tuple}' % rname,
-        byte_match_tuples:: '${aws_wafregional_byte_match_set.%s.byte_match_tuples}' % rname,
+        byte_match_tuple:: {},
+        byte_match_tuples:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_byte_match_set.html#id.
       with_id(id):: {
@@ -26122,7 +26122,7 @@
           rname:: rname,
           positional_constraint: positional_constraint,
           text_transformation: text_transformation,
-          target_string:: '${aws_wafregional_byte_match_set.%s.target_string}' % rname,
+          target_string:: '${aws_wafregional_byte_match_set.%s.byte_match_tuple.target_string}' % rname,
         },
       },
       byte_match_tuples:: {
@@ -26133,7 +26133,7 @@
           rname:: rname,
           positional_constraint: positional_constraint,
           text_transformation: text_transformation,
-          target_string:: '${aws_wafregional_byte_match_set.%s.target_string}' % rname,
+          target_string:: '${aws_wafregional_byte_match_set.%s.byte_match_tuples.target_string}' % rname,
         },
       },
     },
@@ -26145,7 +26145,7 @@
         rname:: rname,
         name: name,
         id:: '${aws_wafregional_geo_match_set.%s.id}' % rname,
-        geo_match_constraint:: '${aws_wafregional_geo_match_set.%s.geo_match_constraint}' % rname,
+        geo_match_constraint:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_geo_match_set.html#id.
       with_id(id):: {
@@ -26171,7 +26171,7 @@
         name: name,
         arn:: '${aws_wafregional_ipset.%s.arn}' % rname,
         id:: '${aws_wafregional_ipset.%s.id}' % rname,
-        ip_set_descriptor:: '${aws_wafregional_ipset.%s.ip_set_descriptor}' % rname,
+        ip_set_descriptor:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_ipset.html#id.
       with_id(id):: {
@@ -26204,7 +26204,7 @@
         arn:: '${aws_wafregional_rate_based_rule.%s.arn}' % rname,
         id:: '${aws_wafregional_rate_based_rule.%s.id}' % rname,
         tags:: '${aws_wafregional_rate_based_rule.%s.tags}' % rname,
-        predicate:: '${aws_wafregional_rate_based_rule.%s.predicate}' % rname,
+        predicate:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_rate_based_rule.html#id.
       with_id(id):: {
@@ -26235,7 +26235,7 @@
         rname:: rname,
         name: name,
         id:: '${aws_wafregional_regex_match_set.%s.id}' % rname,
-        regex_match_tuple:: '${aws_wafregional_regex_match_set.%s.regex_match_tuple}' % rname,
+        regex_match_tuple:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_regex_match_set.html#id.
       with_id(id):: {
@@ -26283,7 +26283,7 @@
         arn:: '${aws_wafregional_rule.%s.arn}' % rname,
         id:: '${aws_wafregional_rule.%s.id}' % rname,
         tags:: '${aws_wafregional_rule.%s.tags}' % rname,
-        predicate:: '${aws_wafregional_rule.%s.predicate}' % rname,
+        predicate:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_rule.html#id.
       with_id(id):: {
@@ -26318,7 +26318,7 @@
         arn:: '${aws_wafregional_rule_group.%s.arn}' % rname,
         id:: '${aws_wafregional_rule_group.%s.id}' % rname,
         tags:: '${aws_wafregional_rule_group.%s.tags}' % rname,
-        activated_rule:: '${aws_wafregional_rule_group.%s.activated_rule}' % rname,
+        activated_rule:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_rule_group.html#id.
       with_id(id):: {
@@ -26336,7 +26336,7 @@
           rname:: rname,
           priority: priority,
           rule_id: rule_id,
-          type:: '${aws_wafregional_rule_group.%s.type}' % rname,
+          type:: '${aws_wafregional_rule_group.%s.activated_rule.type}' % rname,
         },
       },
     },
@@ -26349,7 +26349,7 @@
         name: name,
         arn:: '${aws_wafregional_size_constraint_set.%s.arn}' % rname,
         id:: '${aws_wafregional_size_constraint_set.%s.id}' % rname,
-        size_constraints:: '${aws_wafregional_size_constraint_set.%s.size_constraints}' % rname,
+        size_constraints:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_size_constraint_set.html#id.
       with_id(id):: {
@@ -26376,7 +26376,7 @@
         rname:: rname,
         name: name,
         id:: '${aws_wafregional_sql_injection_match_set.%s.id}' % rname,
-        sql_injection_match_tuple:: '${aws_wafregional_sql_injection_match_set.%s.sql_injection_match_tuple}' % rname,
+        sql_injection_match_tuple:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_sql_injection_match_set.html#id.
       with_id(id):: {
@@ -26405,8 +26405,8 @@
         arn:: '${aws_wafregional_web_acl.%s.arn}' % rname,
         id:: '${aws_wafregional_web_acl.%s.id}' % rname,
         tags:: '${aws_wafregional_web_acl.%s.tags}' % rname,
-        logging_configuration:: '${aws_wafregional_web_acl.%s.logging_configuration}' % rname,
-        rule:: '${aws_wafregional_web_acl.%s.rule}' % rname,
+        logging_configuration:: {},
+        rule:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_web_acl.html#id.
       with_id(id):: {
@@ -26440,7 +26440,7 @@
           rname:: rname,
           priority: priority,
           rule_id: rule_id,
-          type:: '${aws_wafregional_web_acl.%s.type}' % rname,
+          type:: '${aws_wafregional_web_acl.%s.rule.type}' % rname,
         },
       },
     },
@@ -26468,7 +26468,7 @@
         rname:: rname,
         name: name,
         id:: '${aws_wafregional_xss_match_set.%s.id}' % rname,
-        xss_match_tuple:: '${aws_wafregional_xss_match_set.%s.xss_match_tuple}' % rname,
+        xss_match_tuple:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/wafregional_xss_match_set.html#id.
       with_id(id):: {
@@ -26499,8 +26499,8 @@
         id:: '${aws_worklink_fleet.%s.id}' % rname,
         last_updated_time:: '${aws_worklink_fleet.%s.last_updated_time}' % rname,
         optimize_for_end_user_location:: '${aws_worklink_fleet.%s.optimize_for_end_user_location}' % rname,
-        identity_provider:: '${aws_worklink_fleet.%s.identity_provider}' % rname,
-        network:: '${aws_worklink_fleet.%s.network}' % rname,
+        identity_provider:: {},
+        network:: {},
       },
       // @param audit_stream_arn (required) https://www.terraform.io/docs/providers/aws/r/worklink_fleet.html#audit_stream_arn.
       with_audit_stream_arn(audit_stream_arn):: {
@@ -26577,7 +26577,7 @@
         id:: '${aws_workspaces_directory.%s.id}' % rname,
         subnet_ids:: '${aws_workspaces_directory.%s.subnet_ids}' % rname,
         tags:: '${aws_workspaces_directory.%s.tags}' % rname,
-        self_service_permissions:: '${aws_workspaces_directory.%s.self_service_permissions}' % rname,
+        self_service_permissions:: {},
       },
       // @param id (required) https://www.terraform.io/docs/providers/aws/r/workspaces_directory.html#id.
       with_id(id):: {
@@ -26595,11 +26595,11 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         new(rname):: {
           rname:: rname,
-          change_compute_type:: '${aws_workspaces_directory.%s.change_compute_type}' % rname,
-          increase_volume_size:: '${aws_workspaces_directory.%s.increase_volume_size}' % rname,
-          rebuild_workspace:: '${aws_workspaces_directory.%s.rebuild_workspace}' % rname,
-          restart_workspace:: '${aws_workspaces_directory.%s.restart_workspace}' % rname,
-          switch_running_mode:: '${aws_workspaces_directory.%s.switch_running_mode}' % rname,
+          change_compute_type:: '${aws_workspaces_directory.%s.self_service_permissions.change_compute_type}' % rname,
+          increase_volume_size:: '${aws_workspaces_directory.%s.self_service_permissions.increase_volume_size}' % rname,
+          rebuild_workspace:: '${aws_workspaces_directory.%s.self_service_permissions.rebuild_workspace}' % rname,
+          restart_workspace:: '${aws_workspaces_directory.%s.self_service_permissions.restart_workspace}' % rname,
+          switch_running_mode:: '${aws_workspaces_directory.%s.self_service_permissions.switch_running_mode}' % rname,
         },
       },
     },
@@ -26613,7 +26613,7 @@
         description:: '${aws_workspaces_ip_group.%s.description}' % rname,
         id:: '${aws_workspaces_ip_group.%s.id}' % rname,
         tags:: '${aws_workspaces_ip_group.%s.tags}' % rname,
-        rules:: '${aws_workspaces_ip_group.%s.rules}' % rname,
+        rules:: {},
       },
       // @param description (required) https://www.terraform.io/docs/providers/aws/r/workspaces_ip_group.html#description.
       with_description(description):: {
@@ -26633,7 +26633,7 @@
         new(rname, source):: {
           rname:: rname,
           source: source,
-          description:: '${aws_workspaces_ip_group.%s.description}' % rname,
+          description:: '${aws_workspaces_ip_group.%s.rules.description}' % rname,
         },
       },
     },
