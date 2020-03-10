@@ -2,7 +2,7 @@ local tf = import 'digitalocean.libsonnet';
 {
   resource: {
     digitalocean_kubernetes_cluster: {
-      test: tf.digitalocean.digitalocean_kubernetes_cluster(
+      test: tf.digitalocean.digitalocean_kubernetes_cluster.new(
         rname='test',
         name='test',
         node_pool={
