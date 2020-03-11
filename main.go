@@ -7,7 +7,6 @@ import (
 	"log"
 	"os"
 	"sort"
-	"strconv"
 
 	"tfsonnet/pkg/printer"
 
@@ -18,10 +17,9 @@ const (
 	docsURL string = "https://www.terraform.io/docs/providers"
 )
 
-var jsonnetReservedWords = []string{"assert", "else", "error", "false", "for", "function", "if",
-	"import", "importstr", "in", "local", "null", "tailstrict", "then", "self", "super", "true"}
-
-var i = flag.String("i", "-", "input file or '-' for reading from stdin")
+var (
+	i = flag.String("i", "-", "input file or '-' for reading from stdin")
+)
 
 func main() {
 	flag.Parse()
@@ -48,59 +46,36 @@ func main() {
 		Fields: ast.ObjectFields{},
 	}
 
-	for p, ps := range s.ProviderSchemas {
-		gc := GenConfig{
-			Provider:      p,
-			ProviderAlias: p,
-			DocsURLFunc:   DefaultDocsURLFunc,
-		}
-		switch p {
-		case "digitalocean":
-			gc.ProviderAlias = "do"
-		}
-		g, err := NewGen(ps, gc)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		lib.Fields = append(lib.Fields, ast.ObjectField{
-			Kind:  ast.ObjectFieldStr,
-			Id:    newIdentifier(p),
-			Expr2: g.Generate(),
-		})
+	ps := s.ProviderSchemas
+	providerSchemas := make([]string, len(ps))
+	for p := range ps {
+		providerSchemas = append(providerSchemas, p)
 	}
+	sort.Strings(providerSchemas)
+	for _, p := range providerSchemas {
+		// TODO: understand where the empty fields are coming from.
+		if p != "" {
+			gc := GenConfig{
+				Provider:      p,
+				ProviderAlias: p,
+				DocsURLFunc:   DefaultDocsURLFunc,
+			}
+			switch p {
+			case "digitalocean":
+				gc.ProviderAlias = "do"
+			}
+			g, err := NewGen(ps[p], gc)
+			if err != nil {
+				log.Fatal(err)
+			}
 
-	sortFields(lib.Fields)
+			lib.Fields = append(lib.Fields, ast.ObjectField{
+				Kind:  ast.ObjectFieldStr,
+				Id:    newIdentifier(p),
+				Expr2: g.Generate(),
+			})
+		}
+	}
 
 	printer.Fprint(os.Stdout, lib)
-}
-
-func sortCommaSeparatedID(csi []ast.CommaSeparatedID) {
-	sort.Slice(csi, func(i, j int) bool { return csi[i].Name < csi[j].Name })
-}
-
-func sortNamedParameters(np []ast.NamedParameter) {
-	sort.Slice(np, func(i, j int) bool { return np[i].Name < np[j].Name })
-}
-
-func sortFodder(f ast.Fodder) {
-	sort.Slice(f, func(i, j int) bool { return f[i].Comment[0] < f[j].Comment[0] })
-}
-func sortFields(of ast.ObjectFields) {
-	sort.Slice(of, func(i, j int) bool { return *of[i].Id < *of[j].Id })
-}
-
-// newIdentifier creates an identifier.
-func newIdentifier(value string) *ast.Identifier {
-	id := ast.Identifier(value)
-	return &id
-}
-
-// newLiteralNumber creates a number literal.
-func newLiteralNumber(in string) *ast.LiteralNumber {
-	f, err := strconv.ParseFloat(in, 64)
-	if err != nil {
-		return &ast.LiteralNumber{OriginalString: in, Value: 0}
-	}
-	return &ast.LiteralNumber{OriginalString: in, Value: f}
 }

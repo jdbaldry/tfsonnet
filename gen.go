@@ -3,10 +3,14 @@ package main
 import (
 	"fmt"
 	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/google/go-jsonnet/ast"
 )
+
+var jsonnetReservedWords = []string{"assert", "else", "error", "false", "for", "function", "if",
+	"import", "importstr", "in", "local", "null", "tailstrict", "then", "self", "super", "true"}
 
 // DefaultDocsURLFunc returns is a DocsURLFunc for standard Terraform providers with documentation at https://www.terraform.io/docs/providers.
 func DefaultDocsURLFunc(ss ...string) string {
@@ -117,6 +121,21 @@ func paramName(a string) string {
 		return "r" + a
 	}
 	return a
+}
+
+// newIdentifier creates an identifier.
+func newIdentifier(value string) *ast.Identifier {
+	id := ast.Identifier(value)
+	return &id
+}
+
+// newLiteralNumber creates a number literal.
+func newLiteralNumber(in string) *ast.LiteralNumber {
+	f, err := strconv.ParseFloat(in, 64)
+	if err != nil {
+		return &ast.LiteralNumber{OriginalString: in, Value: 0}
+	}
+	return &ast.LiteralNumber{OriginalString: in, Value: f}
 }
 
 // Generate generates a Jsonnet ast.Object from a provider schema using the generators configuration.
