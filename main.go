@@ -70,7 +70,7 @@ func main() {
 			}
 
 			lib.Fields = append(lib.Fields, ast.ObjectField{
-				Kind:  ast.ObjectFieldStr,
+				Kind:  ast.ObjectFieldID,
 				Id:    newIdentifier(p),
 				Expr2: g.Generate(),
 			})
