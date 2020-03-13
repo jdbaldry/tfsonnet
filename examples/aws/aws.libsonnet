@@ -85,10 +85,10 @@
       // @param tags (optional)
       // @param type (optional)
       // @param id (optional)
-      // @param timeouts (optional)
       // @param certificate_authority_configuration (required)
       // @param revocation_configuration (optional)
-      new(rname, certificate_authority_configuration, enabled=null, permanent_deletion_time_in_days=null, tags=null, type=null, id=null, timeouts=null, revocation_configuration=null):: {
+      // @param timeouts (optional)
+      new(rname, certificate_authority_configuration, enabled=null, permanent_deletion_time_in_days=null, tags=null, type=null, id=null, revocation_configuration=null, timeouts=null):: {
         rname:: rname,
         [if enabled != null then enabled]: enabled,
         [if permanent_deletion_time_in_days != null then permanent_deletion_time_in_days]: permanent_deletion_time_in_days,
@@ -103,17 +103,9 @@
         not_before:: '${aws_acmpca_certificate_authority.%s.not_before}' % rname,
         serial:: '${aws_acmpca_certificate_authority.%s.serial}' % rname,
         status:: '${aws_acmpca_certificate_authority.%s.status}' % rname,
-        [if timeouts != null then timeouts]: timeouts,
         certificate_authority_configuration: certificate_authority_configuration,
         [if revocation_configuration != null then revocation_configuration]: revocation_configuration,
-      },
-      timeouts:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param create (optional)
-        new(rname, create=null):: {
-          rname:: rname,
-          [if create != null then create]: create,
-        },
+        [if timeouts != null then timeouts]: timeouts,
       },
       certificate_authority_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -179,6 +171,14 @@
             [if enabled != null then enabled]: enabled,
             [if s3_bucket_name != null then s3_bucket_name]: s3_bucket_name,
           },
+        },
+      },
+      timeouts:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param create (optional)
+        new(rname, create=null):: {
+          rname:: rname,
+          [if create != null then create]: create,
         },
       },
     },
@@ -288,19 +288,41 @@
         // @param type (required)
         // @param target_group_arn (optional)
         // @param order (optional)
+        // @param authenticate_cognito (optional)
         // @param authenticate_oidc (optional)
         // @param fixed_response (optional)
         // @param redirect (optional)
-        // @param authenticate_cognito (optional)
-        new(rname, type, target_group_arn=null, order=null, authenticate_oidc=null, fixed_response=null, redirect=null, authenticate_cognito=null):: {
+        new(rname, type, target_group_arn=null, order=null, authenticate_cognito=null, authenticate_oidc=null, fixed_response=null, redirect=null):: {
           rname:: rname,
           type: type,
           [if target_group_arn != null then target_group_arn]: target_group_arn,
           [if order != null then order]: order,
+          [if authenticate_cognito != null then authenticate_cognito]: authenticate_cognito,
           [if authenticate_oidc != null then authenticate_oidc]: authenticate_oidc,
           [if fixed_response != null then fixed_response]: fixed_response,
           [if redirect != null then redirect]: redirect,
-          [if authenticate_cognito != null then authenticate_cognito]: authenticate_cognito,
+        },
+        authenticate_cognito:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param user_pool_arn (required)
+          // @param user_pool_client_id (required)
+          // @param user_pool_domain (required)
+          // @param authentication_request_extra_params (optional)
+          // @param on_unauthenticated_request (optional)
+          // @param scope (optional)
+          // @param session_cookie_name (optional)
+          // @param session_timeout (optional)
+          new(rname, user_pool_arn, user_pool_client_id, user_pool_domain, authentication_request_extra_params=null, on_unauthenticated_request=null, scope=null, session_cookie_name=null, session_timeout=null):: {
+            rname:: rname,
+            user_pool_arn: user_pool_arn,
+            user_pool_client_id: user_pool_client_id,
+            user_pool_domain: user_pool_domain,
+            [if authentication_request_extra_params != null then authentication_request_extra_params]: authentication_request_extra_params,
+            [if on_unauthenticated_request != null then on_unauthenticated_request]: on_unauthenticated_request,
+            [if scope != null then scope]: scope,
+            [if session_cookie_name != null then session_cookie_name]: session_cookie_name,
+            [if session_timeout != null then session_timeout]: session_timeout,
+          },
         },
         authenticate_oidc:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -358,28 +380,6 @@
             [if port != null then port]: port,
             [if protocol != null then protocol]: protocol,
             [if query != null then query]: query,
-          },
-        },
-        authenticate_cognito:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param user_pool_arn (required)
-          // @param user_pool_client_id (required)
-          // @param user_pool_domain (required)
-          // @param authentication_request_extra_params (optional)
-          // @param on_unauthenticated_request (optional)
-          // @param scope (optional)
-          // @param session_cookie_name (optional)
-          // @param session_timeout (optional)
-          new(rname, user_pool_arn, user_pool_client_id, user_pool_domain, authentication_request_extra_params=null, on_unauthenticated_request=null, scope=null, session_cookie_name=null, session_timeout=null):: {
-            rname:: rname,
-            user_pool_arn: user_pool_arn,
-            user_pool_client_id: user_pool_client_id,
-            user_pool_domain: user_pool_domain,
-            [if authentication_request_extra_params != null then authentication_request_extra_params]: authentication_request_extra_params,
-            [if on_unauthenticated_request != null then on_unauthenticated_request]: on_unauthenticated_request,
-            [if scope != null then scope]: scope,
-            [if session_cookie_name != null then session_cookie_name]: session_cookie_name,
-            [if session_timeout != null then session_timeout]: session_timeout,
           },
         },
       },
@@ -427,37 +427,19 @@
         // @param type (required)
         // @param target_group_arn (optional)
         // @param order (optional)
-        // @param redirect (optional)
         // @param authenticate_cognito (optional)
         // @param authenticate_oidc (optional)
         // @param fixed_response (optional)
-        new(rname, type, target_group_arn=null, order=null, redirect=null, authenticate_cognito=null, authenticate_oidc=null, fixed_response=null):: {
+        // @param redirect (optional)
+        new(rname, type, target_group_arn=null, order=null, authenticate_cognito=null, authenticate_oidc=null, fixed_response=null, redirect=null):: {
           rname:: rname,
           type: type,
           [if target_group_arn != null then target_group_arn]: target_group_arn,
           [if order != null then order]: order,
-          [if redirect != null then redirect]: redirect,
           [if authenticate_cognito != null then authenticate_cognito]: authenticate_cognito,
           [if authenticate_oidc != null then authenticate_oidc]: authenticate_oidc,
           [if fixed_response != null then fixed_response]: fixed_response,
-        },
-        redirect:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param status_code (required)
-          // @param host (optional)
-          // @param path (optional)
-          // @param port (optional)
-          // @param protocol (optional)
-          // @param query (optional)
-          new(rname, status_code, host=null, path=null, port=null, protocol=null, query=null):: {
-            rname:: rname,
-            status_code: status_code,
-            [if host != null then host]: host,
-            [if path != null then path]: path,
-            [if port != null then port]: port,
-            [if protocol != null then protocol]: protocol,
-            [if query != null then query]: query,
-          },
+          [if redirect != null then redirect]: redirect,
         },
         authenticate_cognito:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -519,6 +501,24 @@
             content_type: content_type,
             [if message_body != null then message_body]: message_body,
             [if status_code != null then status_code]: status_code,
+          },
+        },
+        redirect:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param status_code (required)
+          // @param host (optional)
+          // @param path (optional)
+          // @param port (optional)
+          // @param protocol (optional)
+          // @param query (optional)
+          new(rname, status_code, host=null, path=null, port=null, protocol=null, query=null):: {
+            rname:: rname,
+            status_code: status_code,
+            [if host != null then host]: host,
+            [if path != null then path]: path,
+            [if port != null then port]: port,
+            [if protocol != null then protocol]: protocol,
+            [if query != null then query]: query,
           },
         },
       },
@@ -1819,39 +1819,13 @@
       spec:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param priority (optional)
-        // @param tcp_route (optional)
         // @param http_route (optional)
-        new(rname, priority=null, tcp_route=null, http_route=null):: {
+        // @param tcp_route (optional)
+        new(rname, priority=null, http_route=null, tcp_route=null):: {
           rname:: rname,
           [if priority != null then priority]: priority,
-          [if tcp_route != null then tcp_route]: tcp_route,
           [if http_route != null then http_route]: http_route,
-        },
-        tcp_route:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param action (required)
-          new(rname, action):: {
-            rname:: rname,
-            action: action,
-          },
-          action:: {
-            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-            // @param weighted_target (required)
-            new(rname, weighted_target):: {
-              rname:: rname,
-              weighted_target: weighted_target,
-            },
-            weighted_target:: {
-              // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-              // @param virtual_node (required)
-              // @param weight (required)
-              new(rname, virtual_node, weight):: {
-                rname:: rname,
-                virtual_node: virtual_node,
-                weight: weight,
-              },
-            },
-          },
+          [if tcp_route != null then tcp_route]: tcp_route,
         },
         http_route:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -1929,6 +1903,32 @@
                     start: start,
                   },
                 },
+              },
+            },
+          },
+        },
+        tcp_route:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param action (required)
+          new(rname, action):: {
+            rname:: rname,
+            action: action,
+          },
+          action:: {
+            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+            // @param weighted_target (required)
+            new(rname, weighted_target):: {
+              rname:: rname,
+              weighted_target: weighted_target,
+            },
+            weighted_target:: {
+              // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+              // @param virtual_node (required)
+              // @param weight (required)
+              new(rname, virtual_node, weight):: {
+                rname:: rname,
+                virtual_node: virtual_node,
+                weight: weight,
               },
             },
           },
@@ -2300,11 +2300,11 @@
       // @param schema (optional)
       // @param tags (optional)
       // @param id (optional)
-      // @param user_pool_config (optional)
       // @param additional_authentication_provider (optional)
       // @param log_config (optional)
       // @param openid_connect_config (optional)
-      new(rname, authentication_type, name, schema=null, tags=null, id=null, user_pool_config=null, additional_authentication_provider=null, log_config=null, openid_connect_config=null):: {
+      // @param user_pool_config (optional)
+      new(rname, authentication_type, name, schema=null, tags=null, id=null, additional_authentication_provider=null, log_config=null, openid_connect_config=null, user_pool_config=null):: {
         rname:: rname,
         authentication_type: authentication_type,
         name: name,
@@ -2313,24 +2313,10 @@
         arn:: '${aws_appsync_graphql_api.%s.arn}' % rname,
         [if id != null then id]: id,
         uris:: '${aws_appsync_graphql_api.%s.uris}' % rname,
-        [if user_pool_config != null then user_pool_config]: user_pool_config,
         [if additional_authentication_provider != null then additional_authentication_provider]: additional_authentication_provider,
         [if log_config != null then log_config]: log_config,
         [if openid_connect_config != null then openid_connect_config]: openid_connect_config,
-      },
-      user_pool_config:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param default_action (required)
-        // @param user_pool_id (required)
-        // @param app_id_client_regex (optional)
-        // @param aws_region (optional)
-        new(rname, default_action, user_pool_id, app_id_client_regex=null, aws_region=null):: {
-          rname:: rname,
-          default_action: default_action,
-          user_pool_id: user_pool_id,
-          [if app_id_client_regex != null then app_id_client_regex]: app_id_client_regex,
-          [if aws_region != null then aws_region]: aws_region,
-        },
+        [if user_pool_config != null then user_pool_config]: user_pool_config,
       },
       additional_authentication_provider:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -2392,6 +2378,20 @@
           [if auth_ttl != null then auth_ttl]: auth_ttl,
           [if client_id != null then client_id]: client_id,
           [if iat_ttl != null then iat_ttl]: iat_ttl,
+        },
+      },
+      user_pool_config:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param default_action (required)
+        // @param user_pool_id (required)
+        // @param app_id_client_regex (optional)
+        // @param aws_region (optional)
+        new(rname, default_action, user_pool_id, app_id_client_regex=null, aws_region=null):: {
+          rname:: rname,
+          default_action: default_action,
+          user_pool_id: user_pool_id,
+          [if app_id_client_regex != null then app_id_client_regex]: app_id_client_regex,
+          [if aws_region != null then aws_region]: aws_region,
         },
       },
     },
@@ -3359,13 +3359,13 @@
       // @param cache_behavior (optional)
       // @param custom_error_response (optional)
       // @param default_cache_behavior (required)
-      // @param restrictions (required)
-      // @param viewer_certificate (required)
       // @param logging_config (optional)
       // @param ordered_cache_behavior (optional)
       // @param origin (required)
       // @param origin_group (optional)
-      new(rname, enabled, default_cache_behavior, restrictions, viewer_certificate, origin, aliases=null, comment=null, default_root_object=null, http_version=null, is_ipv6_enabled=null, price_class=null, retain_on_delete=null, tags=null, wait_for_deployment=null, web_acl_id=null, id=null, cache_behavior=null, custom_error_response=null, logging_config=null, ordered_cache_behavior=null, origin_group=null):: {
+      // @param restrictions (required)
+      // @param viewer_certificate (required)
+      new(rname, enabled, default_cache_behavior, origin, restrictions, viewer_certificate, aliases=null, comment=null, default_root_object=null, http_version=null, is_ipv6_enabled=null, price_class=null, retain_on_delete=null, tags=null, wait_for_deployment=null, web_acl_id=null, id=null, cache_behavior=null, custom_error_response=null, logging_config=null, ordered_cache_behavior=null, origin_group=null):: {
         rname:: rname,
         enabled: enabled,
         [if aliases != null then aliases]: aliases,
@@ -3391,12 +3391,12 @@
         [if cache_behavior != null then cache_behavior]: cache_behavior,
         [if custom_error_response != null then custom_error_response]: custom_error_response,
         default_cache_behavior: default_cache_behavior,
-        restrictions: restrictions,
-        viewer_certificate: viewer_certificate,
         [if logging_config != null then logging_config]: logging_config,
         [if ordered_cache_behavior != null then ordered_cache_behavior]: ordered_cache_behavior,
         origin: origin,
         [if origin_group != null then origin_group]: origin_group,
+        restrictions: restrictions,
+        viewer_certificate: viewer_certificate,
       },
       cache_behavior:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -3550,40 +3550,6 @@
           },
         },
       },
-      restrictions:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param geo_restriction (required)
-        new(rname, geo_restriction):: {
-          rname:: rname,
-          geo_restriction: geo_restriction,
-        },
-        geo_restriction:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param restriction_type (required)
-          // @param locations (optional)
-          new(rname, restriction_type, locations=null):: {
-            rname:: rname,
-            restriction_type: restriction_type,
-            [if locations != null then locations]: locations,
-          },
-        },
-      },
-      viewer_certificate:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param acm_certificate_arn (optional)
-        // @param cloudfront_default_certificate (optional)
-        // @param iam_certificate_id (optional)
-        // @param minimum_protocol_version (optional)
-        // @param ssl_support_method (optional)
-        new(rname, acm_certificate_arn=null, cloudfront_default_certificate=null, iam_certificate_id=null, minimum_protocol_version=null, ssl_support_method=null):: {
-          rname:: rname,
-          [if acm_certificate_arn != null then acm_certificate_arn]: acm_certificate_arn,
-          [if cloudfront_default_certificate != null then cloudfront_default_certificate]: cloudfront_default_certificate,
-          [if iam_certificate_id != null then iam_certificate_id]: iam_certificate_id,
-          [if minimum_protocol_version != null then minimum_protocol_version]: minimum_protocol_version,
-          [if ssl_support_method != null then ssl_support_method]: ssl_support_method,
-        },
-      },
       logging_config:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param bucket (required)
@@ -3671,25 +3637,17 @@
         // @param domain_name (required)
         // @param origin_id (required)
         // @param origin_path (optional)
-        // @param s3_origin_config (optional)
         // @param custom_header (optional)
         // @param custom_origin_config (optional)
-        new(rname, domain_name, origin_id, origin_path=null, s3_origin_config=null, custom_header=null, custom_origin_config=null):: {
+        // @param s3_origin_config (optional)
+        new(rname, domain_name, origin_id, origin_path=null, custom_header=null, custom_origin_config=null, s3_origin_config=null):: {
           rname:: rname,
           domain_name: domain_name,
           origin_id: origin_id,
           [if origin_path != null then origin_path]: origin_path,
-          [if s3_origin_config != null then s3_origin_config]: s3_origin_config,
           [if custom_header != null then custom_header]: custom_header,
           [if custom_origin_config != null then custom_origin_config]: custom_origin_config,
-        },
-        s3_origin_config:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param origin_access_identity (required)
-          new(rname, origin_access_identity):: {
-            rname:: rname,
-            origin_access_identity: origin_access_identity,
-          },
+          [if s3_origin_config != null then s3_origin_config]: s3_origin_config,
         },
         custom_header:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -3719,17 +3677,33 @@
             [if origin_read_timeout != null then origin_read_timeout]: origin_read_timeout,
           },
         },
+        s3_origin_config:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param origin_access_identity (required)
+          new(rname, origin_access_identity):: {
+            rname:: rname,
+            origin_access_identity: origin_access_identity,
+          },
+        },
       },
       origin_group:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param origin_id (required)
-        // @param member (required)
         // @param failover_criteria (required)
-        new(rname, origin_id, member, failover_criteria):: {
+        // @param member (required)
+        new(rname, origin_id, failover_criteria, member):: {
           rname:: rname,
           origin_id: origin_id,
-          member: member,
           failover_criteria: failover_criteria,
+          member: member,
+        },
+        failover_criteria:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param status_codes (required)
+          new(rname, status_codes):: {
+            rname:: rname,
+            status_codes: status_codes,
+          },
         },
         member:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -3739,13 +3713,39 @@
             origin_id: origin_id,
           },
         },
-        failover_criteria:: {
+      },
+      restrictions:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param geo_restriction (required)
+        new(rname, geo_restriction):: {
+          rname:: rname,
+          geo_restriction: geo_restriction,
+        },
+        geo_restriction:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param status_codes (required)
-          new(rname, status_codes):: {
+          // @param restriction_type (required)
+          // @param locations (optional)
+          new(rname, restriction_type, locations=null):: {
             rname:: rname,
-            status_codes: status_codes,
+            restriction_type: restriction_type,
+            [if locations != null then locations]: locations,
           },
+        },
+      },
+      viewer_certificate:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param acm_certificate_arn (optional)
+        // @param cloudfront_default_certificate (optional)
+        // @param iam_certificate_id (optional)
+        // @param minimum_protocol_version (optional)
+        // @param ssl_support_method (optional)
+        new(rname, acm_certificate_arn=null, cloudfront_default_certificate=null, iam_certificate_id=null, minimum_protocol_version=null, ssl_support_method=null):: {
+          rname:: rname,
+          [if acm_certificate_arn != null then acm_certificate_arn]: acm_certificate_arn,
+          [if cloudfront_default_certificate != null then cloudfront_default_certificate]: cloudfront_default_certificate,
+          [if iam_certificate_id != null then iam_certificate_id]: iam_certificate_id,
+          [if minimum_protocol_version != null then minimum_protocol_version]: minimum_protocol_version,
+          [if ssl_support_method != null then ssl_support_method]: ssl_support_method,
         },
       },
     },
@@ -3994,13 +3994,13 @@
       // @param role_arn (optional)
       // @param id (optional)
       // @param target_id (optional)
-      // @param kinesis_target (optional)
-      // @param run_command_targets (optional)
-      // @param sqs_target (optional)
       // @param batch_target (optional)
       // @param ecs_target (optional)
       // @param input_transformer (optional)
-      new(rname, arn, rule, input=null, input_path=null, role_arn=null, id=null, target_id=null, kinesis_target=null, run_command_targets=null, sqs_target=null, batch_target=null, ecs_target=null, input_transformer=null):: {
+      // @param kinesis_target (optional)
+      // @param run_command_targets (optional)
+      // @param sqs_target (optional)
+      new(rname, arn, rule, input=null, input_path=null, role_arn=null, id=null, target_id=null, batch_target=null, ecs_target=null, input_transformer=null, kinesis_target=null, run_command_targets=null, sqs_target=null):: {
         rname:: rname,
         arn: arn,
         rule: rule,
@@ -4009,38 +4009,12 @@
         [if role_arn != null then role_arn]: role_arn,
         [if id != null then id]: id,
         [if target_id != null then target_id]: target_id,
-        [if kinesis_target != null then kinesis_target]: kinesis_target,
-        [if run_command_targets != null then run_command_targets]: run_command_targets,
-        [if sqs_target != null then sqs_target]: sqs_target,
         [if batch_target != null then batch_target]: batch_target,
         [if ecs_target != null then ecs_target]: ecs_target,
         [if input_transformer != null then input_transformer]: input_transformer,
-      },
-      kinesis_target:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param partition_key_path (optional)
-        new(rname, partition_key_path=null):: {
-          rname:: rname,
-          [if partition_key_path != null then partition_key_path]: partition_key_path,
-        },
-      },
-      run_command_targets:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param key (required)
-        // @param values (required)
-        new(rname, key, values):: {
-          rname:: rname,
-          key: key,
-          values: values,
-        },
-      },
-      sqs_target:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param message_group_id (optional)
-        new(rname, message_group_id=null):: {
-          rname:: rname,
-          [if message_group_id != null then message_group_id]: message_group_id,
-        },
+        [if kinesis_target != null then kinesis_target]: kinesis_target,
+        [if run_command_targets != null then run_command_targets]: run_command_targets,
+        [if sqs_target != null then sqs_target]: sqs_target,
       },
       batch_target:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -4094,6 +4068,32 @@
           rname:: rname,
           input_template: input_template,
           [if input_paths != null then input_paths]: input_paths,
+        },
+      },
+      kinesis_target:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param partition_key_path (optional)
+        new(rname, partition_key_path=null):: {
+          rname:: rname,
+          [if partition_key_path != null then partition_key_path]: partition_key_path,
+        },
+      },
+      run_command_targets:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param key (required)
+        // @param values (required)
+        new(rname, key, values):: {
+          rname:: rname,
+          key: key,
+          values: values,
+        },
+      },
+      sqs_target:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param message_group_id (optional)
+        new(rname, message_group_id=null):: {
+          rname:: rname,
+          [if message_group_id != null then message_group_id]: message_group_id,
         },
       },
     },
@@ -4326,15 +4326,15 @@
       // @param description (optional)
       // @param encryption_key (optional)
       // @param id (optional)
-      // @param source (required)
-      // @param vpc_config (optional)
       // @param artifacts (required)
       // @param cache (optional)
       // @param environment (required)
       // @param logs_config (optional)
       // @param secondary_artifacts (optional)
       // @param secondary_sources (optional)
-      new(rname, name, service_role, source, artifacts, environment, badge_enabled=null, build_timeout=null, queued_timeout=null, source_version=null, tags=null, description=null, encryption_key=null, id=null, vpc_config=null, cache=null, logs_config=null, secondary_artifacts=null, secondary_sources=null):: {
+      // @param source (required)
+      // @param vpc_config (optional)
+      new(rname, name, service_role, artifacts, environment, source, badge_enabled=null, build_timeout=null, queued_timeout=null, source_version=null, tags=null, description=null, encryption_key=null, id=null, cache=null, logs_config=null, secondary_artifacts=null, secondary_sources=null, vpc_config=null):: {
         rname:: rname,
         name: name,
         service_role: service_role,
@@ -4348,66 +4348,14 @@
         [if description != null then description]: description,
         [if encryption_key != null then encryption_key]: encryption_key,
         [if id != null then id]: id,
-        source: source,
-        [if vpc_config != null then vpc_config]: vpc_config,
         artifacts: artifacts,
         [if cache != null then cache]: cache,
         environment: environment,
         [if logs_config != null then logs_config]: logs_config,
         [if secondary_artifacts != null then secondary_artifacts]: secondary_artifacts,
         [if secondary_sources != null then secondary_sources]: secondary_sources,
-      },
-      source:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param type (required)
-        // @param buildspec (optional)
-        // @param git_clone_depth (optional)
-        // @param insecure_ssl (optional)
-        // @param location (optional)
-        // @param report_build_status (optional)
-        // @param auth (optional)
-        // @param git_submodules_config (optional)
-        new(rname, type, buildspec=null, git_clone_depth=null, insecure_ssl=null, location=null, report_build_status=null, auth=null, git_submodules_config=null):: {
-          rname:: rname,
-          type: type,
-          [if buildspec != null then buildspec]: buildspec,
-          [if git_clone_depth != null then git_clone_depth]: git_clone_depth,
-          [if insecure_ssl != null then insecure_ssl]: insecure_ssl,
-          [if location != null then location]: location,
-          [if report_build_status != null then report_build_status]: report_build_status,
-          [if auth != null then auth]: auth,
-          [if git_submodules_config != null then git_submodules_config]: git_submodules_config,
-        },
-        auth:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param type (required)
-          // @param resource (optional)
-          new(rname, type, resource=null):: {
-            rname:: rname,
-            type: type,
-            [if resource != null then resource]: resource,
-          },
-        },
-        git_submodules_config:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param fetch_submodules (required)
-          new(rname, fetch_submodules):: {
-            rname:: rname,
-            fetch_submodules: fetch_submodules,
-          },
-        },
-      },
-      vpc_config:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param security_group_ids (required)
-        // @param subnets (required)
-        // @param vpc_id (required)
-        new(rname, security_group_ids, subnets, vpc_id):: {
-          rname:: rname,
-          security_group_ids: security_group_ids,
-          subnets: subnets,
-          vpc_id: vpc_id,
-        },
+        source: source,
+        [if vpc_config != null then vpc_config]: vpc_config,
       },
       artifacts:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -4556,9 +4504,9 @@
         // @param insecure_ssl (optional)
         // @param location (optional)
         // @param report_build_status (optional)
-        // @param git_submodules_config (optional)
         // @param auth (optional)
-        new(rname, source_identifier, type, buildspec=null, git_clone_depth=null, insecure_ssl=null, location=null, report_build_status=null, git_submodules_config=null, auth=null):: {
+        // @param git_submodules_config (optional)
+        new(rname, source_identifier, type, buildspec=null, git_clone_depth=null, insecure_ssl=null, location=null, report_build_status=null, auth=null, git_submodules_config=null):: {
           rname:: rname,
           source_identifier: source_identifier,
           type: type,
@@ -4567,16 +4515,8 @@
           [if insecure_ssl != null then insecure_ssl]: insecure_ssl,
           [if location != null then location]: location,
           [if report_build_status != null then report_build_status]: report_build_status,
-          [if git_submodules_config != null then git_submodules_config]: git_submodules_config,
           [if auth != null then auth]: auth,
-        },
-        git_submodules_config:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param fetch_submodules (required)
-          new(rname, fetch_submodules):: {
-            rname:: rname,
-            fetch_submodules: fetch_submodules,
-          },
+          [if git_submodules_config != null then git_submodules_config]: git_submodules_config,
         },
         auth:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -4587,6 +4527,66 @@
             type: type,
             [if resource != null then resource]: resource,
           },
+        },
+        git_submodules_config:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param fetch_submodules (required)
+          new(rname, fetch_submodules):: {
+            rname:: rname,
+            fetch_submodules: fetch_submodules,
+          },
+        },
+      },
+      source:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param type (required)
+        // @param buildspec (optional)
+        // @param git_clone_depth (optional)
+        // @param insecure_ssl (optional)
+        // @param location (optional)
+        // @param report_build_status (optional)
+        // @param auth (optional)
+        // @param git_submodules_config (optional)
+        new(rname, type, buildspec=null, git_clone_depth=null, insecure_ssl=null, location=null, report_build_status=null, auth=null, git_submodules_config=null):: {
+          rname:: rname,
+          type: type,
+          [if buildspec != null then buildspec]: buildspec,
+          [if git_clone_depth != null then git_clone_depth]: git_clone_depth,
+          [if insecure_ssl != null then insecure_ssl]: insecure_ssl,
+          [if location != null then location]: location,
+          [if report_build_status != null then report_build_status]: report_build_status,
+          [if auth != null then auth]: auth,
+          [if git_submodules_config != null then git_submodules_config]: git_submodules_config,
+        },
+        auth:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param type (required)
+          // @param resource (optional)
+          new(rname, type, resource=null):: {
+            rname:: rname,
+            type: type,
+            [if resource != null then resource]: resource,
+          },
+        },
+        git_submodules_config:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param fetch_submodules (required)
+          new(rname, fetch_submodules):: {
+            rname:: rname,
+            fetch_submodules: fetch_submodules,
+          },
+        },
+      },
+      vpc_config:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param security_group_ids (required)
+        // @param subnets (required)
+        // @param vpc_id (required)
+        new(rname, security_group_ids, subnets, vpc_id):: {
+          rname:: rname,
+          security_group_ids: security_group_ids,
+          subnets: subnets,
+          vpc_id: vpc_id,
         },
       },
     },
@@ -4781,17 +4781,17 @@
       // @param autoscaling_groups (optional)
       // @param deployment_config_name (optional)
       // @param id (optional)
+      // @param alarm_configuration (optional)
       // @param auto_rollback_configuration (optional)
+      // @param blue_green_deployment_config (optional)
       // @param deployment_style (optional)
       // @param ec2_tag_filter (optional)
       // @param ec2_tag_set (optional)
-      // @param trigger_configuration (optional)
-      // @param alarm_configuration (optional)
-      // @param blue_green_deployment_config (optional)
       // @param ecs_service (optional)
       // @param load_balancer_info (optional)
       // @param on_premises_instance_tag_filter (optional)
-      new(rname, app_name, deployment_group_name, service_role_arn, autoscaling_groups=null, deployment_config_name=null, id=null, auto_rollback_configuration=null, deployment_style=null, ec2_tag_filter=null, ec2_tag_set=null, trigger_configuration=null, alarm_configuration=null, blue_green_deployment_config=null, ecs_service=null, load_balancer_info=null, on_premises_instance_tag_filter=null):: {
+      // @param trigger_configuration (optional)
+      new(rname, app_name, deployment_group_name, service_role_arn, autoscaling_groups=null, deployment_config_name=null, id=null, alarm_configuration=null, auto_rollback_configuration=null, blue_green_deployment_config=null, deployment_style=null, ec2_tag_filter=null, ec2_tag_set=null, ecs_service=null, load_balancer_info=null, on_premises_instance_tag_filter=null, trigger_configuration=null):: {
         rname:: rname,
         app_name: app_name,
         deployment_group_name: deployment_group_name,
@@ -4799,16 +4799,28 @@
         [if autoscaling_groups != null then autoscaling_groups]: autoscaling_groups,
         [if deployment_config_name != null then deployment_config_name]: deployment_config_name,
         [if id != null then id]: id,
+        [if alarm_configuration != null then alarm_configuration]: alarm_configuration,
         [if auto_rollback_configuration != null then auto_rollback_configuration]: auto_rollback_configuration,
+        [if blue_green_deployment_config != null then blue_green_deployment_config]: blue_green_deployment_config,
         [if deployment_style != null then deployment_style]: deployment_style,
         [if ec2_tag_filter != null then ec2_tag_filter]: ec2_tag_filter,
         [if ec2_tag_set != null then ec2_tag_set]: ec2_tag_set,
-        [if trigger_configuration != null then trigger_configuration]: trigger_configuration,
-        [if alarm_configuration != null then alarm_configuration]: alarm_configuration,
-        [if blue_green_deployment_config != null then blue_green_deployment_config]: blue_green_deployment_config,
         [if ecs_service != null then ecs_service]: ecs_service,
         [if load_balancer_info != null then load_balancer_info]: load_balancer_info,
         [if on_premises_instance_tag_filter != null then on_premises_instance_tag_filter]: on_premises_instance_tag_filter,
+        [if trigger_configuration != null then trigger_configuration]: trigger_configuration,
+      },
+      alarm_configuration:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param alarms (optional)
+        // @param enabled (optional)
+        // @param ignore_poll_alarm_failure (optional)
+        new(rname, alarms=null, enabled=null, ignore_poll_alarm_failure=null):: {
+          rname:: rname,
+          [if alarms != null then alarms]: alarms,
+          [if enabled != null then enabled]: enabled,
+          [if ignore_poll_alarm_failure != null then ignore_poll_alarm_failure]: ignore_poll_alarm_failure,
+        },
       },
       auto_rollback_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -4818,6 +4830,46 @@
           rname:: rname,
           [if enabled != null then enabled]: enabled,
           [if events != null then events]: events,
+        },
+      },
+      blue_green_deployment_config:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param deployment_ready_option (optional)
+        // @param green_fleet_provisioning_option (optional)
+        // @param terminate_blue_instances_on_deployment_success (optional)
+        new(rname, deployment_ready_option=null, green_fleet_provisioning_option=null, terminate_blue_instances_on_deployment_success=null):: {
+          rname:: rname,
+          [if deployment_ready_option != null then deployment_ready_option]: deployment_ready_option,
+          [if green_fleet_provisioning_option != null then green_fleet_provisioning_option]: green_fleet_provisioning_option,
+          [if terminate_blue_instances_on_deployment_success != null then terminate_blue_instances_on_deployment_success]: terminate_blue_instances_on_deployment_success,
+        },
+        deployment_ready_option:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param action_on_timeout (optional)
+          // @param wait_time_in_minutes (optional)
+          new(rname, action_on_timeout=null, wait_time_in_minutes=null):: {
+            rname:: rname,
+            [if action_on_timeout != null then action_on_timeout]: action_on_timeout,
+            [if wait_time_in_minutes != null then wait_time_in_minutes]: wait_time_in_minutes,
+          },
+        },
+        green_fleet_provisioning_option:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param action (optional)
+          new(rname, action=null):: {
+            rname:: rname,
+            [if action != null then action]: action,
+          },
+        },
+        terminate_blue_instances_on_deployment_success:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param action (optional)
+          // @param termination_wait_time_in_minutes (optional)
+          new(rname, action=null, termination_wait_time_in_minutes=null):: {
+            rname:: rname,
+            [if action != null then action]: action,
+            [if termination_wait_time_in_minutes != null then termination_wait_time_in_minutes]: termination_wait_time_in_minutes,
+          },
         },
       },
       deployment_style:: {
@@ -4862,70 +4914,6 @@
           },
         },
       },
-      trigger_configuration:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param trigger_events (required)
-        // @param trigger_name (required)
-        // @param trigger_target_arn (required)
-        new(rname, trigger_events, trigger_name, trigger_target_arn):: {
-          rname:: rname,
-          trigger_events: trigger_events,
-          trigger_name: trigger_name,
-          trigger_target_arn: trigger_target_arn,
-        },
-      },
-      alarm_configuration:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param alarms (optional)
-        // @param enabled (optional)
-        // @param ignore_poll_alarm_failure (optional)
-        new(rname, alarms=null, enabled=null, ignore_poll_alarm_failure=null):: {
-          rname:: rname,
-          [if alarms != null then alarms]: alarms,
-          [if enabled != null then enabled]: enabled,
-          [if ignore_poll_alarm_failure != null then ignore_poll_alarm_failure]: ignore_poll_alarm_failure,
-        },
-      },
-      blue_green_deployment_config:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param deployment_ready_option (optional)
-        // @param green_fleet_provisioning_option (optional)
-        // @param terminate_blue_instances_on_deployment_success (optional)
-        new(rname, deployment_ready_option=null, green_fleet_provisioning_option=null, terminate_blue_instances_on_deployment_success=null):: {
-          rname:: rname,
-          [if deployment_ready_option != null then deployment_ready_option]: deployment_ready_option,
-          [if green_fleet_provisioning_option != null then green_fleet_provisioning_option]: green_fleet_provisioning_option,
-          [if terminate_blue_instances_on_deployment_success != null then terminate_blue_instances_on_deployment_success]: terminate_blue_instances_on_deployment_success,
-        },
-        deployment_ready_option:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param action_on_timeout (optional)
-          // @param wait_time_in_minutes (optional)
-          new(rname, action_on_timeout=null, wait_time_in_minutes=null):: {
-            rname:: rname,
-            [if action_on_timeout != null then action_on_timeout]: action_on_timeout,
-            [if wait_time_in_minutes != null then wait_time_in_minutes]: wait_time_in_minutes,
-          },
-        },
-        green_fleet_provisioning_option:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param action (optional)
-          new(rname, action=null):: {
-            rname:: rname,
-            [if action != null then action]: action,
-          },
-        },
-        terminate_blue_instances_on_deployment_success:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param action (optional)
-          // @param termination_wait_time_in_minutes (optional)
-          new(rname, action=null, termination_wait_time_in_minutes=null):: {
-            rname:: rname,
-            [if action != null then action]: action,
-            [if termination_wait_time_in_minutes != null then termination_wait_time_in_minutes]: termination_wait_time_in_minutes,
-          },
-        },
-      },
       ecs_service:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param cluster_name (required)
@@ -4965,22 +4953,14 @@
         },
         target_group_pair_info:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param test_traffic_route (optional)
           // @param prod_traffic_route (required)
           // @param target_group (required)
+          // @param test_traffic_route (optional)
           new(rname, prod_traffic_route, target_group, test_traffic_route=null):: {
             rname:: rname,
-            [if test_traffic_route != null then test_traffic_route]: test_traffic_route,
             prod_traffic_route: prod_traffic_route,
             target_group: target_group,
-          },
-          test_traffic_route:: {
-            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-            // @param listener_arns (required)
-            new(rname, listener_arns):: {
-              rname:: rname,
-              listener_arns: listener_arns,
-            },
+            [if test_traffic_route != null then test_traffic_route]: test_traffic_route,
           },
           prod_traffic_route:: {
             // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -4998,6 +4978,14 @@
               name: name,
             },
           },
+          test_traffic_route:: {
+            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+            // @param listener_arns (required)
+            new(rname, listener_arns):: {
+              rname:: rname,
+              listener_arns: listener_arns,
+            },
+          },
         },
       },
       on_premises_instance_tag_filter:: {
@@ -5012,6 +5000,18 @@
           [if value != null then value]: value,
         },
       },
+      trigger_configuration:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param trigger_events (required)
+        // @param trigger_name (required)
+        // @param trigger_target_arn (required)
+        new(rname, trigger_events, trigger_name, trigger_target_arn):: {
+          rname:: rname,
+          trigger_events: trigger_events,
+          trigger_name: trigger_name,
+          trigger_target_arn: trigger_target_arn,
+        },
+      },
     },
     // aws_codepipeline - https://www.terraform.io/docs/providers/aws/r/codepipeline.html
     aws_codepipeline:: {
@@ -5020,17 +5020,39 @@
       // @param role_arn (required)
       // @param tags (optional)
       // @param id (optional)
-      // @param stage (required)
       // @param artifact_store (required)
-      new(rname, name, role_arn, stage, artifact_store, tags=null, id=null):: {
+      // @param stage (required)
+      new(rname, name, role_arn, artifact_store, stage, tags=null, id=null):: {
         rname:: rname,
         name: name,
         role_arn: role_arn,
         [if tags != null then tags]: tags,
         arn:: '${aws_codepipeline.%s.arn}' % rname,
         [if id != null then id]: id,
-        stage: stage,
         artifact_store: artifact_store,
+        stage: stage,
+      },
+      artifact_store:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param location (required)
+        // @param type (required)
+        // @param encryption_key (optional)
+        new(rname, location, type, encryption_key=null):: {
+          rname:: rname,
+          location: location,
+          type: type,
+          [if encryption_key != null then encryption_key]: encryption_key,
+        },
+        encryption_key:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param id (required)
+          // @param type (required)
+          new(rname, id, type):: {
+            rname:: rname,
+            id: id,
+            type: type,
+          },
+        },
       },
       stage:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -5065,28 +5087,6 @@
             [if output_artifacts != null then output_artifacts]: output_artifacts,
             [if role_arn != null then role_arn]: role_arn,
             [if run_order != null then run_order]: run_order,
-          },
-        },
-      },
-      artifact_store:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param location (required)
-        // @param type (required)
-        // @param encryption_key (optional)
-        new(rname, location, type, encryption_key=null):: {
-          rname:: rname,
-          location: location,
-          type: type,
-          [if encryption_key != null then encryption_key]: encryption_key,
-        },
-        encryption_key:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param id (required)
-          // @param type (required)
-          new(rname, id, type):: {
-            rname:: rname,
-            id: id,
-            type: type,
           },
         },
       },
@@ -5334,15 +5334,15 @@
       // @param id (optional)
       // @param sms_verification_message (optional)
       // @param admin_create_user_config (optional)
-      // @param lambda_config (optional)
-      // @param sms_configuration (optional)
       // @param device_configuration (optional)
       // @param email_configuration (optional)
+      // @param lambda_config (optional)
       // @param password_policy (optional)
       // @param schema (optional)
+      // @param sms_configuration (optional)
       // @param user_pool_add_ons (optional)
       // @param verification_message_template (optional)
-      new(rname, name, alias_attributes=null, auto_verified_attributes=null, mfa_configuration=null, sms_authentication_message=null, tags=null, username_attributes=null, email_verification_message=null, email_verification_subject=null, id=null, sms_verification_message=null, admin_create_user_config=null, lambda_config=null, sms_configuration=null, device_configuration=null, email_configuration=null, password_policy=null, schema=null, user_pool_add_ons=null, verification_message_template=null):: {
+      new(rname, name, alias_attributes=null, auto_verified_attributes=null, mfa_configuration=null, sms_authentication_message=null, tags=null, username_attributes=null, email_verification_message=null, email_verification_subject=null, id=null, sms_verification_message=null, admin_create_user_config=null, device_configuration=null, email_configuration=null, lambda_config=null, password_policy=null, schema=null, sms_configuration=null, user_pool_add_ons=null, verification_message_template=null):: {
         rname:: rname,
         name: name,
         [if alias_attributes != null then alias_attributes]: alias_attributes,
@@ -5360,12 +5360,12 @@
         last_modified_date:: '${aws_cognito_user_pool.%s.last_modified_date}' % rname,
         [if sms_verification_message != null then sms_verification_message]: sms_verification_message,
         [if admin_create_user_config != null then admin_create_user_config]: admin_create_user_config,
-        [if lambda_config != null then lambda_config]: lambda_config,
-        [if sms_configuration != null then sms_configuration]: sms_configuration,
         [if device_configuration != null then device_configuration]: device_configuration,
         [if email_configuration != null then email_configuration]: email_configuration,
+        [if lambda_config != null then lambda_config]: lambda_config,
         [if password_policy != null then password_policy]: password_policy,
         [if schema != null then schema]: schema,
+        [if sms_configuration != null then sms_configuration]: sms_configuration,
         [if user_pool_add_ons != null then user_pool_add_ons]: user_pool_add_ons,
         [if verification_message_template != null then verification_message_template]: verification_message_template,
       },
@@ -5391,6 +5391,28 @@
             [if email_subject != null then email_subject]: email_subject,
             [if sms_message != null then sms_message]: sms_message,
           },
+        },
+      },
+      device_configuration:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param challenge_required_on_new_device (optional)
+        // @param device_only_remembered_on_user_prompt (optional)
+        new(rname, challenge_required_on_new_device=null, device_only_remembered_on_user_prompt=null):: {
+          rname:: rname,
+          [if challenge_required_on_new_device != null then challenge_required_on_new_device]: challenge_required_on_new_device,
+          [if device_only_remembered_on_user_prompt != null then device_only_remembered_on_user_prompt]: device_only_remembered_on_user_prompt,
+        },
+      },
+      email_configuration:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param email_sending_account (optional)
+        // @param reply_to_email_address (optional)
+        // @param source_arn (optional)
+        new(rname, email_sending_account=null, reply_to_email_address=null, source_arn=null):: {
+          rname:: rname,
+          [if email_sending_account != null then email_sending_account]: email_sending_account,
+          [if reply_to_email_address != null then reply_to_email_address]: reply_to_email_address,
+          [if source_arn != null then source_arn]: source_arn,
         },
       },
       lambda_config:: {
@@ -5419,38 +5441,6 @@
           [if verify_auth_challenge_response != null then verify_auth_challenge_response]: verify_auth_challenge_response,
         },
       },
-      sms_configuration:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param external_id (required)
-        // @param sns_caller_arn (required)
-        new(rname, external_id, sns_caller_arn):: {
-          rname:: rname,
-          external_id: external_id,
-          sns_caller_arn: sns_caller_arn,
-        },
-      },
-      device_configuration:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param challenge_required_on_new_device (optional)
-        // @param device_only_remembered_on_user_prompt (optional)
-        new(rname, challenge_required_on_new_device=null, device_only_remembered_on_user_prompt=null):: {
-          rname:: rname,
-          [if challenge_required_on_new_device != null then challenge_required_on_new_device]: challenge_required_on_new_device,
-          [if device_only_remembered_on_user_prompt != null then device_only_remembered_on_user_prompt]: device_only_remembered_on_user_prompt,
-        },
-      },
-      email_configuration:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param email_sending_account (optional)
-        // @param reply_to_email_address (optional)
-        // @param source_arn (optional)
-        new(rname, email_sending_account=null, reply_to_email_address=null, source_arn=null):: {
-          rname:: rname,
-          [if email_sending_account != null then email_sending_account]: email_sending_account,
-          [if reply_to_email_address != null then reply_to_email_address]: reply_to_email_address,
-          [if source_arn != null then source_arn]: source_arn,
-        },
-      },
       password_policy:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param minimum_length (optional)
@@ -5476,17 +5466,27 @@
         // @param developer_only_attribute (optional)
         // @param mutable (optional)
         // @param required (optional)
-        // @param string_attribute_constraints (optional)
         // @param number_attribute_constraints (optional)
-        new(rname, attribute_data_type, name, developer_only_attribute=null, mutable=null, required=null, string_attribute_constraints=null, number_attribute_constraints=null):: {
+        // @param string_attribute_constraints (optional)
+        new(rname, attribute_data_type, name, developer_only_attribute=null, mutable=null, required=null, number_attribute_constraints=null, string_attribute_constraints=null):: {
           rname:: rname,
           attribute_data_type: attribute_data_type,
           name: name,
           [if developer_only_attribute != null then developer_only_attribute]: developer_only_attribute,
           [if mutable != null then mutable]: mutable,
           [if required != null then required]: required,
-          [if string_attribute_constraints != null then string_attribute_constraints]: string_attribute_constraints,
           [if number_attribute_constraints != null then number_attribute_constraints]: number_attribute_constraints,
+          [if string_attribute_constraints != null then string_attribute_constraints]: string_attribute_constraints,
+        },
+        number_attribute_constraints:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param max_value (optional)
+          // @param min_value (optional)
+          new(rname, max_value=null, min_value=null):: {
+            rname:: rname,
+            [if max_value != null then max_value]: max_value,
+            [if min_value != null then min_value]: min_value,
+          },
         },
         string_attribute_constraints:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -5498,15 +5498,15 @@
             [if min_length != null then min_length]: min_length,
           },
         },
-        number_attribute_constraints:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param max_value (optional)
-          // @param min_value (optional)
-          new(rname, max_value=null, min_value=null):: {
-            rname:: rname,
-            [if max_value != null then max_value]: max_value,
-            [if min_value != null then min_value]: min_value,
-          },
+      },
+      sms_configuration:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param external_id (required)
+        // @param sns_caller_arn (required)
+        new(rname, external_id, sns_caller_arn):: {
+          rname:: rname,
+          external_id: external_id,
+          sns_caller_arn: sns_caller_arn,
         },
       },
       user_pool_add_ons:: {
@@ -6487,9 +6487,9 @@
       // @param id (optional)
       // @param name (optional)
       // @param name_prefix (optional)
-      // @param timeouts (optional)
       // @param option (optional)
-      new(rname, engine_name, major_engine_version, option_group_description=null, tags=null, id=null, name=null, name_prefix=null, timeouts=null, option=null):: {
+      // @param timeouts (optional)
+      new(rname, engine_name, major_engine_version, option_group_description=null, tags=null, id=null, name=null, name_prefix=null, option=null, timeouts=null):: {
         rname:: rname,
         engine_name: engine_name,
         major_engine_version: major_engine_version,
@@ -6499,16 +6499,8 @@
         [if id != null then id]: id,
         [if name != null then name]: name,
         [if name_prefix != null then name_prefix]: name_prefix,
-        [if timeouts != null then timeouts]: timeouts,
         [if option != null then option]: option,
-      },
-      timeouts:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param delete (optional)
-        new(rname, delete=null):: {
-          rname:: rname,
-          [if delete != null then delete]: delete,
-        },
+        [if timeouts != null then timeouts]: timeouts,
       },
       option:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -6536,6 +6528,14 @@
             name: name,
             value: value,
           },
+        },
+      },
+      timeouts:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param delete (optional)
+        new(rname, delete=null):: {
+          rname:: rname,
+          [if delete != null then delete]: delete,
         },
       },
     },
@@ -8054,14 +8054,14 @@
       // @param write_capacity (optional)
       // @param id (optional)
       // @param stream_view_type (optional)
-      // @param server_side_encryption (optional)
-      // @param timeouts (optional)
-      // @param ttl (optional)
       // @param attribute (required)
       // @param global_secondary_index (optional)
       // @param local_secondary_index (optional)
       // @param point_in_time_recovery (optional)
-      new(rname, hash_key, name, attribute, billing_mode=null, range_key=null, read_capacity=null, stream_enabled=null, tags=null, write_capacity=null, id=null, stream_view_type=null, server_side_encryption=null, timeouts=null, ttl=null, global_secondary_index=null, local_secondary_index=null, point_in_time_recovery=null):: {
+      // @param server_side_encryption (optional)
+      // @param timeouts (optional)
+      // @param ttl (optional)
+      new(rname, hash_key, name, attribute, billing_mode=null, range_key=null, read_capacity=null, stream_enabled=null, tags=null, write_capacity=null, id=null, stream_view_type=null, global_secondary_index=null, local_secondary_index=null, point_in_time_recovery=null, server_side_encryption=null, timeouts=null, ttl=null):: {
         rname:: rname,
         hash_key: hash_key,
         name: name,
@@ -8076,45 +8076,13 @@
         stream_arn:: '${aws_dynamodb_table.%s.stream_arn}' % rname,
         stream_label:: '${aws_dynamodb_table.%s.stream_label}' % rname,
         [if stream_view_type != null then stream_view_type]: stream_view_type,
-        [if server_side_encryption != null then server_side_encryption]: server_side_encryption,
-        [if timeouts != null then timeouts]: timeouts,
-        [if ttl != null then ttl]: ttl,
         attribute: attribute,
         [if global_secondary_index != null then global_secondary_index]: global_secondary_index,
         [if local_secondary_index != null then local_secondary_index]: local_secondary_index,
         [if point_in_time_recovery != null then point_in_time_recovery]: point_in_time_recovery,
-      },
-      server_side_encryption:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param enabled (required)
-        // @param kms_key_arn (optional)
-        new(rname, enabled, kms_key_arn=null):: {
-          rname:: rname,
-          enabled: enabled,
-          [if kms_key_arn != null then kms_key_arn]: kms_key_arn,
-        },
-      },
-      timeouts:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param create (optional)
-        // @param delete (optional)
-        // @param update (optional)
-        new(rname, create=null, delete=null, update=null):: {
-          rname:: rname,
-          [if create != null then create]: create,
-          [if delete != null then delete]: delete,
-          [if update != null then update]: update,
-        },
-      },
-      ttl:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param attribute_name (required)
-        // @param enabled (optional)
-        new(rname, attribute_name, enabled=null):: {
-          rname:: rname,
-          attribute_name: attribute_name,
-          [if enabled != null then enabled]: enabled,
-        },
+        [if server_side_encryption != null then server_side_encryption]: server_side_encryption,
+        [if timeouts != null then timeouts]: timeouts,
+        [if ttl != null then ttl]: ttl,
       },
       attribute:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -8166,6 +8134,38 @@
         new(rname, enabled):: {
           rname:: rname,
           enabled: enabled,
+        },
+      },
+      server_side_encryption:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param enabled (required)
+        // @param kms_key_arn (optional)
+        new(rname, enabled, kms_key_arn=null):: {
+          rname:: rname,
+          enabled: enabled,
+          [if kms_key_arn != null then kms_key_arn]: kms_key_arn,
+        },
+      },
+      timeouts:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param create (optional)
+        // @param delete (optional)
+        // @param update (optional)
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
+          [if create != null then create]: create,
+          [if delete != null then delete]: delete,
+          [if update != null then update]: update,
+        },
+      },
+      ttl:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param attribute_name (required)
+        // @param enabled (optional)
+        new(rname, attribute_name, enabled=null):: {
+          rname:: rname,
+          attribute_name: attribute_name,
+          [if enabled != null then enabled]: enabled,
         },
       },
     },
@@ -8403,12 +8403,12 @@
       // @param terminate_instances_with_expiration (optional)
       // @param type (optional)
       // @param id (optional)
+      // @param launch_template_config (required)
+      // @param on_demand_options (optional)
       // @param spot_options (optional)
       // @param target_capacity_specification (required)
       // @param timeouts (optional)
-      // @param launch_template_config (required)
-      // @param on_demand_options (optional)
-      new(rname, target_capacity_specification, launch_template_config, excess_capacity_termination_policy=null, replace_unhealthy_instances=null, tags=null, terminate_instances=null, terminate_instances_with_expiration=null, type=null, id=null, spot_options=null, timeouts=null, on_demand_options=null):: {
+      new(rname, launch_template_config, target_capacity_specification, excess_capacity_termination_policy=null, replace_unhealthy_instances=null, tags=null, terminate_instances=null, terminate_instances_with_expiration=null, type=null, id=null, on_demand_options=null, spot_options=null, timeouts=null):: {
         rname:: rname,
         [if excess_capacity_termination_policy != null then excess_capacity_termination_policy]: excess_capacity_termination_policy,
         [if replace_unhealthy_instances != null then replace_unhealthy_instances]: replace_unhealthy_instances,
@@ -8417,49 +8417,11 @@
         [if terminate_instances_with_expiration != null then terminate_instances_with_expiration]: terminate_instances_with_expiration,
         [if type != null then type]: type,
         [if id != null then id]: id,
+        launch_template_config: launch_template_config,
+        [if on_demand_options != null then on_demand_options]: on_demand_options,
         [if spot_options != null then spot_options]: spot_options,
         target_capacity_specification: target_capacity_specification,
         [if timeouts != null then timeouts]: timeouts,
-        launch_template_config: launch_template_config,
-        [if on_demand_options != null then on_demand_options]: on_demand_options,
-      },
-      spot_options:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param allocation_strategy (optional)
-        // @param instance_interruption_behavior (optional)
-        // @param instance_pools_to_use_count (optional)
-        new(rname, allocation_strategy=null, instance_interruption_behavior=null, instance_pools_to_use_count=null):: {
-          rname:: rname,
-          [if allocation_strategy != null then allocation_strategy]: allocation_strategy,
-          [if instance_interruption_behavior != null then instance_interruption_behavior]: instance_interruption_behavior,
-          [if instance_pools_to_use_count != null then instance_pools_to_use_count]: instance_pools_to_use_count,
-        },
-      },
-      target_capacity_specification:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param default_target_capacity_type (required)
-        // @param total_target_capacity (required)
-        // @param on_demand_target_capacity (optional)
-        // @param spot_target_capacity (optional)
-        new(rname, default_target_capacity_type, total_target_capacity, on_demand_target_capacity=null, spot_target_capacity=null):: {
-          rname:: rname,
-          default_target_capacity_type: default_target_capacity_type,
-          total_target_capacity: total_target_capacity,
-          [if on_demand_target_capacity != null then on_demand_target_capacity]: on_demand_target_capacity,
-          [if spot_target_capacity != null then spot_target_capacity]: spot_target_capacity,
-        },
-      },
-      timeouts:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param create (optional)
-        // @param delete (optional)
-        // @param update (optional)
-        new(rname, create=null, delete=null, update=null):: {
-          rname:: rname,
-          [if create != null then create]: create,
-          [if delete != null then delete]: delete,
-          [if update != null then update]: update,
-        },
       },
       launch_template_config:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -8507,6 +8469,44 @@
         new(rname, allocation_strategy=null):: {
           rname:: rname,
           [if allocation_strategy != null then allocation_strategy]: allocation_strategy,
+        },
+      },
+      spot_options:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param allocation_strategy (optional)
+        // @param instance_interruption_behavior (optional)
+        // @param instance_pools_to_use_count (optional)
+        new(rname, allocation_strategy=null, instance_interruption_behavior=null, instance_pools_to_use_count=null):: {
+          rname:: rname,
+          [if allocation_strategy != null then allocation_strategy]: allocation_strategy,
+          [if instance_interruption_behavior != null then instance_interruption_behavior]: instance_interruption_behavior,
+          [if instance_pools_to_use_count != null then instance_pools_to_use_count]: instance_pools_to_use_count,
+        },
+      },
+      target_capacity_specification:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param default_target_capacity_type (required)
+        // @param total_target_capacity (required)
+        // @param on_demand_target_capacity (optional)
+        // @param spot_target_capacity (optional)
+        new(rname, default_target_capacity_type, total_target_capacity, on_demand_target_capacity=null, spot_target_capacity=null):: {
+          rname:: rname,
+          default_target_capacity_type: default_target_capacity_type,
+          total_target_capacity: total_target_capacity,
+          [if on_demand_target_capacity != null then on_demand_target_capacity]: on_demand_target_capacity,
+          [if spot_target_capacity != null then spot_target_capacity]: spot_target_capacity,
+        },
+      },
+      timeouts:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param create (optional)
+        // @param delete (optional)
+        // @param update (optional)
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
+          [if create != null then create]: create,
+          [if delete != null then delete]: delete,
+          [if update != null then update]: update,
         },
       },
     },
@@ -8918,15 +8918,15 @@
       // @param id (optional)
       // @param launch_type (optional)
       // @param platform_version (optional)
-      // @param placement_strategy (optional)
-      // @param service_registries (optional)
       // @param capacity_provider_strategy (optional)
       // @param deployment_controller (optional)
       // @param load_balancer (optional)
       // @param network_configuration (optional)
       // @param ordered_placement_strategy (optional)
       // @param placement_constraints (optional)
-      new(rname, name, task_definition, deployment_maximum_percent=null, deployment_minimum_healthy_percent=null, desired_count=null, enable_ecs_managed_tags=null, health_check_grace_period_seconds=null, propagate_tags=null, scheduling_strategy=null, tags=null, cluster=null, iam_role=null, id=null, launch_type=null, platform_version=null, placement_strategy=null, service_registries=null, capacity_provider_strategy=null, deployment_controller=null, load_balancer=null, network_configuration=null, ordered_placement_strategy=null, placement_constraints=null):: {
+      // @param placement_strategy (optional)
+      // @param service_registries (optional)
+      new(rname, name, task_definition, deployment_maximum_percent=null, deployment_minimum_healthy_percent=null, desired_count=null, enable_ecs_managed_tags=null, health_check_grace_period_seconds=null, propagate_tags=null, scheduling_strategy=null, tags=null, cluster=null, iam_role=null, id=null, launch_type=null, platform_version=null, capacity_provider_strategy=null, deployment_controller=null, load_balancer=null, network_configuration=null, ordered_placement_strategy=null, placement_constraints=null, placement_strategy=null, service_registries=null):: {
         rname:: rname,
         name: name,
         task_definition: task_definition,
@@ -8943,38 +8943,14 @@
         [if id != null then id]: id,
         [if launch_type != null then launch_type]: launch_type,
         [if platform_version != null then platform_version]: platform_version,
-        [if placement_strategy != null then placement_strategy]: placement_strategy,
-        [if service_registries != null then service_registries]: service_registries,
         [if capacity_provider_strategy != null then capacity_provider_strategy]: capacity_provider_strategy,
         [if deployment_controller != null then deployment_controller]: deployment_controller,
         [if load_balancer != null then load_balancer]: load_balancer,
         [if network_configuration != null then network_configuration]: network_configuration,
         [if ordered_placement_strategy != null then ordered_placement_strategy]: ordered_placement_strategy,
         [if placement_constraints != null then placement_constraints]: placement_constraints,
-      },
-      placement_strategy:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param type (required)
-        // @param field (optional)
-        new(rname, type, field=null):: {
-          rname:: rname,
-          type: type,
-          [if field != null then field]: field,
-        },
-      },
-      service_registries:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param registry_arn (required)
-        // @param container_name (optional)
-        // @param container_port (optional)
-        // @param port (optional)
-        new(rname, registry_arn, container_name=null, container_port=null, port=null):: {
-          rname:: rname,
-          registry_arn: registry_arn,
-          [if container_name != null then container_name]: container_name,
-          [if container_port != null then container_port]: container_port,
-          [if port != null then port]: port,
-        },
+        [if placement_strategy != null then placement_strategy]: placement_strategy,
+        [if service_registries != null then service_registries]: service_registries,
       },
       capacity_provider_strategy:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -9042,6 +9018,30 @@
           [if expression != null then expression]: expression,
         },
       },
+      placement_strategy:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param type (required)
+        // @param field (optional)
+        new(rname, type, field=null):: {
+          rname:: rname,
+          type: type,
+          [if field != null then field]: field,
+        },
+      },
+      service_registries:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param registry_arn (required)
+        // @param container_name (optional)
+        // @param container_port (optional)
+        // @param port (optional)
+        new(rname, registry_arn, container_name=null, container_port=null, port=null):: {
+          rname:: rname,
+          registry_arn: registry_arn,
+          [if container_name != null then container_name]: container_name,
+          [if container_port != null then container_port]: container_port,
+          [if port != null then port]: port,
+        },
+      },
     },
     // aws_ecs_task_definition - https://www.terraform.io/docs/providers/aws/r/ecs_task_definition.html
     aws_ecs_task_definition:: {
@@ -9058,10 +9058,10 @@
       // @param task_role_arn (optional)
       // @param id (optional)
       // @param network_mode (optional)
+      // @param placement_constraints (optional)
       // @param proxy_configuration (optional)
       // @param volume (optional)
-      // @param placement_constraints (optional)
-      new(rname, container_definitions, family, cpu=null, execution_role_arn=null, ipc_mode=null, memory=null, pid_mode=null, requires_compatibilities=null, tags=null, task_role_arn=null, id=null, network_mode=null, proxy_configuration=null, volume=null, placement_constraints=null):: {
+      new(rname, container_definitions, family, cpu=null, execution_role_arn=null, ipc_mode=null, memory=null, pid_mode=null, requires_compatibilities=null, tags=null, task_role_arn=null, id=null, network_mode=null, placement_constraints=null, proxy_configuration=null, volume=null):: {
         rname:: rname,
         container_definitions: container_definitions,
         family: family,
@@ -9077,9 +9077,19 @@
         [if id != null then id]: id,
         [if network_mode != null then network_mode]: network_mode,
         revision:: '${aws_ecs_task_definition.%s.revision}' % rname,
+        [if placement_constraints != null then placement_constraints]: placement_constraints,
         [if proxy_configuration != null then proxy_configuration]: proxy_configuration,
         [if volume != null then volume]: volume,
-        [if placement_constraints != null then placement_constraints]: placement_constraints,
+      },
+      placement_constraints:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param type (required)
+        // @param expression (optional)
+        new(rname, type, expression=null):: {
+          rname:: rname,
+          type: type,
+          [if expression != null then expression]: expression,
+        },
       },
       proxy_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -9131,16 +9141,6 @@
             file_system_id: file_system_id,
             [if root_directory != null then root_directory]: root_directory,
           },
-        },
-      },
-      placement_constraints:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param type (required)
-        // @param expression (optional)
-        new(rname, type, expression=null):: {
-          rname:: rname,
-          type: type,
-          [if expression != null then expression]: expression,
         },
       },
     },
@@ -9284,9 +9284,9 @@
       // @param tags (optional)
       // @param id (optional)
       // @param version (optional)
-      // @param vpc_config (required)
       // @param encryption_config (optional)
       // @param timeouts (optional)
+      // @param vpc_config (required)
       new(rname, name, role_arn, vpc_config, enabled_cluster_log_types=null, tags=null, id=null, version=null, encryption_config=null, timeouts=null):: {
         rname:: rname,
         name: name,
@@ -9302,27 +9302,9 @@
         platform_version:: '${aws_eks_cluster.%s.platform_version}' % rname,
         status:: '${aws_eks_cluster.%s.status}' % rname,
         [if version != null then version]: version,
-        vpc_config: vpc_config,
         [if encryption_config != null then encryption_config]: encryption_config,
         [if timeouts != null then timeouts]: timeouts,
-      },
-      vpc_config:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param subnet_ids (required)
-        // @param endpoint_private_access (optional)
-        // @param endpoint_public_access (optional)
-        // @param security_group_ids (optional)
-        // @param public_access_cidrs (optional)
-        new(rname, subnet_ids, endpoint_private_access=null, endpoint_public_access=null, security_group_ids=null, public_access_cidrs=null):: {
-          rname:: rname,
-          subnet_ids: subnet_ids,
-          [if endpoint_private_access != null then endpoint_private_access]: endpoint_private_access,
-          [if endpoint_public_access != null then endpoint_public_access]: endpoint_public_access,
-          [if security_group_ids != null then security_group_ids]: security_group_ids,
-          cluster_security_group_id:: '${aws_eks_cluster.%s.vpc_config.cluster_security_group_id}' % rname,
-          [if public_access_cidrs != null then public_access_cidrs]: public_access_cidrs,
-          vpc_id:: '${aws_eks_cluster.%s.vpc_config.vpc_id}' % rname,
-        },
+        vpc_config: vpc_config,
       },
       encryption_config:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -9352,6 +9334,24 @@
           [if create != null then create]: create,
           [if delete != null then delete]: delete,
           [if update != null then update]: update,
+        },
+      },
+      vpc_config:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param subnet_ids (required)
+        // @param endpoint_private_access (optional)
+        // @param endpoint_public_access (optional)
+        // @param security_group_ids (optional)
+        // @param public_access_cidrs (optional)
+        new(rname, subnet_ids, endpoint_private_access=null, endpoint_public_access=null, security_group_ids=null, public_access_cidrs=null):: {
+          rname:: rname,
+          subnet_ids: subnet_ids,
+          [if endpoint_private_access != null then endpoint_private_access]: endpoint_private_access,
+          [if endpoint_public_access != null then endpoint_public_access]: endpoint_public_access,
+          [if security_group_ids != null then security_group_ids]: security_group_ids,
+          cluster_security_group_id:: '${aws_eks_cluster.%s.vpc_config.cluster_security_group_id}' % rname,
+          [if public_access_cidrs != null then public_access_cidrs]: public_access_cidrs,
+          vpc_id:: '${aws_eks_cluster.%s.vpc_config.vpc_id}' % rname,
         },
       },
     },
@@ -9839,16 +9839,16 @@
       // @param access_policies (optional)
       // @param advanced_options (optional)
       // @param id (optional)
+      // @param cluster_config (optional)
+      // @param cognito_options (optional)
+      // @param domain_endpoint_options (optional)
+      // @param ebs_options (optional)
+      // @param encrypt_at_rest (optional)
+      // @param log_publishing_options (optional)
       // @param node_to_node_encryption (optional)
       // @param snapshot_options (optional)
       // @param vpc_options (optional)
-      // @param domain_endpoint_options (optional)
-      // @param encrypt_at_rest (optional)
-      // @param ebs_options (optional)
-      // @param log_publishing_options (optional)
-      // @param cluster_config (optional)
-      // @param cognito_options (optional)
-      new(rname, domain_name, elasticsearch_version=null, tags=null, access_policies=null, advanced_options=null, id=null, node_to_node_encryption=null, snapshot_options=null, vpc_options=null, domain_endpoint_options=null, encrypt_at_rest=null, ebs_options=null, log_publishing_options=null, cluster_config=null, cognito_options=null):: {
+      new(rname, domain_name, elasticsearch_version=null, tags=null, access_policies=null, advanced_options=null, id=null, cluster_config=null, cognito_options=null, domain_endpoint_options=null, ebs_options=null, encrypt_at_rest=null, log_publishing_options=null, node_to_node_encryption=null, snapshot_options=null, vpc_options=null):: {
         rname:: rname,
         domain_name: domain_name,
         [if elasticsearch_version != null then elasticsearch_version]: elasticsearch_version,
@@ -9860,89 +9860,15 @@
         endpoint:: '${aws_elasticsearch_domain.%s.endpoint}' % rname,
         [if id != null then id]: id,
         kibana_endpoint:: '${aws_elasticsearch_domain.%s.kibana_endpoint}' % rname,
+        [if cluster_config != null then cluster_config]: cluster_config,
+        [if cognito_options != null then cognito_options]: cognito_options,
+        [if domain_endpoint_options != null then domain_endpoint_options]: domain_endpoint_options,
+        [if ebs_options != null then ebs_options]: ebs_options,
+        [if encrypt_at_rest != null then encrypt_at_rest]: encrypt_at_rest,
+        [if log_publishing_options != null then log_publishing_options]: log_publishing_options,
         [if node_to_node_encryption != null then node_to_node_encryption]: node_to_node_encryption,
         [if snapshot_options != null then snapshot_options]: snapshot_options,
         [if vpc_options != null then vpc_options]: vpc_options,
-        [if domain_endpoint_options != null then domain_endpoint_options]: domain_endpoint_options,
-        [if encrypt_at_rest != null then encrypt_at_rest]: encrypt_at_rest,
-        [if ebs_options != null then ebs_options]: ebs_options,
-        [if log_publishing_options != null then log_publishing_options]: log_publishing_options,
-        [if cluster_config != null then cluster_config]: cluster_config,
-        [if cognito_options != null then cognito_options]: cognito_options,
-      },
-      node_to_node_encryption:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param enabled (required)
-        new(rname, enabled):: {
-          rname:: rname,
-          enabled: enabled,
-        },
-      },
-      snapshot_options:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param automated_snapshot_start_hour (required)
-        new(rname, automated_snapshot_start_hour):: {
-          rname:: rname,
-          automated_snapshot_start_hour: automated_snapshot_start_hour,
-        },
-      },
-      vpc_options:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param security_group_ids (optional)
-        // @param subnet_ids (optional)
-        new(rname, security_group_ids=null, subnet_ids=null):: {
-          rname:: rname,
-          [if security_group_ids != null then security_group_ids]: security_group_ids,
-          [if subnet_ids != null then subnet_ids]: subnet_ids,
-          availability_zones:: '${aws_elasticsearch_domain.%s.vpc_options.availability_zones}' % rname,
-          vpc_id:: '${aws_elasticsearch_domain.%s.vpc_options.vpc_id}' % rname,
-        },
-      },
-      domain_endpoint_options:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param enforce_https (required)
-        // @param tls_security_policy (optional)
-        new(rname, enforce_https, tls_security_policy=null):: {
-          rname:: rname,
-          enforce_https: enforce_https,
-          [if tls_security_policy != null then tls_security_policy]: tls_security_policy,
-        },
-      },
-      encrypt_at_rest:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param enabled (required)
-        // @param kms_key_id (optional)
-        new(rname, enabled, kms_key_id=null):: {
-          rname:: rname,
-          enabled: enabled,
-          [if kms_key_id != null then kms_key_id]: kms_key_id,
-        },
-      },
-      ebs_options:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param ebs_enabled (required)
-        // @param iops (optional)
-        // @param volume_size (optional)
-        // @param volume_type (optional)
-        new(rname, ebs_enabled, iops=null, volume_size=null, volume_type=null):: {
-          rname:: rname,
-          ebs_enabled: ebs_enabled,
-          [if iops != null then iops]: iops,
-          [if volume_size != null then volume_size]: volume_size,
-          [if volume_type != null then volume_type]: volume_type,
-        },
-      },
-      log_publishing_options:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param cloudwatch_log_group_arn (required)
-        // @param log_type (required)
-        // @param enabled (optional)
-        new(rname, cloudwatch_log_group_arn, log_type, enabled=null):: {
-          rname:: rname,
-          cloudwatch_log_group_arn: cloudwatch_log_group_arn,
-          log_type: log_type,
-          [if enabled != null then enabled]: enabled,
-        },
       },
       cluster_config:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -9984,6 +9910,80 @@
           role_arn: role_arn,
           user_pool_id: user_pool_id,
           [if enabled != null then enabled]: enabled,
+        },
+      },
+      domain_endpoint_options:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param enforce_https (required)
+        // @param tls_security_policy (optional)
+        new(rname, enforce_https, tls_security_policy=null):: {
+          rname:: rname,
+          enforce_https: enforce_https,
+          [if tls_security_policy != null then tls_security_policy]: tls_security_policy,
+        },
+      },
+      ebs_options:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param ebs_enabled (required)
+        // @param iops (optional)
+        // @param volume_size (optional)
+        // @param volume_type (optional)
+        new(rname, ebs_enabled, iops=null, volume_size=null, volume_type=null):: {
+          rname:: rname,
+          ebs_enabled: ebs_enabled,
+          [if iops != null then iops]: iops,
+          [if volume_size != null then volume_size]: volume_size,
+          [if volume_type != null then volume_type]: volume_type,
+        },
+      },
+      encrypt_at_rest:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param enabled (required)
+        // @param kms_key_id (optional)
+        new(rname, enabled, kms_key_id=null):: {
+          rname:: rname,
+          enabled: enabled,
+          [if kms_key_id != null then kms_key_id]: kms_key_id,
+        },
+      },
+      log_publishing_options:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param cloudwatch_log_group_arn (required)
+        // @param log_type (required)
+        // @param enabled (optional)
+        new(rname, cloudwatch_log_group_arn, log_type, enabled=null):: {
+          rname:: rname,
+          cloudwatch_log_group_arn: cloudwatch_log_group_arn,
+          log_type: log_type,
+          [if enabled != null then enabled]: enabled,
+        },
+      },
+      node_to_node_encryption:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param enabled (required)
+        new(rname, enabled):: {
+          rname:: rname,
+          enabled: enabled,
+        },
+      },
+      snapshot_options:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param automated_snapshot_start_hour (required)
+        new(rname, automated_snapshot_start_hour):: {
+          rname:: rname,
+          automated_snapshot_start_hour: automated_snapshot_start_hour,
+        },
+      },
+      vpc_options:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param security_group_ids (optional)
+        // @param subnet_ids (optional)
+        new(rname, security_group_ids=null, subnet_ids=null):: {
+          rname:: rname,
+          [if security_group_ids != null then security_group_ids]: security_group_ids,
+          [if subnet_ids != null then subnet_ids]: subnet_ids,
+          availability_zones:: '${aws_elasticsearch_domain.%s.vpc_options.availability_zones}' % rname,
+          vpc_id:: '${aws_elasticsearch_domain.%s.vpc_options.vpc_id}' % rname,
         },
       },
     },
@@ -10097,12 +10097,12 @@
       // @param id (optional)
       // @param name (optional)
       // @param type (optional)
+      // @param audio (optional)
+      // @param audio_codec_options (optional)
       // @param thumbnails (optional)
       // @param video (optional)
       // @param video_watermarks (optional)
-      // @param audio (optional)
-      // @param audio_codec_options (optional)
-      new(rname, container, description=null, video_codec_options=null, id=null, name=null, type=null, thumbnails=null, video=null, video_watermarks=null, audio=null, audio_codec_options=null):: {
+      new(rname, container, description=null, video_codec_options=null, id=null, name=null, type=null, audio=null, audio_codec_options=null, thumbnails=null, video=null, video_watermarks=null):: {
         rname:: rname,
         container: container,
         [if description != null then description]: description,
@@ -10111,11 +10111,41 @@
         [if id != null then id]: id,
         [if name != null then name]: name,
         [if type != null then type]: type,
+        [if audio != null then audio]: audio,
+        [if audio_codec_options != null then audio_codec_options]: audio_codec_options,
         [if thumbnails != null then thumbnails]: thumbnails,
         [if video != null then video]: video,
         [if video_watermarks != null then video_watermarks]: video_watermarks,
-        [if audio != null then audio]: audio,
-        [if audio_codec_options != null then audio_codec_options]: audio_codec_options,
+      },
+      audio:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param audio_packing_mode (optional)
+        // @param bit_rate (optional)
+        // @param channels (optional)
+        // @param codec (optional)
+        // @param sample_rate (optional)
+        new(rname, audio_packing_mode=null, bit_rate=null, channels=null, codec=null, sample_rate=null):: {
+          rname:: rname,
+          [if audio_packing_mode != null then audio_packing_mode]: audio_packing_mode,
+          [if bit_rate != null then bit_rate]: bit_rate,
+          [if channels != null then channels]: channels,
+          [if codec != null then codec]: codec,
+          [if sample_rate != null then sample_rate]: sample_rate,
+        },
+      },
+      audio_codec_options:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param bit_depth (optional)
+        // @param bit_order (optional)
+        // @param profile (optional)
+        // @param signed (optional)
+        new(rname, bit_depth=null, bit_order=null, profile=null, signed=null):: {
+          rname:: rname,
+          [if bit_depth != null then bit_depth]: bit_depth,
+          [if bit_order != null then bit_order]: bit_order,
+          [if profile != null then profile]: profile,
+          [if signed != null then signed]: signed,
+        },
       },
       thumbnails:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -10195,36 +10225,6 @@
           [if target != null then target]: target,
           [if vertical_align != null then vertical_align]: vertical_align,
           [if vertical_offset != null then vertical_offset]: vertical_offset,
-        },
-      },
-      audio:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param audio_packing_mode (optional)
-        // @param bit_rate (optional)
-        // @param channels (optional)
-        // @param codec (optional)
-        // @param sample_rate (optional)
-        new(rname, audio_packing_mode=null, bit_rate=null, channels=null, codec=null, sample_rate=null):: {
-          rname:: rname,
-          [if audio_packing_mode != null then audio_packing_mode]: audio_packing_mode,
-          [if bit_rate != null then bit_rate]: bit_rate,
-          [if channels != null then channels]: channels,
-          [if codec != null then codec]: codec,
-          [if sample_rate != null then sample_rate]: sample_rate,
-        },
-      },
-      audio_codec_options:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param bit_depth (optional)
-        // @param bit_order (optional)
-        // @param profile (optional)
-        // @param signed (optional)
-        new(rname, bit_depth=null, bit_order=null, profile=null, signed=null):: {
-          rname:: rname,
-          [if bit_depth != null then bit_depth]: bit_depth,
-          [if bit_order != null then bit_order]: bit_order,
-          [if profile != null then profile]: profile,
-          [if signed != null then signed]: signed,
         },
       },
     },
@@ -10358,13 +10358,13 @@
       // @param scale_down_behavior (optional)
       // @param step (optional)
       // @param termination_protection (optional)
-      // @param instance_group (optional)
-      // @param kerberos_attributes (optional)
-      // @param master_instance_group (optional)
       // @param bootstrap_action (optional)
       // @param core_instance_group (optional)
       // @param ec2_attributes (optional)
-      new(rname, name, release_label, service_role, additional_info=null, applications=null, autoscaling_role=null, configurations=null, configurations_json=null, custom_ami_id=null, ebs_root_volume_size=null, log_uri=null, security_configuration=null, step_concurrency_level=null, tags=null, visible_to_all_users=null, core_instance_count=null, core_instance_type=null, id=null, keep_job_flow_alive_when_no_steps=null, master_instance_type=null, scale_down_behavior=null, step=null, termination_protection=null, instance_group=null, kerberos_attributes=null, master_instance_group=null, bootstrap_action=null, core_instance_group=null, ec2_attributes=null):: {
+      // @param instance_group (optional)
+      // @param kerberos_attributes (optional)
+      // @param master_instance_group (optional)
+      new(rname, name, release_label, service_role, additional_info=null, applications=null, autoscaling_role=null, configurations=null, configurations_json=null, custom_ami_id=null, ebs_root_volume_size=null, log_uri=null, security_configuration=null, step_concurrency_level=null, tags=null, visible_to_all_users=null, core_instance_count=null, core_instance_type=null, id=null, keep_job_flow_alive_when_no_steps=null, master_instance_type=null, scale_down_behavior=null, step=null, termination_protection=null, bootstrap_action=null, core_instance_group=null, ec2_attributes=null, instance_group=null, kerberos_attributes=null, master_instance_group=null):: {
         rname:: rname,
         name: name,
         release_label: release_label,
@@ -10392,12 +10392,79 @@
         [if scale_down_behavior != null then scale_down_behavior]: scale_down_behavior,
         [if step != null then step]: step,
         [if termination_protection != null then termination_protection]: termination_protection,
-        [if instance_group != null then instance_group]: instance_group,
-        [if kerberos_attributes != null then kerberos_attributes]: kerberos_attributes,
-        [if master_instance_group != null then master_instance_group]: master_instance_group,
         [if bootstrap_action != null then bootstrap_action]: bootstrap_action,
         [if core_instance_group != null then core_instance_group]: core_instance_group,
         [if ec2_attributes != null then ec2_attributes]: ec2_attributes,
+        [if instance_group != null then instance_group]: instance_group,
+        [if kerberos_attributes != null then kerberos_attributes]: kerberos_attributes,
+        [if master_instance_group != null then master_instance_group]: master_instance_group,
+      },
+      bootstrap_action:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param name (required)
+        // @param path (required)
+        // @param args (optional)
+        new(rname, name, path, args=null):: {
+          rname:: rname,
+          name: name,
+          path: path,
+          [if args != null then args]: args,
+        },
+      },
+      core_instance_group:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param instance_type (required)
+        // @param autoscaling_policy (optional)
+        // @param bid_price (optional)
+        // @param instance_count (optional)
+        // @param name (optional)
+        // @param ebs_config (optional)
+        new(rname, instance_type, autoscaling_policy=null, bid_price=null, instance_count=null, name=null, ebs_config=null):: {
+          rname:: rname,
+          instance_type: instance_type,
+          [if autoscaling_policy != null then autoscaling_policy]: autoscaling_policy,
+          [if bid_price != null then bid_price]: bid_price,
+          [if instance_count != null then instance_count]: instance_count,
+          [if name != null then name]: name,
+          id:: '${aws_emr_cluster.%s.core_instance_group.id}' % rname,
+          [if ebs_config != null then ebs_config]: ebs_config,
+        },
+        ebs_config:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param size (required)
+          // @param type (required)
+          // @param iops (optional)
+          // @param volumes_per_instance (optional)
+          new(rname, size, type, iops=null, volumes_per_instance=null):: {
+            rname:: rname,
+            size: size,
+            type: type,
+            [if iops != null then iops]: iops,
+            [if volumes_per_instance != null then volumes_per_instance]: volumes_per_instance,
+          },
+        },
+      },
+      ec2_attributes:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param instance_profile (required)
+        // @param additional_master_security_groups (optional)
+        // @param additional_slave_security_groups (optional)
+        // @param key_name (optional)
+        // @param subnet_id (optional)
+        // @param emr_managed_master_security_group (optional)
+        // @param emr_managed_slave_security_group (optional)
+        // @param service_access_security_group (optional)
+        new(rname, instance_profile, additional_master_security_groups=null, additional_slave_security_groups=null, key_name=null, subnet_id=null, emr_managed_master_security_group=null, emr_managed_slave_security_group=null, service_access_security_group=null):: {
+          rname:: rname,
+          instance_profile: instance_profile,
+          [if additional_master_security_groups != null then additional_master_security_groups]: additional_master_security_groups,
+          [if additional_slave_security_groups != null then additional_slave_security_groups]: additional_slave_security_groups,
+          [if key_name != null then key_name]: key_name,
+          [if subnet_id != null then subnet_id]: subnet_id,
+          [if emr_managed_master_security_group != null then emr_managed_master_security_group]: emr_managed_master_security_group,
+          [if emr_managed_slave_security_group != null then emr_managed_slave_security_group]: emr_managed_slave_security_group,
+          [if service_access_security_group != null then service_access_security_group]: service_access_security_group,
+        },
       },
       instance_group:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -10479,73 +10546,6 @@
             [if iops != null then iops]: iops,
             [if volumes_per_instance != null then volumes_per_instance]: volumes_per_instance,
           },
-        },
-      },
-      bootstrap_action:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param name (required)
-        // @param path (required)
-        // @param args (optional)
-        new(rname, name, path, args=null):: {
-          rname:: rname,
-          name: name,
-          path: path,
-          [if args != null then args]: args,
-        },
-      },
-      core_instance_group:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param instance_type (required)
-        // @param autoscaling_policy (optional)
-        // @param bid_price (optional)
-        // @param instance_count (optional)
-        // @param name (optional)
-        // @param ebs_config (optional)
-        new(rname, instance_type, autoscaling_policy=null, bid_price=null, instance_count=null, name=null, ebs_config=null):: {
-          rname:: rname,
-          instance_type: instance_type,
-          [if autoscaling_policy != null then autoscaling_policy]: autoscaling_policy,
-          [if bid_price != null then bid_price]: bid_price,
-          [if instance_count != null then instance_count]: instance_count,
-          [if name != null then name]: name,
-          id:: '${aws_emr_cluster.%s.core_instance_group.id}' % rname,
-          [if ebs_config != null then ebs_config]: ebs_config,
-        },
-        ebs_config:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param size (required)
-          // @param type (required)
-          // @param iops (optional)
-          // @param volumes_per_instance (optional)
-          new(rname, size, type, iops=null, volumes_per_instance=null):: {
-            rname:: rname,
-            size: size,
-            type: type,
-            [if iops != null then iops]: iops,
-            [if volumes_per_instance != null then volumes_per_instance]: volumes_per_instance,
-          },
-        },
-      },
-      ec2_attributes:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param instance_profile (required)
-        // @param additional_master_security_groups (optional)
-        // @param additional_slave_security_groups (optional)
-        // @param key_name (optional)
-        // @param subnet_id (optional)
-        // @param emr_managed_master_security_group (optional)
-        // @param emr_managed_slave_security_group (optional)
-        // @param service_access_security_group (optional)
-        new(rname, instance_profile, additional_master_security_groups=null, additional_slave_security_groups=null, key_name=null, subnet_id=null, emr_managed_master_security_group=null, emr_managed_slave_security_group=null, service_access_security_group=null):: {
-          rname:: rname,
-          instance_profile: instance_profile,
-          [if additional_master_security_groups != null then additional_master_security_groups]: additional_master_security_groups,
-          [if additional_slave_security_groups != null then additional_slave_security_groups]: additional_slave_security_groups,
-          [if key_name != null then key_name]: key_name,
-          [if subnet_id != null then subnet_id]: subnet_id,
-          [if emr_managed_master_security_group != null then emr_managed_master_security_group]: emr_managed_master_security_group,
-          [if emr_managed_slave_security_group != null then emr_managed_slave_security_group]: emr_managed_slave_security_group,
-          [if service_access_security_group != null then service_access_security_group]: service_access_security_group,
         },
       },
     },
@@ -11161,11 +11161,11 @@
         // @param output_format (optional)
         // @param parameters (optional)
         // @param stored_as_sub_directories (optional)
+        // @param columns (optional)
         // @param ser_de_info (optional)
         // @param skewed_info (optional)
         // @param sort_columns (optional)
-        // @param columns (optional)
-        new(rname, bucket_columns=null, compressed=null, input_format=null, location=null, number_of_buckets=null, output_format=null, parameters=null, stored_as_sub_directories=null, ser_de_info=null, skewed_info=null, sort_columns=null, columns=null):: {
+        new(rname, bucket_columns=null, compressed=null, input_format=null, location=null, number_of_buckets=null, output_format=null, parameters=null, stored_as_sub_directories=null, columns=null, ser_de_info=null, skewed_info=null, sort_columns=null):: {
           rname:: rname,
           [if bucket_columns != null then bucket_columns]: bucket_columns,
           [if compressed != null then compressed]: compressed,
@@ -11175,10 +11175,22 @@
           [if output_format != null then output_format]: output_format,
           [if parameters != null then parameters]: parameters,
           [if stored_as_sub_directories != null then stored_as_sub_directories]: stored_as_sub_directories,
+          [if columns != null then columns]: columns,
           [if ser_de_info != null then ser_de_info]: ser_de_info,
           [if skewed_info != null then skewed_info]: skewed_info,
           [if sort_columns != null then sort_columns]: sort_columns,
-          [if columns != null then columns]: columns,
+        },
+        columns:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param name (required)
+          // @param comment (optional)
+          // @param type (optional)
+          new(rname, name, comment=null, type=null):: {
+            rname:: rname,
+            name: name,
+            [if comment != null then comment]: comment,
+            [if type != null then type]: type,
+          },
         },
         ser_de_info:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -11212,18 +11224,6 @@
             rname:: rname,
             column: column,
             sort_order: sort_order,
-          },
-        },
-        columns:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param name (required)
-          // @param comment (optional)
-          // @param type (optional)
-          new(rname, name, comment=null, type=null):: {
-            rname:: rname,
-            name: name,
-            [if comment != null then comment]: comment,
-            [if type != null then type]: type,
           },
         },
       },
@@ -12243,13 +12243,13 @@
       // @param tenancy (optional)
       // @param volume_tags (optional)
       // @param vpc_security_group_ids (optional)
+      // @param credit_specification (optional)
       // @param ebs_block_device (optional)
       // @param ephemeral_block_device (optional)
       // @param network_interface (optional)
       // @param root_block_device (optional)
       // @param timeouts (optional)
-      // @param credit_specification (optional)
-      new(rname, ami, instance_type, disable_api_termination=null, ebs_optimized=null, get_password_data=null, hibernation=null, iam_instance_profile=null, instance_initiated_shutdown_behavior=null, monitoring=null, source_dest_check=null, tags=null, user_data=null, user_data_base64=null, associate_public_ip_address=null, availability_zone=null, cpu_core_count=null, cpu_threads_per_core=null, host_id=null, id=null, ipv6_address_count=null, ipv6_addresses=null, key_name=null, placement_group=null, private_ip=null, security_groups=null, subnet_id=null, tenancy=null, volume_tags=null, vpc_security_group_ids=null, ebs_block_device=null, ephemeral_block_device=null, network_interface=null, root_block_device=null, timeouts=null, credit_specification=null):: {
+      new(rname, ami, instance_type, disable_api_termination=null, ebs_optimized=null, get_password_data=null, hibernation=null, iam_instance_profile=null, instance_initiated_shutdown_behavior=null, monitoring=null, source_dest_check=null, tags=null, user_data=null, user_data_base64=null, associate_public_ip_address=null, availability_zone=null, cpu_core_count=null, cpu_threads_per_core=null, host_id=null, id=null, ipv6_address_count=null, ipv6_addresses=null, key_name=null, placement_group=null, private_ip=null, security_groups=null, subnet_id=null, tenancy=null, volume_tags=null, vpc_security_group_ids=null, credit_specification=null, ebs_block_device=null, ephemeral_block_device=null, network_interface=null, root_block_device=null, timeouts=null):: {
         rname:: rname,
         ami: ami,
         instance_type: instance_type,
@@ -12288,12 +12288,20 @@
         [if tenancy != null then tenancy]: tenancy,
         [if volume_tags != null then volume_tags]: volume_tags,
         [if vpc_security_group_ids != null then vpc_security_group_ids]: vpc_security_group_ids,
+        [if credit_specification != null then credit_specification]: credit_specification,
         [if ebs_block_device != null then ebs_block_device]: ebs_block_device,
         [if ephemeral_block_device != null then ephemeral_block_device]: ephemeral_block_device,
         [if network_interface != null then network_interface]: network_interface,
         [if root_block_device != null then root_block_device]: root_block_device,
         [if timeouts != null then timeouts]: timeouts,
-        [if credit_specification != null then credit_specification]: credit_specification,
+      },
+      credit_specification:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param cpu_credits (optional)
+        new(rname, cpu_credits=null):: {
+          rname:: rname,
+          [if cpu_credits != null then cpu_credits]: cpu_credits,
+        },
       },
       ebs_block_device:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -12371,14 +12379,6 @@
           [if create != null then create]: create,
           [if delete != null then delete]: delete,
           [if update != null then update]: update,
-        },
-      },
-      credit_specification:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param cpu_credits (optional)
-        new(rname, cpu_credits=null):: {
-          rname:: rname,
-          [if cpu_credits != null then cpu_credits]: cpu_credits,
         },
       },
     },
@@ -12523,18 +12523,18 @@
       // @param sql_version (required)
       // @param description (optional)
       // @param id (optional)
+      // @param cloudwatch_alarm (optional)
+      // @param cloudwatch_metric (optional)
+      // @param dynamodb (optional)
       // @param elasticsearch (optional)
       // @param firehose (optional)
+      // @param kinesis (optional)
       // @param lambda (optional)
       // @param republish (optional)
       // @param s3 (optional)
-      // @param sqs (optional)
-      // @param dynamodb (optional)
-      // @param cloudwatch_metric (optional)
-      // @param kinesis (optional)
       // @param sns (optional)
-      // @param cloudwatch_alarm (optional)
-      new(rname, enabled, name, sql, sql_version, description=null, id=null, elasticsearch=null, firehose=null, lambda=null, republish=null, s3=null, sqs=null, dynamodb=null, cloudwatch_metric=null, kinesis=null, sns=null, cloudwatch_alarm=null):: {
+      // @param sqs (optional)
+      new(rname, enabled, name, sql, sql_version, description=null, id=null, cloudwatch_alarm=null, cloudwatch_metric=null, dynamodb=null, elasticsearch=null, firehose=null, kinesis=null, lambda=null, republish=null, s3=null, sns=null, sqs=null):: {
         rname:: rname,
         enabled: enabled,
         name: name,
@@ -12543,17 +12543,73 @@
         [if description != null then description]: description,
         arn:: '${aws_iot_topic_rule.%s.arn}' % rname,
         [if id != null then id]: id,
+        [if cloudwatch_alarm != null then cloudwatch_alarm]: cloudwatch_alarm,
+        [if cloudwatch_metric != null then cloudwatch_metric]: cloudwatch_metric,
+        [if dynamodb != null then dynamodb]: dynamodb,
         [if elasticsearch != null then elasticsearch]: elasticsearch,
         [if firehose != null then firehose]: firehose,
+        [if kinesis != null then kinesis]: kinesis,
         [if lambda != null then lambda]: lambda,
         [if republish != null then republish]: republish,
         [if s3 != null then s3]: s3,
-        [if sqs != null then sqs]: sqs,
-        [if dynamodb != null then dynamodb]: dynamodb,
-        [if cloudwatch_metric != null then cloudwatch_metric]: cloudwatch_metric,
-        [if kinesis != null then kinesis]: kinesis,
         [if sns != null then sns]: sns,
-        [if cloudwatch_alarm != null then cloudwatch_alarm]: cloudwatch_alarm,
+        [if sqs != null then sqs]: sqs,
+      },
+      cloudwatch_alarm:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param alarm_name (required)
+        // @param role_arn (required)
+        // @param state_reason (required)
+        // @param state_value (required)
+        new(rname, alarm_name, role_arn, state_reason, state_value):: {
+          rname:: rname,
+          alarm_name: alarm_name,
+          role_arn: role_arn,
+          state_reason: state_reason,
+          state_value: state_value,
+        },
+      },
+      cloudwatch_metric:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param metric_name (required)
+        // @param metric_namespace (required)
+        // @param metric_unit (required)
+        // @param metric_value (required)
+        // @param role_arn (required)
+        // @param metric_timestamp (optional)
+        new(rname, metric_name, metric_namespace, metric_unit, metric_value, role_arn, metric_timestamp=null):: {
+          rname:: rname,
+          metric_name: metric_name,
+          metric_namespace: metric_namespace,
+          metric_unit: metric_unit,
+          metric_value: metric_value,
+          role_arn: role_arn,
+          [if metric_timestamp != null then metric_timestamp]: metric_timestamp,
+        },
+      },
+      dynamodb:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param hash_key_field (required)
+        // @param hash_key_value (required)
+        // @param role_arn (required)
+        // @param table_name (required)
+        // @param hash_key_type (optional)
+        // @param payload_field (optional)
+        // @param range_key_field (optional)
+        // @param range_key_type (optional)
+        // @param range_key_value (optional)
+        new(rname, hash_key_field, hash_key_value, role_arn, table_name, hash_key_type=null, payload_field=null, range_key_field=null, range_key_type=null, range_key_value=null):: {
+          rname:: rname,
+          hash_key_field: hash_key_field,
+          hash_key_value: hash_key_value,
+          role_arn: role_arn,
+          table_name: table_name,
+          [if hash_key_type != null then hash_key_type]: hash_key_type,
+          [if payload_field != null then payload_field]: payload_field,
+          [if range_key_field != null then range_key_field]: range_key_field,
+          [if range_key_type != null then range_key_type]: range_key_type,
+          [if range_key_value != null then range_key_value]: range_key_value,
+        },
       },
       elasticsearch:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -12581,6 +12637,18 @@
           delivery_stream_name: delivery_stream_name,
           role_arn: role_arn,
           [if separator != null then separator]: separator,
+        },
+      },
+      kinesis:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param role_arn (required)
+        // @param stream_name (required)
+        // @param partition_key (optional)
+        new(rname, role_arn, stream_name, partition_key=null):: {
+          rname:: rname,
+          role_arn: role_arn,
+          stream_name: stream_name,
+          [if partition_key != null then partition_key]: partition_key,
         },
       },
       lambda:: {
@@ -12613,72 +12681,6 @@
           role_arn: role_arn,
         },
       },
-      sqs:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param queue_url (required)
-        // @param role_arn (required)
-        // @param use_base64 (required)
-        new(rname, queue_url, role_arn, use_base64):: {
-          rname:: rname,
-          queue_url: queue_url,
-          role_arn: role_arn,
-          use_base64: use_base64,
-        },
-      },
-      dynamodb:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param hash_key_field (required)
-        // @param hash_key_value (required)
-        // @param role_arn (required)
-        // @param table_name (required)
-        // @param hash_key_type (optional)
-        // @param payload_field (optional)
-        // @param range_key_field (optional)
-        // @param range_key_type (optional)
-        // @param range_key_value (optional)
-        new(rname, hash_key_field, hash_key_value, role_arn, table_name, hash_key_type=null, payload_field=null, range_key_field=null, range_key_type=null, range_key_value=null):: {
-          rname:: rname,
-          hash_key_field: hash_key_field,
-          hash_key_value: hash_key_value,
-          role_arn: role_arn,
-          table_name: table_name,
-          [if hash_key_type != null then hash_key_type]: hash_key_type,
-          [if payload_field != null then payload_field]: payload_field,
-          [if range_key_field != null then range_key_field]: range_key_field,
-          [if range_key_type != null then range_key_type]: range_key_type,
-          [if range_key_value != null then range_key_value]: range_key_value,
-        },
-      },
-      cloudwatch_metric:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param metric_name (required)
-        // @param metric_namespace (required)
-        // @param metric_unit (required)
-        // @param metric_value (required)
-        // @param role_arn (required)
-        // @param metric_timestamp (optional)
-        new(rname, metric_name, metric_namespace, metric_unit, metric_value, role_arn, metric_timestamp=null):: {
-          rname:: rname,
-          metric_name: metric_name,
-          metric_namespace: metric_namespace,
-          metric_unit: metric_unit,
-          metric_value: metric_value,
-          role_arn: role_arn,
-          [if metric_timestamp != null then metric_timestamp]: metric_timestamp,
-        },
-      },
-      kinesis:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param role_arn (required)
-        // @param stream_name (required)
-        // @param partition_key (optional)
-        new(rname, role_arn, stream_name, partition_key=null):: {
-          rname:: rname,
-          role_arn: role_arn,
-          stream_name: stream_name,
-          [if partition_key != null then partition_key]: partition_key,
-        },
-      },
       sns:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param role_arn (required)
@@ -12691,18 +12693,16 @@
           [if message_format != null then message_format]: message_format,
         },
       },
-      cloudwatch_alarm:: {
+      sqs:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param alarm_name (required)
+        // @param queue_url (required)
         // @param role_arn (required)
-        // @param state_reason (required)
-        // @param state_value (required)
-        new(rname, alarm_name, role_arn, state_reason, state_value):: {
+        // @param use_base64 (required)
+        new(rname, queue_url, role_arn, use_base64):: {
           rname:: rname,
-          alarm_name: alarm_name,
+          queue_url: queue_url,
           role_arn: role_arn,
-          state_reason: state_reason,
-          state_value: state_value,
+          use_base64: use_base64,
         },
       },
     },
@@ -12896,26 +12896,18 @@
       outputs:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param name (required)
-        // @param schema (required)
         // @param kinesis_firehose (optional)
         // @param kinesis_stream (optional)
         // @param lambda (optional)
+        // @param schema (required)
         new(rname, name, schema, kinesis_firehose=null, kinesis_stream=null, lambda=null):: {
           rname:: rname,
           name: name,
           id:: '${aws_kinesis_analytics_application.%s.outputs.id}' % rname,
-          schema: schema,
           [if kinesis_firehose != null then kinesis_firehose]: kinesis_firehose,
           [if kinesis_stream != null then kinesis_stream]: kinesis_stream,
           [if lambda != null then lambda]: lambda,
-        },
-        schema:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param record_format_type (optional)
-          new(rname, record_format_type=null):: {
-            rname:: rname,
-            [if record_format_type != null then record_format_type]: record_format_type,
-          },
+          schema: schema,
         },
         kinesis_firehose:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -12945,6 +12937,14 @@
             rname:: rname,
             resource_arn: resource_arn,
             role_arn: role_arn,
+          },
+        },
+        schema:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param record_format_type (optional)
+          new(rname, record_format_type=null):: {
+            rname:: rname,
+            [if record_format_type != null then record_format_type]: record_format_type,
           },
         },
       },
@@ -13045,14 +13045,14 @@
       // @param destination_id (optional)
       // @param id (optional)
       // @param version_id (optional)
+      // @param elasticsearch_configuration (optional)
+      // @param extended_s3_configuration (optional)
       // @param kinesis_source_configuration (optional)
       // @param redshift_configuration (optional)
       // @param s3_configuration (optional)
       // @param server_side_encryption (optional)
       // @param splunk_configuration (optional)
-      // @param elasticsearch_configuration (optional)
-      // @param extended_s3_configuration (optional)
-      new(rname, destination, name, tags=null, arn=null, destination_id=null, id=null, version_id=null, kinesis_source_configuration=null, redshift_configuration=null, s3_configuration=null, server_side_encryption=null, splunk_configuration=null, elasticsearch_configuration=null, extended_s3_configuration=null):: {
+      new(rname, destination, name, tags=null, arn=null, destination_id=null, id=null, version_id=null, elasticsearch_configuration=null, extended_s3_configuration=null, kinesis_source_configuration=null, redshift_configuration=null, s3_configuration=null, server_side_encryption=null, splunk_configuration=null):: {
         rname:: rname,
         destination: destination,
         name: name,
@@ -13061,13 +13061,323 @@
         [if destination_id != null then destination_id]: destination_id,
         [if id != null then id]: id,
         [if version_id != null then version_id]: version_id,
+        [if elasticsearch_configuration != null then elasticsearch_configuration]: elasticsearch_configuration,
+        [if extended_s3_configuration != null then extended_s3_configuration]: extended_s3_configuration,
         [if kinesis_source_configuration != null then kinesis_source_configuration]: kinesis_source_configuration,
         [if redshift_configuration != null then redshift_configuration]: redshift_configuration,
         [if s3_configuration != null then s3_configuration]: s3_configuration,
         [if server_side_encryption != null then server_side_encryption]: server_side_encryption,
         [if splunk_configuration != null then splunk_configuration]: splunk_configuration,
-        [if elasticsearch_configuration != null then elasticsearch_configuration]: elasticsearch_configuration,
-        [if extended_s3_configuration != null then extended_s3_configuration]: extended_s3_configuration,
+      },
+      elasticsearch_configuration:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param domain_arn (required)
+        // @param index_name (required)
+        // @param role_arn (required)
+        // @param buffering_interval (optional)
+        // @param buffering_size (optional)
+        // @param index_rotation_period (optional)
+        // @param retry_duration (optional)
+        // @param s3_backup_mode (optional)
+        // @param type_name (optional)
+        // @param cloudwatch_logging_options (optional)
+        // @param processing_configuration (optional)
+        new(rname, domain_arn, index_name, role_arn, buffering_interval=null, buffering_size=null, index_rotation_period=null, retry_duration=null, s3_backup_mode=null, type_name=null, cloudwatch_logging_options=null, processing_configuration=null):: {
+          rname:: rname,
+          domain_arn: domain_arn,
+          index_name: index_name,
+          role_arn: role_arn,
+          [if buffering_interval != null then buffering_interval]: buffering_interval,
+          [if buffering_size != null then buffering_size]: buffering_size,
+          [if index_rotation_period != null then index_rotation_period]: index_rotation_period,
+          [if retry_duration != null then retry_duration]: retry_duration,
+          [if s3_backup_mode != null then s3_backup_mode]: s3_backup_mode,
+          [if type_name != null then type_name]: type_name,
+          [if cloudwatch_logging_options != null then cloudwatch_logging_options]: cloudwatch_logging_options,
+          [if processing_configuration != null then processing_configuration]: processing_configuration,
+        },
+        cloudwatch_logging_options:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param enabled (optional)
+          // @param log_group_name (optional)
+          // @param log_stream_name (optional)
+          new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
+            rname:: rname,
+            [if enabled != null then enabled]: enabled,
+            [if log_group_name != null then log_group_name]: log_group_name,
+            [if log_stream_name != null then log_stream_name]: log_stream_name,
+          },
+        },
+        processing_configuration:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param enabled (optional)
+          // @param processors (optional)
+          new(rname, enabled=null, processors=null):: {
+            rname:: rname,
+            [if enabled != null then enabled]: enabled,
+            [if processors != null then processors]: processors,
+          },
+          processors:: {
+            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+            // @param type (required)
+            // @param parameters (optional)
+            new(rname, type, parameters=null):: {
+              rname:: rname,
+              type: type,
+              [if parameters != null then parameters]: parameters,
+            },
+            parameters:: {
+              // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+              // @param parameter_name (required)
+              // @param parameter_value (required)
+              new(rname, parameter_name, parameter_value):: {
+                rname:: rname,
+                parameter_name: parameter_name,
+                parameter_value: parameter_value,
+              },
+            },
+          },
+        },
+      },
+      extended_s3_configuration:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param bucket_arn (required)
+        // @param role_arn (required)
+        // @param buffer_interval (optional)
+        // @param buffer_size (optional)
+        // @param compression_format (optional)
+        // @param error_output_prefix (optional)
+        // @param kms_key_arn (optional)
+        // @param prefix (optional)
+        // @param s3_backup_mode (optional)
+        // @param cloudwatch_logging_options (optional)
+        // @param data_format_conversion_configuration (optional)
+        // @param processing_configuration (optional)
+        // @param s3_backup_configuration (optional)
+        new(rname, bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, error_output_prefix=null, kms_key_arn=null, prefix=null, s3_backup_mode=null, cloudwatch_logging_options=null, data_format_conversion_configuration=null, processing_configuration=null, s3_backup_configuration=null):: {
+          rname:: rname,
+          bucket_arn: bucket_arn,
+          role_arn: role_arn,
+          [if buffer_interval != null then buffer_interval]: buffer_interval,
+          [if buffer_size != null then buffer_size]: buffer_size,
+          [if compression_format != null then compression_format]: compression_format,
+          [if error_output_prefix != null then error_output_prefix]: error_output_prefix,
+          [if kms_key_arn != null then kms_key_arn]: kms_key_arn,
+          [if prefix != null then prefix]: prefix,
+          [if s3_backup_mode != null then s3_backup_mode]: s3_backup_mode,
+          [if cloudwatch_logging_options != null then cloudwatch_logging_options]: cloudwatch_logging_options,
+          [if data_format_conversion_configuration != null then data_format_conversion_configuration]: data_format_conversion_configuration,
+          [if processing_configuration != null then processing_configuration]: processing_configuration,
+          [if s3_backup_configuration != null then s3_backup_configuration]: s3_backup_configuration,
+        },
+        cloudwatch_logging_options:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param enabled (optional)
+          // @param log_group_name (optional)
+          // @param log_stream_name (optional)
+          new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
+            rname:: rname,
+            [if enabled != null then enabled]: enabled,
+            [if log_group_name != null then log_group_name]: log_group_name,
+            [if log_stream_name != null then log_stream_name]: log_stream_name,
+          },
+        },
+        data_format_conversion_configuration:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param enabled (optional)
+          // @param input_format_configuration (required)
+          // @param output_format_configuration (required)
+          // @param schema_configuration (required)
+          new(rname, input_format_configuration, output_format_configuration, schema_configuration, enabled=null):: {
+            rname:: rname,
+            [if enabled != null then enabled]: enabled,
+            input_format_configuration: input_format_configuration,
+            output_format_configuration: output_format_configuration,
+            schema_configuration: schema_configuration,
+          },
+          input_format_configuration:: {
+            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+            // @param deserializer (required)
+            new(rname, deserializer):: {
+              rname:: rname,
+              deserializer: deserializer,
+            },
+            deserializer:: {
+              // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+              // @param hive_json_ser_de (optional)
+              // @param open_x_json_ser_de (optional)
+              new(rname, hive_json_ser_de=null, open_x_json_ser_de=null):: {
+                rname:: rname,
+                [if hive_json_ser_de != null then hive_json_ser_de]: hive_json_ser_de,
+                [if open_x_json_ser_de != null then open_x_json_ser_de]: open_x_json_ser_de,
+              },
+              hive_json_ser_de:: {
+                // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+                // @param timestamp_formats (optional)
+                new(rname, timestamp_formats=null):: {
+                  rname:: rname,
+                  [if timestamp_formats != null then timestamp_formats]: timestamp_formats,
+                },
+              },
+              open_x_json_ser_de:: {
+                // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+                // @param case_insensitive (optional)
+                // @param column_to_json_key_mappings (optional)
+                // @param convert_dots_in_json_keys_to_underscores (optional)
+                new(rname, case_insensitive=null, column_to_json_key_mappings=null, convert_dots_in_json_keys_to_underscores=null):: {
+                  rname:: rname,
+                  [if case_insensitive != null then case_insensitive]: case_insensitive,
+                  [if column_to_json_key_mappings != null then column_to_json_key_mappings]: column_to_json_key_mappings,
+                  [if convert_dots_in_json_keys_to_underscores != null then convert_dots_in_json_keys_to_underscores]: convert_dots_in_json_keys_to_underscores,
+                },
+              },
+            },
+          },
+          output_format_configuration:: {
+            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+            // @param serializer (required)
+            new(rname, serializer):: {
+              rname:: rname,
+              serializer: serializer,
+            },
+            serializer:: {
+              // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+              // @param orc_ser_de (optional)
+              // @param parquet_ser_de (optional)
+              new(rname, orc_ser_de=null, parquet_ser_de=null):: {
+                rname:: rname,
+                [if orc_ser_de != null then orc_ser_de]: orc_ser_de,
+                [if parquet_ser_de != null then parquet_ser_de]: parquet_ser_de,
+              },
+              orc_ser_de:: {
+                // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+                // @param block_size_bytes (optional)
+                // @param bloom_filter_columns (optional)
+                // @param bloom_filter_false_positive_probability (optional)
+                // @param compression (optional)
+                // @param dictionary_key_threshold (optional)
+                // @param enable_padding (optional)
+                // @param format_version (optional)
+                // @param padding_tolerance (optional)
+                // @param row_index_stride (optional)
+                // @param stripe_size_bytes (optional)
+                new(rname, block_size_bytes=null, bloom_filter_columns=null, bloom_filter_false_positive_probability=null, compression=null, dictionary_key_threshold=null, enable_padding=null, format_version=null, padding_tolerance=null, row_index_stride=null, stripe_size_bytes=null):: {
+                  rname:: rname,
+                  [if block_size_bytes != null then block_size_bytes]: block_size_bytes,
+                  [if bloom_filter_columns != null then bloom_filter_columns]: bloom_filter_columns,
+                  [if bloom_filter_false_positive_probability != null then bloom_filter_false_positive_probability]: bloom_filter_false_positive_probability,
+                  [if compression != null then compression]: compression,
+                  [if dictionary_key_threshold != null then dictionary_key_threshold]: dictionary_key_threshold,
+                  [if enable_padding != null then enable_padding]: enable_padding,
+                  [if format_version != null then format_version]: format_version,
+                  [if padding_tolerance != null then padding_tolerance]: padding_tolerance,
+                  [if row_index_stride != null then row_index_stride]: row_index_stride,
+                  [if stripe_size_bytes != null then stripe_size_bytes]: stripe_size_bytes,
+                },
+              },
+              parquet_ser_de:: {
+                // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+                // @param block_size_bytes (optional)
+                // @param compression (optional)
+                // @param enable_dictionary_compression (optional)
+                // @param max_padding_bytes (optional)
+                // @param page_size_bytes (optional)
+                // @param writer_version (optional)
+                new(rname, block_size_bytes=null, compression=null, enable_dictionary_compression=null, max_padding_bytes=null, page_size_bytes=null, writer_version=null):: {
+                  rname:: rname,
+                  [if block_size_bytes != null then block_size_bytes]: block_size_bytes,
+                  [if compression != null then compression]: compression,
+                  [if enable_dictionary_compression != null then enable_dictionary_compression]: enable_dictionary_compression,
+                  [if max_padding_bytes != null then max_padding_bytes]: max_padding_bytes,
+                  [if page_size_bytes != null then page_size_bytes]: page_size_bytes,
+                  [if writer_version != null then writer_version]: writer_version,
+                },
+              },
+            },
+          },
+          schema_configuration:: {
+            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+            // @param database_name (required)
+            // @param role_arn (required)
+            // @param table_name (required)
+            // @param version_id (optional)
+            // @param catalog_id (optional)
+            // @param region (optional)
+            new(rname, database_name, role_arn, table_name, version_id=null, catalog_id=null, region=null):: {
+              rname:: rname,
+              database_name: database_name,
+              role_arn: role_arn,
+              table_name: table_name,
+              [if version_id != null then version_id]: version_id,
+              [if catalog_id != null then catalog_id]: catalog_id,
+              [if region != null then region]: region,
+            },
+          },
+        },
+        processing_configuration:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param enabled (optional)
+          // @param processors (optional)
+          new(rname, enabled=null, processors=null):: {
+            rname:: rname,
+            [if enabled != null then enabled]: enabled,
+            [if processors != null then processors]: processors,
+          },
+          processors:: {
+            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+            // @param type (required)
+            // @param parameters (optional)
+            new(rname, type, parameters=null):: {
+              rname:: rname,
+              type: type,
+              [if parameters != null then parameters]: parameters,
+            },
+            parameters:: {
+              // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+              // @param parameter_name (required)
+              // @param parameter_value (required)
+              new(rname, parameter_name, parameter_value):: {
+                rname:: rname,
+                parameter_name: parameter_name,
+                parameter_value: parameter_value,
+              },
+            },
+          },
+        },
+        s3_backup_configuration:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param bucket_arn (required)
+          // @param role_arn (required)
+          // @param buffer_interval (optional)
+          // @param buffer_size (optional)
+          // @param compression_format (optional)
+          // @param kms_key_arn (optional)
+          // @param prefix (optional)
+          // @param cloudwatch_logging_options (optional)
+          new(rname, bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, kms_key_arn=null, prefix=null, cloudwatch_logging_options=null):: {
+            rname:: rname,
+            bucket_arn: bucket_arn,
+            role_arn: role_arn,
+            [if buffer_interval != null then buffer_interval]: buffer_interval,
+            [if buffer_size != null then buffer_size]: buffer_size,
+            [if compression_format != null then compression_format]: compression_format,
+            [if kms_key_arn != null then kms_key_arn]: kms_key_arn,
+            [if prefix != null then prefix]: prefix,
+            [if cloudwatch_logging_options != null then cloudwatch_logging_options]: cloudwatch_logging_options,
+          },
+          cloudwatch_logging_options:: {
+            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+            // @param enabled (optional)
+            // @param log_group_name (optional)
+            // @param log_stream_name (optional)
+            new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
+              rname:: rname,
+              [if enabled != null then enabled]: enabled,
+              [if log_group_name != null then log_group_name]: log_group_name,
+              [if log_stream_name != null then log_stream_name]: log_stream_name,
+            },
+          },
+        },
       },
       kinesis_source_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -13287,316 +13597,6 @@
                 parameter_name: parameter_name,
                 parameter_value: parameter_value,
               },
-            },
-          },
-        },
-      },
-      elasticsearch_configuration:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param domain_arn (required)
-        // @param index_name (required)
-        // @param role_arn (required)
-        // @param buffering_interval (optional)
-        // @param buffering_size (optional)
-        // @param index_rotation_period (optional)
-        // @param retry_duration (optional)
-        // @param s3_backup_mode (optional)
-        // @param type_name (optional)
-        // @param cloudwatch_logging_options (optional)
-        // @param processing_configuration (optional)
-        new(rname, domain_arn, index_name, role_arn, buffering_interval=null, buffering_size=null, index_rotation_period=null, retry_duration=null, s3_backup_mode=null, type_name=null, cloudwatch_logging_options=null, processing_configuration=null):: {
-          rname:: rname,
-          domain_arn: domain_arn,
-          index_name: index_name,
-          role_arn: role_arn,
-          [if buffering_interval != null then buffering_interval]: buffering_interval,
-          [if buffering_size != null then buffering_size]: buffering_size,
-          [if index_rotation_period != null then index_rotation_period]: index_rotation_period,
-          [if retry_duration != null then retry_duration]: retry_duration,
-          [if s3_backup_mode != null then s3_backup_mode]: s3_backup_mode,
-          [if type_name != null then type_name]: type_name,
-          [if cloudwatch_logging_options != null then cloudwatch_logging_options]: cloudwatch_logging_options,
-          [if processing_configuration != null then processing_configuration]: processing_configuration,
-        },
-        cloudwatch_logging_options:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param enabled (optional)
-          // @param log_group_name (optional)
-          // @param log_stream_name (optional)
-          new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
-            rname:: rname,
-            [if enabled != null then enabled]: enabled,
-            [if log_group_name != null then log_group_name]: log_group_name,
-            [if log_stream_name != null then log_stream_name]: log_stream_name,
-          },
-        },
-        processing_configuration:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param enabled (optional)
-          // @param processors (optional)
-          new(rname, enabled=null, processors=null):: {
-            rname:: rname,
-            [if enabled != null then enabled]: enabled,
-            [if processors != null then processors]: processors,
-          },
-          processors:: {
-            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-            // @param type (required)
-            // @param parameters (optional)
-            new(rname, type, parameters=null):: {
-              rname:: rname,
-              type: type,
-              [if parameters != null then parameters]: parameters,
-            },
-            parameters:: {
-              // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-              // @param parameter_name (required)
-              // @param parameter_value (required)
-              new(rname, parameter_name, parameter_value):: {
-                rname:: rname,
-                parameter_name: parameter_name,
-                parameter_value: parameter_value,
-              },
-            },
-          },
-        },
-      },
-      extended_s3_configuration:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param bucket_arn (required)
-        // @param role_arn (required)
-        // @param buffer_interval (optional)
-        // @param buffer_size (optional)
-        // @param compression_format (optional)
-        // @param error_output_prefix (optional)
-        // @param kms_key_arn (optional)
-        // @param prefix (optional)
-        // @param s3_backup_mode (optional)
-        // @param processing_configuration (optional)
-        // @param s3_backup_configuration (optional)
-        // @param cloudwatch_logging_options (optional)
-        // @param data_format_conversion_configuration (optional)
-        new(rname, bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, error_output_prefix=null, kms_key_arn=null, prefix=null, s3_backup_mode=null, processing_configuration=null, s3_backup_configuration=null, cloudwatch_logging_options=null, data_format_conversion_configuration=null):: {
-          rname:: rname,
-          bucket_arn: bucket_arn,
-          role_arn: role_arn,
-          [if buffer_interval != null then buffer_interval]: buffer_interval,
-          [if buffer_size != null then buffer_size]: buffer_size,
-          [if compression_format != null then compression_format]: compression_format,
-          [if error_output_prefix != null then error_output_prefix]: error_output_prefix,
-          [if kms_key_arn != null then kms_key_arn]: kms_key_arn,
-          [if prefix != null then prefix]: prefix,
-          [if s3_backup_mode != null then s3_backup_mode]: s3_backup_mode,
-          [if processing_configuration != null then processing_configuration]: processing_configuration,
-          [if s3_backup_configuration != null then s3_backup_configuration]: s3_backup_configuration,
-          [if cloudwatch_logging_options != null then cloudwatch_logging_options]: cloudwatch_logging_options,
-          [if data_format_conversion_configuration != null then data_format_conversion_configuration]: data_format_conversion_configuration,
-        },
-        processing_configuration:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param enabled (optional)
-          // @param processors (optional)
-          new(rname, enabled=null, processors=null):: {
-            rname:: rname,
-            [if enabled != null then enabled]: enabled,
-            [if processors != null then processors]: processors,
-          },
-          processors:: {
-            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-            // @param type (required)
-            // @param parameters (optional)
-            new(rname, type, parameters=null):: {
-              rname:: rname,
-              type: type,
-              [if parameters != null then parameters]: parameters,
-            },
-            parameters:: {
-              // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-              // @param parameter_name (required)
-              // @param parameter_value (required)
-              new(rname, parameter_name, parameter_value):: {
-                rname:: rname,
-                parameter_name: parameter_name,
-                parameter_value: parameter_value,
-              },
-            },
-          },
-        },
-        s3_backup_configuration:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param bucket_arn (required)
-          // @param role_arn (required)
-          // @param buffer_interval (optional)
-          // @param buffer_size (optional)
-          // @param compression_format (optional)
-          // @param kms_key_arn (optional)
-          // @param prefix (optional)
-          // @param cloudwatch_logging_options (optional)
-          new(rname, bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, kms_key_arn=null, prefix=null, cloudwatch_logging_options=null):: {
-            rname:: rname,
-            bucket_arn: bucket_arn,
-            role_arn: role_arn,
-            [if buffer_interval != null then buffer_interval]: buffer_interval,
-            [if buffer_size != null then buffer_size]: buffer_size,
-            [if compression_format != null then compression_format]: compression_format,
-            [if kms_key_arn != null then kms_key_arn]: kms_key_arn,
-            [if prefix != null then prefix]: prefix,
-            [if cloudwatch_logging_options != null then cloudwatch_logging_options]: cloudwatch_logging_options,
-          },
-          cloudwatch_logging_options:: {
-            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-            // @param enabled (optional)
-            // @param log_group_name (optional)
-            // @param log_stream_name (optional)
-            new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
-              rname:: rname,
-              [if enabled != null then enabled]: enabled,
-              [if log_group_name != null then log_group_name]: log_group_name,
-              [if log_stream_name != null then log_stream_name]: log_stream_name,
-            },
-          },
-        },
-        cloudwatch_logging_options:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param enabled (optional)
-          // @param log_group_name (optional)
-          // @param log_stream_name (optional)
-          new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
-            rname:: rname,
-            [if enabled != null then enabled]: enabled,
-            [if log_group_name != null then log_group_name]: log_group_name,
-            [if log_stream_name != null then log_stream_name]: log_stream_name,
-          },
-        },
-        data_format_conversion_configuration:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param enabled (optional)
-          // @param input_format_configuration (required)
-          // @param output_format_configuration (required)
-          // @param schema_configuration (required)
-          new(rname, input_format_configuration, output_format_configuration, schema_configuration, enabled=null):: {
-            rname:: rname,
-            [if enabled != null then enabled]: enabled,
-            input_format_configuration: input_format_configuration,
-            output_format_configuration: output_format_configuration,
-            schema_configuration: schema_configuration,
-          },
-          input_format_configuration:: {
-            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-            // @param deserializer (required)
-            new(rname, deserializer):: {
-              rname:: rname,
-              deserializer: deserializer,
-            },
-            deserializer:: {
-              // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-              // @param hive_json_ser_de (optional)
-              // @param open_x_json_ser_de (optional)
-              new(rname, hive_json_ser_de=null, open_x_json_ser_de=null):: {
-                rname:: rname,
-                [if hive_json_ser_de != null then hive_json_ser_de]: hive_json_ser_de,
-                [if open_x_json_ser_de != null then open_x_json_ser_de]: open_x_json_ser_de,
-              },
-              hive_json_ser_de:: {
-                // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-                // @param timestamp_formats (optional)
-                new(rname, timestamp_formats=null):: {
-                  rname:: rname,
-                  [if timestamp_formats != null then timestamp_formats]: timestamp_formats,
-                },
-              },
-              open_x_json_ser_de:: {
-                // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-                // @param case_insensitive (optional)
-                // @param column_to_json_key_mappings (optional)
-                // @param convert_dots_in_json_keys_to_underscores (optional)
-                new(rname, case_insensitive=null, column_to_json_key_mappings=null, convert_dots_in_json_keys_to_underscores=null):: {
-                  rname:: rname,
-                  [if case_insensitive != null then case_insensitive]: case_insensitive,
-                  [if column_to_json_key_mappings != null then column_to_json_key_mappings]: column_to_json_key_mappings,
-                  [if convert_dots_in_json_keys_to_underscores != null then convert_dots_in_json_keys_to_underscores]: convert_dots_in_json_keys_to_underscores,
-                },
-              },
-            },
-          },
-          output_format_configuration:: {
-            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-            // @param serializer (required)
-            new(rname, serializer):: {
-              rname:: rname,
-              serializer: serializer,
-            },
-            serializer:: {
-              // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-              // @param orc_ser_de (optional)
-              // @param parquet_ser_de (optional)
-              new(rname, orc_ser_de=null, parquet_ser_de=null):: {
-                rname:: rname,
-                [if orc_ser_de != null then orc_ser_de]: orc_ser_de,
-                [if parquet_ser_de != null then parquet_ser_de]: parquet_ser_de,
-              },
-              orc_ser_de:: {
-                // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-                // @param block_size_bytes (optional)
-                // @param bloom_filter_columns (optional)
-                // @param bloom_filter_false_positive_probability (optional)
-                // @param compression (optional)
-                // @param dictionary_key_threshold (optional)
-                // @param enable_padding (optional)
-                // @param format_version (optional)
-                // @param padding_tolerance (optional)
-                // @param row_index_stride (optional)
-                // @param stripe_size_bytes (optional)
-                new(rname, block_size_bytes=null, bloom_filter_columns=null, bloom_filter_false_positive_probability=null, compression=null, dictionary_key_threshold=null, enable_padding=null, format_version=null, padding_tolerance=null, row_index_stride=null, stripe_size_bytes=null):: {
-                  rname:: rname,
-                  [if block_size_bytes != null then block_size_bytes]: block_size_bytes,
-                  [if bloom_filter_columns != null then bloom_filter_columns]: bloom_filter_columns,
-                  [if bloom_filter_false_positive_probability != null then bloom_filter_false_positive_probability]: bloom_filter_false_positive_probability,
-                  [if compression != null then compression]: compression,
-                  [if dictionary_key_threshold != null then dictionary_key_threshold]: dictionary_key_threshold,
-                  [if enable_padding != null then enable_padding]: enable_padding,
-                  [if format_version != null then format_version]: format_version,
-                  [if padding_tolerance != null then padding_tolerance]: padding_tolerance,
-                  [if row_index_stride != null then row_index_stride]: row_index_stride,
-                  [if stripe_size_bytes != null then stripe_size_bytes]: stripe_size_bytes,
-                },
-              },
-              parquet_ser_de:: {
-                // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-                // @param block_size_bytes (optional)
-                // @param compression (optional)
-                // @param enable_dictionary_compression (optional)
-                // @param max_padding_bytes (optional)
-                // @param page_size_bytes (optional)
-                // @param writer_version (optional)
-                new(rname, block_size_bytes=null, compression=null, enable_dictionary_compression=null, max_padding_bytes=null, page_size_bytes=null, writer_version=null):: {
-                  rname:: rname,
-                  [if block_size_bytes != null then block_size_bytes]: block_size_bytes,
-                  [if compression != null then compression]: compression,
-                  [if enable_dictionary_compression != null then enable_dictionary_compression]: enable_dictionary_compression,
-                  [if max_padding_bytes != null then max_padding_bytes]: max_padding_bytes,
-                  [if page_size_bytes != null then page_size_bytes]: page_size_bytes,
-                  [if writer_version != null then writer_version]: writer_version,
-                },
-              },
-            },
-          },
-          schema_configuration:: {
-            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-            // @param database_name (required)
-            // @param role_arn (required)
-            // @param table_name (required)
-            // @param version_id (optional)
-            // @param catalog_id (optional)
-            // @param region (optional)
-            new(rname, database_name, role_arn, table_name, version_id=null, catalog_id=null, region=null):: {
-              rname:: rname,
-              database_name: database_name,
-              role_arn: role_arn,
-              table_name: table_name,
-              [if version_id != null then version_id]: version_id,
-              [if catalog_id != null then catalog_id]: catalog_id,
-              [if region != null then region]: region,
             },
           },
         },
@@ -13872,12 +13872,12 @@
       // @param timeout (optional)
       // @param id (optional)
       // @param source_code_hash (optional)
+      // @param dead_letter_config (optional)
       // @param environment (optional)
       // @param timeouts (optional)
       // @param tracing_config (optional)
       // @param vpc_config (optional)
-      // @param dead_letter_config (optional)
-      new(rname, function_name, handler, role, runtime, description=null, filename=null, kms_key_arn=null, layers=null, memory_size=null, publish=null, reserved_concurrent_executions=null, s3_bucket=null, s3_key=null, s3_object_version=null, tags=null, timeout=null, id=null, source_code_hash=null, environment=null, timeouts=null, tracing_config=null, vpc_config=null, dead_letter_config=null):: {
+      new(rname, function_name, handler, role, runtime, description=null, filename=null, kms_key_arn=null, layers=null, memory_size=null, publish=null, reserved_concurrent_executions=null, s3_bucket=null, s3_key=null, s3_object_version=null, tags=null, timeout=null, id=null, source_code_hash=null, dead_letter_config=null, environment=null, timeouts=null, tracing_config=null, vpc_config=null):: {
         rname:: rname,
         function_name: function_name,
         handler: handler,
@@ -13903,11 +13903,19 @@
         [if source_code_hash != null then source_code_hash]: source_code_hash,
         source_code_size:: '${aws_lambda_function.%s.source_code_size}' % rname,
         version:: '${aws_lambda_function.%s.version}' % rname,
+        [if dead_letter_config != null then dead_letter_config]: dead_letter_config,
         [if environment != null then environment]: environment,
         [if timeouts != null then timeouts]: timeouts,
         [if tracing_config != null then tracing_config]: tracing_config,
         [if vpc_config != null then vpc_config]: vpc_config,
-        [if dead_letter_config != null then dead_letter_config]: dead_letter_config,
+      },
+      dead_letter_config:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param target_arn (required)
+        new(rname, target_arn):: {
+          rname:: rname,
+          target_arn: target_arn,
+        },
       },
       environment:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -13944,14 +13952,6 @@
           vpc_id:: '${aws_lambda_function.%s.vpc_config.vpc_id}' % rname,
         },
       },
-      dead_letter_config:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param target_arn (required)
-        new(rname, target_arn):: {
-          rname:: rname,
-          target_arn: target_arn,
-        },
-      },
     },
     // aws_lambda_function_event_invoke_config - https://www.terraform.io/docs/providers/aws/r/lambda_function_event_invoke_config.html
     aws_lambda_function_event_invoke_config:: {
@@ -13973,14 +13973,14 @@
       },
       destination_config:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param on_success (optional)
         // @param on_failure (optional)
-        new(rname, on_success=null, on_failure=null):: {
+        // @param on_success (optional)
+        new(rname, on_failure=null, on_success=null):: {
           rname:: rname,
-          [if on_success != null then on_success]: on_success,
           [if on_failure != null then on_failure]: on_failure,
+          [if on_success != null then on_success]: on_success,
         },
-        on_success:: {
+        on_failure:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
           // @param destination (required)
           new(rname, destination):: {
@@ -13988,7 +13988,7 @@
             destination: destination,
           },
         },
-        on_failure:: {
+        on_success:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
           // @param destination (required)
           new(rname, destination):: {
@@ -14199,20 +14199,20 @@
       // @param vpc_security_group_ids (optional)
       // @param id (optional)
       // @param name (optional)
+      // @param block_device_mappings (optional)
       // @param capacity_reservation_specification (optional)
+      // @param cpu_options (optional)
+      // @param credit_specification (optional)
+      // @param elastic_gpu_specifications (optional)
       // @param elastic_inference_accelerator (optional)
       // @param iam_instance_profile (optional)
+      // @param instance_market_options (optional)
       // @param license_specification (optional)
       // @param monitoring (optional)
       // @param network_interfaces (optional)
       // @param placement (optional)
       // @param tag_specifications (optional)
-      // @param block_device_mappings (optional)
-      // @param cpu_options (optional)
-      // @param credit_specification (optional)
-      // @param elastic_gpu_specifications (optional)
-      // @param instance_market_options (optional)
-      new(rname, description=null, disable_api_termination=null, ebs_optimized=null, image_id=null, instance_initiated_shutdown_behavior=null, instance_type=null, kernel_id=null, key_name=null, name_prefix=null, ram_disk_id=null, security_group_names=null, tags=null, user_data=null, vpc_security_group_ids=null, id=null, name=null, capacity_reservation_specification=null, elastic_inference_accelerator=null, iam_instance_profile=null, license_specification=null, monitoring=null, network_interfaces=null, placement=null, tag_specifications=null, block_device_mappings=null, cpu_options=null, credit_specification=null, elastic_gpu_specifications=null, instance_market_options=null):: {
+      new(rname, description=null, disable_api_termination=null, ebs_optimized=null, image_id=null, instance_initiated_shutdown_behavior=null, instance_type=null, kernel_id=null, key_name=null, name_prefix=null, ram_disk_id=null, security_group_names=null, tags=null, user_data=null, vpc_security_group_ids=null, id=null, name=null, block_device_mappings=null, capacity_reservation_specification=null, cpu_options=null, credit_specification=null, elastic_gpu_specifications=null, elastic_inference_accelerator=null, iam_instance_profile=null, instance_market_options=null, license_specification=null, monitoring=null, network_interfaces=null, placement=null, tag_specifications=null):: {
         rname:: rname,
         [if description != null then description]: description,
         [if disable_api_termination != null then disable_api_termination]: disable_api_termination,
@@ -14233,19 +14233,53 @@
         [if id != null then id]: id,
         latest_version:: '${aws_launch_template.%s.latest_version}' % rname,
         [if name != null then name]: name,
+        [if block_device_mappings != null then block_device_mappings]: block_device_mappings,
         [if capacity_reservation_specification != null then capacity_reservation_specification]: capacity_reservation_specification,
+        [if cpu_options != null then cpu_options]: cpu_options,
+        [if credit_specification != null then credit_specification]: credit_specification,
+        [if elastic_gpu_specifications != null then elastic_gpu_specifications]: elastic_gpu_specifications,
         [if elastic_inference_accelerator != null then elastic_inference_accelerator]: elastic_inference_accelerator,
         [if iam_instance_profile != null then iam_instance_profile]: iam_instance_profile,
+        [if instance_market_options != null then instance_market_options]: instance_market_options,
         [if license_specification != null then license_specification]: license_specification,
         [if monitoring != null then monitoring]: monitoring,
         [if network_interfaces != null then network_interfaces]: network_interfaces,
         [if placement != null then placement]: placement,
         [if tag_specifications != null then tag_specifications]: tag_specifications,
-        [if block_device_mappings != null then block_device_mappings]: block_device_mappings,
-        [if cpu_options != null then cpu_options]: cpu_options,
-        [if credit_specification != null then credit_specification]: credit_specification,
-        [if elastic_gpu_specifications != null then elastic_gpu_specifications]: elastic_gpu_specifications,
-        [if instance_market_options != null then instance_market_options]: instance_market_options,
+      },
+      block_device_mappings:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param device_name (optional)
+        // @param no_device (optional)
+        // @param virtual_name (optional)
+        // @param ebs (optional)
+        new(rname, device_name=null, no_device=null, virtual_name=null, ebs=null):: {
+          rname:: rname,
+          [if device_name != null then device_name]: device_name,
+          [if no_device != null then no_device]: no_device,
+          [if virtual_name != null then virtual_name]: virtual_name,
+          [if ebs != null then ebs]: ebs,
+        },
+        ebs:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param delete_on_termination (optional)
+          // @param encrypted (optional)
+          // @param kms_key_id (optional)
+          // @param snapshot_id (optional)
+          // @param iops (optional)
+          // @param volume_size (optional)
+          // @param volume_type (optional)
+          new(rname, delete_on_termination=null, encrypted=null, kms_key_id=null, snapshot_id=null, iops=null, volume_size=null, volume_type=null):: {
+            rname:: rname,
+            [if delete_on_termination != null then delete_on_termination]: delete_on_termination,
+            [if encrypted != null then encrypted]: encrypted,
+            [if kms_key_id != null then kms_key_id]: kms_key_id,
+            [if snapshot_id != null then snapshot_id]: snapshot_id,
+            [if iops != null then iops]: iops,
+            [if volume_size != null then volume_size]: volume_size,
+            [if volume_type != null then volume_type]: volume_type,
+          },
+        },
       },
       capacity_reservation_specification:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -14265,6 +14299,32 @@
           },
         },
       },
+      cpu_options:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param core_count (optional)
+        // @param threads_per_core (optional)
+        new(rname, core_count=null, threads_per_core=null):: {
+          rname:: rname,
+          [if core_count != null then core_count]: core_count,
+          [if threads_per_core != null then threads_per_core]: threads_per_core,
+        },
+      },
+      credit_specification:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param cpu_credits (optional)
+        new(rname, cpu_credits=null):: {
+          rname:: rname,
+          [if cpu_credits != null then cpu_credits]: cpu_credits,
+        },
+      },
+      elastic_gpu_specifications:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param type (required)
+        new(rname, type):: {
+          rname:: rname,
+          type: type,
+        },
+      },
       elastic_inference_accelerator:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param type (required)
@@ -14281,6 +14341,32 @@
           rname:: rname,
           [if arn != null then arn]: arn,
           [if name != null then name]: name,
+        },
+      },
+      instance_market_options:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param market_type (optional)
+        // @param spot_options (optional)
+        new(rname, market_type=null, spot_options=null):: {
+          rname:: rname,
+          [if market_type != null then market_type]: market_type,
+          [if spot_options != null then spot_options]: spot_options,
+        },
+        spot_options:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param block_duration_minutes (optional)
+          // @param instance_interruption_behavior (optional)
+          // @param max_price (optional)
+          // @param spot_instance_type (optional)
+          // @param valid_until (optional)
+          new(rname, block_duration_minutes=null, instance_interruption_behavior=null, max_price=null, spot_instance_type=null, valid_until=null):: {
+            rname:: rname,
+            [if block_duration_minutes != null then block_duration_minutes]: block_duration_minutes,
+            [if instance_interruption_behavior != null then instance_interruption_behavior]: instance_interruption_behavior,
+            [if max_price != null then max_price]: max_price,
+            [if spot_instance_type != null then spot_instance_type]: spot_instance_type,
+            [if valid_until != null then valid_until]: valid_until,
+          },
         },
       },
       license_specification:: {
@@ -14355,92 +14441,6 @@
           rname:: rname,
           [if resource_type != null then resource_type]: resource_type,
           [if tags != null then tags]: tags,
-        },
-      },
-      block_device_mappings:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param device_name (optional)
-        // @param no_device (optional)
-        // @param virtual_name (optional)
-        // @param ebs (optional)
-        new(rname, device_name=null, no_device=null, virtual_name=null, ebs=null):: {
-          rname:: rname,
-          [if device_name != null then device_name]: device_name,
-          [if no_device != null then no_device]: no_device,
-          [if virtual_name != null then virtual_name]: virtual_name,
-          [if ebs != null then ebs]: ebs,
-        },
-        ebs:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param delete_on_termination (optional)
-          // @param encrypted (optional)
-          // @param kms_key_id (optional)
-          // @param snapshot_id (optional)
-          // @param iops (optional)
-          // @param volume_size (optional)
-          // @param volume_type (optional)
-          new(rname, delete_on_termination=null, encrypted=null, kms_key_id=null, snapshot_id=null, iops=null, volume_size=null, volume_type=null):: {
-            rname:: rname,
-            [if delete_on_termination != null then delete_on_termination]: delete_on_termination,
-            [if encrypted != null then encrypted]: encrypted,
-            [if kms_key_id != null then kms_key_id]: kms_key_id,
-            [if snapshot_id != null then snapshot_id]: snapshot_id,
-            [if iops != null then iops]: iops,
-            [if volume_size != null then volume_size]: volume_size,
-            [if volume_type != null then volume_type]: volume_type,
-          },
-        },
-      },
-      cpu_options:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param core_count (optional)
-        // @param threads_per_core (optional)
-        new(rname, core_count=null, threads_per_core=null):: {
-          rname:: rname,
-          [if core_count != null then core_count]: core_count,
-          [if threads_per_core != null then threads_per_core]: threads_per_core,
-        },
-      },
-      credit_specification:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param cpu_credits (optional)
-        new(rname, cpu_credits=null):: {
-          rname:: rname,
-          [if cpu_credits != null then cpu_credits]: cpu_credits,
-        },
-      },
-      elastic_gpu_specifications:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param type (required)
-        new(rname, type):: {
-          rname:: rname,
-          type: type,
-        },
-      },
-      instance_market_options:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param market_type (optional)
-        // @param spot_options (optional)
-        new(rname, market_type=null, spot_options=null):: {
-          rname:: rname,
-          [if market_type != null then market_type]: market_type,
-          [if spot_options != null then spot_options]: spot_options,
-        },
-        spot_options:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param block_duration_minutes (optional)
-          // @param instance_interruption_behavior (optional)
-          // @param max_price (optional)
-          // @param spot_instance_type (optional)
-          // @param valid_until (optional)
-          new(rname, block_duration_minutes=null, instance_interruption_behavior=null, max_price=null, spot_instance_type=null, valid_until=null):: {
-            rname:: rname,
-            [if block_duration_minutes != null then block_duration_minutes]: block_duration_minutes,
-            [if instance_interruption_behavior != null then instance_interruption_behavior]: instance_interruption_behavior,
-            [if max_price != null then max_price]: max_price,
-            [if spot_instance_type != null then spot_instance_type]: spot_instance_type,
-            [if valid_until != null then valid_until]: valid_until,
-          },
         },
       },
     },
@@ -14567,37 +14567,19 @@
         // @param type (required)
         // @param target_group_arn (optional)
         // @param order (optional)
-        // @param redirect (optional)
         // @param authenticate_cognito (optional)
         // @param authenticate_oidc (optional)
         // @param fixed_response (optional)
-        new(rname, type, target_group_arn=null, order=null, redirect=null, authenticate_cognito=null, authenticate_oidc=null, fixed_response=null):: {
+        // @param redirect (optional)
+        new(rname, type, target_group_arn=null, order=null, authenticate_cognito=null, authenticate_oidc=null, fixed_response=null, redirect=null):: {
           rname:: rname,
           type: type,
           [if target_group_arn != null then target_group_arn]: target_group_arn,
           [if order != null then order]: order,
-          [if redirect != null then redirect]: redirect,
           [if authenticate_cognito != null then authenticate_cognito]: authenticate_cognito,
           [if authenticate_oidc != null then authenticate_oidc]: authenticate_oidc,
           [if fixed_response != null then fixed_response]: fixed_response,
-        },
-        redirect:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param status_code (required)
-          // @param host (optional)
-          // @param path (optional)
-          // @param port (optional)
-          // @param protocol (optional)
-          // @param query (optional)
-          new(rname, status_code, host=null, path=null, port=null, protocol=null, query=null):: {
-            rname:: rname,
-            status_code: status_code,
-            [if host != null then host]: host,
-            [if path != null then path]: path,
-            [if port != null then port]: port,
-            [if protocol != null then protocol]: protocol,
-            [if query != null then query]: query,
-          },
+          [if redirect != null then redirect]: redirect,
         },
         authenticate_cognito:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -14659,6 +14641,24 @@
             content_type: content_type,
             [if message_body != null then message_body]: message_body,
             [if status_code != null then status_code]: status_code,
+          },
+        },
+        redirect:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param status_code (required)
+          // @param host (optional)
+          // @param path (optional)
+          // @param port (optional)
+          // @param protocol (optional)
+          // @param query (optional)
+          new(rname, status_code, host=null, path=null, port=null, protocol=null, query=null):: {
+            rname:: rname,
+            status_code: status_code,
+            [if host != null then host]: host,
+            [if path != null then path]: path,
+            [if port != null then port]: port,
+            [if protocol != null then protocol]: protocol,
+            [if query != null then query]: query,
           },
         },
       },
@@ -14805,40 +14805,22 @@
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param field (optional)
         // @param values (optional)
-        // @param query_string (optional)
-        // @param source_ip (optional)
         // @param host_header (optional)
         // @param http_header (optional)
         // @param http_request_method (optional)
         // @param path_pattern (optional)
-        new(rname, field=null, values=null, query_string=null, source_ip=null, host_header=null, http_header=null, http_request_method=null, path_pattern=null):: {
+        // @param query_string (optional)
+        // @param source_ip (optional)
+        new(rname, field=null, values=null, host_header=null, http_header=null, http_request_method=null, path_pattern=null, query_string=null, source_ip=null):: {
           rname:: rname,
           [if field != null then field]: field,
           [if values != null then values]: values,
-          [if query_string != null then query_string]: query_string,
-          [if source_ip != null then source_ip]: source_ip,
           [if host_header != null then host_header]: host_header,
           [if http_header != null then http_header]: http_header,
           [if http_request_method != null then http_request_method]: http_request_method,
           [if path_pattern != null then path_pattern]: path_pattern,
-        },
-        query_string:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param value (required)
-          // @param key (optional)
-          new(rname, value, key=null):: {
-            rname:: rname,
-            value: value,
-            [if key != null then key]: key,
-          },
-        },
-        source_ip:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param values (required)
-          new(rname, values):: {
-            rname:: rname,
-            values: values,
-          },
+          [if query_string != null then query_string]: query_string,
+          [if source_ip != null then source_ip]: source_ip,
         },
         host_header:: {
           // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -14872,6 +14854,24 @@
           new(rname, values=null):: {
             rname:: rname,
             [if values != null then values]: values,
+          },
+        },
+        query_string:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param value (required)
+          // @param key (optional)
+          new(rname, value, key=null):: {
+            rname:: rname,
+            value: value,
+            [if key != null then key]: key,
+          },
+        },
+        source_ip:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param values (required)
+          new(rname, values):: {
+            rname:: rname,
+            values: values,
           },
         },
       },
@@ -15444,12 +15444,12 @@
       // @param enhanced_monitoring (optional)
       // @param tags (optional)
       // @param id (optional)
+      // @param broker_node_group_info (required)
+      // @param client_authentication (optional)
       // @param configuration_info (optional)
       // @param encryption_info (optional)
       // @param open_monitoring (optional)
-      // @param broker_node_group_info (required)
-      // @param client_authentication (optional)
-      new(rname, cluster_name, kafka_version, number_of_broker_nodes, broker_node_group_info, enhanced_monitoring=null, tags=null, id=null, configuration_info=null, encryption_info=null, open_monitoring=null, client_authentication=null):: {
+      new(rname, cluster_name, kafka_version, number_of_broker_nodes, broker_node_group_info, enhanced_monitoring=null, tags=null, id=null, client_authentication=null, configuration_info=null, encryption_info=null, open_monitoring=null):: {
         rname:: rname,
         cluster_name: cluster_name,
         kafka_version: kafka_version,
@@ -15462,11 +15462,43 @@
         current_version:: '${aws_msk_cluster.%s.current_version}' % rname,
         [if id != null then id]: id,
         zookeeper_connect_string:: '${aws_msk_cluster.%s.zookeeper_connect_string}' % rname,
+        broker_node_group_info: broker_node_group_info,
+        [if client_authentication != null then client_authentication]: client_authentication,
         [if configuration_info != null then configuration_info]: configuration_info,
         [if encryption_info != null then encryption_info]: encryption_info,
         [if open_monitoring != null then open_monitoring]: open_monitoring,
-        broker_node_group_info: broker_node_group_info,
-        [if client_authentication != null then client_authentication]: client_authentication,
+      },
+      broker_node_group_info:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param client_subnets (required)
+        // @param ebs_volume_size (required)
+        // @param instance_type (required)
+        // @param security_groups (required)
+        // @param az_distribution (optional)
+        new(rname, client_subnets, ebs_volume_size, instance_type, security_groups, az_distribution=null):: {
+          rname:: rname,
+          client_subnets: client_subnets,
+          ebs_volume_size: ebs_volume_size,
+          instance_type: instance_type,
+          security_groups: security_groups,
+          [if az_distribution != null then az_distribution]: az_distribution,
+        },
+      },
+      client_authentication:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param tls (optional)
+        new(rname, tls=null):: {
+          rname:: rname,
+          [if tls != null then tls]: tls,
+        },
+        tls:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param certificate_authority_arns (optional)
+          new(rname, certificate_authority_arns=null):: {
+            rname:: rname,
+            [if certificate_authority_arns != null then certificate_authority_arns]: certificate_authority_arns,
+          },
+        },
       },
       configuration_info:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -15529,38 +15561,6 @@
               rname:: rname,
               enabled_in_broker: enabled_in_broker,
             },
-          },
-        },
-      },
-      broker_node_group_info:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param client_subnets (required)
-        // @param ebs_volume_size (required)
-        // @param instance_type (required)
-        // @param security_groups (required)
-        // @param az_distribution (optional)
-        new(rname, client_subnets, ebs_volume_size, instance_type, security_groups, az_distribution=null):: {
-          rname:: rname,
-          client_subnets: client_subnets,
-          ebs_volume_size: ebs_volume_size,
-          instance_type: instance_type,
-          security_groups: security_groups,
-          [if az_distribution != null then az_distribution]: az_distribution,
-        },
-      },
-      client_authentication:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param tls (optional)
-        new(rname, tls=null):: {
-          rname:: rname,
-          [if tls != null then tls]: tls,
-        },
-        tls:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param certificate_authority_arns (optional)
-          new(rname, certificate_authority_arns=null):: {
-            rname:: rname,
-            [if certificate_authority_arns != null then certificate_authority_arns]: certificate_authority_arns,
           },
         },
       },
@@ -16047,10 +16047,10 @@
       // @param rails_env (optional)
       // @param id (optional)
       // @param short_name (optional)
-      // @param ssl_configuration (optional)
       // @param app_source (optional)
       // @param environment (optional)
-      new(rname, name, stack_id, type, auto_bundle_on_deploy=null, aws_flow_ruby_settings=null, data_source_arn=null, data_source_database_name=null, data_source_type=null, description=null, document_root=null, domains=null, enable_ssl=null, rails_env=null, id=null, short_name=null, ssl_configuration=null, app_source=null, environment=null):: {
+      // @param ssl_configuration (optional)
+      new(rname, name, stack_id, type, auto_bundle_on_deploy=null, aws_flow_ruby_settings=null, data_source_arn=null, data_source_database_name=null, data_source_type=null, description=null, document_root=null, domains=null, enable_ssl=null, rails_env=null, id=null, short_name=null, app_source=null, environment=null, ssl_configuration=null):: {
         rname:: rname,
         name: name,
         stack_id: stack_id,
@@ -16067,21 +16067,9 @@
         [if rails_env != null then rails_env]: rails_env,
         [if id != null then id]: id,
         [if short_name != null then short_name]: short_name,
-        [if ssl_configuration != null then ssl_configuration]: ssl_configuration,
         [if app_source != null then app_source]: app_source,
         [if environment != null then environment]: environment,
-      },
-      ssl_configuration:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param certificate (required)
-        // @param private_key (required)
-        // @param chain (optional)
-        new(rname, certificate, private_key, chain=null):: {
-          rname:: rname,
-          certificate: certificate,
-          private_key: private_key,
-          [if chain != null then chain]: chain,
-        },
+        [if ssl_configuration != null then ssl_configuration]: ssl_configuration,
       },
       app_source:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -16111,6 +16099,18 @@
           key: key,
           value: value,
           [if secure != null then secure]: secure,
+        },
+      },
+      ssl_configuration:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param certificate (required)
+        // @param private_key (required)
+        // @param chain (optional)
+        new(rname, certificate, private_key, chain=null):: {
+          rname:: rname,
+          certificate: certificate,
+          private_key: private_key,
+          [if chain != null then chain]: chain,
         },
       },
     },
@@ -17708,10 +17708,10 @@
       // @param preferred_backup_window (optional)
       // @param preferred_maintenance_window (optional)
       // @param vpc_security_group_ids (optional)
-      // @param timeouts (optional)
       // @param s3_import (optional)
       // @param scaling_configuration (optional)
-      new(rname, backtrack_window=null, backup_retention_period=null, copy_tags_to_snapshot=null, deletion_protection=null, enable_http_endpoint=null, enabled_cloudwatch_logs_exports=null, engine=null, engine_mode=null, final_snapshot_identifier=null, global_cluster_identifier=null, iam_database_authentication_enabled=null, iam_roles=null, master_password=null, replication_source_identifier=null, skip_final_snapshot=null, snapshot_identifier=null, source_region=null, storage_encrypted=null, tags=null, apply_immediately=null, availability_zones=null, cluster_identifier=null, cluster_identifier_prefix=null, cluster_members=null, database_name=null, db_cluster_parameter_group_name=null, db_subnet_group_name=null, engine_version=null, id=null, kms_key_id=null, master_username=null, port=null, preferred_backup_window=null, preferred_maintenance_window=null, vpc_security_group_ids=null, timeouts=null, s3_import=null, scaling_configuration=null):: {
+      // @param timeouts (optional)
+      new(rname, backtrack_window=null, backup_retention_period=null, copy_tags_to_snapshot=null, deletion_protection=null, enable_http_endpoint=null, enabled_cloudwatch_logs_exports=null, engine=null, engine_mode=null, final_snapshot_identifier=null, global_cluster_identifier=null, iam_database_authentication_enabled=null, iam_roles=null, master_password=null, replication_source_identifier=null, skip_final_snapshot=null, snapshot_identifier=null, source_region=null, storage_encrypted=null, tags=null, apply_immediately=null, availability_zones=null, cluster_identifier=null, cluster_identifier_prefix=null, cluster_members=null, database_name=null, db_cluster_parameter_group_name=null, db_subnet_group_name=null, engine_version=null, id=null, kms_key_id=null, master_username=null, port=null, preferred_backup_window=null, preferred_maintenance_window=null, vpc_security_group_ids=null, s3_import=null, scaling_configuration=null, timeouts=null):: {
         rname:: rname,
         [if backtrack_window != null then backtrack_window]: backtrack_window,
         [if backup_retention_period != null then backup_retention_period]: backup_retention_period,
@@ -17753,21 +17753,9 @@
         [if preferred_maintenance_window != null then preferred_maintenance_window]: preferred_maintenance_window,
         reader_endpoint:: '${aws_rds_cluster.%s.reader_endpoint}' % rname,
         [if vpc_security_group_ids != null then vpc_security_group_ids]: vpc_security_group_ids,
-        [if timeouts != null then timeouts]: timeouts,
         [if s3_import != null then s3_import]: s3_import,
         [if scaling_configuration != null then scaling_configuration]: scaling_configuration,
-      },
-      timeouts:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param create (optional)
-        // @param delete (optional)
-        // @param update (optional)
-        new(rname, create=null, delete=null, update=null):: {
-          rname:: rname,
-          [if create != null then create]: create,
-          [if delete != null then delete]: delete,
-          [if update != null then update]: update,
-        },
+        [if timeouts != null then timeouts]: timeouts,
       },
       s3_import:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -17799,6 +17787,18 @@
           [if min_capacity != null then min_capacity]: min_capacity,
           [if seconds_until_auto_pause != null then seconds_until_auto_pause]: seconds_until_auto_pause,
           [if timeout_action != null then timeout_action]: timeout_action,
+        },
+      },
+      timeouts:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param create (optional)
+        // @param delete (optional)
+        // @param update (optional)
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
+          [if create != null then create]: create,
+          [if delete != null then delete]: delete,
+          [if update != null then update]: update,
         },
       },
     },
@@ -18767,16 +18767,16 @@
       // @param request_payer (optional)
       // @param website_domain (optional)
       // @param website_endpoint (optional)
-      // @param lifecycle_rule (optional)
-      // @param replication_configuration (optional)
       // @param cors_rule (optional)
       // @param grant (optional)
+      // @param lifecycle_rule (optional)
+      // @param logging (optional)
+      // @param object_lock_configuration (optional)
+      // @param replication_configuration (optional)
       // @param server_side_encryption_configuration (optional)
       // @param versioning (optional)
       // @param website (optional)
-      // @param logging (optional)
-      // @param object_lock_configuration (optional)
-      new(rname, acl=null, bucket_prefix=null, force_destroy=null, policy=null, tags=null, acceleration_status=null, arn=null, bucket=null, hosted_zone_id=null, id=null, region=null, request_payer=null, website_domain=null, website_endpoint=null, lifecycle_rule=null, replication_configuration=null, cors_rule=null, grant=null, server_side_encryption_configuration=null, versioning=null, website=null, logging=null, object_lock_configuration=null):: {
+      new(rname, acl=null, bucket_prefix=null, force_destroy=null, policy=null, tags=null, acceleration_status=null, arn=null, bucket=null, hosted_zone_id=null, id=null, region=null, request_payer=null, website_domain=null, website_endpoint=null, cors_rule=null, grant=null, lifecycle_rule=null, logging=null, object_lock_configuration=null, replication_configuration=null, server_side_encryption_configuration=null, versioning=null, website=null):: {
         rname:: rname,
         [if acl != null then acl]: acl,
         [if bucket_prefix != null then bucket_prefix]: bucket_prefix,
@@ -18794,15 +18794,45 @@
         [if request_payer != null then request_payer]: request_payer,
         [if website_domain != null then website_domain]: website_domain,
         [if website_endpoint != null then website_endpoint]: website_endpoint,
-        [if lifecycle_rule != null then lifecycle_rule]: lifecycle_rule,
-        [if replication_configuration != null then replication_configuration]: replication_configuration,
         [if cors_rule != null then cors_rule]: cors_rule,
         [if grant != null then grant]: grant,
+        [if lifecycle_rule != null then lifecycle_rule]: lifecycle_rule,
+        [if logging != null then logging]: logging,
+        [if object_lock_configuration != null then object_lock_configuration]: object_lock_configuration,
+        [if replication_configuration != null then replication_configuration]: replication_configuration,
         [if server_side_encryption_configuration != null then server_side_encryption_configuration]: server_side_encryption_configuration,
         [if versioning != null then versioning]: versioning,
         [if website != null then website]: website,
-        [if logging != null then logging]: logging,
-        [if object_lock_configuration != null then object_lock_configuration]: object_lock_configuration,
+      },
+      cors_rule:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param allowed_methods (required)
+        // @param allowed_origins (required)
+        // @param allowed_headers (optional)
+        // @param expose_headers (optional)
+        // @param max_age_seconds (optional)
+        new(rname, allowed_methods, allowed_origins, allowed_headers=null, expose_headers=null, max_age_seconds=null):: {
+          rname:: rname,
+          allowed_methods: allowed_methods,
+          allowed_origins: allowed_origins,
+          [if allowed_headers != null then allowed_headers]: allowed_headers,
+          [if expose_headers != null then expose_headers]: expose_headers,
+          [if max_age_seconds != null then max_age_seconds]: max_age_seconds,
+        },
+      },
+      grant:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param permissions (required)
+        // @param type (required)
+        // @param id (optional)
+        // @param uri (optional)
+        new(rname, permissions, type, id=null, uri=null):: {
+          rname:: rname,
+          permissions: permissions,
+          type: type,
+          [if id != null then id]: id,
+          [if uri != null then uri]: uri,
+        },
       },
       lifecycle_rule:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -18867,6 +18897,46 @@
             storage_class: storage_class,
             [if date != null then date]: date,
             [if days != null then days]: days,
+          },
+        },
+      },
+      logging:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param target_bucket (required)
+        // @param target_prefix (optional)
+        new(rname, target_bucket, target_prefix=null):: {
+          rname:: rname,
+          target_bucket: target_bucket,
+          [if target_prefix != null then target_prefix]: target_prefix,
+        },
+      },
+      object_lock_configuration:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param object_lock_enabled (required)
+        // @param rule (optional)
+        new(rname, object_lock_enabled, rule=null):: {
+          rname:: rname,
+          object_lock_enabled: object_lock_enabled,
+          [if rule != null then rule]: rule,
+        },
+        rule:: {
+          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+          // @param default_retention (required)
+          new(rname, default_retention):: {
+            rname:: rname,
+            default_retention: default_retention,
+          },
+          default_retention:: {
+            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+            // @param mode (required)
+            // @param days (optional)
+            // @param years (optional)
+            new(rname, mode, days=null, years=null):: {
+              rname:: rname,
+              mode: mode,
+              [if days != null then days]: days,
+              [if years != null then years]: years,
+            },
           },
         },
       },
@@ -18950,36 +19020,6 @@
           },
         },
       },
-      cors_rule:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param allowed_methods (required)
-        // @param allowed_origins (required)
-        // @param allowed_headers (optional)
-        // @param expose_headers (optional)
-        // @param max_age_seconds (optional)
-        new(rname, allowed_methods, allowed_origins, allowed_headers=null, expose_headers=null, max_age_seconds=null):: {
-          rname:: rname,
-          allowed_methods: allowed_methods,
-          allowed_origins: allowed_origins,
-          [if allowed_headers != null then allowed_headers]: allowed_headers,
-          [if expose_headers != null then expose_headers]: expose_headers,
-          [if max_age_seconds != null then max_age_seconds]: max_age_seconds,
-        },
-      },
-      grant:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param permissions (required)
-        // @param type (required)
-        // @param id (optional)
-        // @param uri (optional)
-        new(rname, permissions, type, id=null, uri=null):: {
-          rname:: rname,
-          permissions: permissions,
-          type: type,
-          [if id != null then id]: id,
-          [if uri != null then uri]: uri,
-        },
-      },
       server_side_encryption_configuration:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
         // @param rule (required)
@@ -19028,46 +19068,6 @@
           [if index_document != null then index_document]: index_document,
           [if redirect_all_requests_to != null then redirect_all_requests_to]: redirect_all_requests_to,
           [if routing_rules != null then routing_rules]: routing_rules,
-        },
-      },
-      logging:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param target_bucket (required)
-        // @param target_prefix (optional)
-        new(rname, target_bucket, target_prefix=null):: {
-          rname:: rname,
-          target_bucket: target_bucket,
-          [if target_prefix != null then target_prefix]: target_prefix,
-        },
-      },
-      object_lock_configuration:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param object_lock_enabled (required)
-        // @param rule (optional)
-        new(rname, object_lock_enabled, rule=null):: {
-          rname:: rname,
-          object_lock_enabled: object_lock_enabled,
-          [if rule != null then rule]: rule,
-        },
-        rule:: {
-          // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-          // @param default_retention (required)
-          new(rname, default_retention):: {
-            rname:: rname,
-            default_retention: default_retention,
-          },
-          default_retention:: {
-            // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-            // @param mode (required)
-            // @param days (optional)
-            // @param years (optional)
-            new(rname, mode, days=null, years=null):: {
-              rname:: rname,
-              mode: mode,
-              [if days != null then days]: days,
-              [if years != null then years]: years,
-            },
-          },
         },
       },
     },
@@ -20091,14 +20091,14 @@
       // @param id (optional)
       // @param scan_enabled (optional)
       // @param tls_policy (optional)
+      // @param add_header_action (optional)
+      // @param bounce_action (optional)
       // @param lambda_action (optional)
       // @param s3_action (optional)
       // @param sns_action (optional)
       // @param stop_action (optional)
       // @param workmail_action (optional)
-      // @param add_header_action (optional)
-      // @param bounce_action (optional)
-      new(rname, name, rule_set_name, after=null, recipients=null, enabled=null, id=null, scan_enabled=null, tls_policy=null, lambda_action=null, s3_action=null, sns_action=null, stop_action=null, workmail_action=null, add_header_action=null, bounce_action=null):: {
+      new(rname, name, rule_set_name, after=null, recipients=null, enabled=null, id=null, scan_enabled=null, tls_policy=null, add_header_action=null, bounce_action=null, lambda_action=null, s3_action=null, sns_action=null, stop_action=null, workmail_action=null):: {
         rname:: rname,
         name: name,
         rule_set_name: rule_set_name,
@@ -20108,13 +20108,43 @@
         [if id != null then id]: id,
         [if scan_enabled != null then scan_enabled]: scan_enabled,
         [if tls_policy != null then tls_policy]: tls_policy,
+        [if add_header_action != null then add_header_action]: add_header_action,
+        [if bounce_action != null then bounce_action]: bounce_action,
         [if lambda_action != null then lambda_action]: lambda_action,
         [if s3_action != null then s3_action]: s3_action,
         [if sns_action != null then sns_action]: sns_action,
         [if stop_action != null then stop_action]: stop_action,
         [if workmail_action != null then workmail_action]: workmail_action,
-        [if add_header_action != null then add_header_action]: add_header_action,
-        [if bounce_action != null then bounce_action]: bounce_action,
+      },
+      add_header_action:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param header_name (required)
+        // @param header_value (required)
+        // @param position (required)
+        new(rname, header_name, header_value, position):: {
+          rname:: rname,
+          header_name: header_name,
+          header_value: header_value,
+          position: position,
+        },
+      },
+      bounce_action:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param message (required)
+        // @param position (required)
+        // @param sender (required)
+        // @param smtp_reply_code (required)
+        // @param status_code (optional)
+        // @param topic_arn (optional)
+        new(rname, message, position, sender, smtp_reply_code, status_code=null, topic_arn=null):: {
+          rname:: rname,
+          message: message,
+          position: position,
+          sender: sender,
+          smtp_reply_code: smtp_reply_code,
+          [if status_code != null then status_code]: status_code,
+          [if topic_arn != null then topic_arn]: topic_arn,
+        },
       },
       lambda_action:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -20177,36 +20207,6 @@
           rname:: rname,
           organization_arn: organization_arn,
           position: position,
-          [if topic_arn != null then topic_arn]: topic_arn,
-        },
-      },
-      add_header_action:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param header_name (required)
-        // @param header_value (required)
-        // @param position (required)
-        new(rname, header_name, header_value, position):: {
-          rname:: rname,
-          header_name: header_name,
-          header_value: header_value,
-          position: position,
-        },
-      },
-      bounce_action:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param message (required)
-        // @param position (required)
-        // @param sender (required)
-        // @param smtp_reply_code (required)
-        // @param status_code (optional)
-        // @param topic_arn (optional)
-        new(rname, message, position, sender, smtp_reply_code, status_code=null, topic_arn=null):: {
-          rname:: rname,
-          message: message,
-          position: position,
-          sender: sender,
-          smtp_reply_code: smtp_reply_code,
-          [if status_code != null then status_code]: status_code,
           [if topic_arn != null then topic_arn]: topic_arn,
         },
       },
@@ -20653,13 +20653,13 @@
       // @param valid_from (optional)
       // @param valid_until (optional)
       // @param vpc_security_group_ids (optional)
-      // @param network_interface (optional)
-      // @param root_block_device (optional)
-      // @param timeouts (optional)
       // @param credit_specification (optional)
       // @param ebs_block_device (optional)
       // @param ephemeral_block_device (optional)
-      new(rname, ami, instance_type, block_duration_minutes=null, disable_api_termination=null, ebs_optimized=null, get_password_data=null, hibernation=null, iam_instance_profile=null, instance_initiated_shutdown_behavior=null, instance_interruption_behaviour=null, launch_group=null, monitoring=null, source_dest_check=null, spot_price=null, spot_type=null, tags=null, user_data=null, user_data_base64=null, volume_tags=null, wait_for_fulfillment=null, associate_public_ip_address=null, availability_zone=null, cpu_core_count=null, cpu_threads_per_core=null, host_id=null, id=null, ipv6_address_count=null, ipv6_addresses=null, key_name=null, placement_group=null, private_ip=null, security_groups=null, subnet_id=null, tenancy=null, valid_from=null, valid_until=null, vpc_security_group_ids=null, network_interface=null, root_block_device=null, timeouts=null, credit_specification=null, ebs_block_device=null, ephemeral_block_device=null):: {
+      // @param network_interface (optional)
+      // @param root_block_device (optional)
+      // @param timeouts (optional)
+      new(rname, ami, instance_type, block_duration_minutes=null, disable_api_termination=null, ebs_optimized=null, get_password_data=null, hibernation=null, iam_instance_profile=null, instance_initiated_shutdown_behavior=null, instance_interruption_behaviour=null, launch_group=null, monitoring=null, source_dest_check=null, spot_price=null, spot_type=null, tags=null, user_data=null, user_data_base64=null, volume_tags=null, wait_for_fulfillment=null, associate_public_ip_address=null, availability_zone=null, cpu_core_count=null, cpu_threads_per_core=null, host_id=null, id=null, ipv6_address_count=null, ipv6_addresses=null, key_name=null, placement_group=null, private_ip=null, security_groups=null, subnet_id=null, tenancy=null, valid_from=null, valid_until=null, vpc_security_group_ids=null, credit_specification=null, ebs_block_device=null, ephemeral_block_device=null, network_interface=null, root_block_device=null, timeouts=null):: {
         rname:: rname,
         ami: ami,
         instance_type: instance_type,
@@ -20709,53 +20709,12 @@
         [if valid_from != null then valid_from]: valid_from,
         [if valid_until != null then valid_until]: valid_until,
         [if vpc_security_group_ids != null then vpc_security_group_ids]: vpc_security_group_ids,
-        [if network_interface != null then network_interface]: network_interface,
-        [if root_block_device != null then root_block_device]: root_block_device,
-        [if timeouts != null then timeouts]: timeouts,
         [if credit_specification != null then credit_specification]: credit_specification,
         [if ebs_block_device != null then ebs_block_device]: ebs_block_device,
         [if ephemeral_block_device != null then ephemeral_block_device]: ephemeral_block_device,
-      },
-      network_interface:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param device_index (required)
-        // @param network_interface_id (required)
-        // @param delete_on_termination (optional)
-        new(rname, device_index, network_interface_id, delete_on_termination=null):: {
-          rname:: rname,
-          device_index: device_index,
-          network_interface_id: network_interface_id,
-          [if delete_on_termination != null then delete_on_termination]: delete_on_termination,
-        },
-      },
-      root_block_device:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param delete_on_termination (optional)
-        // @param encrypted (optional)
-        // @param iops (optional)
-        // @param kms_key_id (optional)
-        // @param volume_size (optional)
-        // @param volume_type (optional)
-        new(rname, delete_on_termination=null, encrypted=null, iops=null, kms_key_id=null, volume_size=null, volume_type=null):: {
-          rname:: rname,
-          [if delete_on_termination != null then delete_on_termination]: delete_on_termination,
-          [if encrypted != null then encrypted]: encrypted,
-          [if iops != null then iops]: iops,
-          [if kms_key_id != null then kms_key_id]: kms_key_id,
-          volume_id:: '${aws_spot_instance_request.%s.root_block_device.volume_id}' % rname,
-          [if volume_size != null then volume_size]: volume_size,
-          [if volume_type != null then volume_type]: volume_type,
-        },
-      },
-      timeouts:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param create (optional)
-        // @param delete (optional)
-        new(rname, create=null, delete=null):: {
-          rname:: rname,
-          [if create != null then create]: create,
-          [if delete != null then delete]: delete,
-        },
+        [if network_interface != null then network_interface]: network_interface,
+        [if root_block_device != null then root_block_device]: root_block_device,
+        [if timeouts != null then timeouts]: timeouts,
       },
       credit_specification:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -20798,6 +20757,47 @@
           device_name: device_name,
           [if no_device != null then no_device]: no_device,
           [if virtual_name != null then virtual_name]: virtual_name,
+        },
+      },
+      network_interface:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param device_index (required)
+        // @param network_interface_id (required)
+        // @param delete_on_termination (optional)
+        new(rname, device_index, network_interface_id, delete_on_termination=null):: {
+          rname:: rname,
+          device_index: device_index,
+          network_interface_id: network_interface_id,
+          [if delete_on_termination != null then delete_on_termination]: delete_on_termination,
+        },
+      },
+      root_block_device:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param delete_on_termination (optional)
+        // @param encrypted (optional)
+        // @param iops (optional)
+        // @param kms_key_id (optional)
+        // @param volume_size (optional)
+        // @param volume_type (optional)
+        new(rname, delete_on_termination=null, encrypted=null, iops=null, kms_key_id=null, volume_size=null, volume_type=null):: {
+          rname:: rname,
+          [if delete_on_termination != null then delete_on_termination]: delete_on_termination,
+          [if encrypted != null then encrypted]: encrypted,
+          [if iops != null then iops]: iops,
+          [if kms_key_id != null then kms_key_id]: kms_key_id,
+          volume_id:: '${aws_spot_instance_request.%s.root_block_device.volume_id}' % rname,
+          [if volume_size != null then volume_size]: volume_size,
+          [if volume_type != null then volume_type]: volume_type,
+        },
+      },
+      timeouts:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param create (optional)
+        // @param delete (optional)
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
+          [if create != null then create]: create,
+          [if delete != null then delete]: delete,
         },
       },
     },
@@ -21054,11 +21054,11 @@
       // @param name (optional)
       // @param priority (optional)
       // @param id (optional)
+      // @param logging_info (optional)
       // @param targets (required)
       // @param task_invocation_parameters (optional)
       // @param task_parameters (optional)
-      // @param logging_info (optional)
-      new(rname, max_concurrency, max_errors, service_role_arn, task_arn, task_type, window_id, targets, description=null, name=null, priority=null, id=null, task_invocation_parameters=null, task_parameters=null, logging_info=null):: {
+      new(rname, max_concurrency, max_errors, service_role_arn, task_arn, task_type, window_id, targets, description=null, name=null, priority=null, id=null, logging_info=null, task_invocation_parameters=null, task_parameters=null):: {
         rname:: rname,
         max_concurrency: max_concurrency,
         max_errors: max_errors,
@@ -21070,10 +21070,22 @@
         [if name != null then name]: name,
         [if priority != null then priority]: priority,
         [if id != null then id]: id,
+        [if logging_info != null then logging_info]: logging_info,
         targets: targets,
         [if task_invocation_parameters != null then task_invocation_parameters]: task_invocation_parameters,
         [if task_parameters != null then task_parameters]: task_parameters,
-        [if logging_info != null then logging_info]: logging_info,
+      },
+      logging_info:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param s3_bucket_name (required)
+        // @param s3_region (required)
+        // @param s3_bucket_prefix (optional)
+        new(rname, s3_bucket_name, s3_region, s3_bucket_prefix=null):: {
+          rname:: rname,
+          s3_bucket_name: s3_bucket_name,
+          s3_region: s3_region,
+          [if s3_bucket_prefix != null then s3_bucket_prefix]: s3_bucket_prefix,
+        },
       },
       targets:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -21197,18 +21209,6 @@
           values: values,
         },
       },
-      logging_info:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param s3_bucket_name (required)
-        // @param s3_region (required)
-        // @param s3_bucket_prefix (optional)
-        new(rname, s3_bucket_name, s3_region, s3_bucket_prefix=null):: {
-          rname:: rname,
-          s3_bucket_name: s3_bucket_name,
-          s3_region: s3_region,
-          [if s3_bucket_prefix != null then s3_bucket_prefix]: s3_bucket_prefix,
-        },
-      },
     },
     // aws_ssm_parameter - https://www.terraform.io/docs/providers/aws/r/ssm_parameter.html
     aws_ssm_parameter:: {
@@ -21251,9 +21251,9 @@
       // @param rejected_patches (optional)
       // @param tags (optional)
       // @param id (optional)
-      // @param global_filter (optional)
       // @param approval_rule (optional)
-      new(rname, name, approved_patches=null, approved_patches_compliance_level=null, description=null, operating_system=null, rejected_patches=null, tags=null, id=null, global_filter=null, approval_rule=null):: {
+      // @param global_filter (optional)
+      new(rname, name, approved_patches=null, approved_patches_compliance_level=null, description=null, operating_system=null, rejected_patches=null, tags=null, id=null, approval_rule=null, global_filter=null):: {
         rname:: rname,
         name: name,
         [if approved_patches != null then approved_patches]: approved_patches,
@@ -21263,18 +21263,8 @@
         [if rejected_patches != null then rejected_patches]: rejected_patches,
         [if tags != null then tags]: tags,
         [if id != null then id]: id,
-        [if global_filter != null then global_filter]: global_filter,
         [if approval_rule != null then approval_rule]: approval_rule,
-      },
-      global_filter:: {
-        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
-        // @param key (required)
-        // @param values (required)
-        new(rname, key, values):: {
-          rname:: rname,
-          key: key,
-          values: values,
-        },
+        [if global_filter != null then global_filter]: global_filter,
       },
       approval_rule:: {
         // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
@@ -21298,6 +21288,16 @@
             key: key,
             values: values,
           },
+        },
+      },
+      global_filter:: {
+        // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+        // @param key (required)
+        // @param values (required)
+        new(rname, key, values):: {
+          rname:: rname,
+          key: key,
+          values: values,
         },
       },
     },

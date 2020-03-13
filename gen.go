@@ -168,7 +168,11 @@ func (g Gen) addResource(o *ast.Object, r resourceSchema) {
 		a.parent = &r
 		g.addAttribute(&resource, a)
 	}
+
 	bts := blockTypeMapToSlice(r.Block.BlockTypes)
+	sort.Slice(bts, func(i, j int) bool {
+		return bts[i].name < bts[j].name
+	})
 	for _, bt := range bts {
 		bt.parent = &r
 		g.addBlockType(&resource, bt)
@@ -268,6 +272,9 @@ func (g Gen) addBlockType(of *ast.ObjectField, bt blockType) {
 		g.addAttribute(&block, a)
 	}
 	nestedbts := blockTypeMapToSlice(bt.Block.BlockTypes)
+	sort.Slice(nestedbts, func(i, j int) bool {
+		return nestedbts[i].name < nestedbts[j].name
+	})
 	for _, nbt := range nestedbts {
 		nbt.parent = &bt
 		g.addBlockType(&block, nbt)
