@@ -2,7 +2,7 @@
 
 ## Block
 
-Blocks represent both resource blocks and nested blocks. The structure and marshaled JSON is also defined in github.com/hashicorp/terraform/command/jsonprovider. A block contains a map of attribute names to the attribute definitions and also map of block type names to block types. Block types contain blocks which may contain block types. I am not currently aware of how deeply this nesting goes but it is rarely more than a couple levels deep in the providers I've worked with.
+Blocks represent both resource blocks and nested blocks. The structure and marshaled JSON is also defined in github.com/hashicorp/terraform/command/jsonprovider. A block contains a map of attribute names to the attribute definitions and also map of block type names to block types. Block types contain blocks which may contain block types.
 
 ```go
 type block struct {
@@ -20,6 +20,8 @@ type blockType struct {
 	MaxItems    uint64 `json:"max_items,omitempty"`
 }
 ```
+
+The block JSON
 
 ```json
 "aws_ami": {
@@ -39,7 +41,7 @@ becomes
 
 ```jsonnet
 aws_ami:: {
-  new(rname, <required attributes>):: {
+  new(rname, <required attributes>, <optional_attributes>):: {
     <attributes>
   }
 }
@@ -80,10 +82,10 @@ becomes
 
 ```jsonnet
 parent_block_name:: {
-  // @param rname (required) Name of the resource,
-  // @param required_attribute (required) <URL to parameter documentation>
+  // @param rname (required)
+  // @param required_attribute (required)
   new(required_attribute):: {
-    required_attribute: required_attribute, // description of the attribute.
+    required_attribute: required_attribute,
   },
 }
 ```
@@ -94,7 +96,7 @@ parent_block_name:: {
 
 An optional attribute does not require setting and Terraform may or may not compute its value in its absence. Whether or not an optional field is computed is determined by the computed bool.
 
-An optional but not computed attribute becomes a `with` function that is used as a mixin to the constructed parent block.
+An optional but not computed attribute becomes a named parameter with a default argument of null. A field expr is used to only show manifest the field if the arg is not null.
 
 ```json
 "optional_but_not_computed": {
@@ -104,14 +106,14 @@ An optional but not computed attribute becomes a `with` function that is used as
 }
 ```
 
-become
+becomes
 
 ```jsonnet
 parent_block_name:: {
-  new():: {},
-  // @param optional_but_not_computed (required) <URL to parameter documentation>
-  with_optional_but_not_computed(optional_but_not_computed):: {
-    optional_but_not_computed: optional_but_not_computed, // description of the attribute.
+  // @param rname (required)
+  // @param optional_but_not_computed (optional)
+  new(rname, optional_but_not_computed=null):: {},
+    [if optional_but_not_computed != null then optional_but_not_computed]: optional_but_not_computed,
   },
 }
 ```
@@ -134,11 +136,11 @@ parent_block_name:: {
     rname:: rname,
     optional_and_computed:: '${parent_block.%s.optional_and_computed}' % rname,
   },
-  // @param optional_and_computed (required) <URL to parameter documentation>
-  with_optional_and_computed(optional_and_computed):: {
-    optional_and_computed::: optional_and_computed, // description of the attribute.
-  },
 }
 ```
 
 > Note, the rname is a special parameter required by the `new` constructors in order to build a valid reference to the resulting Terraform computed value.
+
+## Jsonnet Reserved Words
+
+Jsonnet has a small number of special words that cannot be used as field or parameter identifiers. In the case that a provider attribute is equal to a Jsonnet reserved word, the function parameter is prefixed with an 'r' character. For example, the `aws_security_group_rule` optional attribute `self` becomes `rself` in the `aws_security_group_rule.new()` function parameters.
