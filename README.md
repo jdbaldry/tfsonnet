@@ -8,6 +8,7 @@ This project is very much a work in progress but has a barely functional MVP.
 - Generate documented Jsonnet library for AWS provider resources.
 
 ## Why?
+
 - The powerful jsonnet mixin semantics allows the creation of libraries more flexible than written in HCL.
 - Jsonnet can be used to template more than just Terraform IaaC. See https://github.com/google/jsonnet/tree/master/examples, https://github.com/grafana/grafonnet-lib, https://github.com/bitnami-labs/kube-libsonnet, or https://github.com/grafana/jsonnet-libs.
 
@@ -42,8 +43,7 @@ terraform plan
 
 ## TODO
 
-- Support datasources.
-- Properly support nested attributes. Currently only un-nested resource attributes are handled correctly (`'${aws.aws_instance.id}'`) and not block attributes (`'${aws.aws_eks_cluster.vpc_config.vpc_id}'`) or nested attributes (`'\${aws.aws_eks_cluster.certificate_authority.data}'`).
+- Support datasources and providers.
 - Support parameter type assertions.
 
 ```
