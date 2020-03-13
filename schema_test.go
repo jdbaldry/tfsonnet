@@ -88,3 +88,87 @@ func TestDecode(t *testing.T) {
 		})
 	}
 }
+
+func TestSortAttributes(t *testing.T) {
+	tests := []struct {
+		name string
+		in   []attribute
+		want []attribute
+	}{
+		{
+			"required fields < not required fields",
+			[]attribute{
+				{Required: false},
+				{Required: true},
+			},
+			[]attribute{
+				{Required: true},
+				{Required: false},
+			},
+		},
+		{
+			"don't swap already sorted required fields",
+			[]attribute{
+				{Required: true},
+				{Required: false},
+			},
+			[]attribute{
+				{Required: true},
+				{Required: false},
+			},
+		},
+		{
+			"if both are required, sort on name",
+			[]attribute{
+				{Required: true, name: "z"},
+				{Required: true, name: "a"},
+			},
+			[]attribute{
+				{Required: true, name: "a"},
+				{Required: true, name: "z"},
+			},
+		},
+		{
+			"optional fields < computed fields",
+			[]attribute{
+				{Computed: true},
+				{Optional: true},
+			},
+			[]attribute{
+				{Optional: true},
+				{Computed: true},
+			},
+		},
+		{
+			"don't swap already sorted optional fields",
+			[]attribute{
+				{Optional: true},
+				{Optional: false},
+			},
+			[]attribute{
+				{Optional: true},
+				{Optional: false},
+			},
+		},
+		{
+			"if both are optional, sort on name",
+			[]attribute{
+				{Optional: true, name: "z"},
+				{Optional: true, name: "a"},
+			},
+			[]attribute{
+				{Optional: true, name: "a"},
+				{Optional: true, name: "z"},
+			},
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.name, func(t *testing.T) {
+			got := make([]attribute, len(tc.in))
+			copy(got, tc.in)
+			sortAttributes(got)
+			assert.Equal(t, tc.want, got)
+		})
+	}
+}

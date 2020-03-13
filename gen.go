@@ -167,45 +167,44 @@ func (g Gen) Generate() *ast.Object {
 				ast.CommaSeparatedID{Name: *newIdentifier("rname")},
 			}
 
-			as := rs[r].Block.Attributes
-			attributes := make([]string, len(as))
-			for a := range as {
-				attributes = append(attributes, a)
-			}
-			sort.Strings(attributes)
-			for _, a := range attributes {
-				if as[a].Required {
-					requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName(a))})
-					requiredFields = append(requiredFields, newRequiredField(a))
+			as := mapToSlice(rs[r].Block.Attributes)
+			// Sort attributes for consistent output.
+			sortAttributes(as)
+			for _, a := range as {
+				a.parent = rs[r]
+
+				if a.Required {
+					requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName(a.name))})
+					requiredFields = append(requiredFields, newRequiredField(a.name))
 					requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
-						[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a), g.docsURLFunc(g.providerAlias, rWithoutProvider, a))}))
-				} else if as[a].Optional {
-					otherFields = append(otherFields, newComputedField(a, newInterpolatable([]string{r, "%s", a})))
+						[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a.name), g.docsURLFunc(g.providerAlias, rWithoutProvider, a.name))}))
+				} else if a.Optional {
+					otherFields = append(otherFields, newComputedField(a.name, newInterpolatable([]string{r, "%s", a.name})))
 					mixinFields = append(mixinFields, ast.ObjectField{
 						Kind: ast.ObjectFieldID,
-						Id:   newIdentifier("with_" + paramName(a)),
+						Id:   newIdentifier("with_" + paramName(a.name)),
 						Method: &ast.Function{
 							Parameters: ast.Parameters{
-								Required: []ast.CommaSeparatedID{{Name: *newIdentifier(paramName(a))}},
+								Required: []ast.CommaSeparatedID{{Name: *newIdentifier(paramName(a.name))}},
 							},
 						},
 						Fodder1: ast.Fodder{
 							ast.MakeFodderElement(ast.FodderLineEnd, 0, 0, []string{
-								fmt.Sprintf("@param %s (required) %s.", paramName(a), g.docsURLFunc(g.providerAlias, rWithoutProvider, a))})},
+								fmt.Sprintf("@param %s (required) %s.", paramName(a.name), g.docsURLFunc(g.providerAlias, rWithoutProvider, a.name))})},
 
 						Expr2: &ast.Object{
 							Fields: []ast.ObjectField{
 								{
 									Kind:  ast.ObjectFieldID,
 									Hide:  ast.ObjectFieldVisible,
-									Id:    newIdentifier(fieldName((a))),
-									Expr2: &ast.Var{Id: *newIdentifier(paramName(a))},
+									Id:    newIdentifier(fieldName((a.name))),
+									Expr2: &ast.Var{Id: *newIdentifier(paramName(a.name))},
 								},
 							},
 						},
 					})
-				} else if as[a].Computed {
-					otherFields = append(otherFields, newComputedField(a, newInterpolatable([]string{r, "%s", a})))
+				} else if a.Computed {
+					otherFields = append(otherFields, newComputedField(a.name, newInterpolatable([]string{r, "%s", a.name})))
 				}
 			}
 
@@ -244,22 +243,17 @@ func (g Gen) Generate() *ast.Object {
 							ast.CommaSeparatedID{Name: *newIdentifier("rname")},
 						}
 
-						as := bts[bt].Block.Attributes
-						attributes := make([]string, len(as))
-						for a := range as {
-							attributes = append(attributes, a)
-						}
-						sort.Strings(attributes)
-						for _, a := range attributes {
-							if as[a].Required {
-								blockRequiredParameters = append(blockRequiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName(a))})
-								blockRequiredFields = append(blockRequiredFields, newRequiredField(a))
+						as := mapToSlice(bts[bt].Block.Attributes)
+						for _, a := range as {
+							if a.Required {
+								blockRequiredParameters = append(blockRequiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName(a.name))})
+								blockRequiredFields = append(blockRequiredFields, newRequiredField(a.name))
 								blockRequiredFodder = append(blockRequiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
-									[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a), g.docsURLFunc(g.providerAlias, rWithoutProvider, a))}))
-							} else if as[a].Optional {
-								blockOtherFields = append(blockOtherFields, newComputedField(a, newInterpolatable([]string{r, "%s", bt, a})))
-							} else if as[a].Computed {
-								blockOtherFields = append(blockOtherFields, newComputedField(a, newInterpolatable([]string{r, "%s", bt, a})))
+									[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a.name), g.docsURLFunc(g.providerAlias, rWithoutProvider, a.name))}))
+							} else if a.Optional {
+								blockOtherFields = append(blockOtherFields, newComputedField(a.name, newInterpolatable([]string{r, "%s", bt, a.name})))
+							} else if a.Computed {
+								blockOtherFields = append(blockOtherFields, newComputedField(a.name, newInterpolatable([]string{r, "%s", bt, a.name})))
 							}
 						}
 						mixinFields = append(mixinFields, ast.ObjectField{
@@ -295,17 +289,7 @@ func (g Gen) Generate() *ast.Object {
 							Kind: ast.ObjectFieldID,
 							Id:   newIdentifier("new"),
 							Expr2: &ast.Object{
-								Fields: []ast.ObjectField{
-									{
-										Kind: ast.ObjectFieldExpr,
-										Expr1: &ast.Var{
-											Id: *newIdentifier("rname"),
-										},
-										Expr2: &ast.Object{
-											Fields: append(append(requiredFields, otherFields...), mixinFields...),
-										},
-									},
-								},
+								Fields: append(append(requiredFields, otherFields...), mixinFields...),
 							},
 							Method: &ast.Function{
 								Parameters: ast.Parameters{
