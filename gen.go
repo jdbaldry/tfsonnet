@@ -159,8 +159,8 @@ func (g Gen) Generate() *ast.Object {
 			mixinFields := []ast.ObjectField{}
 
 			requiredFodder := ast.Fodder{
-				ast.MakeFodderElement(ast.FodderLineEnd, 0, 0, []string{fmt.Sprintf(" %s - %s", r, g.docsURLFunc(g.providerAlias, rWithoutProvider))}),
-				ast.MakeFodderElement(ast.FodderLineEnd, 0, 0, []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."}),
+				ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{fmt.Sprintf(" %s - %s", r, g.docsURLFunc(g.providerAlias, rWithoutProvider))}),
+				ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."}),
 			}
 
 			requiredParameters := []ast.CommaSeparatedID{
@@ -188,7 +188,7 @@ func (g Gen) Generate() *ast.Object {
 							},
 						},
 						Fodder1: ast.Fodder{
-							ast.MakeFodderElement(ast.FodderLineEnd, 0, 0, []string{
+							ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{
 								fmt.Sprintf("@param %s (required) %s.", paramName(a.name), g.docsURLFunc(g.providerAlias, rWithoutProvider, a.name))})},
 
 						Expr2: &ast.Object{
@@ -226,7 +226,7 @@ func (g Gen) Generate() *ast.Object {
 						if bts[bt].MinItems > 0 {
 							requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(bt)})
 							requiredFields = append(requiredFields, newRequiredField(bt))
-							requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
+							requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderParagraph, 0, 0,
 								[]string{fmt.Sprintf("@param %s (required) %s block.", bt, bt)}))
 						} else {
 							otherFields = append(otherFields, ast.ObjectField{
@@ -241,7 +241,7 @@ func (g Gen) Generate() *ast.Object {
 						blockRequiredFields := ast.ObjectFields{blockRnameField}
 						blockOtherFields := ast.ObjectFields{}
 						blockRequiredFodder := ast.Fodder{
-							ast.MakeFodderElement(ast.FodderLineEnd, 0, 0, []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."}),
+							ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."}),
 						}
 						blockRequiredParameters := []ast.CommaSeparatedID{
 							ast.CommaSeparatedID{Name: *newIdentifier("rname")},
@@ -252,7 +252,7 @@ func (g Gen) Generate() *ast.Object {
 							if a.Required {
 								blockRequiredParameters = append(blockRequiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName(a.name))})
 								blockRequiredFields = append(blockRequiredFields, newRequiredField(a.name))
-								blockRequiredFodder = append(blockRequiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
+								blockRequiredFodder = append(blockRequiredFodder, ast.MakeFodderElement(ast.FodderParagraph, 0, 0,
 									[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a.name), g.docsURLFunc(g.providerAlias, rWithoutProvider, a.name))}))
 							} else if a.Optional {
 								blockOtherFields = append(blockOtherFields, newComputedField(a.name, newInterpolatable([]string{r, "%s", bt, a.name})))
@@ -293,7 +293,7 @@ func (g Gen) Generate() *ast.Object {
 							Kind: ast.ObjectFieldID,
 							Id:   newIdentifier("new"),
 							Expr2: &ast.Object{
-								Fields: append(append(requiredFields, otherFields...), mixinFields...),
+								Fields: append(requiredFields, otherFields...),
 							},
 							Method: &ast.Function{
 								Parameters: ast.Parameters{
@@ -302,7 +302,7 @@ func (g Gen) Generate() *ast.Object {
 							},
 							Fodder1: requiredFodder,
 						},
-					}),
+					}, mixinFields...),
 				},
 			})
 		}
