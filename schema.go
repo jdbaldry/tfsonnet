@@ -81,8 +81,7 @@ func (a attribute) Identify() []string {
 	return []string{a.name}
 }
 
-// Convert map of attribute names to attributes into a slice of attributes.
-func mapToSlice(m map[string]attribute) []attribute {
+func attributeMapToSlice(m map[string]attribute) []attribute {
 	as := make([]attribute, len(m))
 	i := 0
 	for name, a := range m {
@@ -91,6 +90,28 @@ func mapToSlice(m map[string]attribute) []attribute {
 		i++
 	}
 	return as
+}
+
+func resourceMapToSlice(m map[string]resourceSchema) []resourceSchema {
+	rs := make([]resourceSchema, len(m))
+	i := 0
+	for name, r := range m {
+		rs[i] = r
+		rs[i].name = name
+		i++
+	}
+	return rs
+}
+
+func blockTypeMapToSlice(m map[string]blockType) []blockType {
+	bts := make([]blockType, len(m))
+	i := 0
+	for name, bt := range m {
+		bts[i] = bt
+		bts[i].name = name
+		i++
+	}
+	return bts
 }
 
 // sortAttributes sorts a slice of attributes.
