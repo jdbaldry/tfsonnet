@@ -40,14 +40,14 @@ type GenConfig struct {
 
 // Gen generates a jsonnet library for a Terraform provider.
 type Gen struct {
-	providerSchema ProviderSchema
+	providerSchema providerSchema
 	docsURLFunc    func(...string) string
 	providerAlias  string
 	provider       string
 }
 
 // NewGen returns a configured Gen.
-func NewGen(ps ProviderSchema, c GenConfig) (Gen, error) {
+func NewGen(ps providerSchema, c GenConfig) (Gen, error) {
 	return Gen{
 		providerSchema: ps,
 		docsURLFunc:    c.DocsURLFunc,
@@ -210,7 +210,7 @@ func (g Gen) Generate() *ast.Object {
 			}
 
 			if rs[r].Block.BlockTypes != nil {
-				bts := *rs[r].Block.BlockTypes
+				bts := rs[r].Block.BlockTypes
 				blockTypes := make([]string, len(bts))
 				for b := range bts {
 					blockTypes = append(blockTypes, b)
@@ -295,7 +295,17 @@ func (g Gen) Generate() *ast.Object {
 							Kind: ast.ObjectFieldID,
 							Id:   newIdentifier("new"),
 							Expr2: &ast.Object{
-								Fields: append(requiredFields, otherFields...),
+								Fields: []ast.ObjectField{
+									{
+										Kind: ast.ObjectFieldExpr,
+										Expr1: &ast.Var{
+											Id: *newIdentifier("rname"),
+										},
+										Expr2: &ast.Object{
+											Fields: append(append(requiredFields, otherFields...), mixinFields...),
+										},
+									},
+								},
 							},
 							Method: &ast.Function{
 								Parameters: ast.Parameters{
@@ -304,7 +314,7 @@ func (g Gen) Generate() *ast.Object {
 							},
 							Fodder1: requiredFodder,
 						},
-					}, mixinFields...),
+					}),
 				},
 			})
 		}

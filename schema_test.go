@@ -17,7 +17,7 @@ func TestDecode(t *testing.T) {
 		{
 			"attribute",
 			[]byte(`{ "computed": true, "type": "string" }`),
-			Attribute{Computed: true},
+			attribute{Computed: true, AttributeType: json.RawMessage([]byte(`"string"`))},
 		},
 		{
 			"block with only attributes",
@@ -29,10 +29,11 @@ func TestDecode(t *testing.T) {
 		}
 	}
 }`),
-			Block{
-				Attributes: map[string]Attribute{
+			block{
+				Attributes: map[string]attribute{
 					"certificate_transparency_logging_preference": {
-						Optional: true,
+						Optional:      true,
+						AttributeType: json.RawMessage([]byte(`"string"`)),
 					},
 				},
 			},
@@ -51,12 +52,12 @@ func TestDecode(t *testing.T) {
 			}
 	}
 }`),
-			Block{
-				Attributes: map[string]Attribute{},
-				BlockTypes: &map[string]BlockType{
+			block{
+				Attributes: map[string]attribute{},
+				BlockTypes: map[string]blockType{
 					"options": {
-						Block: Block{
-							Attributes: map[string]Attribute{},
+						Block: &block{
+							Attributes: map[string]attribute{},
 						},
 						MaxItems:    1,
 						NestingMode: "list",
@@ -69,14 +70,14 @@ func TestDecode(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {
 			switch tc.want.(type) {
-			case Attribute:
-				got := Attribute{}
+			case attribute:
+				got := attribute{}
 				err := json.Unmarshal(tc.in, &got)
 				assert.NoError(t, err)
 				assert.EqualValues(t, tc.want, got)
 
-			case Block:
-				got := Block{}
+			case block:
+				got := block{}
 				err := json.Unmarshal(tc.in, &got)
 				assert.NoError(t, err)
 				assert.EqualValues(t, tc.want, got)

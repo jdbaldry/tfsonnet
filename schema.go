@@ -1,38 +1,46 @@
 package main
 
-// Schema models the useful output from `terraform providers schema -json`.
-type Schema struct {
-	ProviderSchemas map[string]ProviderSchema `json:"provider_schemas"`
+import "encoding/json"
+
+// schema models the useful output from `terraform providers schema -json`.
+type schema struct {
+	ProviderSchemas map[string]providerSchema `json:"provider_schemas"`
 }
 
-// ProviderSchema models a Terraform provider schema.
-type ProviderSchema struct {
-	ResourceSchemas map[string]ResourceSchema `json:"resource_schemas"`
+// providerSchema models a Terraform provider schema.
+type providerSchema struct {
+	ResourceSchemas map[string]resourceSchema `json:"resource_schemas"`
 }
 
-// ResourceSchema models a Terraform resource schema.
-type ResourceSchema struct {
-	Block Block
+// resourceSchema models a Terraform resource schema.
+type resourceSchema struct {
+	Block block
 }
 
-// Block models a Terraform HCL block.
-type Block struct {
-	Attributes map[string]Attribute
-	BlockTypes *map[string]BlockType `json:"block_types"`
+type block struct {
+	Attributes      map[string]attribute `json:"attributes,omitempty"`
+	BlockTypes      map[string]blockType `json:"block_types,omitempty"`
+	Description     string               `json:"description,omitempty"`
+	DescriptionKind string               `json:"description_kind,omitempty"`
+	Deprecated      bool                 `json:"deprecated,omitempty"`
 }
 
-// Attribute models a Terraform attribute.
+type blockType struct {
+	NestingMode string `json:"nesting_mode,omitempty"`
+	Block       *block `json:"block,omitempty"`
+	MinItems    uint64 `json:"min_items,omitempty"`
+	MaxItems    uint64 `json:"max_items,omitempty"`
+}
+
+// attribute models a Terraform attribute.
 // TODO: Handle type field.
-type Attribute struct {
-	Computed bool `json:"computed"`
-	Required bool `json:"required"`
-	Optional bool `json:"optional"`
-}
-
-// BlockType models a Terraform block_type field that optionally appears in in the schema and describes the type of the Terraform block.
-type BlockType struct {
-	Block       Block
-	MinItems    int    `json:"min_items"`
-	MaxItems    int    `json:"max_items"`
-	NestingMode string `json:"nesting_mode"`
+type attribute struct {
+	AttributeType   json.RawMessage `json:"type,omitempty"`
+	Description     string          `json:"description,omitempty"`
+	DescriptionKind string          `json:"description_kind,omitempty"`
+	Deprecated      bool            `json:"deprecated,omitempty"`
+	Required        bool            `json:"required,omitempty"`
+	Optional        bool            `json:"optional,omitempty"`
+	Computed        bool            `json:"computed,omitempty"`
+	Sensitive       bool            `json:"sensitive,omitempty"`
 }

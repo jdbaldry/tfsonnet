@@ -37,7 +37,7 @@ func main() {
 		}
 	}
 
-	s := &Schema{}
+	s := &schema{}
 	if err := json.Unmarshal(input, s); err != nil {
 		log.Fatal(err)
 	}
