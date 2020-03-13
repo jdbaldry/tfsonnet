@@ -174,12 +174,11 @@ func (g Gen) Generate() *ast.Object {
 				a.parent = rs[r]
 
 				if a.Required {
-					requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName(a.name))})
+					requiredParameters = append(requiredParameters, a.ToParameter())
 					requiredFields = append(requiredFields, newRequiredField(a.name))
-					requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderLineEnd, 0, 0,
+					requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderParagraph, 0, 0,
 						[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a.name), g.docsURLFunc(g.providerAlias, rWithoutProvider, a.name))}))
 				} else if a.Optional {
-					otherFields = append(otherFields, newComputedField(a.name, newInterpolatable([]string{r, "%s", a.name})))
 					mixinFields = append(mixinFields, ast.ObjectField{
 						Kind: ast.ObjectFieldID,
 						Id:   newIdentifier("with_" + paramName(a.name)),
@@ -203,7 +202,12 @@ func (g Gen) Generate() *ast.Object {
 							},
 						},
 					})
-				} else if a.Computed {
+					// a is computed if not supplied but may be overriden.
+					if a.Computed {
+						otherFields = append(otherFields, newComputedField(a.name, newInterpolatable([]string{r, "%s", a.name})))
+					}
+					// a is just a computed attribute.
+				} else {
 					otherFields = append(otherFields, newComputedField(a.name, newInterpolatable([]string{r, "%s", a.name})))
 				}
 			}
