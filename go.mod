@@ -1,4 +1,4 @@
-module tfsonnet
+module github.com/jdbaldry/tfsonnet
 
 go 1.12
 

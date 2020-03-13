@@ -8,9 +8,8 @@ import (
 	"os"
 	"sort"
 
-	"tfsonnet/pkg/printer"
-
 	"github.com/google/go-jsonnet/ast"
+	"github.com/jdbaldry/tfsonnet/pkg/printer"
 )
 
 const (
