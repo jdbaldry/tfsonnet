@@ -97,6 +97,11 @@ func newRequiredField(name string) ast.ObjectField {
 	}
 }
 
+// toCommaSeparatedID returns the provided string as an ast.CommaSeparatedID.
+func toCommaSeparatedID(s string) ast.CommaSeparatedID {
+	return ast.CommaSeparatedID{Name: *newIdentifier(s)}
+}
+
 // isReserved tests if a string is a reserved Jsonnet word.
 func isReserved(a string) bool {
 	for _, s := range jsonnetReservedWords {
@@ -163,9 +168,7 @@ func (g Gen) Generate() *ast.Object {
 				ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."}),
 			}
 
-			requiredParameters := []ast.CommaSeparatedID{
-				ast.CommaSeparatedID{Name: *newIdentifier("rname")},
-			}
+			requiredParameters := []ast.CommaSeparatedID{toCommaSeparatedID("rname")}
 
 			as := mapToSlice(rs[r].Block.Attributes)
 			// Sort attributes for consistent output.
@@ -174,7 +177,7 @@ func (g Gen) Generate() *ast.Object {
 				a.parent = rs[r]
 
 				if a.Required {
-					requiredParameters = append(requiredParameters, a.ToParameter())
+					requiredParameters = append(requiredParameters, toCommaSeparatedID(a.name))
 					requiredFields = append(requiredFields, newRequiredField(a.name))
 					requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderParagraph, 0, 0,
 						[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a.name), g.docsURLFunc(g.providerAlias, rWithoutProvider, a.name))}))
@@ -184,7 +187,7 @@ func (g Gen) Generate() *ast.Object {
 						Id:   newIdentifier("with_" + paramName(a.name)),
 						Method: &ast.Function{
 							Parameters: ast.Parameters{
-								Required: []ast.CommaSeparatedID{{Name: *newIdentifier(paramName(a.name))}},
+								Required: []ast.CommaSeparatedID{toCommaSeparatedID(paramName(a.name))},
 							},
 						},
 						Fodder1: ast.Fodder{
@@ -224,7 +227,7 @@ func (g Gen) Generate() *ast.Object {
 					if bt != "" {
 						// Required field.
 						if bts[bt].MinItems > 0 {
-							requiredParameters = append(requiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(bt)})
+							requiredParameters = append(requiredParameters, toCommaSeparatedID(bt))
 							requiredFields = append(requiredFields, newRequiredField(bt))
 							requiredFodder = append(requiredFodder, ast.MakeFodderElement(ast.FodderParagraph, 0, 0,
 								[]string{fmt.Sprintf("@param %s (required) %s block.", bt, bt)}))
@@ -243,14 +246,12 @@ func (g Gen) Generate() *ast.Object {
 						blockRequiredFodder := ast.Fodder{
 							ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."}),
 						}
-						blockRequiredParameters := []ast.CommaSeparatedID{
-							ast.CommaSeparatedID{Name: *newIdentifier("rname")},
-						}
+						blockRequiredParameters := []ast.CommaSeparatedID{toCommaSeparatedID("rname")}
 
 						as := mapToSlice(bts[bt].Block.Attributes)
 						for _, a := range as {
 							if a.Required {
-								blockRequiredParameters = append(blockRequiredParameters, ast.CommaSeparatedID{Name: *newIdentifier(paramName(a.name))})
+								blockRequiredParameters = append(blockRequiredParameters, toCommaSeparatedID(paramName(a.name)))
 								blockRequiredFields = append(blockRequiredFields, newRequiredField(a.name))
 								blockRequiredFodder = append(blockRequiredFodder, ast.MakeFodderElement(ast.FodderParagraph, 0, 0,
 									[]string{fmt.Sprintf("@param %s (required) %s.", paramName(a.name), g.docsURLFunc(g.providerAlias, rWithoutProvider, a.name))}))

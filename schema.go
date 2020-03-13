@@ -3,8 +3,6 @@ package main
 import (
 	"encoding/json"
 	"sort"
-
-	"github.com/google/go-jsonnet/ast"
 )
 
 // Identifier is an entity that can return a slice of strings that identify the entity in Terraform.
@@ -81,11 +79,6 @@ func (a attribute) Identify() []string {
 		return append(a.parent.Identify(), a.name)
 	}
 	return []string{a.name}
-}
-
-// ToParameter returns the attribute as a Jsonnet required parameter.
-func (a attribute) ToParameter() ast.CommaSeparatedID {
-	return ast.CommaSeparatedID{Name: *newIdentifier(a.name)}
 }
 
 // Convert map of attribute names to attributes into a slice of attributes.
