@@ -73,6 +73,11 @@ func toCommaSeparatedID(s string) ast.CommaSeparatedID {
 	return ast.CommaSeparatedID{Name: *newIdentifier(s)}
 }
 
+// toNamedParameter returns the provided string as an ast.NamedParameter.
+func toNamedParameter(s string) ast.NamedParameter {
+	return ast.NamedParameter{Name: *newIdentifier(s), DefaultArg: &ast.LiteralNull{}}
+}
+
 // isReserved tests if a string is a reserved Jsonnet word.
 func isReserved(a string) bool {
 	for _, s := range jsonnetReservedWords {
@@ -178,40 +183,15 @@ func (g Gen) addAttribute(of *ast.ObjectField, a attribute) {
 	aField := ast.ObjectField{
 		Kind:  ast.ObjectFieldID,
 		Hide:  ast.ObjectFieldHidden,
-		Id:    newIdentifier(a.name),
+		Id:    newIdentifier(paramName(a.name)),
 		Expr2: &ast.Object{},
-	}
-	// mixinField is the with_attribute mixin function in the resource/block.
-	mixinField := ast.ObjectField{
-		Kind: ast.ObjectFieldID,
-		Id:   newIdentifier("with_" + paramName(a.name)),
-		Method: &ast.Function{
-			Parameters: ast.Parameters{
-				Required: []ast.CommaSeparatedID{toCommaSeparatedID(paramName(a.name))},
-			},
-		},
-		Fodder1: ast.Fodder{
-			ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{
-				fmt.Sprintf("@param %s (required)", paramName(a.name))}),
-		},
-
-		Expr2: &ast.Object{
-			Fields: []ast.ObjectField{
-				{
-					Kind:  ast.ObjectFieldID,
-					Hide:  ast.ObjectFieldInherit,
-					Id:    newIdentifier(fieldName((a.name))),
-					Expr2: &ast.Var{Id: *newIdentifier(paramName(a.name))},
-				},
-			},
-		},
 	}
 
 	if a.Required {
-		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required, toCommaSeparatedID(a.name))
-		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + a.name + " (required)"}))
+		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required, toCommaSeparatedID(paramName(a.name)))
+		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + paramName(a.name) + " (required)"}))
 		aField.Hide = ast.ObjectFieldInherit
-		aField.Expr2 = &ast.Var{Id: *newIdentifier(a.name)}
+		aField.Expr2 = &ast.Var{Id: *newIdentifier(paramName(a.name))}
 	}
 	if a.Computed {
 		aField.Expr2 = &ast.Binary{
@@ -220,12 +200,14 @@ func (g Gen) addAttribute(of *ast.ObjectField, a attribute) {
 			Right: &ast.Var{Id: *newIdentifier("rname")},
 		}
 	}
-	if a.Required || a.Computed {
-		of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields, aField)
-	}
 	if a.Optional {
-		of.Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields, mixinField)
+		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional, toNamedParameter(paramName(a.name)))
+		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + paramName(a.name) + " (optional)"}))
+		aField.Kind = ast.ObjectFieldExpr
+		aField.Id = newIdentifier(fmt.Sprintf("if %s != null then %s", paramName(a.name), fieldName(a.name)))
+		aField.Expr2 = &ast.Var{Id: *newIdentifier(paramName(a.name))}
 	}
+	of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields, aField)
 }
 
 // addBlockType adds a block into the provided object.
@@ -270,29 +252,13 @@ func (g Gen) addBlockType(of *ast.ObjectField, bt blockType) {
 			Expr2: &ast.Var{Id: *newIdentifier(bt.name)},
 		})
 	} else {
-		of.Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields, ast.ObjectField{
-			Kind: ast.ObjectFieldID,
-			Id:   newIdentifier("with_" + paramName(bt.name)),
-			Method: &ast.Function{
-				Parameters: ast.Parameters{
-					Required: []ast.CommaSeparatedID{toCommaSeparatedID(paramName(bt.name))},
-				},
-			},
-			Fodder1: ast.Fodder{
-				ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{
-					fmt.Sprintf("@param %s (required)", paramName(bt.name))}),
-			},
-
-			Expr2: &ast.Object{
-				Fields: []ast.ObjectField{
-					{
-						Kind:  ast.ObjectFieldID,
-						Hide:  ast.ObjectFieldInherit,
-						Id:    newIdentifier(fieldName((bt.name))),
-						Expr2: &ast.Var{Id: *newIdentifier(paramName(bt.name))},
-					},
-				},
-			},
+		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional, toNamedParameter(paramName(bt.name)))
+		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + paramName(bt.name) + " (optional)"}))
+		of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields, ast.ObjectField{
+			Kind:  ast.ObjectFieldExpr,
+			Hide:  ast.ObjectFieldInherit,
+			Id:    newIdentifier(fmt.Sprintf("if %s != null then %s", paramName(bt.name), fieldName(bt.name))),
+			Expr2: &ast.Var{Id: *newIdentifier(paramName(bt.name))},
 		})
 	}
 	as := attributeMapToSlice(bt.Block.Attributes)
