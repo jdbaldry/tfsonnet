@@ -1,5 +1,4 @@
 // Package printer is a slightly modified copy of https://github.com/ksonnet/ksonnet-lib/tree/master/ksonnet-gen/printer.
-// TODO: fix tests.
 // TODO: write fodder tests.
 package printer
 
