@@ -55,19 +55,6 @@ func NewGen(ps providerSchema, c GenConfig) (Gen, error) {
 	}, nil
 }
 
-// interpolatable is a string that can be interpolated by Terraform
-type interpolatable string
-
-// newInterpolatable returns an interpolatable.
-func newInterpolatable(s []string) interpolatable {
-	if len(s) == 0 {
-		return ""
-	}
-	pre := "${"
-	post := "}"
-	return interpolatable(pre + strings.Join(s, ".") + post)
-}
-
 // toCommaSeparatedID returns the provided string as an ast.CommaSeparatedID.
 func toCommaSeparatedID(s string) ast.CommaSeparatedID {
 	return ast.CommaSeparatedID{Name: *newIdentifier(s)}
