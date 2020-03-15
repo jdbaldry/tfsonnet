@@ -206,7 +206,7 @@ func (g Gen) addBlockType(of *ast.ObjectField, bt blockType) {
 	block := ast.ObjectField{
 		Kind: ast.ObjectFieldID,
 		Hide: ast.ObjectFieldHidden,
-		Id:   newIdentifier(bt.name),
+		Id:   newIdentifier(fieldName(bt.name)),
 		Expr2: &ast.Object{
 			Fields: []ast.ObjectField{
 				{
@@ -234,13 +234,13 @@ func (g Gen) addBlockType(of *ast.ObjectField, bt blockType) {
 		},
 	}
 	if bt.MinItems >= 1 {
-		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required, toCommaSeparatedID(bt.name))
-		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + bt.name + " (required)"}))
+		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required, toCommaSeparatedID(fieldName(bt.name)))
+		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + paramName(bt.name) + " (required)"}))
 		of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields, ast.ObjectField{
 			Kind:  ast.ObjectFieldID,
 			Hide:  ast.ObjectFieldInherit,
-			Id:    newIdentifier(bt.name),
-			Expr2: &ast.Var{Id: *newIdentifier(bt.name)},
+			Id:    newIdentifier(fieldName(bt.name)),
+			Expr2: &ast.Var{Id: *newIdentifier(paramName(bt.name))},
 		})
 	} else {
 		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional, toNamedParameter(paramName(bt.name)))
