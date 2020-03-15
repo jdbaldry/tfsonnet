@@ -113,7 +113,7 @@ parent_block_name:: {
   // @param rname (required)
   // @param optional_but_not_computed (optional)
   new(rname, optional_but_not_computed=null):: {},
-    [if optional_but_not_computed != null then optional_but_not_computed]: optional_but_not_computed,
+    [if optional_but_not_computed != null then 'optional_but_not_computed']: optional_but_not_computed,
   },
 }
 ```

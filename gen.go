@@ -195,7 +195,7 @@ func (g Gen) addAttribute(of *ast.ObjectField, a attribute) {
 		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional, toNamedParameter(paramName(a.name)))
 		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + paramName(a.name) + " (optional)"}))
 		aField.Kind = ast.ObjectFieldExpr
-		aField.Id = newIdentifier(fmt.Sprintf("if %s != null then %s", paramName(a.name), fieldName(a.name)))
+		aField.Id = newIdentifier(fmt.Sprintf("if %s != null then '%s'", paramName(a.name), a.name))
 		aField.Expr2 = &ast.Var{Id: *newIdentifier(paramName(a.name))}
 	}
 	of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields, aField)
@@ -248,7 +248,7 @@ func (g Gen) addBlockType(of *ast.ObjectField, bt blockType) {
 		of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields, ast.ObjectField{
 			Kind:  ast.ObjectFieldExpr,
 			Hide:  ast.ObjectFieldInherit,
-			Id:    newIdentifier(fmt.Sprintf("if %s != null then %s", paramName(bt.name), fieldName(bt.name))),
+			Id:    newIdentifier(fmt.Sprintf("if %s != null then '%s'", paramName(bt.name), bt.name)),
 			Expr2: &ast.Var{Id: *newIdentifier(paramName(bt.name))},
 		})
 	}
