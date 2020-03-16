@@ -50,12 +50,10 @@ local tf = import 'aws.libsonnet';
           name='test',
           role_arn=resource.aws_iam_role.eks.arn,
           vpc_config=eks_cluster.vpc_config.new(
-            rname='test',
             subnet_ids=['subnet-foobar'],
-          )
+          ),
         ) +
-        eks_cluster.with_version('1.15') +
-        {
+        eks_cluster.with_version('1.15') + {
           depends_on: [
             'aws_iam_role_policy_attachment.cluster_policy',
             'aws_iam_role_policy_attachment.service_policy',

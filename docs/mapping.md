@@ -136,11 +136,35 @@ parent_block_name:: {
     rname:: rname,
     optional_and_computed:: '${parent_block.%s.optional_and_computed}' % rname,
   },
+  with_optional_and_computed(optional_and_computed):: self + { optional_and_computed::: optional_and_computed },
 }
 ```
 
 > Note, the rname is a special parameter required by the `new` constructors in order to build a valid reference to the resulting Terraform computed value.
 
+### Computed
+
+Compute attributes cannot be assigned a value in the instantiation of a resource but can be used for the interpolation of values for other resources attributes. Commonly, the `id` computed attribute is used to refer to one resource from another.
+
+```json
+"computed": {
+  "type": "string",
+  "computed": true,
+  "description": "description of the attribute",
+}
+```
+
+becomes
+
+```
+parent_block_name:: {
+  new(rname):: {
+    rname:: rname,
+    computed:: '${parent_block.%s.computed}' % rname,
+  }
+}
+
 ## Jsonnet Reserved Words
 
 Jsonnet has a small number of special words that cannot be used as field or parameter identifiers. In the case that a provider attribute is equal to a Jsonnet reserved word, the function parameter is prefixed with an 'r' character. For example, the `aws_security_group_rule` optional attribute `self` becomes `rself` in the `aws_security_group_rule.new()` function parameters.
+```

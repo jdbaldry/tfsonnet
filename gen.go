@@ -178,25 +178,53 @@ func (g Gen) addAttribute(of *ast.ObjectField, a attribute) {
 		Expr2: &ast.Object{},
 	}
 
+	var interpolateRight *ast.Var
+	switch a.parent.(type) {
+	case *blockType:
+		interpolateRight = &ast.Var{Id: *newIdentifier("super.rname")}
+	default:
+		interpolateRight = &ast.Var{Id: *newIdentifier("rname")}
+	}
 	if a.Required {
 		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required, toCommaSeparatedID(paramName(a.name)))
 		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + paramName(a.name) + " (required)"}))
 		aField.Hide = ast.ObjectFieldInherit
 		aField.Expr2 = &ast.Var{Id: *newIdentifier(paramName(a.name))}
 	}
+
+	if a.Optional {
+		if a.Computed {
+			of.Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields, ast.ObjectField{
+				Kind: ast.ObjectFieldID,
+				Hide: ast.ObjectFieldHidden,
+				Id:   newIdentifier("with_" + paramName(a.name)),
+				Method: &ast.Function{
+					Parameters: ast.Parameters{Required: []ast.CommaSeparatedID{toCommaSeparatedID(paramName(a.name))}},
+				},
+				Expr2: &ast.Object{
+					Fields: []ast.ObjectField{{
+						Kind:  ast.ObjectFieldID,
+						Hide:  ast.ObjectFieldVisible,
+						Id:    newIdentifier(fieldName(a.name)),
+						Expr2: &ast.Var{Id: *newIdentifier(paramName(a.name))},
+					}},
+				},
+			})
+		} else {
+			of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional, toNamedParameter(paramName(a.name)))
+			of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + paramName(a.name) + " (optional)"}))
+			aField.Kind = ast.ObjectFieldExpr
+			aField.Id = newIdentifier(fmt.Sprintf("if %s != null then '%s'", paramName(a.name), a.name))
+			aField.Expr2 = &ast.Var{Id: *newIdentifier(paramName(a.name))}
+		}
+	}
+
 	if a.Computed {
 		aField.Expr2 = &ast.Binary{
 			Left:  &ast.LiteralString{Value: interpolatableID(a.Identify())},
 			Op:    ast.BopPercent,
-			Right: &ast.Var{Id: *newIdentifier("rname")},
+			Right: interpolateRight,
 		}
-	}
-	if a.Optional {
-		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional, toNamedParameter(paramName(a.name)))
-		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + paramName(a.name) + " (optional)"}))
-		aField.Kind = ast.ObjectFieldExpr
-		aField.Id = newIdentifier(fmt.Sprintf("if %s != null then '%s'", paramName(a.name), a.name))
-		aField.Expr2 = &ast.Var{Id: *newIdentifier(paramName(a.name))}
 	}
 	of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields, aField)
 }
@@ -213,22 +241,14 @@ func (g Gen) addBlockType(of *ast.ObjectField, bt blockType) {
 					Kind: ast.ObjectFieldID,
 					Id:   newIdentifier("new"),
 					Expr2: &ast.Object{
-						Fields: []ast.ObjectField{
-							{
-								Kind:  ast.ObjectFieldID,
-								Id:    newIdentifier("rname"),
-								Expr2: &ast.Var{Id: *newIdentifier("rname")},
-							},
-						},
+						Fields: []ast.ObjectField{},
 					},
 					Method: &ast.Function{
 						Parameters: ast.Parameters{
-							Required: []ast.CommaSeparatedID{toCommaSeparatedID("rname")},
+							Required: []ast.CommaSeparatedID{},
 						},
 					},
-					Fodder1: []ast.FodderElement{
-						ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."}),
-					},
+					Fodder1: []ast.FodderElement{},
 				},
 			},
 		},
@@ -243,13 +263,31 @@ func (g Gen) addBlockType(of *ast.ObjectField, bt blockType) {
 			Expr2: &ast.Var{Id: *newIdentifier(paramName(bt.name))},
 		})
 	} else {
-		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Optional, toNamedParameter(paramName(bt.name)))
-		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + paramName(bt.name) + " (optional)"}))
 		of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields, ast.ObjectField{
-			Kind:  ast.ObjectFieldExpr,
-			Hide:  ast.ObjectFieldInherit,
-			Id:    newIdentifier(fmt.Sprintf("if %s != null then '%s'", paramName(bt.name), bt.name)),
-			Expr2: &ast.Var{Id: *newIdentifier(paramName(bt.name))},
+			Kind:  ast.ObjectFieldID,
+			Hide:  ast.ObjectFieldHidden,
+			Id:    newIdentifier(fieldName(bt.name)),
+			Expr2: &ast.Object{},
+		})
+		of.Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields, ast.ObjectField{
+			Kind: ast.ObjectFieldID,
+			Hide: ast.ObjectFieldHidden,
+			Id:   newIdentifier("with_" + paramName(bt.name)),
+			Method: &ast.Function{
+				Parameters: ast.Parameters{Required: []ast.CommaSeparatedID{toCommaSeparatedID(paramName(bt.name))}},
+			},
+			Expr2: &ast.Binary{
+				Left: &ast.Self{},
+				Op:   ast.BopPlus,
+				Right: &ast.Object{
+					Fields: []ast.ObjectField{{
+						Kind:  ast.ObjectFieldID,
+						Hide:  ast.ObjectFieldInherit,
+						Id:    newIdentifier(fieldName(bt.name)),
+						Expr2: &ast.Var{Id: *newIdentifier(paramName(bt.name))},
+					}},
+				},
+			},
 		})
 	}
 	as := attributeMapToSlice(bt.Block.Attributes)
