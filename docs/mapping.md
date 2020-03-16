@@ -1,27 +1,10 @@
 # Mapping to Jsonnet
 
-## Block
+## ResourceSchema
 
-Blocks represent both resource blocks and nested blocks. The structure and marshaled JSON is also defined in github.com/hashicorp/terraform/command/jsonprovider. A block contains a map of attribute names to the attribute definitions and also map of block type names to block types. Block types contain blocks which may contain block types.
+ResourceSchema define the core configuration blocks in HCL.
 
-```go
-type block struct {
-	Attributes      map[string]attribute `json:"attributes,omitempty"`
-	BlockTypes      map[string]blockType `json:"block_types,omitempty"`
-	Description     string               `json:"description,omitempty"`
-	DescriptionKind string               `json:"description_kind,omitempty"`
-	Deprecated      bool                 `json:"deprecated,omitempty"`
-}
-
-type blockType struct {
-	NestingMode string `json:"nesting_mode,omitempty"`
-	Block       *block `json:"block,omitempty"`
-	MinItems    uint64 `json:"min_items,omitempty"`
-	MaxItems    uint64 `json:"max_items,omitempty"`
-}
-```
-
-The block JSON
+The resource schema JSON
 
 ```json
 "aws_ami": {
@@ -41,9 +24,30 @@ becomes
 
 ```jsonnet
 aws_ami:: {
-  new(rname, <required attributes>, <optional_attributes>):: {
+  new(<required attributes>, <optional_attributes>):: {
     <attributes>
   }
+}
+```
+
+## Block
+
+Blocks are configuration blocks inside a resource instance. The structure and marshaled JSON is also defined in github.com/hashicorp/terraform/command/jsonprovider. A block contains a map of attribute names to the attribute definitions and also map of block type names to block types. Block types contain blocks which may contain block types.
+
+```go
+type block struct {
+	Attributes      map[string]attribute `json:"attributes,omitempty"`
+	BlockTypes      map[string]blockType `json:"block_types,omitempty"`
+	Description     string               `json:"description,omitempty"`
+	DescriptionKind string               `json:"description_kind,omitempty"`
+	Deprecated      bool                 `json:"deprecated,omitempty"`
+}
+
+type blockType struct {
+	NestingMode string `json:"nesting_mode,omitempty"`
+	Block       *block `json:"block,omitempty"`
+	MinItems    uint64 `json:"min_items,omitempty"`
+	MaxItems    uint64 `json:"max_items,omitempty"`
 }
 ```
 
@@ -82,7 +86,6 @@ becomes
 
 ```jsonnet
 parent_block_name:: {
-  // @param rname (required)
   // @param required_attribute (required)
   new(required_attribute):: {
     required_attribute: required_attribute,
@@ -110,9 +113,8 @@ becomes
 
 ```jsonnet
 parent_block_name:: {
-  // @param rname (required)
   // @param optional_but_not_computed (optional)
-  new(rname, optional_but_not_computed=null):: {},
+  new(optional_but_not_computed=null):: {},
     [if optional_but_not_computed != null then 'optional_but_not_computed']: optional_but_not_computed,
   },
 }
@@ -132,8 +134,7 @@ becomes
 
 ```jsonnet
 parent_block_name:: {
-  new(rname):: {
-    rname:: rname,
+  new():: {
     optional_and_computed:: '${parent_block.%s.optional_and_computed}' % rname,
   },
   with_optional_and_computed(optional_and_computed):: self + { optional_and_computed::: optional_and_computed },
@@ -158,8 +159,7 @@ becomes
 
 ```
 parent_block_name:: {
-  new(rname):: {
-    rname:: rname,
+  new():: {
     computed:: '${parent_block.%s.computed}' % rname,
   }
 }
