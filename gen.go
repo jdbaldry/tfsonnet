@@ -139,7 +139,7 @@ func (g Gen) addResource(o *ast.Object, r resourceSchema) {
 						},
 					},
 					Fodder1: []ast.FodderElement{
-						ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437)."}),
+						ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param rname (required) Workaround to build terraform interpolatable strings for attribute references."}),
 					},
 				},
 			},
@@ -178,13 +178,6 @@ func (g Gen) addAttribute(of *ast.ObjectField, a attribute) {
 		Expr2: &ast.Object{},
 	}
 
-	var interpolateRight *ast.Var
-	switch a.parent.(type) {
-	case *blockType:
-		interpolateRight = &ast.Var{Id: *newIdentifier("super.rname")}
-	default:
-		interpolateRight = &ast.Var{Id: *newIdentifier("rname")}
-	}
 	if a.Required {
 		of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required = append(of.Expr2.(*ast.Object).Fields[0].Method.Parameters.Required, toCommaSeparatedID(paramName(a.name)))
 		of.Expr2.(*ast.Object).Fields[0].Fodder1 = append(of.Expr2.(*ast.Object).Fields[0].Fodder1, ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param " + paramName(a.name) + " (required)"}))
@@ -223,7 +216,7 @@ func (g Gen) addAttribute(of *ast.ObjectField, a attribute) {
 		aField.Expr2 = &ast.Binary{
 			Left:  &ast.LiteralString{Value: interpolatableID(a.Identify())},
 			Op:    ast.BopPercent,
-			Right: interpolateRight,
+			Right: &ast.Var{Id: *newIdentifier("rname")},
 		}
 	}
 	of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields = append(of.Expr2.(*ast.Object).Fields[0].Expr2.(*ast.Object).Fields, aField)
@@ -241,14 +234,22 @@ func (g Gen) addBlockType(of *ast.ObjectField, bt blockType) {
 					Kind: ast.ObjectFieldID,
 					Id:   newIdentifier("new"),
 					Expr2: &ast.Object{
-						Fields: []ast.ObjectField{},
+						Fields: []ast.ObjectField{
+							{
+								Kind:  ast.ObjectFieldID,
+								Id:    newIdentifier("rname"),
+								Expr2: &ast.Var{Id: *newIdentifier("rname")},
+							},
+						},
 					},
 					Method: &ast.Function{
 						Parameters: ast.Parameters{
-							Required: []ast.CommaSeparatedID{},
+							Required: []ast.CommaSeparatedID{toCommaSeparatedID("rname")},
 						},
 					},
-					Fodder1: []ast.FodderElement{},
+					Fodder1: []ast.FodderElement{
+						ast.MakeFodderElement(ast.FodderParagraph, 0, 0, []string{"@param rname (required) Workaround to build terraform interpolatable strings for attribute references."}),
+					},
 				},
 			},
 		},

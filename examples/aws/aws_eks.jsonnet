@@ -50,6 +50,7 @@ local tf = import 'aws.libsonnet';
           name='test',
           role_arn=resource.aws_iam_role.eks.arn,
           vpc_config=eks_cluster.vpc_config.new(
+            rname='test',
             subnet_ids=['subnet-foobar'],
           ),
         ) +
@@ -60,5 +61,6 @@ local tf = import 'aws.libsonnet';
           ],
         },
     },
+    bloop: resource.aws_eks_cluster.test.vpc_config.cluster_security_group_id,
   },
 }

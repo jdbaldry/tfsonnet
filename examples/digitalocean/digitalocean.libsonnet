@@ -2,7 +2,7 @@
   digitalocean:: {
     // digitalocean_cdn - https://www.terraform.io/docs/providers/do/r/cdn.html
     digitalocean_cdn:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param origin (required)
       // @param certificate_id (optional)
       // @param custom_domain (optional)
@@ -25,7 +25,7 @@
     },
     // digitalocean_certificate - https://www.terraform.io/docs/providers/do/r/certificate.html
     digitalocean_certificate:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param certificate_chain (optional)
       // @param domains (optional)
@@ -51,7 +51,7 @@
     },
     // digitalocean_database_cluster - https://www.terraform.io/docs/providers/do/r/database_cluster.html
     digitalocean_database_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param engine (required)
       // @param name (required)
       // @param node_count (required)
@@ -91,9 +91,11 @@
         maintenance_window: maintenance_window,
       },
       maintenance_window:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param day (required)
         // @param hour (required)
-        new(day, hour):: {
+        new(rname, day, hour):: {
+          rname:: rname,
           day: day,
           hour: hour,
         },
@@ -101,7 +103,7 @@
     },
     // digitalocean_database_connection_pool - https://www.terraform.io/docs/providers/do/r/database_connection_pool.html
     digitalocean_database_connection_pool:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_id (required)
       // @param db_name (required)
       // @param mode (required)
@@ -130,7 +132,7 @@
     },
     // digitalocean_database_db - https://www.terraform.io/docs/providers/do/r/database_db.html
     digitalocean_database_db:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_id (required)
       // @param name (required)
       new(rname, cluster_id, name):: {
@@ -145,7 +147,7 @@
     },
     // digitalocean_database_firewall - https://www.terraform.io/docs/providers/do/r/database_firewall.html
     digitalocean_database_firewall:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_id (required)
       // @param rule (required)
       new(rname, cluster_id, rule):: {
@@ -158,19 +160,21 @@
         id::: id,
       },
       rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param value (required)
-        new(type, value):: {
+        new(rname, type, value):: {
+          rname:: rname,
           type: type,
           value: value,
-          created_at:: '${digitalocean_database_firewall.%s.rule.created_at}' % super.rname,
-          uuid:: '${digitalocean_database_firewall.%s.rule.uuid}' % super.rname,
+          created_at:: '${digitalocean_database_firewall.%s.rule.created_at}' % rname,
+          uuid:: '${digitalocean_database_firewall.%s.rule.uuid}' % rname,
         },
       },
     },
     // digitalocean_database_replica - https://www.terraform.io/docs/providers/do/r/database_replica.html
     digitalocean_database_replica:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_id (required)
       // @param name (required)
       // @param region (optional)
@@ -199,7 +203,7 @@
     },
     // digitalocean_database_user - https://www.terraform.io/docs/providers/do/r/database_user.html
     digitalocean_database_user:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_id (required)
       // @param name (required)
       new(rname, cluster_id, name):: {
@@ -216,7 +220,7 @@
     },
     // digitalocean_domain - https://www.terraform.io/docs/providers/do/r/domain.html
     digitalocean_domain:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param ip_address (optional)
       new(rname, name, ip_address=null):: {
@@ -232,7 +236,7 @@
     },
     // digitalocean_droplet - https://www.terraform.io/docs/providers/do/r/droplet.html
     digitalocean_droplet:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param image (required)
       // @param name (required)
       // @param region (required)
@@ -284,7 +288,7 @@
     },
     // digitalocean_droplet_snapshot - https://www.terraform.io/docs/providers/do/r/droplet_snapshot.html
     digitalocean_droplet_snapshot:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param droplet_id (required)
       // @param name (required)
       new(rname, droplet_id, name):: {
@@ -303,7 +307,7 @@
     },
     // digitalocean_firewall - https://www.terraform.io/docs/providers/do/r/firewall.html
     digitalocean_firewall:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param droplet_ids (optional)
       // @param tags (optional)
@@ -326,13 +330,15 @@
         inbound_rule: inbound_rule,
       },
       inbound_rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param protocol (required)
         // @param port_range (optional)
         // @param source_addresses (optional)
         // @param source_droplet_ids (optional)
         // @param source_load_balancer_uids (optional)
         // @param source_tags (optional)
-        new(protocol, port_range=null, source_addresses=null, source_droplet_ids=null, source_load_balancer_uids=null, source_tags=null):: {
+        new(rname, protocol, port_range=null, source_addresses=null, source_droplet_ids=null, source_load_balancer_uids=null, source_tags=null):: {
+          rname:: rname,
           protocol: protocol,
           [if port_range != null then 'port_range']: port_range,
           [if source_addresses != null then 'source_addresses']: source_addresses,
@@ -345,13 +351,15 @@
         outbound_rule: outbound_rule,
       },
       outbound_rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param protocol (required)
         // @param destination_addresses (optional)
         // @param destination_droplet_ids (optional)
         // @param destination_load_balancer_uids (optional)
         // @param destination_tags (optional)
         // @param port_range (optional)
-        new(protocol, destination_addresses=null, destination_droplet_ids=null, destination_load_balancer_uids=null, destination_tags=null, port_range=null):: {
+        new(rname, protocol, destination_addresses=null, destination_droplet_ids=null, destination_load_balancer_uids=null, destination_tags=null, port_range=null):: {
+          rname:: rname,
           protocol: protocol,
           [if destination_addresses != null then 'destination_addresses']: destination_addresses,
           [if destination_droplet_ids != null then 'destination_droplet_ids']: destination_droplet_ids,
@@ -363,7 +371,7 @@
     },
     // digitalocean_floating_ip - https://www.terraform.io/docs/providers/do/r/floating_ip.html
     digitalocean_floating_ip:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param region (required)
       // @param droplet_id (optional)
       new(rname, region, droplet_id=null):: {
@@ -383,7 +391,7 @@
     },
     // digitalocean_floating_ip_assignment - https://www.terraform.io/docs/providers/do/r/floating_ip_assignment.html
     digitalocean_floating_ip_assignment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param droplet_id (required)
       // @param ip_address (required)
       new(rname, droplet_id, ip_address):: {
@@ -398,7 +406,7 @@
     },
     // digitalocean_kubernetes_cluster - https://www.terraform.io/docs/providers/do/r/kubernetes_cluster.html
     digitalocean_kubernetes_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param region (required)
       // @param version (required)
@@ -425,6 +433,7 @@
         id::: id,
       },
       node_pool:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param size (required)
         // @param auto_scale (optional)
@@ -432,7 +441,8 @@
         // @param min_nodes (optional)
         // @param node_count (optional)
         // @param tags (optional)
-        new(name, size, auto_scale=null, max_nodes=null, min_nodes=null, node_count=null, tags=null):: {
+        new(rname, name, size, auto_scale=null, max_nodes=null, min_nodes=null, node_count=null, tags=null):: {
+          rname:: rname,
           name: name,
           size: size,
           [if auto_scale != null then 'auto_scale']: auto_scale,
@@ -440,15 +450,15 @@
           [if min_nodes != null then 'min_nodes']: min_nodes,
           [if node_count != null then 'node_count']: node_count,
           [if tags != null then 'tags']: tags,
-          actual_node_count:: '${digitalocean_kubernetes_cluster.%s.node_pool.actual_node_count}' % super.rname,
-          id:: '${digitalocean_kubernetes_cluster.%s.node_pool.id}' % super.rname,
-          nodes:: '${digitalocean_kubernetes_cluster.%s.node_pool.nodes}' % super.rname,
+          actual_node_count:: '${digitalocean_kubernetes_cluster.%s.node_pool.actual_node_count}' % rname,
+          id:: '${digitalocean_kubernetes_cluster.%s.node_pool.id}' % rname,
+          nodes:: '${digitalocean_kubernetes_cluster.%s.node_pool.nodes}' % rname,
         },
       },
     },
     // digitalocean_kubernetes_node_pool - https://www.terraform.io/docs/providers/do/r/kubernetes_node_pool.html
     digitalocean_kubernetes_node_pool:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_id (required)
       // @param name (required)
       // @param size (required)
@@ -477,7 +487,7 @@
     },
     // digitalocean_loadbalancer - https://www.terraform.io/docs/providers/do/r/loadbalancer.html
     digitalocean_loadbalancer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param region (required)
       // @param algorithm (optional)
@@ -509,13 +519,15 @@
         id::: id,
       },
       forwarding_rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param entry_port (required)
         // @param entry_protocol (required)
         // @param target_port (required)
         // @param target_protocol (required)
         // @param certificate_id (optional)
         // @param tls_passthrough (optional)
-        new(entry_port, entry_protocol, target_port, target_protocol, certificate_id=null, tls_passthrough=null):: {
+        new(rname, entry_port, entry_protocol, target_port, target_protocol, certificate_id=null, tls_passthrough=null):: {
+          rname:: rname,
           entry_port: entry_port,
           entry_protocol: entry_protocol,
           target_port: target_port,
@@ -528,6 +540,7 @@
         healthcheck: healthcheck,
       },
       healthcheck:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param port (required)
         // @param protocol (required)
         // @param check_interval_seconds (optional)
@@ -535,7 +548,8 @@
         // @param path (optional)
         // @param response_timeout_seconds (optional)
         // @param unhealthy_threshold (optional)
-        new(port, protocol, check_interval_seconds=null, healthy_threshold=null, path=null, response_timeout_seconds=null, unhealthy_threshold=null):: {
+        new(rname, port, protocol, check_interval_seconds=null, healthy_threshold=null, path=null, response_timeout_seconds=null, unhealthy_threshold=null):: {
+          rname:: rname,
           port: port,
           protocol: protocol,
           [if check_interval_seconds != null then 'check_interval_seconds']: check_interval_seconds,
@@ -549,10 +563,12 @@
         sticky_sessions: sticky_sessions,
       },
       sticky_sessions:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cookie_name (optional)
         // @param cookie_ttl_seconds (optional)
         // @param type (optional)
-        new(cookie_name=null, cookie_ttl_seconds=null, type=null):: {
+        new(rname, cookie_name=null, cookie_ttl_seconds=null, type=null):: {
+          rname:: rname,
           [if cookie_name != null then 'cookie_name']: cookie_name,
           [if cookie_ttl_seconds != null then 'cookie_ttl_seconds']: cookie_ttl_seconds,
           [if type != null then 'type']: type,
@@ -561,7 +577,7 @@
     },
     // digitalocean_project - https://www.terraform.io/docs/providers/do/r/project.html
     digitalocean_project:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param environment (optional)
@@ -586,7 +602,7 @@
     },
     // digitalocean_record - https://www.terraform.io/docs/providers/do/r/record.html
     digitalocean_record:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain (required)
       // @param name (required)
       // @param type (required)
@@ -620,7 +636,7 @@
     },
     // digitalocean_spaces_bucket - https://www.terraform.io/docs/providers/do/r/spaces_bucket.html
     digitalocean_spaces_bucket:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param acl (optional)
       // @param force_destroy (optional)
@@ -643,11 +659,13 @@
         cors_rule: cors_rule,
       },
       cors_rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allowed_methods (required)
         // @param allowed_origins (required)
         // @param allowed_headers (optional)
         // @param max_age_seconds (optional)
-        new(allowed_methods, allowed_origins, allowed_headers=null, max_age_seconds=null):: {
+        new(rname, allowed_methods, allowed_origins, allowed_headers=null, max_age_seconds=null):: {
+          rname:: rname,
           allowed_methods: allowed_methods,
           allowed_origins: allowed_origins,
           [if allowed_headers != null then 'allowed_headers']: allowed_headers,
@@ -657,7 +675,7 @@
     },
     // digitalocean_ssh_key - https://www.terraform.io/docs/providers/do/r/ssh_key.html
     digitalocean_ssh_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param public_key (required)
       new(rname, name, public_key):: {
@@ -673,7 +691,7 @@
     },
     // digitalocean_tag - https://www.terraform.io/docs/providers/do/r/tag.html
     digitalocean_tag:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -686,7 +704,7 @@
     },
     // digitalocean_volume - https://www.terraform.io/docs/providers/do/r/volume.html
     digitalocean_volume:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param region (required)
       // @param size (required)
@@ -720,7 +738,7 @@
     },
     // digitalocean_volume_attachment - https://www.terraform.io/docs/providers/do/r/volume_attachment.html
     digitalocean_volume_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param droplet_id (required)
       // @param volume_id (required)
       new(rname, droplet_id, volume_id):: {
@@ -735,7 +753,7 @@
     },
     // digitalocean_volume_snapshot - https://www.terraform.io/docs/providers/do/r/volume_snapshot.html
     digitalocean_volume_snapshot:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param volume_id (required)
       // @param tags (optional)

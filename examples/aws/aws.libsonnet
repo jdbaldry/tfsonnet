@@ -2,7 +2,7 @@
   aws:: {
     // aws_accessanalyzer_analyzer - https://www.terraform.io/docs/providers/aws/r/accessanalyzer_analyzer.html
     aws_accessanalyzer_analyzer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param analyzer_name (required)
       // @param tags (optional)
       // @param type (optional)
@@ -20,7 +20,7 @@
     },
     // aws_acm_certificate - https://www.terraform.io/docs/providers/aws/r/acm_certificate.html
     aws_acm_certificate:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param certificate_authority_arn (optional)
       // @param certificate_body (optional)
       // @param certificate_chain (optional)
@@ -58,15 +58,17 @@
         options: options,
       },
       options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param certificate_transparency_logging_preference (optional)
-        new(certificate_transparency_logging_preference=null):: {
+        new(rname, certificate_transparency_logging_preference=null):: {
+          rname:: rname,
           [if certificate_transparency_logging_preference != null then 'certificate_transparency_logging_preference']: certificate_transparency_logging_preference,
         },
       },
     },
     // aws_acm_certificate_validation - https://www.terraform.io/docs/providers/aws/r/acm_certificate_validation.html
     aws_acm_certificate_validation:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param certificate_arn (required)
       // @param validation_record_fqdns (optional)
       new(rname, certificate_arn, validation_record_fqdns=null):: {
@@ -83,15 +85,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
     },
     // aws_acmpca_certificate_authority - https://www.terraform.io/docs/providers/aws/r/acmpca_certificate_authority.html
     aws_acmpca_certificate_authority:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param enabled (optional)
       // @param permanent_deletion_time_in_days (optional)
       // @param tags (optional)
@@ -120,15 +124,18 @@
         id::: id,
       },
       certificate_authority_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key_algorithm (required)
         // @param signing_algorithm (required)
         // @param subject (required)
-        new(key_algorithm, signing_algorithm, subject):: {
+        new(rname, key_algorithm, signing_algorithm, subject):: {
+          rname:: rname,
           key_algorithm: key_algorithm,
           signing_algorithm: signing_algorithm,
           subject: subject,
         },
         subject:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param common_name (optional)
           // @param country (optional)
           // @param distinguished_name_qualifier (optional)
@@ -142,7 +149,8 @@
           // @param state (optional)
           // @param surname (optional)
           // @param title (optional)
-          new(common_name=null, country=null, distinguished_name_qualifier=null, generation_qualifier=null, given_name=null, initials=null, locality=null, organization=null, organizational_unit=null, pseudonym=null, state=null, surname=null, title=null):: {
+          new(rname, common_name=null, country=null, distinguished_name_qualifier=null, generation_qualifier=null, given_name=null, initials=null, locality=null, organization=null, organizational_unit=null, pseudonym=null, state=null, surname=null, title=null):: {
+            rname:: rname,
             [if common_name != null then 'common_name']: common_name,
             [if country != null then 'country']: country,
             [if distinguished_name_qualifier != null then 'distinguished_name_qualifier']: distinguished_name_qualifier,
@@ -163,18 +171,22 @@
         revocation_configuration: revocation_configuration,
       },
       revocation_configuration:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           crl_configuration:: {},
         },
         with_crl_configuration(crl_configuration):: self + {
           crl_configuration: crl_configuration,
         },
         crl_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param expiration_in_days (required)
           // @param custom_cname (optional)
           // @param enabled (optional)
           // @param s3_bucket_name (optional)
-          new(expiration_in_days, custom_cname=null, enabled=null, s3_bucket_name=null):: {
+          new(rname, expiration_in_days, custom_cname=null, enabled=null, s3_bucket_name=null):: {
+            rname:: rname,
             expiration_in_days: expiration_in_days,
             [if custom_cname != null then 'custom_cname']: custom_cname,
             [if enabled != null then 'enabled']: enabled,
@@ -186,15 +198,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
     },
     // aws_alb - https://www.terraform.io/docs/providers/aws/r/alb.html
     aws_alb:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param enable_cross_zone_load_balancing (optional)
       // @param enable_deletion_protection (optional)
       // @param enable_http2 (optional)
@@ -248,10 +262,12 @@
         access_logs: access_logs,
       },
       access_logs:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket (required)
         // @param enabled (optional)
         // @param prefix (optional)
-        new(bucket, enabled=null, prefix=null):: {
+        new(rname, bucket, enabled=null, prefix=null):: {
+          rname:: rname,
           bucket: bucket,
           [if enabled != null then 'enabled']: enabled,
           [if prefix != null then 'prefix']: prefix,
@@ -261,9 +277,11 @@
         subnet_mapping: subnet_mapping,
       },
       subnet_mapping:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param subnet_id (required)
         // @param allocation_id (optional)
-        new(subnet_id, allocation_id=null):: {
+        new(rname, subnet_id, allocation_id=null):: {
+          rname:: rname,
           subnet_id: subnet_id,
           [if allocation_id != null then 'allocation_id']: allocation_id,
         },
@@ -272,10 +290,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -284,7 +304,7 @@
     },
     // aws_alb_listener - https://www.terraform.io/docs/providers/aws/r/alb_listener.html
     aws_alb_listener:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param load_balancer_arn (required)
       // @param port (required)
       // @param certificate_arn (optional)
@@ -309,12 +329,14 @@
         ssl_policy::: ssl_policy,
       },
       default_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param target_group_arn (optional)
-        new(type, target_group_arn=null):: {
+        new(rname, type, target_group_arn=null):: {
+          rname:: rname,
           type: type,
           [if target_group_arn != null then 'target_group_arn']: target_group_arn,
-          order:: '${aws_alb_listener.%s.default_action.order}' % super.rname,
+          order:: '${aws_alb_listener.%s.default_action.order}' % rname,
           authenticate_cognito:: {},
           authenticate_oidc:: {},
           fixed_response:: {},
@@ -327,19 +349,21 @@
           authenticate_cognito: authenticate_cognito,
         },
         authenticate_cognito:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param user_pool_arn (required)
           // @param user_pool_client_id (required)
           // @param user_pool_domain (required)
           // @param authentication_request_extra_params (optional)
-          new(user_pool_arn, user_pool_client_id, user_pool_domain, authentication_request_extra_params=null):: {
+          new(rname, user_pool_arn, user_pool_client_id, user_pool_domain, authentication_request_extra_params=null):: {
+            rname:: rname,
             user_pool_arn: user_pool_arn,
             user_pool_client_id: user_pool_client_id,
             user_pool_domain: user_pool_domain,
             [if authentication_request_extra_params != null then 'authentication_request_extra_params']: authentication_request_extra_params,
-            on_unauthenticated_request:: '${aws_alb_listener.%s.default_action.authenticate_cognito.on_unauthenticated_request}' % super.rname,
-            scope:: '${aws_alb_listener.%s.default_action.authenticate_cognito.scope}' % super.rname,
-            session_cookie_name:: '${aws_alb_listener.%s.default_action.authenticate_cognito.session_cookie_name}' % super.rname,
-            session_timeout:: '${aws_alb_listener.%s.default_action.authenticate_cognito.session_timeout}' % super.rname,
+            on_unauthenticated_request:: '${aws_alb_listener.%s.default_action.authenticate_cognito.on_unauthenticated_request}' % rname,
+            scope:: '${aws_alb_listener.%s.default_action.authenticate_cognito.scope}' % rname,
+            session_cookie_name:: '${aws_alb_listener.%s.default_action.authenticate_cognito.session_cookie_name}' % rname,
+            session_timeout:: '${aws_alb_listener.%s.default_action.authenticate_cognito.session_timeout}' % rname,
           },
           with_on_unauthenticated_request(on_unauthenticated_request):: {
             on_unauthenticated_request::: on_unauthenticated_request,
@@ -358,6 +382,7 @@
           authenticate_oidc: authenticate_oidc,
         },
         authenticate_oidc:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param authorization_endpoint (required)
           // @param client_id (required)
           // @param client_secret (required)
@@ -365,7 +390,8 @@
           // @param token_endpoint (required)
           // @param user_info_endpoint (required)
           // @param authentication_request_extra_params (optional)
-          new(authorization_endpoint, client_id, client_secret, issuer, token_endpoint, user_info_endpoint, authentication_request_extra_params=null):: {
+          new(rname, authorization_endpoint, client_id, client_secret, issuer, token_endpoint, user_info_endpoint, authentication_request_extra_params=null):: {
+            rname:: rname,
             authorization_endpoint: authorization_endpoint,
             client_id: client_id,
             client_secret: client_secret,
@@ -373,10 +399,10 @@
             token_endpoint: token_endpoint,
             user_info_endpoint: user_info_endpoint,
             [if authentication_request_extra_params != null then 'authentication_request_extra_params']: authentication_request_extra_params,
-            on_unauthenticated_request:: '${aws_alb_listener.%s.default_action.authenticate_oidc.on_unauthenticated_request}' % super.rname,
-            scope:: '${aws_alb_listener.%s.default_action.authenticate_oidc.scope}' % super.rname,
-            session_cookie_name:: '${aws_alb_listener.%s.default_action.authenticate_oidc.session_cookie_name}' % super.rname,
-            session_timeout:: '${aws_alb_listener.%s.default_action.authenticate_oidc.session_timeout}' % super.rname,
+            on_unauthenticated_request:: '${aws_alb_listener.%s.default_action.authenticate_oidc.on_unauthenticated_request}' % rname,
+            scope:: '${aws_alb_listener.%s.default_action.authenticate_oidc.scope}' % rname,
+            session_cookie_name:: '${aws_alb_listener.%s.default_action.authenticate_oidc.session_cookie_name}' % rname,
+            session_timeout:: '${aws_alb_listener.%s.default_action.authenticate_oidc.session_timeout}' % rname,
           },
           with_on_unauthenticated_request(on_unauthenticated_request):: {
             on_unauthenticated_request::: on_unauthenticated_request,
@@ -395,12 +421,14 @@
           fixed_response: fixed_response,
         },
         fixed_response:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param content_type (required)
           // @param message_body (optional)
-          new(content_type, message_body=null):: {
+          new(rname, content_type, message_body=null):: {
+            rname:: rname,
             content_type: content_type,
             [if message_body != null then 'message_body']: message_body,
-            status_code:: '${aws_alb_listener.%s.default_action.fixed_response.status_code}' % super.rname,
+            status_code:: '${aws_alb_listener.%s.default_action.fixed_response.status_code}' % rname,
           },
           with_status_code(status_code):: {
             status_code::: status_code,
@@ -410,13 +438,15 @@
           redirect: redirect,
         },
         redirect:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param status_code (required)
           // @param host (optional)
           // @param path (optional)
           // @param port (optional)
           // @param protocol (optional)
           // @param query (optional)
-          new(status_code, host=null, path=null, port=null, protocol=null, query=null):: {
+          new(rname, status_code, host=null, path=null, port=null, protocol=null, query=null):: {
+            rname:: rname,
             status_code: status_code,
             [if host != null then 'host']: host,
             [if path != null then 'path']: path,
@@ -430,15 +460,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param read (optional)
-        new(read=null):: {
+        new(rname, read=null):: {
+          rname:: rname,
           [if read != null then 'read']: read,
         },
       },
     },
     // aws_alb_listener_certificate - https://www.terraform.io/docs/providers/aws/r/alb_listener_certificate.html
     aws_alb_listener_certificate:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param certificate_arn (required)
       // @param listener_arn (required)
       new(rname, certificate_arn, listener_arn):: {
@@ -453,7 +485,7 @@
     },
     // aws_alb_listener_rule - https://www.terraform.io/docs/providers/aws/r/alb_listener_rule.html
     aws_alb_listener_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param listener_arn (required)
       // @param action (required)
       // @param condition (required)
@@ -473,12 +505,14 @@
         priority::: priority,
       },
       action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param target_group_arn (optional)
-        new(type, target_group_arn=null):: {
+        new(rname, type, target_group_arn=null):: {
+          rname:: rname,
           type: type,
           [if target_group_arn != null then 'target_group_arn']: target_group_arn,
-          order:: '${aws_alb_listener_rule.%s.action.order}' % super.rname,
+          order:: '${aws_alb_listener_rule.%s.action.order}' % rname,
           authenticate_cognito:: {},
           authenticate_oidc:: {},
           fixed_response:: {},
@@ -491,19 +525,21 @@
           authenticate_cognito: authenticate_cognito,
         },
         authenticate_cognito:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param user_pool_arn (required)
           // @param user_pool_client_id (required)
           // @param user_pool_domain (required)
           // @param authentication_request_extra_params (optional)
-          new(user_pool_arn, user_pool_client_id, user_pool_domain, authentication_request_extra_params=null):: {
+          new(rname, user_pool_arn, user_pool_client_id, user_pool_domain, authentication_request_extra_params=null):: {
+            rname:: rname,
             user_pool_arn: user_pool_arn,
             user_pool_client_id: user_pool_client_id,
             user_pool_domain: user_pool_domain,
             [if authentication_request_extra_params != null then 'authentication_request_extra_params']: authentication_request_extra_params,
-            on_unauthenticated_request:: '${aws_alb_listener_rule.%s.action.authenticate_cognito.on_unauthenticated_request}' % super.rname,
-            scope:: '${aws_alb_listener_rule.%s.action.authenticate_cognito.scope}' % super.rname,
-            session_cookie_name:: '${aws_alb_listener_rule.%s.action.authenticate_cognito.session_cookie_name}' % super.rname,
-            session_timeout:: '${aws_alb_listener_rule.%s.action.authenticate_cognito.session_timeout}' % super.rname,
+            on_unauthenticated_request:: '${aws_alb_listener_rule.%s.action.authenticate_cognito.on_unauthenticated_request}' % rname,
+            scope:: '${aws_alb_listener_rule.%s.action.authenticate_cognito.scope}' % rname,
+            session_cookie_name:: '${aws_alb_listener_rule.%s.action.authenticate_cognito.session_cookie_name}' % rname,
+            session_timeout:: '${aws_alb_listener_rule.%s.action.authenticate_cognito.session_timeout}' % rname,
           },
           with_on_unauthenticated_request(on_unauthenticated_request):: {
             on_unauthenticated_request::: on_unauthenticated_request,
@@ -522,6 +558,7 @@
           authenticate_oidc: authenticate_oidc,
         },
         authenticate_oidc:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param authorization_endpoint (required)
           // @param client_id (required)
           // @param client_secret (required)
@@ -529,7 +566,8 @@
           // @param token_endpoint (required)
           // @param user_info_endpoint (required)
           // @param authentication_request_extra_params (optional)
-          new(authorization_endpoint, client_id, client_secret, issuer, token_endpoint, user_info_endpoint, authentication_request_extra_params=null):: {
+          new(rname, authorization_endpoint, client_id, client_secret, issuer, token_endpoint, user_info_endpoint, authentication_request_extra_params=null):: {
+            rname:: rname,
             authorization_endpoint: authorization_endpoint,
             client_id: client_id,
             client_secret: client_secret,
@@ -537,10 +575,10 @@
             token_endpoint: token_endpoint,
             user_info_endpoint: user_info_endpoint,
             [if authentication_request_extra_params != null then 'authentication_request_extra_params']: authentication_request_extra_params,
-            on_unauthenticated_request:: '${aws_alb_listener_rule.%s.action.authenticate_oidc.on_unauthenticated_request}' % super.rname,
-            scope:: '${aws_alb_listener_rule.%s.action.authenticate_oidc.scope}' % super.rname,
-            session_cookie_name:: '${aws_alb_listener_rule.%s.action.authenticate_oidc.session_cookie_name}' % super.rname,
-            session_timeout:: '${aws_alb_listener_rule.%s.action.authenticate_oidc.session_timeout}' % super.rname,
+            on_unauthenticated_request:: '${aws_alb_listener_rule.%s.action.authenticate_oidc.on_unauthenticated_request}' % rname,
+            scope:: '${aws_alb_listener_rule.%s.action.authenticate_oidc.scope}' % rname,
+            session_cookie_name:: '${aws_alb_listener_rule.%s.action.authenticate_oidc.session_cookie_name}' % rname,
+            session_timeout:: '${aws_alb_listener_rule.%s.action.authenticate_oidc.session_timeout}' % rname,
           },
           with_on_unauthenticated_request(on_unauthenticated_request):: {
             on_unauthenticated_request::: on_unauthenticated_request,
@@ -559,12 +597,14 @@
           fixed_response: fixed_response,
         },
         fixed_response:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param content_type (required)
           // @param message_body (optional)
-          new(content_type, message_body=null):: {
+          new(rname, content_type, message_body=null):: {
+            rname:: rname,
             content_type: content_type,
             [if message_body != null then 'message_body']: message_body,
-            status_code:: '${aws_alb_listener_rule.%s.action.fixed_response.status_code}' % super.rname,
+            status_code:: '${aws_alb_listener_rule.%s.action.fixed_response.status_code}' % rname,
           },
           with_status_code(status_code):: {
             status_code::: status_code,
@@ -574,13 +614,15 @@
           redirect: redirect,
         },
         redirect:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param status_code (required)
           // @param host (optional)
           // @param path (optional)
           // @param port (optional)
           // @param protocol (optional)
           // @param query (optional)
-          new(status_code, host=null, path=null, port=null, protocol=null, query=null):: {
+          new(rname, status_code, host=null, path=null, port=null, protocol=null, query=null):: {
+            rname:: rname,
             status_code: status_code,
             [if host != null then 'host']: host,
             [if path != null then 'path']: path,
@@ -591,9 +633,11 @@
         },
       },
       condition:: {
-        new():: {
-          field:: '${aws_alb_listener_rule.%s.condition.field}' % super.rname,
-          values:: '${aws_alb_listener_rule.%s.condition.values}' % super.rname,
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
+          field:: '${aws_alb_listener_rule.%s.condition.field}' % rname,
+          values:: '${aws_alb_listener_rule.%s.condition.values}' % rname,
           host_header:: {},
           http_header:: {},
           http_request_method:: {},
@@ -611,8 +655,10 @@
           host_header: host_header,
         },
         host_header:: {
-          new():: {
-            values:: '${aws_alb_listener_rule.%s.condition.host_header.values}' % super.rname,
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+          new(rname):: {
+            rname:: rname,
+            values:: '${aws_alb_listener_rule.%s.condition.host_header.values}' % rname,
           },
           with_values(values):: {
             values::: values,
@@ -622,9 +668,11 @@
           http_header: http_header,
         },
         http_header:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param http_header_name (required)
           // @param values (required)
-          new(http_header_name, values):: {
+          new(rname, http_header_name, values):: {
+            rname:: rname,
             http_header_name: http_header_name,
             values: values,
           },
@@ -633,8 +681,10 @@
           http_request_method: http_request_method,
         },
         http_request_method:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param values (required)
-          new(values):: {
+          new(rname, values):: {
+            rname:: rname,
             values: values,
           },
         },
@@ -642,8 +692,10 @@
           path_pattern: path_pattern,
         },
         path_pattern:: {
-          new():: {
-            values:: '${aws_alb_listener_rule.%s.condition.path_pattern.values}' % super.rname,
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+          new(rname):: {
+            rname:: rname,
+            values:: '${aws_alb_listener_rule.%s.condition.path_pattern.values}' % rname,
           },
           with_values(values):: {
             values::: values,
@@ -653,9 +705,11 @@
           query_string: query_string,
         },
         query_string:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param value (required)
           // @param key (optional)
-          new(value, key=null):: {
+          new(rname, value, key=null):: {
+            rname:: rname,
             value: value,
             [if key != null then 'key']: key,
           },
@@ -664,8 +718,10 @@
           source_ip: source_ip,
         },
         source_ip:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param values (required)
-          new(values):: {
+          new(rname, values):: {
+            rname:: rname,
             values: values,
           },
         },
@@ -673,7 +729,7 @@
     },
     // aws_alb_target_group - https://www.terraform.io/docs/providers/aws/r/alb_target_group.html
     aws_alb_target_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param deregistration_delay (optional)
       // @param lambda_multi_value_headers_enabled (optional)
       // @param name_prefix (optional)
@@ -717,22 +773,24 @@
         health_check: health_check,
       },
       health_check:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (optional)
         // @param healthy_threshold (optional)
         // @param interval (optional)
         // @param port (optional)
         // @param protocol (optional)
         // @param unhealthy_threshold (optional)
-        new(enabled=null, healthy_threshold=null, interval=null, port=null, protocol=null, unhealthy_threshold=null):: {
+        new(rname, enabled=null, healthy_threshold=null, interval=null, port=null, protocol=null, unhealthy_threshold=null):: {
+          rname:: rname,
           [if enabled != null then 'enabled']: enabled,
           [if healthy_threshold != null then 'healthy_threshold']: healthy_threshold,
           [if interval != null then 'interval']: interval,
           [if port != null then 'port']: port,
           [if protocol != null then 'protocol']: protocol,
           [if unhealthy_threshold != null then 'unhealthy_threshold']: unhealthy_threshold,
-          matcher:: '${aws_alb_target_group.%s.health_check.matcher}' % super.rname,
-          path:: '${aws_alb_target_group.%s.health_check.path}' % super.rname,
-          timeout:: '${aws_alb_target_group.%s.health_check.timeout}' % super.rname,
+          matcher:: '${aws_alb_target_group.%s.health_check.matcher}' % rname,
+          path:: '${aws_alb_target_group.%s.health_check.path}' % rname,
+          timeout:: '${aws_alb_target_group.%s.health_check.timeout}' % rname,
         },
         with_matcher(matcher):: {
           matcher::: matcher,
@@ -748,10 +806,12 @@
         stickiness: stickiness,
       },
       stickiness:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param cookie_duration (optional)
         // @param enabled (optional)
-        new(type, cookie_duration=null, enabled=null):: {
+        new(rname, type, cookie_duration=null, enabled=null):: {
+          rname:: rname,
           type: type,
           [if cookie_duration != null then 'cookie_duration']: cookie_duration,
           [if enabled != null then 'enabled']: enabled,
@@ -760,7 +820,7 @@
     },
     // aws_alb_target_group_attachment - https://www.terraform.io/docs/providers/aws/r/alb_target_group_attachment.html
     aws_alb_target_group_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param target_group_arn (required)
       // @param target_id (required)
       // @param availability_zone (optional)
@@ -779,7 +839,7 @@
     },
     // aws_ami - https://www.terraform.io/docs/providers/aws/r/ami.html
     aws_ami:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param architecture (optional)
       // @param description (optional)
@@ -820,20 +880,22 @@
         ebs_block_device: ebs_block_device,
       },
       ebs_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (required)
         // @param delete_on_termination (optional)
         // @param encrypted (optional)
         // @param iops (optional)
         // @param snapshot_id (optional)
         // @param volume_type (optional)
-        new(device_name, delete_on_termination=null, encrypted=null, iops=null, snapshot_id=null, volume_type=null):: {
+        new(rname, device_name, delete_on_termination=null, encrypted=null, iops=null, snapshot_id=null, volume_type=null):: {
+          rname:: rname,
           device_name: device_name,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
           [if encrypted != null then 'encrypted']: encrypted,
           [if iops != null then 'iops']: iops,
           [if snapshot_id != null then 'snapshot_id']: snapshot_id,
           [if volume_type != null then 'volume_type']: volume_type,
-          volume_size:: '${aws_ami.%s.ebs_block_device.volume_size}' % super.rname,
+          volume_size:: '${aws_ami.%s.ebs_block_device.volume_size}' % rname,
         },
         with_volume_size(volume_size):: {
           volume_size::: volume_size,
@@ -843,9 +905,11 @@
         ephemeral_block_device: ephemeral_block_device,
       },
       ephemeral_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (required)
         // @param virtual_name (required)
-        new(device_name, virtual_name):: {
+        new(rname, device_name, virtual_name):: {
+          rname:: rname,
           device_name: device_name,
           virtual_name: virtual_name,
         },
@@ -854,10 +918,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -866,7 +932,7 @@
     },
     // aws_ami_copy - https://www.terraform.io/docs/providers/aws/r/ami_copy.html
     aws_ami_copy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param source_ami_id (required)
       // @param source_ami_region (required)
@@ -907,33 +973,39 @@
         ebs_block_device: ebs_block_device,
       },
       ebs_block_device:: {
-        new():: {
-          delete_on_termination:: '${aws_ami_copy.%s.ebs_block_device.delete_on_termination}' % super.rname,
-          device_name:: '${aws_ami_copy.%s.ebs_block_device.device_name}' % super.rname,
-          encrypted:: '${aws_ami_copy.%s.ebs_block_device.encrypted}' % super.rname,
-          iops:: '${aws_ami_copy.%s.ebs_block_device.iops}' % super.rname,
-          snapshot_id:: '${aws_ami_copy.%s.ebs_block_device.snapshot_id}' % super.rname,
-          volume_size:: '${aws_ami_copy.%s.ebs_block_device.volume_size}' % super.rname,
-          volume_type:: '${aws_ami_copy.%s.ebs_block_device.volume_type}' % super.rname,
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
+          delete_on_termination:: '${aws_ami_copy.%s.ebs_block_device.delete_on_termination}' % rname,
+          device_name:: '${aws_ami_copy.%s.ebs_block_device.device_name}' % rname,
+          encrypted:: '${aws_ami_copy.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_ami_copy.%s.ebs_block_device.iops}' % rname,
+          snapshot_id:: '${aws_ami_copy.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_size:: '${aws_ami_copy.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_ami_copy.%s.ebs_block_device.volume_type}' % rname,
         },
       },
       with_ephemeral_block_device(ephemeral_block_device):: self + {
         ephemeral_block_device: ephemeral_block_device,
       },
       ephemeral_block_device:: {
-        new():: {
-          device_name:: '${aws_ami_copy.%s.ephemeral_block_device.device_name}' % super.rname,
-          virtual_name:: '${aws_ami_copy.%s.ephemeral_block_device.virtual_name}' % super.rname,
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
+          device_name:: '${aws_ami_copy.%s.ephemeral_block_device.device_name}' % rname,
+          virtual_name:: '${aws_ami_copy.%s.ephemeral_block_device.virtual_name}' % rname,
         },
       },
       with_timeouts(timeouts):: self + {
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -942,7 +1014,7 @@
     },
     // aws_ami_from_instance - https://www.terraform.io/docs/providers/aws/r/ami_from_instance.html
     aws_ami_from_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param source_instance_id (required)
       // @param description (optional)
@@ -977,33 +1049,39 @@
         ebs_block_device: ebs_block_device,
       },
       ebs_block_device:: {
-        new():: {
-          delete_on_termination:: '${aws_ami_from_instance.%s.ebs_block_device.delete_on_termination}' % super.rname,
-          device_name:: '${aws_ami_from_instance.%s.ebs_block_device.device_name}' % super.rname,
-          encrypted:: '${aws_ami_from_instance.%s.ebs_block_device.encrypted}' % super.rname,
-          iops:: '${aws_ami_from_instance.%s.ebs_block_device.iops}' % super.rname,
-          snapshot_id:: '${aws_ami_from_instance.%s.ebs_block_device.snapshot_id}' % super.rname,
-          volume_size:: '${aws_ami_from_instance.%s.ebs_block_device.volume_size}' % super.rname,
-          volume_type:: '${aws_ami_from_instance.%s.ebs_block_device.volume_type}' % super.rname,
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
+          delete_on_termination:: '${aws_ami_from_instance.%s.ebs_block_device.delete_on_termination}' % rname,
+          device_name:: '${aws_ami_from_instance.%s.ebs_block_device.device_name}' % rname,
+          encrypted:: '${aws_ami_from_instance.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_ami_from_instance.%s.ebs_block_device.iops}' % rname,
+          snapshot_id:: '${aws_ami_from_instance.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_size:: '${aws_ami_from_instance.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_ami_from_instance.%s.ebs_block_device.volume_type}' % rname,
         },
       },
       with_ephemeral_block_device(ephemeral_block_device):: self + {
         ephemeral_block_device: ephemeral_block_device,
       },
       ephemeral_block_device:: {
-        new():: {
-          device_name:: '${aws_ami_from_instance.%s.ephemeral_block_device.device_name}' % super.rname,
-          virtual_name:: '${aws_ami_from_instance.%s.ephemeral_block_device.virtual_name}' % super.rname,
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
+          device_name:: '${aws_ami_from_instance.%s.ephemeral_block_device.device_name}' % rname,
+          virtual_name:: '${aws_ami_from_instance.%s.ephemeral_block_device.virtual_name}' % rname,
         },
       },
       with_timeouts(timeouts):: self + {
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -1012,7 +1090,7 @@
     },
     // aws_ami_launch_permission - https://www.terraform.io/docs/providers/aws/r/ami_launch_permission.html
     aws_ami_launch_permission:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param account_id (required)
       // @param image_id (required)
       new(rname, account_id, image_id):: {
@@ -1027,7 +1105,7 @@
     },
     // aws_api_gateway_account - https://www.terraform.io/docs/providers/aws/r/api_gateway_account.html
     aws_api_gateway_account:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cloudwatch_role_arn (optional)
       new(rname, cloudwatch_role_arn=null):: {
         rname:: rname,
@@ -1041,7 +1119,7 @@
     },
     // aws_api_gateway_api_key - https://www.terraform.io/docs/providers/aws/r/api_gateway_api_key.html
     aws_api_gateway_api_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param enabled (optional)
@@ -1069,9 +1147,11 @@
         stage_key: stage_key,
       },
       stage_key:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param rest_api_id (required)
         // @param stage_name (required)
-        new(rest_api_id, stage_name):: {
+        new(rname, rest_api_id, stage_name):: {
+          rname:: rname,
           rest_api_id: rest_api_id,
           stage_name: stage_name,
         },
@@ -1079,7 +1159,7 @@
     },
     // aws_api_gateway_authorizer - https://www.terraform.io/docs/providers/aws/r/api_gateway_authorizer.html
     aws_api_gateway_authorizer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param rest_api_id (required)
       // @param authorizer_credentials (optional)
@@ -1108,7 +1188,7 @@
     },
     // aws_api_gateway_base_path_mapping - https://www.terraform.io/docs/providers/aws/r/api_gateway_base_path_mapping.html
     aws_api_gateway_base_path_mapping:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param api_id (required)
       // @param domain_name (required)
       // @param base_path (optional)
@@ -1127,7 +1207,7 @@
     },
     // aws_api_gateway_client_certificate - https://www.terraform.io/docs/providers/aws/r/api_gateway_client_certificate.html
     aws_api_gateway_client_certificate:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param description (optional)
       // @param tags (optional)
       new(rname, description=null, tags=null):: {
@@ -1146,7 +1226,7 @@
     },
     // aws_api_gateway_deployment - https://www.terraform.io/docs/providers/aws/r/api_gateway_deployment.html
     aws_api_gateway_deployment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param rest_api_id (required)
       // @param description (optional)
       // @param stage_description (optional)
@@ -1170,7 +1250,7 @@
     },
     // aws_api_gateway_documentation_part - https://www.terraform.io/docs/providers/aws/r/api_gateway_documentation_part.html
     aws_api_gateway_documentation_part:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param properties (required)
       // @param rest_api_id (required)
       // @param location (required)
@@ -1185,12 +1265,14 @@
         id::: id,
       },
       location:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param method (optional)
         // @param name (optional)
         // @param path (optional)
         // @param status_code (optional)
-        new(type, method=null, name=null, path=null, status_code=null):: {
+        new(rname, type, method=null, name=null, path=null, status_code=null):: {
+          rname:: rname,
           type: type,
           [if method != null then 'method']: method,
           [if name != null then 'name']: name,
@@ -1201,7 +1283,7 @@
     },
     // aws_api_gateway_documentation_version - https://www.terraform.io/docs/providers/aws/r/api_gateway_documentation_version.html
     aws_api_gateway_documentation_version:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param rest_api_id (required)
       // @param version (required)
       // @param description (optional)
@@ -1218,7 +1300,7 @@
     },
     // aws_api_gateway_domain_name - https://www.terraform.io/docs/providers/aws/r/api_gateway_domain_name.html
     aws_api_gateway_domain_name:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain_name (required)
       // @param certificate_arn (optional)
       // @param certificate_body (optional)
@@ -1259,15 +1341,17 @@
         endpoint_configuration: endpoint_configuration,
       },
       endpoint_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param types (required)
-        new(types):: {
+        new(rname, types):: {
+          rname:: rname,
           types: types,
         },
       },
     },
     // aws_api_gateway_gateway_response - https://www.terraform.io/docs/providers/aws/r/api_gateway_gateway_response.html
     aws_api_gateway_gateway_response:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param response_type (required)
       // @param rest_api_id (required)
       // @param response_parameters (optional)
@@ -1288,7 +1372,7 @@
     },
     // aws_api_gateway_integration - https://www.terraform.io/docs/providers/aws/r/api_gateway_integration.html
     aws_api_gateway_integration:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param http_method (required)
       // @param resource_id (required)
       // @param rest_api_id (required)
@@ -1337,7 +1421,7 @@
     },
     // aws_api_gateway_integration_response - https://www.terraform.io/docs/providers/aws/r/api_gateway_integration_response.html
     aws_api_gateway_integration_response:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param http_method (required)
       // @param resource_id (required)
       // @param rest_api_id (required)
@@ -1366,7 +1450,7 @@
     },
     // aws_api_gateway_method - https://www.terraform.io/docs/providers/aws/r/api_gateway_method.html
     aws_api_gateway_method:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param authorization (required)
       // @param http_method (required)
       // @param resource_id (required)
@@ -1399,7 +1483,7 @@
     },
     // aws_api_gateway_method_response - https://www.terraform.io/docs/providers/aws/r/api_gateway_method_response.html
     aws_api_gateway_method_response:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param http_method (required)
       // @param resource_id (required)
       // @param rest_api_id (required)
@@ -1424,7 +1508,7 @@
     },
     // aws_api_gateway_method_settings - https://www.terraform.io/docs/providers/aws/r/api_gateway_method_settings.html
     aws_api_gateway_method_settings:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param method_path (required)
       // @param rest_api_id (required)
       // @param stage_name (required)
@@ -1441,6 +1525,7 @@
         id::: id,
       },
       settings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cache_data_encrypted (optional)
         // @param cache_ttl_in_seconds (optional)
         // @param caching_enabled (optional)
@@ -1451,7 +1536,8 @@
         // @param throttling_burst_limit (optional)
         // @param throttling_rate_limit (optional)
         // @param unauthorized_cache_control_header_strategy (optional)
-        new(cache_data_encrypted=null, cache_ttl_in_seconds=null, caching_enabled=null, data_trace_enabled=null, logging_level=null, metrics_enabled=null, require_authorization_for_cache_control=null, throttling_burst_limit=null, throttling_rate_limit=null, unauthorized_cache_control_header_strategy=null):: {
+        new(rname, cache_data_encrypted=null, cache_ttl_in_seconds=null, caching_enabled=null, data_trace_enabled=null, logging_level=null, metrics_enabled=null, require_authorization_for_cache_control=null, throttling_burst_limit=null, throttling_rate_limit=null, unauthorized_cache_control_header_strategy=null):: {
+          rname:: rname,
           [if cache_data_encrypted != null then 'cache_data_encrypted']: cache_data_encrypted,
           [if cache_ttl_in_seconds != null then 'cache_ttl_in_seconds']: cache_ttl_in_seconds,
           [if caching_enabled != null then 'caching_enabled']: caching_enabled,
@@ -1467,7 +1553,7 @@
     },
     // aws_api_gateway_model - https://www.terraform.io/docs/providers/aws/r/api_gateway_model.html
     aws_api_gateway_model:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param content_type (required)
       // @param name (required)
       // @param rest_api_id (required)
@@ -1488,7 +1574,7 @@
     },
     // aws_api_gateway_request_validator - https://www.terraform.io/docs/providers/aws/r/api_gateway_request_validator.html
     aws_api_gateway_request_validator:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param rest_api_id (required)
       // @param validate_request_body (optional)
@@ -1507,7 +1593,7 @@
     },
     // aws_api_gateway_resource - https://www.terraform.io/docs/providers/aws/r/api_gateway_resource.html
     aws_api_gateway_resource:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param parent_id (required)
       // @param path_part (required)
       // @param rest_api_id (required)
@@ -1525,7 +1611,7 @@
     },
     // aws_api_gateway_rest_api - https://www.terraform.io/docs/providers/aws/r/api_gateway_rest_api.html
     aws_api_gateway_rest_api:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param api_key_source (optional)
       // @param binary_media_types (optional)
@@ -1558,9 +1644,11 @@
         endpoint_configuration: endpoint_configuration,
       },
       endpoint_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param types (required)
         // @param vpc_endpoint_ids (optional)
-        new(types, vpc_endpoint_ids=null):: {
+        new(rname, types, vpc_endpoint_ids=null):: {
+          rname:: rname,
           types: types,
           [if vpc_endpoint_ids != null then 'vpc_endpoint_ids']: vpc_endpoint_ids,
         },
@@ -1568,7 +1656,7 @@
     },
     // aws_api_gateway_stage - https://www.terraform.io/docs/providers/aws/r/api_gateway_stage.html
     aws_api_gateway_stage:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param deployment_id (required)
       // @param rest_api_id (required)
       // @param stage_name (required)
@@ -1606,9 +1694,11 @@
         access_log_settings: access_log_settings,
       },
       access_log_settings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param destination_arn (required)
         // @param format (required)
-        new(destination_arn, format):: {
+        new(rname, destination_arn, format):: {
+          rname:: rname,
           destination_arn: destination_arn,
           format: format,
         },
@@ -1616,7 +1706,7 @@
     },
     // aws_api_gateway_usage_plan - https://www.terraform.io/docs/providers/aws/r/api_gateway_usage_plan.html
     aws_api_gateway_usage_plan:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param product_code (optional)
@@ -1640,9 +1730,11 @@
         api_stages: api_stages,
       },
       api_stages:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param api_id (required)
         // @param stage (required)
-        new(api_id, stage):: {
+        new(rname, api_id, stage):: {
+          rname:: rname,
           api_id: api_id,
           stage: stage,
         },
@@ -1651,10 +1743,12 @@
         quota_settings: quota_settings,
       },
       quota_settings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param limit (required)
         // @param period (required)
         // @param offset (optional)
-        new(limit, period, offset=null):: {
+        new(rname, limit, period, offset=null):: {
+          rname:: rname,
           limit: limit,
           period: period,
           [if offset != null then 'offset']: offset,
@@ -1664,9 +1758,11 @@
         throttle_settings: throttle_settings,
       },
       throttle_settings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param burst_limit (optional)
         // @param rate_limit (optional)
-        new(burst_limit=null, rate_limit=null):: {
+        new(rname, burst_limit=null, rate_limit=null):: {
+          rname:: rname,
           [if burst_limit != null then 'burst_limit']: burst_limit,
           [if rate_limit != null then 'rate_limit']: rate_limit,
         },
@@ -1674,7 +1770,7 @@
     },
     // aws_api_gateway_usage_plan_key - https://www.terraform.io/docs/providers/aws/r/api_gateway_usage_plan_key.html
     aws_api_gateway_usage_plan_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param key_id (required)
       // @param key_type (required)
       // @param usage_plan_id (required)
@@ -1693,7 +1789,7 @@
     },
     // aws_api_gateway_vpc_link - https://www.terraform.io/docs/providers/aws/r/api_gateway_vpc_link.html
     aws_api_gateway_vpc_link:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param target_arns (required)
       // @param description (optional)
@@ -1713,7 +1809,7 @@
     },
     // aws_app_cookie_stickiness_policy - https://www.terraform.io/docs/providers/aws/r/app_cookie_stickiness_policy.html
     aws_app_cookie_stickiness_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cookie_name (required)
       // @param lb_port (required)
       // @param load_balancer (required)
@@ -1732,7 +1828,7 @@
     },
     // aws_appautoscaling_policy - https://www.terraform.io/docs/providers/aws/r/appautoscaling_policy.html
     aws_appautoscaling_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param resource_id (required)
       // @param scalable_dimension (required)
@@ -1766,10 +1862,12 @@
         step_adjustment: step_adjustment,
       },
       step_adjustment:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param scaling_adjustment (required)
         // @param metric_interval_lower_bound (optional)
         // @param metric_interval_upper_bound (optional)
-        new(scaling_adjustment, metric_interval_lower_bound=null, metric_interval_upper_bound=null):: {
+        new(rname, scaling_adjustment, metric_interval_lower_bound=null, metric_interval_upper_bound=null):: {
+          rname:: rname,
           scaling_adjustment: scaling_adjustment,
           [if metric_interval_lower_bound != null then 'metric_interval_lower_bound']: metric_interval_lower_bound,
           [if metric_interval_upper_bound != null then 'metric_interval_upper_bound']: metric_interval_upper_bound,
@@ -1779,11 +1877,13 @@
         step_scaling_policy_configuration: step_scaling_policy_configuration,
       },
       step_scaling_policy_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param adjustment_type (optional)
         // @param cooldown (optional)
         // @param metric_aggregation_type (optional)
         // @param min_adjustment_magnitude (optional)
-        new(adjustment_type=null, cooldown=null, metric_aggregation_type=null, min_adjustment_magnitude=null):: {
+        new(rname, adjustment_type=null, cooldown=null, metric_aggregation_type=null, min_adjustment_magnitude=null):: {
+          rname:: rname,
           [if adjustment_type != null then 'adjustment_type']: adjustment_type,
           [if cooldown != null then 'cooldown']: cooldown,
           [if metric_aggregation_type != null then 'metric_aggregation_type']: metric_aggregation_type,
@@ -1794,10 +1894,12 @@
           step_adjustment: step_adjustment,
         },
         step_adjustment:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param scaling_adjustment (required)
           // @param metric_interval_lower_bound (optional)
           // @param metric_interval_upper_bound (optional)
-          new(scaling_adjustment, metric_interval_lower_bound=null, metric_interval_upper_bound=null):: {
+          new(rname, scaling_adjustment, metric_interval_lower_bound=null, metric_interval_upper_bound=null):: {
+            rname:: rname,
             scaling_adjustment: scaling_adjustment,
             [if metric_interval_lower_bound != null then 'metric_interval_lower_bound']: metric_interval_lower_bound,
             [if metric_interval_upper_bound != null then 'metric_interval_upper_bound']: metric_interval_upper_bound,
@@ -1808,11 +1910,13 @@
         target_tracking_scaling_policy_configuration: target_tracking_scaling_policy_configuration,
       },
       target_tracking_scaling_policy_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param target_value (required)
         // @param disable_scale_in (optional)
         // @param scale_in_cooldown (optional)
         // @param scale_out_cooldown (optional)
-        new(target_value, disable_scale_in=null, scale_in_cooldown=null, scale_out_cooldown=null):: {
+        new(rname, target_value, disable_scale_in=null, scale_in_cooldown=null, scale_out_cooldown=null):: {
+          rname:: rname,
           target_value: target_value,
           [if disable_scale_in != null then 'disable_scale_in']: disable_scale_in,
           [if scale_in_cooldown != null then 'scale_in_cooldown']: scale_in_cooldown,
@@ -1824,11 +1928,13 @@
           customized_metric_specification: customized_metric_specification,
         },
         customized_metric_specification:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param metric_name (required)
           // @param namespace (required)
           // @param statistic (required)
           // @param unit (optional)
-          new(metric_name, namespace, statistic, unit=null):: {
+          new(rname, metric_name, namespace, statistic, unit=null):: {
+            rname:: rname,
             metric_name: metric_name,
             namespace: namespace,
             statistic: statistic,
@@ -1839,9 +1945,11 @@
             dimensions: dimensions,
           },
           dimensions:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param name (required)
             // @param value (required)
-            new(name, value):: {
+            new(rname, name, value):: {
+              rname:: rname,
               name: name,
               value: value,
             },
@@ -1851,9 +1959,11 @@
           predefined_metric_specification: predefined_metric_specification,
         },
         predefined_metric_specification:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param predefined_metric_type (required)
           // @param resource_label (optional)
-          new(predefined_metric_type, resource_label=null):: {
+          new(rname, predefined_metric_type, resource_label=null):: {
+            rname:: rname,
             predefined_metric_type: predefined_metric_type,
             [if resource_label != null then 'resource_label']: resource_label,
           },
@@ -1862,7 +1972,7 @@
     },
     // aws_appautoscaling_scheduled_action - https://www.terraform.io/docs/providers/aws/r/appautoscaling_scheduled_action.html
     aws_appautoscaling_scheduled_action:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param resource_id (required)
       // @param service_namespace (required)
@@ -1890,9 +2000,11 @@
         scalable_target_action: scalable_target_action,
       },
       scalable_target_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param max_capacity (optional)
         // @param min_capacity (optional)
-        new(max_capacity=null, min_capacity=null):: {
+        new(rname, max_capacity=null, min_capacity=null):: {
+          rname:: rname,
           [if max_capacity != null then 'max_capacity']: max_capacity,
           [if min_capacity != null then 'min_capacity']: min_capacity,
         },
@@ -1900,7 +2012,7 @@
     },
     // aws_appautoscaling_target - https://www.terraform.io/docs/providers/aws/r/appautoscaling_target.html
     aws_appautoscaling_target:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param max_capacity (required)
       // @param min_capacity (required)
       // @param resource_id (required)
@@ -1925,7 +2037,7 @@
     },
     // aws_appmesh_mesh - https://www.terraform.io/docs/providers/aws/r/appmesh_mesh.html
     aws_appmesh_mesh:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param tags (optional)
       new(rname, name, tags=null):: {
@@ -1945,15 +2057,19 @@
         spec: spec,
       },
       spec:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           egress_filter:: {},
         },
         with_egress_filter(egress_filter):: self + {
           egress_filter: egress_filter,
         },
         egress_filter:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (optional)
-          new(type=null):: {
+          new(rname, type=null):: {
+            rname:: rname,
             [if type != null then 'type']: type,
           },
         },
@@ -1961,7 +2077,7 @@
     },
     // aws_appmesh_route - https://www.terraform.io/docs/providers/aws/r/appmesh_route.html
     aws_appmesh_route:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param mesh_name (required)
       // @param name (required)
       // @param virtual_router_name (required)
@@ -1983,8 +2099,10 @@
         id::: id,
       },
       spec:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param priority (optional)
-        new(priority=null):: {
+        new(rname, priority=null):: {
+          rname:: rname,
           [if priority != null then 'priority']: priority,
           http_route:: {},
           tcp_route:: {},
@@ -1993,31 +2111,39 @@
           http_route: http_route,
         },
         http_route:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param action (required)
           // @param match (required)
-          new(action, match):: {
+          new(rname, action, match):: {
+            rname:: rname,
             action: action,
             match: match,
           },
           action:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param weighted_target (required)
-            new(weighted_target):: {
+            new(rname, weighted_target):: {
+              rname:: rname,
               weighted_target: weighted_target,
             },
             weighted_target:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param virtual_node (required)
               // @param weight (required)
-              new(virtual_node, weight):: {
+              new(rname, virtual_node, weight):: {
+                rname:: rname,
                 virtual_node: virtual_node,
                 weight: weight,
               },
             },
           },
           match:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param prefix (required)
             // @param method (optional)
             // @param scheme (optional)
-            new(prefix, method=null, scheme=null):: {
+            new(rname, prefix, method=null, scheme=null):: {
+              rname:: rname,
               prefix: prefix,
               [if method != null then 'method']: method,
               [if scheme != null then 'scheme']: scheme,
@@ -2027,9 +2153,11 @@
               header: header,
             },
             header:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param name (required)
               // @param invert (optional)
-              new(name, invert=null):: {
+              new(rname, name, invert=null):: {
+                rname:: rname,
                 name: name,
                 [if invert != null then 'invert']: invert,
                 match:: {},
@@ -2038,11 +2166,13 @@
                 match: match,
               },
               match:: {
+                // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
                 // @param exact (optional)
                 // @param prefix (optional)
                 // @param regex (optional)
                 // @param suffix (optional)
-                new(exact=null, prefix=null, regex=null, suffix=null):: {
+                new(rname, exact=null, prefix=null, regex=null, suffix=null):: {
+                  rname:: rname,
                   [if exact != null then 'exact']: exact,
                   [if prefix != null then 'prefix']: prefix,
                   [if regex != null then 'regex']: regex,
@@ -2053,9 +2183,11 @@
                   range: range,
                 },
                 range:: {
+                  // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
                   // @param end (required)
                   // @param start (required)
-                  new(end, start):: {
+                  new(rname, end, start):: {
+                    rname:: rname,
                     end: end,
                     start: start,
                   },
@@ -2068,19 +2200,25 @@
           tcp_route: tcp_route,
         },
         tcp_route:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param action (required)
-          new(action):: {
+          new(rname, action):: {
+            rname:: rname,
             action: action,
           },
           action:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param weighted_target (required)
-            new(weighted_target):: {
+            new(rname, weighted_target):: {
+              rname:: rname,
               weighted_target: weighted_target,
             },
             weighted_target:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param virtual_node (required)
               // @param weight (required)
-              new(virtual_node, weight):: {
+              new(rname, virtual_node, weight):: {
+                rname:: rname,
                 virtual_node: virtual_node,
                 weight: weight,
               },
@@ -2091,7 +2229,7 @@
     },
     // aws_appmesh_virtual_node - https://www.terraform.io/docs/providers/aws/r/appmesh_virtual_node.html
     aws_appmesh_virtual_node:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param mesh_name (required)
       // @param name (required)
       // @param tags (optional)
@@ -2111,8 +2249,10 @@
         id::: id,
       },
       spec:: {
-        new():: {
-          backends:: '${aws_appmesh_virtual_node.%s.spec.backends}' % super.rname,
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
+          backends:: '${aws_appmesh_virtual_node.%s.spec.backends}' % rname,
           backend:: {},
           listener:: {},
           logging:: {},
@@ -2125,15 +2265,19 @@
           backend: backend,
         },
         backend:: {
-          new():: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+          new(rname):: {
+            rname:: rname,
             virtual_service:: {},
           },
           with_virtual_service(virtual_service):: self + {
             virtual_service: virtual_service,
           },
           virtual_service:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param virtual_service_name (required)
-            new(virtual_service_name):: {
+            new(rname, virtual_service_name):: {
+              rname:: rname,
               virtual_service_name: virtual_service_name,
             },
           },
@@ -2142,8 +2286,10 @@
           listener: listener,
         },
         listener:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param port_mapping (required)
-          new(port_mapping):: {
+          new(rname, port_mapping):: {
+            rname:: rname,
             health_check:: {},
             port_mapping: port_mapping,
           },
@@ -2151,29 +2297,33 @@
             health_check: health_check,
           },
           health_check:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param healthy_threshold (required)
             // @param interval_millis (required)
             // @param protocol (required)
             // @param timeout_millis (required)
             // @param unhealthy_threshold (required)
             // @param path (optional)
-            new(healthy_threshold, interval_millis, protocol, timeout_millis, unhealthy_threshold, path=null):: {
+            new(rname, healthy_threshold, interval_millis, protocol, timeout_millis, unhealthy_threshold, path=null):: {
+              rname:: rname,
               healthy_threshold: healthy_threshold,
               interval_millis: interval_millis,
               protocol: protocol,
               timeout_millis: timeout_millis,
               unhealthy_threshold: unhealthy_threshold,
               [if path != null then 'path']: path,
-              port:: '${aws_appmesh_virtual_node.%s.spec.listener.health_check.port}' % super.rname,
+              port:: '${aws_appmesh_virtual_node.%s.spec.listener.health_check.port}' % rname,
             },
             with_port(port):: {
               port::: port,
             },
           },
           port_mapping:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param port (required)
             // @param protocol (required)
-            new(port, protocol):: {
+            new(rname, port, protocol):: {
+              rname:: rname,
               port: port,
               protocol: protocol,
             },
@@ -2183,22 +2333,28 @@
           logging: logging,
         },
         logging:: {
-          new():: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+          new(rname):: {
+            rname:: rname,
             access_log:: {},
           },
           with_access_log(access_log):: self + {
             access_log: access_log,
           },
           access_log:: {
-            new():: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+            new(rname):: {
+              rname:: rname,
               file:: {},
             },
             with_file(file):: self + {
               file: file,
             },
             file:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param path (required)
-              new(path):: {
+              new(rname, path):: {
+                rname:: rname,
                 path: path,
               },
             },
@@ -2208,7 +2364,9 @@
           service_discovery: service_discovery,
         },
         service_discovery:: {
-          new():: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+          new(rname):: {
+            rname:: rname,
             aws_cloud_map:: {},
             dns:: {},
           },
@@ -2216,10 +2374,12 @@
             aws_cloud_map: aws_cloud_map,
           },
           aws_cloud_map:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param namespace_name (required)
             // @param service_name (required)
             // @param attributes (optional)
-            new(namespace_name, service_name, attributes=null):: {
+            new(rname, namespace_name, service_name, attributes=null):: {
+              rname:: rname,
               namespace_name: namespace_name,
               service_name: service_name,
               [if attributes != null then 'attributes']: attributes,
@@ -2229,10 +2389,12 @@
             dns: dns,
           },
           dns:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param hostname (required)
-            new(hostname):: {
+            new(rname, hostname):: {
+              rname:: rname,
               hostname: hostname,
-              service_name:: '${aws_appmesh_virtual_node.%s.spec.service_discovery.dns.service_name}' % super.rname,
+              service_name:: '${aws_appmesh_virtual_node.%s.spec.service_discovery.dns.service_name}' % rname,
             },
             with_service_name(service_name):: {
               service_name::: service_name,
@@ -2243,7 +2405,7 @@
     },
     // aws_appmesh_virtual_router - https://www.terraform.io/docs/providers/aws/r/appmesh_virtual_router.html
     aws_appmesh_virtual_router:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param mesh_name (required)
       // @param name (required)
       // @param tags (optional)
@@ -2263,23 +2425,29 @@
         id::: id,
       },
       spec:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param listener (required)
-        new(listener):: {
-          service_names:: '${aws_appmesh_virtual_router.%s.spec.service_names}' % super.rname,
+        new(rname, listener):: {
+          rname:: rname,
+          service_names:: '${aws_appmesh_virtual_router.%s.spec.service_names}' % rname,
           listener: listener,
         },
         with_service_names(service_names):: {
           service_names::: service_names,
         },
         listener:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param port_mapping (required)
-          new(port_mapping):: {
+          new(rname, port_mapping):: {
+            rname:: rname,
             port_mapping: port_mapping,
           },
           port_mapping:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param port (required)
             // @param protocol (required)
-            new(port, protocol):: {
+            new(rname, port, protocol):: {
+              rname:: rname,
               port: port,
               protocol: protocol,
             },
@@ -2289,7 +2457,7 @@
     },
     // aws_appmesh_virtual_service - https://www.terraform.io/docs/providers/aws/r/appmesh_virtual_service.html
     aws_appmesh_virtual_service:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param mesh_name (required)
       // @param name (required)
       // @param tags (optional)
@@ -2309,14 +2477,18 @@
         id::: id,
       },
       spec:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           provider:: {},
         },
         with_provider(provider):: self + {
           provider: provider,
         },
         provider:: {
-          new():: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+          new(rname):: {
+            rname:: rname,
             virtual_node:: {},
             virtual_router:: {},
           },
@@ -2324,8 +2496,10 @@
             virtual_node: virtual_node,
           },
           virtual_node:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param virtual_node_name (required)
-            new(virtual_node_name):: {
+            new(rname, virtual_node_name):: {
+              rname:: rname,
               virtual_node_name: virtual_node_name,
             },
           },
@@ -2333,8 +2507,10 @@
             virtual_router: virtual_router,
           },
           virtual_router:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param virtual_router_name (required)
-            new(virtual_router_name):: {
+            new(rname, virtual_router_name):: {
+              rname:: rname,
               virtual_router_name: virtual_router_name,
             },
           },
@@ -2343,7 +2519,7 @@
     },
     // aws_appsync_api_key - https://www.terraform.io/docs/providers/aws/r/appsync_api_key.html
     aws_appsync_api_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param api_id (required)
       // @param description (optional)
       // @param expires (optional)
@@ -2361,7 +2537,7 @@
     },
     // aws_appsync_datasource - https://www.terraform.io/docs/providers/aws/r/appsync_datasource.html
     aws_appsync_datasource:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param api_id (required)
       // @param name (required)
       // @param type (required)
@@ -2388,12 +2564,14 @@
         dynamodb_config: dynamodb_config,
       },
       dynamodb_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param table_name (required)
         // @param use_caller_credentials (optional)
-        new(table_name, use_caller_credentials=null):: {
+        new(rname, table_name, use_caller_credentials=null):: {
+          rname:: rname,
           table_name: table_name,
           [if use_caller_credentials != null then 'use_caller_credentials']: use_caller_credentials,
-          region:: '${aws_appsync_datasource.%s.dynamodb_config.region}' % super.rname,
+          region:: '${aws_appsync_datasource.%s.dynamodb_config.region}' % rname,
         },
         with_region(region):: {
           region::: region,
@@ -2403,10 +2581,12 @@
         elasticsearch_config: elasticsearch_config,
       },
       elasticsearch_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param endpoint (required)
-        new(endpoint):: {
+        new(rname, endpoint):: {
+          rname:: rname,
           endpoint: endpoint,
-          region:: '${aws_appsync_datasource.%s.elasticsearch_config.region}' % super.rname,
+          region:: '${aws_appsync_datasource.%s.elasticsearch_config.region}' % rname,
         },
         with_region(region):: {
           region::: region,
@@ -2416,8 +2596,10 @@
         http_config: http_config,
       },
       http_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param endpoint (required)
-        new(endpoint):: {
+        new(rname, endpoint):: {
+          rname:: rname,
           endpoint: endpoint,
         },
       },
@@ -2425,15 +2607,17 @@
         lambda_config: lambda_config,
       },
       lambda_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param function_arn (required)
-        new(function_arn):: {
+        new(rname, function_arn):: {
+          rname:: rname,
           function_arn: function_arn,
         },
       },
     },
     // aws_appsync_function - https://www.terraform.io/docs/providers/aws/r/appsync_function.html
     aws_appsync_function:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param api_id (required)
       // @param data_source (required)
       // @param name (required)
@@ -2460,7 +2644,7 @@
     },
     // aws_appsync_graphql_api - https://www.terraform.io/docs/providers/aws/r/appsync_graphql_api.html
     aws_appsync_graphql_api:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param authentication_type (required)
       // @param name (required)
       // @param schema (optional)
@@ -2486,8 +2670,10 @@
         additional_authentication_provider: additional_authentication_provider,
       },
       additional_authentication_provider:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param authentication_type (required)
-        new(authentication_type):: {
+        new(rname, authentication_type):: {
+          rname:: rname,
           authentication_type: authentication_type,
           openid_connect_config:: {},
           user_pool_config:: {},
@@ -2496,11 +2682,13 @@
           openid_connect_config: openid_connect_config,
         },
         openid_connect_config:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param issuer (required)
           // @param auth_ttl (optional)
           // @param client_id (optional)
           // @param iat_ttl (optional)
-          new(issuer, auth_ttl=null, client_id=null, iat_ttl=null):: {
+          new(rname, issuer, auth_ttl=null, client_id=null, iat_ttl=null):: {
+            rname:: rname,
             issuer: issuer,
             [if auth_ttl != null then 'auth_ttl']: auth_ttl,
             [if client_id != null then 'client_id']: client_id,
@@ -2511,12 +2699,14 @@
           user_pool_config: user_pool_config,
         },
         user_pool_config:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param user_pool_id (required)
           // @param app_id_client_regex (optional)
-          new(user_pool_id, app_id_client_regex=null):: {
+          new(rname, user_pool_id, app_id_client_regex=null):: {
+            rname:: rname,
             user_pool_id: user_pool_id,
             [if app_id_client_regex != null then 'app_id_client_regex']: app_id_client_regex,
-            aws_region:: '${aws_appsync_graphql_api.%s.additional_authentication_provider.user_pool_config.aws_region}' % super.rname,
+            aws_region:: '${aws_appsync_graphql_api.%s.additional_authentication_provider.user_pool_config.aws_region}' % rname,
           },
           with_aws_region(aws_region):: {
             aws_region::: aws_region,
@@ -2527,9 +2717,11 @@
         log_config: log_config,
       },
       log_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cloudwatch_logs_role_arn (required)
         // @param field_log_level (required)
-        new(cloudwatch_logs_role_arn, field_log_level):: {
+        new(rname, cloudwatch_logs_role_arn, field_log_level):: {
+          rname:: rname,
           cloudwatch_logs_role_arn: cloudwatch_logs_role_arn,
           field_log_level: field_log_level,
         },
@@ -2538,11 +2730,13 @@
         openid_connect_config: openid_connect_config,
       },
       openid_connect_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param issuer (required)
         // @param auth_ttl (optional)
         // @param client_id (optional)
         // @param iat_ttl (optional)
-        new(issuer, auth_ttl=null, client_id=null, iat_ttl=null):: {
+        new(rname, issuer, auth_ttl=null, client_id=null, iat_ttl=null):: {
+          rname:: rname,
           issuer: issuer,
           [if auth_ttl != null then 'auth_ttl']: auth_ttl,
           [if client_id != null then 'client_id']: client_id,
@@ -2553,14 +2747,16 @@
         user_pool_config: user_pool_config,
       },
       user_pool_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param default_action (required)
         // @param user_pool_id (required)
         // @param app_id_client_regex (optional)
-        new(default_action, user_pool_id, app_id_client_regex=null):: {
+        new(rname, default_action, user_pool_id, app_id_client_regex=null):: {
+          rname:: rname,
           default_action: default_action,
           user_pool_id: user_pool_id,
           [if app_id_client_regex != null then 'app_id_client_regex']: app_id_client_regex,
-          aws_region:: '${aws_appsync_graphql_api.%s.user_pool_config.aws_region}' % super.rname,
+          aws_region:: '${aws_appsync_graphql_api.%s.user_pool_config.aws_region}' % rname,
         },
         with_aws_region(aws_region):: {
           aws_region::: aws_region,
@@ -2569,7 +2765,7 @@
     },
     // aws_appsync_resolver - https://www.terraform.io/docs/providers/aws/r/appsync_resolver.html
     aws_appsync_resolver:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param api_id (required)
       // @param field (required)
       // @param request_template (required)
@@ -2597,15 +2793,17 @@
         pipeline_config: pipeline_config,
       },
       pipeline_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param functions (optional)
-        new(functions=null):: {
+        new(rname, functions=null):: {
+          rname:: rname,
           [if functions != null then 'functions']: functions,
         },
       },
     },
     // aws_athena_database - https://www.terraform.io/docs/providers/aws/r/athena_database.html
     aws_athena_database:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket (required)
       // @param name (required)
       // @param force_destroy (optional)
@@ -2624,9 +2822,11 @@
         encryption_configuration: encryption_configuration,
       },
       encryption_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param encryption_option (required)
         // @param kms_key (optional)
-        new(encryption_option, kms_key=null):: {
+        new(rname, encryption_option, kms_key=null):: {
+          rname:: rname,
           encryption_option: encryption_option,
           [if kms_key != null then 'kms_key']: kms_key,
         },
@@ -2634,7 +2834,7 @@
     },
     // aws_athena_named_query - https://www.terraform.io/docs/providers/aws/r/athena_named_query.html
     aws_athena_named_query:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param database (required)
       // @param name (required)
       // @param query (required)
@@ -2655,7 +2855,7 @@
     },
     // aws_athena_workgroup - https://www.terraform.io/docs/providers/aws/r/athena_workgroup.html
     aws_athena_workgroup:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param state (optional)
@@ -2677,10 +2877,12 @@
         configuration: configuration,
       },
       configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bytes_scanned_cutoff_per_query (optional)
         // @param enforce_workgroup_configuration (optional)
         // @param publish_cloudwatch_metrics_enabled (optional)
-        new(bytes_scanned_cutoff_per_query=null, enforce_workgroup_configuration=null, publish_cloudwatch_metrics_enabled=null):: {
+        new(rname, bytes_scanned_cutoff_per_query=null, enforce_workgroup_configuration=null, publish_cloudwatch_metrics_enabled=null):: {
+          rname:: rname,
           [if bytes_scanned_cutoff_per_query != null then 'bytes_scanned_cutoff_per_query']: bytes_scanned_cutoff_per_query,
           [if enforce_workgroup_configuration != null then 'enforce_workgroup_configuration']: enforce_workgroup_configuration,
           [if publish_cloudwatch_metrics_enabled != null then 'publish_cloudwatch_metrics_enabled']: publish_cloudwatch_metrics_enabled,
@@ -2690,8 +2892,10 @@
           result_configuration: result_configuration,
         },
         result_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param output_location (optional)
-          new(output_location=null):: {
+          new(rname, output_location=null):: {
+            rname:: rname,
             [if output_location != null then 'output_location']: output_location,
             encryption_configuration:: {},
           },
@@ -2699,9 +2903,11 @@
             encryption_configuration: encryption_configuration,
           },
           encryption_configuration:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param encryption_option (optional)
             // @param kms_key_arn (optional)
-            new(encryption_option=null, kms_key_arn=null):: {
+            new(rname, encryption_option=null, kms_key_arn=null):: {
+              rname:: rname,
               [if encryption_option != null then 'encryption_option']: encryption_option,
               [if kms_key_arn != null then 'kms_key_arn']: kms_key_arn,
             },
@@ -2711,7 +2917,7 @@
     },
     // aws_autoscaling_attachment - https://www.terraform.io/docs/providers/aws/r/autoscaling_attachment.html
     aws_autoscaling_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param autoscaling_group_name (required)
       // @param alb_target_group_arn (optional)
       // @param elb (optional)
@@ -2728,7 +2934,7 @@
     },
     // aws_autoscaling_group - https://www.terraform.io/docs/providers/aws/r/autoscaling_group.html
     aws_autoscaling_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param max_size (required)
       // @param min_size (required)
       // @param enabled_metrics (optional)
@@ -2816,20 +3022,22 @@
         initial_lifecycle_hook: initial_lifecycle_hook,
       },
       initial_lifecycle_hook:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param lifecycle_transition (required)
         // @param name (required)
         // @param heartbeat_timeout (optional)
         // @param notification_metadata (optional)
         // @param notification_target_arn (optional)
         // @param role_arn (optional)
-        new(lifecycle_transition, name, heartbeat_timeout=null, notification_metadata=null, notification_target_arn=null, role_arn=null):: {
+        new(rname, lifecycle_transition, name, heartbeat_timeout=null, notification_metadata=null, notification_target_arn=null, role_arn=null):: {
+          rname:: rname,
           lifecycle_transition: lifecycle_transition,
           name: name,
           [if heartbeat_timeout != null then 'heartbeat_timeout']: heartbeat_timeout,
           [if notification_metadata != null then 'notification_metadata']: notification_metadata,
           [if notification_target_arn != null then 'notification_target_arn']: notification_target_arn,
           [if role_arn != null then 'role_arn']: role_arn,
-          default_result:: '${aws_autoscaling_group.%s.initial_lifecycle_hook.default_result}' % super.rname,
+          default_result:: '${aws_autoscaling_group.%s.initial_lifecycle_hook.default_result}' % rname,
         },
         with_default_result(default_result):: {
           default_result::: default_result,
@@ -2839,11 +3047,13 @@
         launch_template: launch_template,
       },
       launch_template:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param version (optional)
-        new(version=null):: {
+        new(rname, version=null):: {
+          rname:: rname,
           [if version != null then 'version']: version,
-          id:: '${aws_autoscaling_group.%s.launch_template.id}' % super.rname,
-          name:: '${aws_autoscaling_group.%s.launch_template.name}' % super.rname,
+          id:: '${aws_autoscaling_group.%s.launch_template.id}' % rname,
+          name:: '${aws_autoscaling_group.%s.launch_template.name}' % rname,
         },
         with_id(id):: {
           id::: id,
@@ -2856,8 +3066,10 @@
         mixed_instances_policy: mixed_instances_policy,
       },
       mixed_instances_policy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param launch_template (required)
-        new(launch_template):: {
+        new(rname, launch_template):: {
+          rname:: rname,
           instances_distribution:: {},
           launch_template: launch_template,
         },
@@ -2865,35 +3077,41 @@
           instances_distribution: instances_distribution,
         },
         instances_distribution:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param on_demand_allocation_strategy (optional)
           // @param on_demand_base_capacity (optional)
           // @param on_demand_percentage_above_base_capacity (optional)
           // @param spot_allocation_strategy (optional)
           // @param spot_max_price (optional)
-          new(on_demand_allocation_strategy=null, on_demand_base_capacity=null, on_demand_percentage_above_base_capacity=null, spot_allocation_strategy=null, spot_max_price=null):: {
+          new(rname, on_demand_allocation_strategy=null, on_demand_base_capacity=null, on_demand_percentage_above_base_capacity=null, spot_allocation_strategy=null, spot_max_price=null):: {
+            rname:: rname,
             [if on_demand_allocation_strategy != null then 'on_demand_allocation_strategy']: on_demand_allocation_strategy,
             [if on_demand_base_capacity != null then 'on_demand_base_capacity']: on_demand_base_capacity,
             [if on_demand_percentage_above_base_capacity != null then 'on_demand_percentage_above_base_capacity']: on_demand_percentage_above_base_capacity,
             [if spot_allocation_strategy != null then 'spot_allocation_strategy']: spot_allocation_strategy,
             [if spot_max_price != null then 'spot_max_price']: spot_max_price,
-            spot_instance_pools:: '${aws_autoscaling_group.%s.mixed_instances_policy.instances_distribution.spot_instance_pools}' % super.rname,
+            spot_instance_pools:: '${aws_autoscaling_group.%s.mixed_instances_policy.instances_distribution.spot_instance_pools}' % rname,
           },
           with_spot_instance_pools(spot_instance_pools):: {
             spot_instance_pools::: spot_instance_pools,
           },
         },
         launch_template:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param launch_template_specification (required)
-          new(launch_template_specification):: {
+          new(rname, launch_template_specification):: {
+            rname:: rname,
             launch_template_specification: launch_template_specification,
             override:: {},
           },
           launch_template_specification:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param version (optional)
-            new(version=null):: {
+            new(rname, version=null):: {
+              rname:: rname,
               [if version != null then 'version']: version,
-              launch_template_id:: '${aws_autoscaling_group.%s.mixed_instances_policy.launch_template.launch_template_specification.launch_template_id}' % super.rname,
-              launch_template_name:: '${aws_autoscaling_group.%s.mixed_instances_policy.launch_template.launch_template_specification.launch_template_name}' % super.rname,
+              launch_template_id:: '${aws_autoscaling_group.%s.mixed_instances_policy.launch_template.launch_template_specification.launch_template_id}' % rname,
+              launch_template_name:: '${aws_autoscaling_group.%s.mixed_instances_policy.launch_template.launch_template_specification.launch_template_name}' % rname,
             },
             with_launch_template_id(launch_template_id):: {
               launch_template_id::: launch_template_id,
@@ -2906,9 +3124,11 @@
             override: override,
           },
           override:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param instance_type (optional)
             // @param weighted_capacity (optional)
-            new(instance_type=null, weighted_capacity=null):: {
+            new(rname, instance_type=null, weighted_capacity=null):: {
+              rname:: rname,
               [if instance_type != null then 'instance_type']: instance_type,
               [if weighted_capacity != null then 'weighted_capacity']: weighted_capacity,
             },
@@ -2919,10 +3139,12 @@
         tag: tag,
       },
       tag:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (required)
         // @param propagate_at_launch (required)
         // @param value (required)
-        new(key, propagate_at_launch, value):: {
+        new(rname, key, propagate_at_launch, value):: {
+          rname:: rname,
           key: key,
           propagate_at_launch: propagate_at_launch,
           value: value,
@@ -2932,15 +3154,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delete (optional)
-        new(delete=null):: {
+        new(rname, delete=null):: {
+          rname:: rname,
           [if delete != null then 'delete']: delete,
         },
       },
     },
     // aws_autoscaling_lifecycle_hook - https://www.terraform.io/docs/providers/aws/r/autoscaling_lifecycle_hook.html
     aws_autoscaling_lifecycle_hook:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param autoscaling_group_name (required)
       // @param lifecycle_transition (required)
       // @param name (required)
@@ -2969,7 +3193,7 @@
     },
     // aws_autoscaling_notification - https://www.terraform.io/docs/providers/aws/r/autoscaling_notification.html
     aws_autoscaling_notification:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param group_names (required)
       // @param notifications (required)
       // @param topic_arn (required)
@@ -2986,7 +3210,7 @@
     },
     // aws_autoscaling_policy - https://www.terraform.io/docs/providers/aws/r/autoscaling_policy.html
     aws_autoscaling_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param autoscaling_group_name (required)
       // @param name (required)
       // @param adjustment_type (optional)
@@ -3023,10 +3247,12 @@
         step_adjustment: step_adjustment,
       },
       step_adjustment:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param scaling_adjustment (required)
         // @param metric_interval_lower_bound (optional)
         // @param metric_interval_upper_bound (optional)
-        new(scaling_adjustment, metric_interval_lower_bound=null, metric_interval_upper_bound=null):: {
+        new(rname, scaling_adjustment, metric_interval_lower_bound=null, metric_interval_upper_bound=null):: {
+          rname:: rname,
           scaling_adjustment: scaling_adjustment,
           [if metric_interval_lower_bound != null then 'metric_interval_lower_bound']: metric_interval_lower_bound,
           [if metric_interval_upper_bound != null then 'metric_interval_upper_bound']: metric_interval_upper_bound,
@@ -3036,9 +3262,11 @@
         target_tracking_configuration: target_tracking_configuration,
       },
       target_tracking_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param target_value (required)
         // @param disable_scale_in (optional)
-        new(target_value, disable_scale_in=null):: {
+        new(rname, target_value, disable_scale_in=null):: {
+          rname:: rname,
           target_value: target_value,
           [if disable_scale_in != null then 'disable_scale_in']: disable_scale_in,
           customized_metric_specification:: {},
@@ -3048,11 +3276,13 @@
           customized_metric_specification: customized_metric_specification,
         },
         customized_metric_specification:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param metric_name (required)
           // @param namespace (required)
           // @param statistic (required)
           // @param unit (optional)
-          new(metric_name, namespace, statistic, unit=null):: {
+          new(rname, metric_name, namespace, statistic, unit=null):: {
+            rname:: rname,
             metric_name: metric_name,
             namespace: namespace,
             statistic: statistic,
@@ -3063,9 +3293,11 @@
             metric_dimension: metric_dimension,
           },
           metric_dimension:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param name (required)
             // @param value (required)
-            new(name, value):: {
+            new(rname, name, value):: {
+              rname:: rname,
               name: name,
               value: value,
             },
@@ -3075,9 +3307,11 @@
           predefined_metric_specification: predefined_metric_specification,
         },
         predefined_metric_specification:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param predefined_metric_type (required)
           // @param resource_label (optional)
-          new(predefined_metric_type, resource_label=null):: {
+          new(rname, predefined_metric_type, resource_label=null):: {
+            rname:: rname,
             predefined_metric_type: predefined_metric_type,
             [if resource_label != null then 'resource_label']: resource_label,
           },
@@ -3086,7 +3320,7 @@
     },
     // aws_autoscaling_schedule - https://www.terraform.io/docs/providers/aws/r/autoscaling_schedule.html
     aws_autoscaling_schedule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param autoscaling_group_name (required)
       // @param scheduled_action_name (required)
       new(rname, autoscaling_group_name, scheduled_action_name):: {
@@ -3126,7 +3360,7 @@
     },
     // aws_backup_plan - https://www.terraform.io/docs/providers/aws/r/backup_plan.html
     aws_backup_plan:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param tags (optional)
       // @param rule (required)
@@ -3143,13 +3377,15 @@
         id::: id,
       },
       rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param rule_name (required)
         // @param target_vault_name (required)
         // @param completion_window (optional)
         // @param recovery_point_tags (optional)
         // @param schedule (optional)
         // @param start_window (optional)
-        new(rule_name, target_vault_name, completion_window=null, recovery_point_tags=null, schedule=null, start_window=null):: {
+        new(rname, rule_name, target_vault_name, completion_window=null, recovery_point_tags=null, schedule=null, start_window=null):: {
+          rname:: rname,
           rule_name: rule_name,
           target_vault_name: target_vault_name,
           [if completion_window != null then 'completion_window']: completion_window,
@@ -3162,9 +3398,11 @@
           lifecycle: lifecycle,
         },
         lifecycle:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param cold_storage_after (optional)
           // @param delete_after (optional)
-          new(cold_storage_after=null, delete_after=null):: {
+          new(rname, cold_storage_after=null, delete_after=null):: {
+            rname:: rname,
             [if cold_storage_after != null then 'cold_storage_after']: cold_storage_after,
             [if delete_after != null then 'delete_after']: delete_after,
           },
@@ -3173,7 +3411,7 @@
     },
     // aws_backup_selection - https://www.terraform.io/docs/providers/aws/r/backup_selection.html
     aws_backup_selection:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param iam_role_arn (required)
       // @param name (required)
       // @param plan_id (required)
@@ -3194,10 +3432,12 @@
         selection_tag: selection_tag,
       },
       selection_tag:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (required)
         // @param type (required)
         // @param value (required)
-        new(key, type, value):: {
+        new(rname, key, type, value):: {
+          rname:: rname,
           key: key,
           type: type,
           value: value,
@@ -3206,7 +3446,7 @@
     },
     // aws_backup_vault - https://www.terraform.io/docs/providers/aws/r/backup_vault.html
     aws_backup_vault:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param tags (optional)
       new(rname, name, tags=null):: {
@@ -3227,7 +3467,7 @@
     },
     // aws_batch_compute_environment - https://www.terraform.io/docs/providers/aws/r/batch_compute_environment.html
     aws_batch_compute_environment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param service_role (required)
       // @param type (required)
       // @param compute_environment_name_prefix (optional)
@@ -3257,6 +3497,7 @@
         compute_resources: compute_resources,
       },
       compute_resources:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param instance_role (required)
         // @param instance_type (required)
         // @param max_vcpus (required)
@@ -3271,7 +3512,8 @@
         // @param image_id (optional)
         // @param spot_iam_fleet_role (optional)
         // @param tags (optional)
-        new(instance_role, instance_type, max_vcpus, min_vcpus, security_group_ids, subnets, type, allocation_strategy=null, bid_percentage=null, desired_vcpus=null, ec2_key_pair=null, image_id=null, spot_iam_fleet_role=null, tags=null):: {
+        new(rname, instance_role, instance_type, max_vcpus, min_vcpus, security_group_ids, subnets, type, allocation_strategy=null, bid_percentage=null, desired_vcpus=null, ec2_key_pair=null, image_id=null, spot_iam_fleet_role=null, tags=null):: {
+          rname:: rname,
           instance_role: instance_role,
           instance_type: instance_type,
           max_vcpus: max_vcpus,
@@ -3292,10 +3534,12 @@
           launch_template: launch_template,
         },
         launch_template:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param launch_template_id (optional)
           // @param launch_template_name (optional)
           // @param version (optional)
-          new(launch_template_id=null, launch_template_name=null, version=null):: {
+          new(rname, launch_template_id=null, launch_template_name=null, version=null):: {
+            rname:: rname,
             [if launch_template_id != null then 'launch_template_id']: launch_template_id,
             [if launch_template_name != null then 'launch_template_name']: launch_template_name,
             [if version != null then 'version']: version,
@@ -3305,7 +3549,7 @@
     },
     // aws_batch_job_definition - https://www.terraform.io/docs/providers/aws/r/batch_job_definition.html
     aws_batch_job_definition:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param type (required)
       // @param container_properties (optional)
@@ -3329,8 +3573,10 @@
         retry_strategy: retry_strategy,
       },
       retry_strategy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param attempts (optional)
-        new(attempts=null):: {
+        new(rname, attempts=null):: {
+          rname:: rname,
           [if attempts != null then 'attempts']: attempts,
         },
       },
@@ -3338,15 +3584,17 @@
         timeout: timeout,
       },
       timeout:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param attempt_duration_seconds (optional)
-        new(attempt_duration_seconds=null):: {
+        new(rname, attempt_duration_seconds=null):: {
+          rname:: rname,
           [if attempt_duration_seconds != null then 'attempt_duration_seconds']: attempt_duration_seconds,
         },
       },
     },
     // aws_batch_job_queue - https://www.terraform.io/docs/providers/aws/r/batch_job_queue.html
     aws_batch_job_queue:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param compute_environments (required)
       // @param name (required)
       // @param priority (required)
@@ -3366,7 +3614,7 @@
     },
     // aws_budgets_budget - https://www.terraform.io/docs/providers/aws/r/budgets_budget.html
     aws_budgets_budget:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param budget_type (required)
       // @param limit_amount (required)
       // @param limit_unit (required)
@@ -3408,6 +3656,7 @@
         cost_types: cost_types,
       },
       cost_types:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param include_credit (optional)
         // @param include_discount (optional)
         // @param include_other_subscription (optional)
@@ -3419,7 +3668,8 @@
         // @param include_upfront (optional)
         // @param use_amortized (optional)
         // @param use_blended (optional)
-        new(include_credit=null, include_discount=null, include_other_subscription=null, include_recurring=null, include_refund=null, include_subscription=null, include_support=null, include_tax=null, include_upfront=null, use_amortized=null, use_blended=null):: {
+        new(rname, include_credit=null, include_discount=null, include_other_subscription=null, include_recurring=null, include_refund=null, include_subscription=null, include_support=null, include_tax=null, include_upfront=null, use_amortized=null, use_blended=null):: {
+          rname:: rname,
           [if include_credit != null then 'include_credit']: include_credit,
           [if include_discount != null then 'include_discount']: include_discount,
           [if include_other_subscription != null then 'include_other_subscription']: include_other_subscription,
@@ -3437,13 +3687,15 @@
         notification: notification,
       },
       notification:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param comparison_operator (required)
         // @param notification_type (required)
         // @param threshold (required)
         // @param threshold_type (required)
         // @param subscriber_email_addresses (optional)
         // @param subscriber_sns_topic_arns (optional)
-        new(comparison_operator, notification_type, threshold, threshold_type, subscriber_email_addresses=null, subscriber_sns_topic_arns=null):: {
+        new(rname, comparison_operator, notification_type, threshold, threshold_type, subscriber_email_addresses=null, subscriber_sns_topic_arns=null):: {
+          rname:: rname,
           comparison_operator: comparison_operator,
           notification_type: notification_type,
           threshold: threshold,
@@ -3455,7 +3707,7 @@
     },
     // aws_cloud9_environment_ec2 - https://www.terraform.io/docs/providers/aws/r/cloud9_environment_ec2.html
     aws_cloud9_environment_ec2:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param instance_type (required)
       // @param name (required)
       // @param automatic_stop_time_minutes (optional)
@@ -3482,7 +3734,7 @@
     },
     // aws_cloudformation_stack - https://www.terraform.io/docs/providers/aws/r/cloudformation_stack.html
     aws_cloudformation_stack:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param capabilities (optional)
       // @param disable_rollback (optional)
@@ -3528,10 +3780,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -3540,7 +3794,7 @@
     },
     // aws_cloudformation_stack_set - https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set.html
     aws_cloudformation_stack_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param administration_role_arn (required)
       // @param name (required)
       // @param capabilities (optional)
@@ -3575,15 +3829,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param update (optional)
-        new(update=null):: {
+        new(rname, update=null):: {
+          rname:: rname,
           [if update != null then 'update']: update,
         },
       },
     },
     // aws_cloudformation_stack_set_instance - https://www.terraform.io/docs/providers/aws/r/cloudformation_stack_set_instance.html
     aws_cloudformation_stack_set_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param stack_set_name (required)
       // @param parameter_overrides (optional)
       // @param retain_stack (optional)
@@ -3611,10 +3867,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -3623,7 +3881,7 @@
     },
     // aws_cloudfront_distribution - https://www.terraform.io/docs/providers/aws/r/cloudfront_distribution.html
     aws_cloudfront_distribution:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param enabled (required)
       // @param aliases (optional)
       // @param comment (optional)
@@ -3679,6 +3937,7 @@
         cache_behavior: cache_behavior,
       },
       cache_behavior:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allowed_methods (required)
         // @param cached_methods (required)
         // @param path_pattern (required)
@@ -3692,7 +3951,8 @@
         // @param smooth_streaming (optional)
         // @param trusted_signers (optional)
         // @param forwarded_values (required)
-        new(allowed_methods, cached_methods, path_pattern, target_origin_id, viewer_protocol_policy, forwarded_values, compress=null, default_ttl=null, field_level_encryption_id=null, max_ttl=null, min_ttl=null, smooth_streaming=null, trusted_signers=null):: {
+        new(rname, allowed_methods, cached_methods, path_pattern, target_origin_id, viewer_protocol_policy, forwarded_values, compress=null, default_ttl=null, field_level_encryption_id=null, max_ttl=null, min_ttl=null, smooth_streaming=null, trusted_signers=null):: {
+          rname:: rname,
           allowed_methods: allowed_methods,
           cached_methods: cached_methods,
           path_pattern: path_pattern,
@@ -3709,20 +3969,24 @@
           lambda_function_association:: {},
         },
         forwarded_values:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param query_string (required)
           // @param headers (optional)
           // @param query_string_cache_keys (optional)
           // @param cookies (required)
-          new(query_string, cookies, headers=null, query_string_cache_keys=null):: {
+          new(rname, query_string, cookies, headers=null, query_string_cache_keys=null):: {
+            rname:: rname,
             query_string: query_string,
             [if headers != null then 'headers']: headers,
             [if query_string_cache_keys != null then 'query_string_cache_keys']: query_string_cache_keys,
             cookies: cookies,
           },
           cookies:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param forward (required)
             // @param whitelisted_names (optional)
-            new(forward, whitelisted_names=null):: {
+            new(rname, forward, whitelisted_names=null):: {
+              rname:: rname,
               forward: forward,
               [if whitelisted_names != null then 'whitelisted_names']: whitelisted_names,
             },
@@ -3732,10 +3996,12 @@
           lambda_function_association: lambda_function_association,
         },
         lambda_function_association:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param event_type (required)
           // @param lambda_arn (required)
           // @param include_body (optional)
-          new(event_type, lambda_arn, include_body=null):: {
+          new(rname, event_type, lambda_arn, include_body=null):: {
+            rname:: rname,
             event_type: event_type,
             lambda_arn: lambda_arn,
             [if include_body != null then 'include_body']: include_body,
@@ -3746,11 +4012,13 @@
         custom_error_response: custom_error_response,
       },
       custom_error_response:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param error_code (required)
         // @param error_caching_min_ttl (optional)
         // @param response_code (optional)
         // @param response_page_path (optional)
-        new(error_code, error_caching_min_ttl=null, response_code=null, response_page_path=null):: {
+        new(rname, error_code, error_caching_min_ttl=null, response_code=null, response_page_path=null):: {
+          rname:: rname,
           error_code: error_code,
           [if error_caching_min_ttl != null then 'error_caching_min_ttl']: error_caching_min_ttl,
           [if response_code != null then 'response_code']: response_code,
@@ -3758,6 +4026,7 @@
         },
       },
       default_cache_behavior:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allowed_methods (required)
         // @param cached_methods (required)
         // @param target_origin_id (required)
@@ -3770,7 +4039,8 @@
         // @param smooth_streaming (optional)
         // @param trusted_signers (optional)
         // @param forwarded_values (required)
-        new(allowed_methods, cached_methods, target_origin_id, viewer_protocol_policy, forwarded_values, compress=null, default_ttl=null, field_level_encryption_id=null, max_ttl=null, min_ttl=null, smooth_streaming=null, trusted_signers=null):: {
+        new(rname, allowed_methods, cached_methods, target_origin_id, viewer_protocol_policy, forwarded_values, compress=null, default_ttl=null, field_level_encryption_id=null, max_ttl=null, min_ttl=null, smooth_streaming=null, trusted_signers=null):: {
+          rname:: rname,
           allowed_methods: allowed_methods,
           cached_methods: cached_methods,
           target_origin_id: target_origin_id,
@@ -3786,20 +4056,24 @@
           lambda_function_association:: {},
         },
         forwarded_values:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param query_string (required)
           // @param headers (optional)
           // @param query_string_cache_keys (optional)
           // @param cookies (required)
-          new(query_string, cookies, headers=null, query_string_cache_keys=null):: {
+          new(rname, query_string, cookies, headers=null, query_string_cache_keys=null):: {
+            rname:: rname,
             query_string: query_string,
             [if headers != null then 'headers']: headers,
             [if query_string_cache_keys != null then 'query_string_cache_keys']: query_string_cache_keys,
             cookies: cookies,
           },
           cookies:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param forward (required)
             // @param whitelisted_names (optional)
-            new(forward, whitelisted_names=null):: {
+            new(rname, forward, whitelisted_names=null):: {
+              rname:: rname,
               forward: forward,
               [if whitelisted_names != null then 'whitelisted_names']: whitelisted_names,
             },
@@ -3809,10 +4083,12 @@
           lambda_function_association: lambda_function_association,
         },
         lambda_function_association:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param event_type (required)
           // @param lambda_arn (required)
           // @param include_body (optional)
-          new(event_type, lambda_arn, include_body=null):: {
+          new(rname, event_type, lambda_arn, include_body=null):: {
+            rname:: rname,
             event_type: event_type,
             lambda_arn: lambda_arn,
             [if include_body != null then 'include_body']: include_body,
@@ -3823,10 +4099,12 @@
         logging_config: logging_config,
       },
       logging_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket (required)
         // @param include_cookies (optional)
         // @param prefix (optional)
-        new(bucket, include_cookies=null, prefix=null):: {
+        new(rname, bucket, include_cookies=null, prefix=null):: {
+          rname:: rname,
           bucket: bucket,
           [if include_cookies != null then 'include_cookies']: include_cookies,
           [if prefix != null then 'prefix']: prefix,
@@ -3836,6 +4114,7 @@
         ordered_cache_behavior: ordered_cache_behavior,
       },
       ordered_cache_behavior:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allowed_methods (required)
         // @param cached_methods (required)
         // @param path_pattern (required)
@@ -3849,7 +4128,8 @@
         // @param smooth_streaming (optional)
         // @param trusted_signers (optional)
         // @param forwarded_values (required)
-        new(allowed_methods, cached_methods, path_pattern, target_origin_id, viewer_protocol_policy, forwarded_values, compress=null, default_ttl=null, field_level_encryption_id=null, max_ttl=null, min_ttl=null, smooth_streaming=null, trusted_signers=null):: {
+        new(rname, allowed_methods, cached_methods, path_pattern, target_origin_id, viewer_protocol_policy, forwarded_values, compress=null, default_ttl=null, field_level_encryption_id=null, max_ttl=null, min_ttl=null, smooth_streaming=null, trusted_signers=null):: {
+          rname:: rname,
           allowed_methods: allowed_methods,
           cached_methods: cached_methods,
           path_pattern: path_pattern,
@@ -3866,20 +4146,24 @@
           lambda_function_association:: {},
         },
         forwarded_values:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param query_string (required)
           // @param headers (optional)
           // @param query_string_cache_keys (optional)
           // @param cookies (required)
-          new(query_string, cookies, headers=null, query_string_cache_keys=null):: {
+          new(rname, query_string, cookies, headers=null, query_string_cache_keys=null):: {
+            rname:: rname,
             query_string: query_string,
             [if headers != null then 'headers']: headers,
             [if query_string_cache_keys != null then 'query_string_cache_keys']: query_string_cache_keys,
             cookies: cookies,
           },
           cookies:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param forward (required)
             // @param whitelisted_names (optional)
-            new(forward, whitelisted_names=null):: {
+            new(rname, forward, whitelisted_names=null):: {
+              rname:: rname,
               forward: forward,
               [if whitelisted_names != null then 'whitelisted_names']: whitelisted_names,
             },
@@ -3889,10 +4173,12 @@
           lambda_function_association: lambda_function_association,
         },
         lambda_function_association:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param event_type (required)
           // @param lambda_arn (required)
           // @param include_body (optional)
-          new(event_type, lambda_arn, include_body=null):: {
+          new(rname, event_type, lambda_arn, include_body=null):: {
+            rname:: rname,
             event_type: event_type,
             lambda_arn: lambda_arn,
             [if include_body != null then 'include_body']: include_body,
@@ -3900,10 +4186,12 @@
         },
       },
       origin:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param domain_name (required)
         // @param origin_id (required)
         // @param origin_path (optional)
-        new(domain_name, origin_id, origin_path=null):: {
+        new(rname, domain_name, origin_id, origin_path=null):: {
+          rname:: rname,
           domain_name: domain_name,
           origin_id: origin_id,
           [if origin_path != null then 'origin_path']: origin_path,
@@ -3915,9 +4203,11 @@
           custom_header: custom_header,
         },
         custom_header:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param name (required)
           // @param value (required)
-          new(name, value):: {
+          new(rname, name, value):: {
+            rname:: rname,
             name: name,
             value: value,
           },
@@ -3926,13 +4216,15 @@
           custom_origin_config: custom_origin_config,
         },
         custom_origin_config:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param http_port (required)
           // @param https_port (required)
           // @param origin_protocol_policy (required)
           // @param origin_ssl_protocols (required)
           // @param origin_keepalive_timeout (optional)
           // @param origin_read_timeout (optional)
-          new(http_port, https_port, origin_protocol_policy, origin_ssl_protocols, origin_keepalive_timeout=null, origin_read_timeout=null):: {
+          new(rname, http_port, https_port, origin_protocol_policy, origin_ssl_protocols, origin_keepalive_timeout=null, origin_read_timeout=null):: {
+            rname:: rname,
             http_port: http_port,
             https_port: https_port,
             origin_protocol_policy: origin_protocol_policy,
@@ -3945,8 +4237,10 @@
           s3_origin_config: s3_origin_config,
         },
         s3_origin_config:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param origin_access_identity (required)
-          new(origin_access_identity):: {
+          new(rname, origin_access_identity):: {
+            rname:: rname,
             origin_access_identity: origin_access_identity,
           },
         },
@@ -3955,48 +4249,60 @@
         origin_group: origin_group,
       },
       origin_group:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param origin_id (required)
         // @param failover_criteria (required)
         // @param member (required)
-        new(origin_id, failover_criteria, member):: {
+        new(rname, origin_id, failover_criteria, member):: {
+          rname:: rname,
           origin_id: origin_id,
           failover_criteria: failover_criteria,
           member: member,
         },
         failover_criteria:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param status_codes (required)
-          new(status_codes):: {
+          new(rname, status_codes):: {
+            rname:: rname,
             status_codes: status_codes,
           },
         },
         member:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param origin_id (required)
-          new(origin_id):: {
+          new(rname, origin_id):: {
+            rname:: rname,
             origin_id: origin_id,
           },
         },
       },
       restrictions:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param geo_restriction (required)
-        new(geo_restriction):: {
+        new(rname, geo_restriction):: {
+          rname:: rname,
           geo_restriction: geo_restriction,
         },
         geo_restriction:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param restriction_type (required)
           // @param locations (optional)
-          new(restriction_type, locations=null):: {
+          new(rname, restriction_type, locations=null):: {
+            rname:: rname,
             restriction_type: restriction_type,
             [if locations != null then 'locations']: locations,
           },
         },
       },
       viewer_certificate:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param acm_certificate_arn (optional)
         // @param cloudfront_default_certificate (optional)
         // @param iam_certificate_id (optional)
         // @param minimum_protocol_version (optional)
         // @param ssl_support_method (optional)
-        new(acm_certificate_arn=null, cloudfront_default_certificate=null, iam_certificate_id=null, minimum_protocol_version=null, ssl_support_method=null):: {
+        new(rname, acm_certificate_arn=null, cloudfront_default_certificate=null, iam_certificate_id=null, minimum_protocol_version=null, ssl_support_method=null):: {
+          rname:: rname,
           [if acm_certificate_arn != null then 'acm_certificate_arn']: acm_certificate_arn,
           [if cloudfront_default_certificate != null then 'cloudfront_default_certificate']: cloudfront_default_certificate,
           [if iam_certificate_id != null then 'iam_certificate_id']: iam_certificate_id,
@@ -4007,7 +4313,7 @@
     },
     // aws_cloudfront_origin_access_identity - https://www.terraform.io/docs/providers/aws/r/cloudfront_origin_access_identity.html
     aws_cloudfront_origin_access_identity:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param comment (optional)
       new(rname, comment=null):: {
         rname:: rname,
@@ -4025,7 +4331,7 @@
     },
     // aws_cloudfront_public_key - https://www.terraform.io/docs/providers/aws/r/cloudfront_public_key.html
     aws_cloudfront_public_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param encoded_key (required)
       // @param comment (optional)
       new(rname, encoded_key, comment=null):: {
@@ -4050,7 +4356,7 @@
     },
     // aws_cloudhsm_v2_cluster - https://www.terraform.io/docs/providers/aws/r/cloudhsm_v2_cluster.html
     aws_cloudhsm_v2_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param hsm_type (required)
       // @param subnet_ids (required)
       // @param source_backup_identifier (optional)
@@ -4076,10 +4382,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -4088,7 +4396,7 @@
     },
     // aws_cloudhsm_v2_hsm - https://www.terraform.io/docs/providers/aws/r/cloudhsm_v2_hsm.html
     aws_cloudhsm_v2_hsm:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_id (required)
       new(rname, cluster_id):: {
         rname:: rname,
@@ -4118,10 +4426,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -4130,7 +4440,7 @@
     },
     // aws_cloudtrail - https://www.terraform.io/docs/providers/aws/r/cloudtrail.html
     aws_cloudtrail:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param s3_bucket_name (required)
       // @param cloud_watch_logs_group_arn (optional)
@@ -4171,9 +4481,11 @@
         event_selector: event_selector,
       },
       event_selector:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param include_management_events (optional)
         // @param read_write_type (optional)
-        new(include_management_events=null, read_write_type=null):: {
+        new(rname, include_management_events=null, read_write_type=null):: {
+          rname:: rname,
           [if include_management_events != null then 'include_management_events']: include_management_events,
           [if read_write_type != null then 'read_write_type']: read_write_type,
           data_resource:: {},
@@ -4182,9 +4494,11 @@
           data_resource: data_resource,
         },
         data_resource:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param values (required)
-          new(type, values):: {
+          new(rname, type, values):: {
+            rname:: rname,
             type: type,
             values: values,
           },
@@ -4193,7 +4507,7 @@
     },
     // aws_cloudwatch_dashboard - https://www.terraform.io/docs/providers/aws/r/cloudwatch_dashboard.html
     aws_cloudwatch_dashboard:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param dashboard_body (required)
       // @param dashboard_name (required)
       new(rname, dashboard_body, dashboard_name):: {
@@ -4209,7 +4523,7 @@
     },
     // aws_cloudwatch_event_permission - https://www.terraform.io/docs/providers/aws/r/cloudwatch_event_permission.html
     aws_cloudwatch_event_permission:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param principal (required)
       // @param statement_id (required)
       // @param action (optional)
@@ -4228,10 +4542,12 @@
         condition: condition,
       },
       condition:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (required)
         // @param type (required)
         // @param value (required)
-        new(key, type, value):: {
+        new(rname, key, type, value):: {
+          rname:: rname,
           key: key,
           type: type,
           value: value,
@@ -4240,7 +4556,7 @@
     },
     // aws_cloudwatch_event_rule - https://www.terraform.io/docs/providers/aws/r/cloudwatch_event_rule.html
     aws_cloudwatch_event_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param description (optional)
       // @param event_pattern (optional)
       // @param is_enabled (optional)
@@ -4270,7 +4586,7 @@
     },
     // aws_cloudwatch_event_target - https://www.terraform.io/docs/providers/aws/r/cloudwatch_event_target.html
     aws_cloudwatch_event_target:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param arn (required)
       // @param rule (required)
       // @param input (optional)
@@ -4302,11 +4618,13 @@
         batch_target: batch_target,
       },
       batch_target:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param job_definition (required)
         // @param job_name (required)
         // @param array_size (optional)
         // @param job_attempts (optional)
-        new(job_definition, job_name, array_size=null, job_attempts=null):: {
+        new(rname, job_definition, job_name, array_size=null, job_attempts=null):: {
+          rname:: rname,
           job_definition: job_definition,
           job_name: job_name,
           [if array_size != null then 'array_size']: array_size,
@@ -4317,12 +4635,14 @@
         ecs_target: ecs_target,
       },
       ecs_target:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param task_definition_arn (required)
         // @param group (optional)
         // @param launch_type (optional)
         // @param platform_version (optional)
         // @param task_count (optional)
-        new(task_definition_arn, group=null, launch_type=null, platform_version=null, task_count=null):: {
+        new(rname, task_definition_arn, group=null, launch_type=null, platform_version=null, task_count=null):: {
+          rname:: rname,
           task_definition_arn: task_definition_arn,
           [if group != null then 'group']: group,
           [if launch_type != null then 'launch_type']: launch_type,
@@ -4334,10 +4654,12 @@
           network_configuration: network_configuration,
         },
         network_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param subnets (required)
           // @param assign_public_ip (optional)
           // @param security_groups (optional)
-          new(subnets, assign_public_ip=null, security_groups=null):: {
+          new(rname, subnets, assign_public_ip=null, security_groups=null):: {
+            rname:: rname,
             subnets: subnets,
             [if assign_public_ip != null then 'assign_public_ip']: assign_public_ip,
             [if security_groups != null then 'security_groups']: security_groups,
@@ -4348,9 +4670,11 @@
         input_transformer: input_transformer,
       },
       input_transformer:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param input_template (required)
         // @param input_paths (optional)
-        new(input_template, input_paths=null):: {
+        new(rname, input_template, input_paths=null):: {
+          rname:: rname,
           input_template: input_template,
           [if input_paths != null then 'input_paths']: input_paths,
         },
@@ -4359,8 +4683,10 @@
         kinesis_target: kinesis_target,
       },
       kinesis_target:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param partition_key_path (optional)
-        new(partition_key_path=null):: {
+        new(rname, partition_key_path=null):: {
+          rname:: rname,
           [if partition_key_path != null then 'partition_key_path']: partition_key_path,
         },
       },
@@ -4368,9 +4694,11 @@
         run_command_targets: run_command_targets,
       },
       run_command_targets:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (required)
         // @param values (required)
-        new(key, values):: {
+        new(rname, key, values):: {
+          rname:: rname,
           key: key,
           values: values,
         },
@@ -4379,15 +4707,17 @@
         sqs_target: sqs_target,
       },
       sqs_target:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param message_group_id (optional)
-        new(message_group_id=null):: {
+        new(rname, message_group_id=null):: {
+          rname:: rname,
           [if message_group_id != null then 'message_group_id']: message_group_id,
         },
       },
     },
     // aws_cloudwatch_log_destination - https://www.terraform.io/docs/providers/aws/r/cloudwatch_log_destination.html
     aws_cloudwatch_log_destination:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param role_arn (required)
       // @param target_arn (required)
@@ -4405,7 +4735,7 @@
     },
     // aws_cloudwatch_log_destination_policy - https://www.terraform.io/docs/providers/aws/r/cloudwatch_log_destination_policy.html
     aws_cloudwatch_log_destination_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param access_policy (required)
       // @param destination_name (required)
       new(rname, access_policy, destination_name):: {
@@ -4420,7 +4750,7 @@
     },
     // aws_cloudwatch_log_group - https://www.terraform.io/docs/providers/aws/r/cloudwatch_log_group.html
     aws_cloudwatch_log_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param kms_key_id (optional)
       // @param name_prefix (optional)
       // @param retention_in_days (optional)
@@ -4444,7 +4774,7 @@
     },
     // aws_cloudwatch_log_metric_filter - https://www.terraform.io/docs/providers/aws/r/cloudwatch_log_metric_filter.html
     aws_cloudwatch_log_metric_filter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param log_group_name (required)
       // @param name (required)
       // @param pattern (required)
@@ -4461,11 +4791,13 @@
         id::: id,
       },
       metric_transformation:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param namespace (required)
         // @param value (required)
         // @param default_value (optional)
-        new(name, namespace, value, default_value=null):: {
+        new(rname, name, namespace, value, default_value=null):: {
+          rname:: rname,
           name: name,
           namespace: namespace,
           value: value,
@@ -4475,7 +4807,7 @@
     },
     // aws_cloudwatch_log_resource_policy - https://www.terraform.io/docs/providers/aws/r/cloudwatch_log_resource_policy.html
     aws_cloudwatch_log_resource_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy_document (required)
       // @param policy_name (required)
       new(rname, policy_document, policy_name):: {
@@ -4490,7 +4822,7 @@
     },
     // aws_cloudwatch_log_stream - https://www.terraform.io/docs/providers/aws/r/cloudwatch_log_stream.html
     aws_cloudwatch_log_stream:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param log_group_name (required)
       // @param name (required)
       new(rname, log_group_name, name):: {
@@ -4506,7 +4838,7 @@
     },
     // aws_cloudwatch_log_subscription_filter - https://www.terraform.io/docs/providers/aws/r/cloudwatch_log_subscription_filter.html
     aws_cloudwatch_log_subscription_filter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param destination_arn (required)
       // @param filter_pattern (required)
       // @param log_group_name (required)
@@ -4531,7 +4863,7 @@
     },
     // aws_cloudwatch_metric_alarm - https://www.terraform.io/docs/providers/aws/r/cloudwatch_metric_alarm.html
     aws_cloudwatch_metric_alarm:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param alarm_name (required)
       // @param comparison_operator (required)
       // @param evaluation_periods (required)
@@ -4589,11 +4921,13 @@
         metric_query: metric_query,
       },
       metric_query:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param id (required)
         // @param expression (optional)
         // @param label (optional)
         // @param return_data (optional)
-        new(id, expression=null, label=null, return_data=null):: {
+        new(rname, id, expression=null, label=null, return_data=null):: {
+          rname:: rname,
           id: id,
           [if expression != null then 'expression']: expression,
           [if label != null then 'label']: label,
@@ -4604,13 +4938,15 @@
           metric: metric,
         },
         metric:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param metric_name (required)
           // @param period (required)
           // @param stat (required)
           // @param dimensions (optional)
           // @param namespace (optional)
           // @param unit (optional)
-          new(metric_name, period, stat, dimensions=null, namespace=null, unit=null):: {
+          new(rname, metric_name, period, stat, dimensions=null, namespace=null, unit=null):: {
+            rname:: rname,
             metric_name: metric_name,
             period: period,
             stat: stat,
@@ -4623,7 +4959,7 @@
     },
     // aws_codebuild_project - https://www.terraform.io/docs/providers/aws/r/codebuild_project.html
     aws_codebuild_project:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param service_role (required)
       // @param badge_enabled (optional)
@@ -4667,6 +5003,7 @@
         id::: id,
       },
       artifacts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param artifact_identifier (optional)
         // @param encryption_disabled (optional)
@@ -4676,7 +5013,8 @@
         // @param override_artifact_name (optional)
         // @param packaging (optional)
         // @param path (optional)
-        new(type, artifact_identifier=null, encryption_disabled=null, location=null, name=null, namespace_type=null, override_artifact_name=null, packaging=null, path=null):: {
+        new(rname, type, artifact_identifier=null, encryption_disabled=null, location=null, name=null, namespace_type=null, override_artifact_name=null, packaging=null, path=null):: {
+          rname:: rname,
           type: type,
           [if artifact_identifier != null then 'artifact_identifier']: artifact_identifier,
           [if encryption_disabled != null then 'encryption_disabled']: encryption_disabled,
@@ -4692,23 +5030,27 @@
         cache: cache,
       },
       cache:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param location (optional)
         // @param modes (optional)
         // @param type (optional)
-        new(location=null, modes=null, type=null):: {
+        new(rname, location=null, modes=null, type=null):: {
+          rname:: rname,
           [if location != null then 'location']: location,
           [if modes != null then 'modes']: modes,
           [if type != null then 'type']: type,
         },
       },
       environment:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param compute_type (required)
         // @param image (required)
         // @param type (required)
         // @param certificate (optional)
         // @param image_pull_credentials_type (optional)
         // @param privileged_mode (optional)
-        new(compute_type, image, type, certificate=null, image_pull_credentials_type=null, privileged_mode=null):: {
+        new(rname, compute_type, image, type, certificate=null, image_pull_credentials_type=null, privileged_mode=null):: {
+          rname:: rname,
           compute_type: compute_type,
           image: image,
           type: type,
@@ -4722,10 +5064,12 @@
           environment_variable: environment_variable,
         },
         environment_variable:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param name (required)
           // @param value (required)
           // @param type (optional)
-          new(name, value, type=null):: {
+          new(rname, name, value, type=null):: {
+            rname:: rname,
             name: name,
             value: value,
             [if type != null then 'type']: type,
@@ -4735,9 +5079,11 @@
           registry_credential: registry_credential,
         },
         registry_credential:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param credential (required)
           // @param credential_provider (required)
-          new(credential, credential_provider):: {
+          new(rname, credential, credential_provider):: {
+            rname:: rname,
             credential: credential,
             credential_provider: credential_provider,
           },
@@ -4747,7 +5093,9 @@
         logs_config: logs_config,
       },
       logs_config:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           cloudwatch_logs:: {},
           s3_logs:: {},
         },
@@ -4755,10 +5103,12 @@
           cloudwatch_logs: cloudwatch_logs,
         },
         cloudwatch_logs:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param group_name (optional)
           // @param status (optional)
           // @param stream_name (optional)
-          new(group_name=null, status=null, stream_name=null):: {
+          new(rname, group_name=null, status=null, stream_name=null):: {
+            rname:: rname,
             [if group_name != null then 'group_name']: group_name,
             [if status != null then 'status']: status,
             [if stream_name != null then 'stream_name']: stream_name,
@@ -4768,10 +5118,12 @@
           s3_logs: s3_logs,
         },
         s3_logs:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param encryption_disabled (optional)
           // @param location (optional)
           // @param status (optional)
-          new(encryption_disabled=null, location=null, status=null):: {
+          new(rname, encryption_disabled=null, location=null, status=null):: {
+            rname:: rname,
             [if encryption_disabled != null then 'encryption_disabled']: encryption_disabled,
             [if location != null then 'location']: location,
             [if status != null then 'status']: status,
@@ -4782,6 +5134,7 @@
         secondary_artifacts: secondary_artifacts,
       },
       secondary_artifacts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param artifact_identifier (required)
         // @param type (required)
         // @param encryption_disabled (optional)
@@ -4791,7 +5144,8 @@
         // @param override_artifact_name (optional)
         // @param packaging (optional)
         // @param path (optional)
-        new(artifact_identifier, type, encryption_disabled=null, location=null, name=null, namespace_type=null, override_artifact_name=null, packaging=null, path=null):: {
+        new(rname, artifact_identifier, type, encryption_disabled=null, location=null, name=null, namespace_type=null, override_artifact_name=null, packaging=null, path=null):: {
+          rname:: rname,
           artifact_identifier: artifact_identifier,
           type: type,
           [if encryption_disabled != null then 'encryption_disabled']: encryption_disabled,
@@ -4807,6 +5161,7 @@
         secondary_sources: secondary_sources,
       },
       secondary_sources:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param source_identifier (required)
         // @param type (required)
         // @param buildspec (optional)
@@ -4814,7 +5169,8 @@
         // @param insecure_ssl (optional)
         // @param location (optional)
         // @param report_build_status (optional)
-        new(source_identifier, type, buildspec=null, git_clone_depth=null, insecure_ssl=null, location=null, report_build_status=null):: {
+        new(rname, source_identifier, type, buildspec=null, git_clone_depth=null, insecure_ssl=null, location=null, report_build_status=null):: {
+          rname:: rname,
           source_identifier: source_identifier,
           type: type,
           [if buildspec != null then 'buildspec']: buildspec,
@@ -4829,9 +5185,11 @@
           auth: auth,
         },
         auth:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param resource (optional)
-          new(type, resource=null):: {
+          new(rname, type, resource=null):: {
+            rname:: rname,
             type: type,
             [if resource != null then 'resource']: resource,
           },
@@ -4840,20 +5198,24 @@
           git_submodules_config: git_submodules_config,
         },
         git_submodules_config:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param fetch_submodules (required)
-          new(fetch_submodules):: {
+          new(rname, fetch_submodules):: {
+            rname:: rname,
             fetch_submodules: fetch_submodules,
           },
         },
       },
       source:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param buildspec (optional)
         // @param git_clone_depth (optional)
         // @param insecure_ssl (optional)
         // @param location (optional)
         // @param report_build_status (optional)
-        new(type, buildspec=null, git_clone_depth=null, insecure_ssl=null, location=null, report_build_status=null):: {
+        new(rname, type, buildspec=null, git_clone_depth=null, insecure_ssl=null, location=null, report_build_status=null):: {
+          rname:: rname,
           type: type,
           [if buildspec != null then 'buildspec']: buildspec,
           [if git_clone_depth != null then 'git_clone_depth']: git_clone_depth,
@@ -4867,9 +5229,11 @@
           auth: auth,
         },
         auth:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param resource (optional)
-          new(type, resource=null):: {
+          new(rname, type, resource=null):: {
+            rname:: rname,
             type: type,
             [if resource != null then 'resource']: resource,
           },
@@ -4878,8 +5242,10 @@
           git_submodules_config: git_submodules_config,
         },
         git_submodules_config:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param fetch_submodules (required)
-          new(fetch_submodules):: {
+          new(rname, fetch_submodules):: {
+            rname:: rname,
             fetch_submodules: fetch_submodules,
           },
         },
@@ -4888,10 +5254,12 @@
         vpc_config: vpc_config,
       },
       vpc_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param security_group_ids (required)
         // @param subnets (required)
         // @param vpc_id (required)
-        new(security_group_ids, subnets, vpc_id):: {
+        new(rname, security_group_ids, subnets, vpc_id):: {
+          rname:: rname,
           security_group_ids: security_group_ids,
           subnets: subnets,
           vpc_id: vpc_id,
@@ -4900,7 +5268,7 @@
     },
     // aws_codebuild_source_credential - https://www.terraform.io/docs/providers/aws/r/codebuild_source_credential.html
     aws_codebuild_source_credential:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param auth_type (required)
       // @param server_type (required)
       // @param token (required)
@@ -4920,7 +5288,7 @@
     },
     // aws_codebuild_webhook - https://www.terraform.io/docs/providers/aws/r/codebuild_webhook.html
     aws_codebuild_webhook:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param project_name (required)
       // @param branch_filter (optional)
       new(rname, project_name, branch_filter=null):: {
@@ -4940,17 +5308,21 @@
         filter_group: filter_group,
       },
       filter_group:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           filter:: {},
         },
         with_filter(filter):: self + {
           filter: filter,
         },
         filter:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param pattern (required)
           // @param type (required)
           // @param exclude_matched_pattern (optional)
-          new(pattern, type, exclude_matched_pattern=null):: {
+          new(rname, pattern, type, exclude_matched_pattern=null):: {
+            rname:: rname,
             pattern: pattern,
             type: type,
             [if exclude_matched_pattern != null then 'exclude_matched_pattern']: exclude_matched_pattern,
@@ -4960,7 +5332,7 @@
     },
     // aws_codecommit_repository - https://www.terraform.io/docs/providers/aws/r/codecommit_repository.html
     aws_codecommit_repository:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param repository_name (required)
       // @param default_branch (optional)
       // @param description (optional)
@@ -4983,7 +5355,7 @@
     },
     // aws_codecommit_trigger - https://www.terraform.io/docs/providers/aws/r/codecommit_trigger.html
     aws_codecommit_trigger:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param repository_name (required)
       // @param trigger (required)
       new(rname, repository_name, trigger):: {
@@ -4997,12 +5369,14 @@
         id::: id,
       },
       trigger:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param destination_arn (required)
         // @param events (required)
         // @param name (required)
         // @param branches (optional)
         // @param custom_data (optional)
-        new(destination_arn, events, name, branches=null, custom_data=null):: {
+        new(rname, destination_arn, events, name, branches=null, custom_data=null):: {
+          rname:: rname,
           destination_arn: destination_arn,
           events: events,
           name: name,
@@ -5013,7 +5387,7 @@
     },
     // aws_codedeploy_app - https://www.terraform.io/docs/providers/aws/r/codedeploy_app.html
     aws_codedeploy_app:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param compute_platform (optional)
       new(rname, name, compute_platform=null):: {
@@ -5032,7 +5406,7 @@
     },
     // aws_codedeploy_deployment_config - https://www.terraform.io/docs/providers/aws/r/codedeploy_deployment_config.html
     aws_codedeploy_deployment_config:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param deployment_config_name (required)
       // @param compute_platform (optional)
       new(rname, deployment_config_name, compute_platform=null):: {
@@ -5051,9 +5425,11 @@
         minimum_healthy_hosts: minimum_healthy_hosts,
       },
       minimum_healthy_hosts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (optional)
         // @param value (optional)
-        new(type=null, value=null):: {
+        new(rname, type=null, value=null):: {
+          rname:: rname,
           [if type != null then 'type']: type,
           [if value != null then 'value']: value,
         },
@@ -5062,8 +5438,10 @@
         traffic_routing_config: traffic_routing_config,
       },
       traffic_routing_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (optional)
-        new(type=null):: {
+        new(rname, type=null):: {
+          rname:: rname,
           [if type != null then 'type']: type,
           time_based_canary:: {},
           time_based_linear:: {},
@@ -5072,9 +5450,11 @@
           time_based_canary: time_based_canary,
         },
         time_based_canary:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param interval (optional)
           // @param percentage (optional)
-          new(interval=null, percentage=null):: {
+          new(rname, interval=null, percentage=null):: {
+            rname:: rname,
             [if interval != null then 'interval']: interval,
             [if percentage != null then 'percentage']: percentage,
           },
@@ -5083,9 +5463,11 @@
           time_based_linear: time_based_linear,
         },
         time_based_linear:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param interval (optional)
           // @param percentage (optional)
-          new(interval=null, percentage=null):: {
+          new(rname, interval=null, percentage=null):: {
+            rname:: rname,
             [if interval != null then 'interval']: interval,
             [if percentage != null then 'percentage']: percentage,
           },
@@ -5094,7 +5476,7 @@
     },
     // aws_codedeploy_deployment_group - https://www.terraform.io/docs/providers/aws/r/codedeploy_deployment_group.html
     aws_codedeploy_deployment_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param app_name (required)
       // @param deployment_group_name (required)
       // @param service_role_arn (required)
@@ -5126,10 +5508,12 @@
         alarm_configuration: alarm_configuration,
       },
       alarm_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param alarms (optional)
         // @param enabled (optional)
         // @param ignore_poll_alarm_failure (optional)
-        new(alarms=null, enabled=null, ignore_poll_alarm_failure=null):: {
+        new(rname, alarms=null, enabled=null, ignore_poll_alarm_failure=null):: {
+          rname:: rname,
           [if alarms != null then 'alarms']: alarms,
           [if enabled != null then 'enabled']: enabled,
           [if ignore_poll_alarm_failure != null then 'ignore_poll_alarm_failure']: ignore_poll_alarm_failure,
@@ -5139,9 +5523,11 @@
         auto_rollback_configuration: auto_rollback_configuration,
       },
       auto_rollback_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (optional)
         // @param events (optional)
-        new(enabled=null, events=null):: {
+        new(rname, enabled=null, events=null):: {
+          rname:: rname,
           [if enabled != null then 'enabled']: enabled,
           [if events != null then 'events']: events,
         },
@@ -5150,7 +5536,9 @@
         blue_green_deployment_config: blue_green_deployment_config,
       },
       blue_green_deployment_config:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           deployment_ready_option:: {},
           green_fleet_provisioning_option:: {},
           terminate_blue_instances_on_deployment_success:: {},
@@ -5159,9 +5547,11 @@
           deployment_ready_option: deployment_ready_option,
         },
         deployment_ready_option:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param action_on_timeout (optional)
           // @param wait_time_in_minutes (optional)
-          new(action_on_timeout=null, wait_time_in_minutes=null):: {
+          new(rname, action_on_timeout=null, wait_time_in_minutes=null):: {
+            rname:: rname,
             [if action_on_timeout != null then 'action_on_timeout']: action_on_timeout,
             [if wait_time_in_minutes != null then 'wait_time_in_minutes']: wait_time_in_minutes,
           },
@@ -5170,8 +5560,10 @@
           green_fleet_provisioning_option: green_fleet_provisioning_option,
         },
         green_fleet_provisioning_option:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param action (optional)
-          new(action=null):: {
+          new(rname, action=null):: {
+            rname:: rname,
             [if action != null then 'action']: action,
           },
         },
@@ -5179,9 +5571,11 @@
           terminate_blue_instances_on_deployment_success: terminate_blue_instances_on_deployment_success,
         },
         terminate_blue_instances_on_deployment_success:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param action (optional)
           // @param termination_wait_time_in_minutes (optional)
-          new(action=null, termination_wait_time_in_minutes=null):: {
+          new(rname, action=null, termination_wait_time_in_minutes=null):: {
+            rname:: rname,
             [if action != null then 'action']: action,
             [if termination_wait_time_in_minutes != null then 'termination_wait_time_in_minutes']: termination_wait_time_in_minutes,
           },
@@ -5191,9 +5585,11 @@
         deployment_style: deployment_style,
       },
       deployment_style:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param deployment_option (optional)
         // @param deployment_type (optional)
-        new(deployment_option=null, deployment_type=null):: {
+        new(rname, deployment_option=null, deployment_type=null):: {
+          rname:: rname,
           [if deployment_option != null then 'deployment_option']: deployment_option,
           [if deployment_type != null then 'deployment_type']: deployment_type,
         },
@@ -5202,10 +5598,12 @@
         ec2_tag_filter: ec2_tag_filter,
       },
       ec2_tag_filter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (optional)
         // @param type (optional)
         // @param value (optional)
-        new(key=null, type=null, value=null):: {
+        new(rname, key=null, type=null, value=null):: {
+          rname:: rname,
           [if key != null then 'key']: key,
           [if type != null then 'type']: type,
           [if value != null then 'value']: value,
@@ -5215,17 +5613,21 @@
         ec2_tag_set: ec2_tag_set,
       },
       ec2_tag_set:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           ec2_tag_filter:: {},
         },
         with_ec2_tag_filter(ec2_tag_filter):: self + {
           ec2_tag_filter: ec2_tag_filter,
         },
         ec2_tag_filter:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param key (optional)
           // @param type (optional)
           // @param value (optional)
-          new(key=null, type=null, value=null):: {
+          new(rname, key=null, type=null, value=null):: {
+            rname:: rname,
             [if key != null then 'key']: key,
             [if type != null then 'type']: type,
             [if value != null then 'value']: value,
@@ -5236,9 +5638,11 @@
         ecs_service: ecs_service,
       },
       ecs_service:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cluster_name (required)
         // @param service_name (required)
-        new(cluster_name, service_name):: {
+        new(rname, cluster_name, service_name):: {
+          rname:: rname,
           cluster_name: cluster_name,
           service_name: service_name,
         },
@@ -5247,7 +5651,9 @@
         load_balancer_info: load_balancer_info,
       },
       load_balancer_info:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           elb_info:: {},
           target_group_info:: {},
           target_group_pair_info:: {},
@@ -5256,8 +5662,10 @@
           elb_info: elb_info,
         },
         elb_info:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param name (optional)
-          new(name=null):: {
+          new(rname, name=null):: {
+            rname:: rname,
             [if name != null then 'name']: name,
           },
         },
@@ -5265,8 +5673,10 @@
           target_group_info: target_group_info,
         },
         target_group_info:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param name (optional)
-          new(name=null):: {
+          new(rname, name=null):: {
+            rname:: rname,
             [if name != null then 'name']: name,
           },
         },
@@ -5274,22 +5684,28 @@
           target_group_pair_info: target_group_pair_info,
         },
         target_group_pair_info:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param prod_traffic_route (required)
           // @param target_group (required)
-          new(prod_traffic_route, target_group):: {
+          new(rname, prod_traffic_route, target_group):: {
+            rname:: rname,
             prod_traffic_route: prod_traffic_route,
             target_group: target_group,
             test_traffic_route:: {},
           },
           prod_traffic_route:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param listener_arns (required)
-            new(listener_arns):: {
+            new(rname, listener_arns):: {
+              rname:: rname,
               listener_arns: listener_arns,
             },
           },
           target_group:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param name (required)
-            new(name):: {
+            new(rname, name):: {
+              rname:: rname,
               name: name,
             },
           },
@@ -5297,8 +5713,10 @@
             test_traffic_route: test_traffic_route,
           },
           test_traffic_route:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param listener_arns (required)
-            new(listener_arns):: {
+            new(rname, listener_arns):: {
+              rname:: rname,
               listener_arns: listener_arns,
             },
           },
@@ -5308,10 +5726,12 @@
         on_premises_instance_tag_filter: on_premises_instance_tag_filter,
       },
       on_premises_instance_tag_filter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (optional)
         // @param type (optional)
         // @param value (optional)
-        new(key=null, type=null, value=null):: {
+        new(rname, key=null, type=null, value=null):: {
+          rname:: rname,
           [if key != null then 'key']: key,
           [if type != null then 'type']: type,
           [if value != null then 'value']: value,
@@ -5321,10 +5741,12 @@
         trigger_configuration: trigger_configuration,
       },
       trigger_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param trigger_events (required)
         // @param trigger_name (required)
         // @param trigger_target_arn (required)
-        new(trigger_events, trigger_name, trigger_target_arn):: {
+        new(rname, trigger_events, trigger_name, trigger_target_arn):: {
+          rname:: rname,
           trigger_events: trigger_events,
           trigger_name: trigger_name,
           trigger_target_arn: trigger_target_arn,
@@ -5333,7 +5755,7 @@
     },
     // aws_codepipeline - https://www.terraform.io/docs/providers/aws/r/codepipeline.html
     aws_codepipeline:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param role_arn (required)
       // @param tags (optional)
@@ -5353,9 +5775,11 @@
         id::: id,
       },
       artifact_store:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param location (required)
         // @param type (required)
-        new(location, type):: {
+        new(rname, location, type):: {
+          rname:: rname,
           location: location,
           type: type,
           encryption_key:: {},
@@ -5364,22 +5788,27 @@
           encryption_key: encryption_key,
         },
         encryption_key:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param id (required)
           // @param type (required)
-          new(id, type):: {
+          new(rname, id, type):: {
+            rname:: rname,
             id: id,
             type: type,
           },
         },
       },
       stage:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param action (required)
-        new(name, action):: {
+        new(rname, name, action):: {
+          rname:: rname,
           name: name,
           action: action,
         },
         action:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param category (required)
           // @param name (required)
           // @param owner (required)
@@ -5389,7 +5818,8 @@
           // @param input_artifacts (optional)
           // @param output_artifacts (optional)
           // @param role_arn (optional)
-          new(category, name, owner, provider, version, configuration=null, input_artifacts=null, output_artifacts=null, role_arn=null):: {
+          new(rname, category, name, owner, provider, version, configuration=null, input_artifacts=null, output_artifacts=null, role_arn=null):: {
+            rname:: rname,
             category: category,
             name: name,
             owner: owner,
@@ -5399,7 +5829,7 @@
             [if input_artifacts != null then 'input_artifacts']: input_artifacts,
             [if output_artifacts != null then 'output_artifacts']: output_artifacts,
             [if role_arn != null then 'role_arn']: role_arn,
-            run_order:: '${aws_codepipeline.%s.stage.action.run_order}' % super.rname,
+            run_order:: '${aws_codepipeline.%s.stage.action.run_order}' % rname,
           },
           with_run_order(run_order):: {
             run_order::: run_order,
@@ -5409,7 +5839,7 @@
     },
     // aws_codepipeline_webhook - https://www.terraform.io/docs/providers/aws/r/codepipeline_webhook.html
     aws_codepipeline_webhook:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param authentication (required)
       // @param name (required)
       // @param target_action (required)
@@ -5435,17 +5865,21 @@
         authentication_configuration: authentication_configuration,
       },
       authentication_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allowed_ip_range (optional)
         // @param secret_token (optional)
-        new(allowed_ip_range=null, secret_token=null):: {
+        new(rname, allowed_ip_range=null, secret_token=null):: {
+          rname:: rname,
           [if allowed_ip_range != null then 'allowed_ip_range']: allowed_ip_range,
           [if secret_token != null then 'secret_token']: secret_token,
         },
       },
       filter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param json_path (required)
         // @param match_equals (required)
-        new(json_path, match_equals):: {
+        new(rname, json_path, match_equals):: {
+          rname:: rname,
           json_path: json_path,
           match_equals: match_equals,
         },
@@ -5453,7 +5887,7 @@
     },
     // aws_codestarnotifications_notification_rule - https://www.terraform.io/docs/providers/aws/r/codestarnotifications_notification_rule.html
     aws_codestarnotifications_notification_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param detail_type (required)
       // @param event_type_ids (required)
       // @param name (required)
@@ -5479,18 +5913,20 @@
         target: target,
       },
       target:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param address (required)
         // @param type (optional)
-        new(address, type=null):: {
+        new(rname, address, type=null):: {
+          rname:: rname,
           address: address,
           [if type != null then 'type']: type,
-          status:: '${aws_codestarnotifications_notification_rule.%s.target.status}' % super.rname,
+          status:: '${aws_codestarnotifications_notification_rule.%s.target.status}' % rname,
         },
       },
     },
     // aws_cognito_identity_pool - https://www.terraform.io/docs/providers/aws/r/cognito_identity_pool.html
     aws_cognito_identity_pool:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param identity_pool_name (required)
       // @param allow_unauthenticated_identities (optional)
       // @param developer_provider_name (optional)
@@ -5518,10 +5954,12 @@
         cognito_identity_providers: cognito_identity_providers,
       },
       cognito_identity_providers:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param client_id (optional)
         // @param provider_name (optional)
         // @param server_side_token_check (optional)
-        new(client_id=null, provider_name=null, server_side_token_check=null):: {
+        new(rname, client_id=null, provider_name=null, server_side_token_check=null):: {
+          rname:: rname,
           [if client_id != null then 'client_id']: client_id,
           [if provider_name != null then 'provider_name']: provider_name,
           [if server_side_token_check != null then 'server_side_token_check']: server_side_token_check,
@@ -5530,7 +5968,7 @@
     },
     // aws_cognito_identity_pool_roles_attachment - https://www.terraform.io/docs/providers/aws/r/cognito_identity_pool_roles_attachment.html
     aws_cognito_identity_pool_roles_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param identity_pool_id (required)
       // @param roles (required)
       new(rname, identity_pool_id, roles):: {
@@ -5547,10 +5985,12 @@
         role_mapping: role_mapping,
       },
       role_mapping:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param identity_provider (required)
         // @param type (required)
         // @param ambiguous_role_resolution (optional)
-        new(identity_provider, type, ambiguous_role_resolution=null):: {
+        new(rname, identity_provider, type, ambiguous_role_resolution=null):: {
+          rname:: rname,
           identity_provider: identity_provider,
           type: type,
           [if ambiguous_role_resolution != null then 'ambiguous_role_resolution']: ambiguous_role_resolution,
@@ -5560,11 +6000,13 @@
           mapping_rule: mapping_rule,
         },
         mapping_rule:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param claim (required)
           // @param match_type (required)
           // @param role_arn (required)
           // @param value (required)
-          new(claim, match_type, role_arn, value):: {
+          new(rname, claim, match_type, role_arn, value):: {
+            rname:: rname,
             claim: claim,
             match_type: match_type,
             role_arn: role_arn,
@@ -5575,7 +6017,7 @@
     },
     // aws_cognito_identity_provider - https://www.terraform.io/docs/providers/aws/r/cognito_identity_provider.html
     aws_cognito_identity_provider:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param provider_details (required)
       // @param provider_name (required)
       // @param provider_type (required)
@@ -5598,7 +6040,7 @@
     },
     // aws_cognito_resource_server - https://www.terraform.io/docs/providers/aws/r/cognito_resource_server.html
     aws_cognito_resource_server:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param identifier (required)
       // @param name (required)
       // @param user_pool_id (required)
@@ -5618,9 +6060,11 @@
         scope: scope,
       },
       scope:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param scope_description (required)
         // @param scope_name (required)
-        new(scope_description, scope_name):: {
+        new(rname, scope_description, scope_name):: {
+          rname:: rname,
           scope_description: scope_description,
           scope_name: scope_name,
         },
@@ -5628,7 +6072,7 @@
     },
     // aws_cognito_user_group - https://www.terraform.io/docs/providers/aws/r/cognito_user_group.html
     aws_cognito_user_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param user_pool_id (required)
       // @param description (optional)
@@ -5649,7 +6093,7 @@
     },
     // aws_cognito_user_pool - https://www.terraform.io/docs/providers/aws/r/cognito_user_pool.html
     aws_cognito_user_pool:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param alias_attributes (optional)
       // @param auto_verified_attributes (optional)
@@ -5700,10 +6144,12 @@
         admin_create_user_config: admin_create_user_config,
       },
       admin_create_user_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allow_admin_create_user_only (optional)
-        new(allow_admin_create_user_only=null):: {
+        new(rname, allow_admin_create_user_only=null):: {
+          rname:: rname,
           [if allow_admin_create_user_only != null then 'allow_admin_create_user_only']: allow_admin_create_user_only,
-          unused_account_validity_days:: '${aws_cognito_user_pool.%s.admin_create_user_config.unused_account_validity_days}' % super.rname,
+          unused_account_validity_days:: '${aws_cognito_user_pool.%s.admin_create_user_config.unused_account_validity_days}' % rname,
           invite_message_template:: {},
         },
         with_unused_account_validity_days(unused_account_validity_days):: {
@@ -5713,10 +6159,12 @@
           invite_message_template: invite_message_template,
         },
         invite_message_template:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param email_message (optional)
           // @param email_subject (optional)
           // @param sms_message (optional)
-          new(email_message=null, email_subject=null, sms_message=null):: {
+          new(rname, email_message=null, email_subject=null, sms_message=null):: {
+            rname:: rname,
             [if email_message != null then 'email_message']: email_message,
             [if email_subject != null then 'email_subject']: email_subject,
             [if sms_message != null then 'sms_message']: sms_message,
@@ -5727,9 +6175,11 @@
         device_configuration: device_configuration,
       },
       device_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param challenge_required_on_new_device (optional)
         // @param device_only_remembered_on_user_prompt (optional)
-        new(challenge_required_on_new_device=null, device_only_remembered_on_user_prompt=null):: {
+        new(rname, challenge_required_on_new_device=null, device_only_remembered_on_user_prompt=null):: {
+          rname:: rname,
           [if challenge_required_on_new_device != null then 'challenge_required_on_new_device']: challenge_required_on_new_device,
           [if device_only_remembered_on_user_prompt != null then 'device_only_remembered_on_user_prompt']: device_only_remembered_on_user_prompt,
         },
@@ -5738,10 +6188,12 @@
         email_configuration: email_configuration,
       },
       email_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param email_sending_account (optional)
         // @param reply_to_email_address (optional)
         // @param source_arn (optional)
-        new(email_sending_account=null, reply_to_email_address=null, source_arn=null):: {
+        new(rname, email_sending_account=null, reply_to_email_address=null, source_arn=null):: {
+          rname:: rname,
           [if email_sending_account != null then 'email_sending_account']: email_sending_account,
           [if reply_to_email_address != null then 'reply_to_email_address']: reply_to_email_address,
           [if source_arn != null then 'source_arn']: source_arn,
@@ -5751,6 +6203,7 @@
         lambda_config: lambda_config,
       },
       lambda_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create_auth_challenge (optional)
         // @param custom_message (optional)
         // @param define_auth_challenge (optional)
@@ -5761,7 +6214,8 @@
         // @param pre_token_generation (optional)
         // @param user_migration (optional)
         // @param verify_auth_challenge_response (optional)
-        new(create_auth_challenge=null, custom_message=null, define_auth_challenge=null, post_authentication=null, post_confirmation=null, pre_authentication=null, pre_sign_up=null, pre_token_generation=null, user_migration=null, verify_auth_challenge_response=null):: {
+        new(rname, create_auth_challenge=null, custom_message=null, define_auth_challenge=null, post_authentication=null, post_confirmation=null, pre_authentication=null, pre_sign_up=null, pre_token_generation=null, user_migration=null, verify_auth_challenge_response=null):: {
+          rname:: rname,
           [if create_auth_challenge != null then 'create_auth_challenge']: create_auth_challenge,
           [if custom_message != null then 'custom_message']: custom_message,
           [if define_auth_challenge != null then 'define_auth_challenge']: define_auth_challenge,
@@ -5778,13 +6232,15 @@
         password_policy: password_policy,
       },
       password_policy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param minimum_length (optional)
         // @param require_lowercase (optional)
         // @param require_numbers (optional)
         // @param require_symbols (optional)
         // @param require_uppercase (optional)
         // @param temporary_password_validity_days (optional)
-        new(minimum_length=null, require_lowercase=null, require_numbers=null, require_symbols=null, require_uppercase=null, temporary_password_validity_days=null):: {
+        new(rname, minimum_length=null, require_lowercase=null, require_numbers=null, require_symbols=null, require_uppercase=null, temporary_password_validity_days=null):: {
+          rname:: rname,
           [if minimum_length != null then 'minimum_length']: minimum_length,
           [if require_lowercase != null then 'require_lowercase']: require_lowercase,
           [if require_numbers != null then 'require_numbers']: require_numbers,
@@ -5797,12 +6253,14 @@
         schema: schema,
       },
       schema:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param attribute_data_type (required)
         // @param name (required)
         // @param developer_only_attribute (optional)
         // @param mutable (optional)
         // @param required (optional)
-        new(attribute_data_type, name, developer_only_attribute=null, mutable=null, required=null):: {
+        new(rname, attribute_data_type, name, developer_only_attribute=null, mutable=null, required=null):: {
+          rname:: rname,
           attribute_data_type: attribute_data_type,
           name: name,
           [if developer_only_attribute != null then 'developer_only_attribute']: developer_only_attribute,
@@ -5815,9 +6273,11 @@
           number_attribute_constraints: number_attribute_constraints,
         },
         number_attribute_constraints:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param max_value (optional)
           // @param min_value (optional)
-          new(max_value=null, min_value=null):: {
+          new(rname, max_value=null, min_value=null):: {
+            rname:: rname,
             [if max_value != null then 'max_value']: max_value,
             [if min_value != null then 'min_value']: min_value,
           },
@@ -5826,9 +6286,11 @@
           string_attribute_constraints: string_attribute_constraints,
         },
         string_attribute_constraints:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param max_length (optional)
           // @param min_length (optional)
-          new(max_length=null, min_length=null):: {
+          new(rname, max_length=null, min_length=null):: {
+            rname:: rname,
             [if max_length != null then 'max_length']: max_length,
             [if min_length != null then 'min_length']: min_length,
           },
@@ -5838,9 +6300,11 @@
         sms_configuration: sms_configuration,
       },
       sms_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param external_id (required)
         // @param sns_caller_arn (required)
-        new(external_id, sns_caller_arn):: {
+        new(rname, external_id, sns_caller_arn):: {
+          rname:: rname,
           external_id: external_id,
           sns_caller_arn: sns_caller_arn,
         },
@@ -5849,8 +6313,10 @@
         user_pool_add_ons: user_pool_add_ons,
       },
       user_pool_add_ons:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param advanced_security_mode (required)
-        new(advanced_security_mode):: {
+        new(rname, advanced_security_mode):: {
+          rname:: rname,
           advanced_security_mode: advanced_security_mode,
         },
       },
@@ -5858,14 +6324,16 @@
         verification_message_template: verification_message_template,
       },
       verification_message_template:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param default_email_option (optional)
-        new(default_email_option=null):: {
+        new(rname, default_email_option=null):: {
+          rname:: rname,
           [if default_email_option != null then 'default_email_option']: default_email_option,
-          email_message:: '${aws_cognito_user_pool.%s.verification_message_template.email_message}' % super.rname,
-          email_message_by_link:: '${aws_cognito_user_pool.%s.verification_message_template.email_message_by_link}' % super.rname,
-          email_subject:: '${aws_cognito_user_pool.%s.verification_message_template.email_subject}' % super.rname,
-          email_subject_by_link:: '${aws_cognito_user_pool.%s.verification_message_template.email_subject_by_link}' % super.rname,
-          sms_message:: '${aws_cognito_user_pool.%s.verification_message_template.sms_message}' % super.rname,
+          email_message:: '${aws_cognito_user_pool.%s.verification_message_template.email_message}' % rname,
+          email_message_by_link:: '${aws_cognito_user_pool.%s.verification_message_template.email_message_by_link}' % rname,
+          email_subject:: '${aws_cognito_user_pool.%s.verification_message_template.email_subject}' % rname,
+          email_subject_by_link:: '${aws_cognito_user_pool.%s.verification_message_template.email_subject_by_link}' % rname,
+          sms_message:: '${aws_cognito_user_pool.%s.verification_message_template.sms_message}' % rname,
         },
         with_email_message(email_message):: {
           email_message::: email_message,
@@ -5886,7 +6354,7 @@
     },
     // aws_cognito_user_pool_client - https://www.terraform.io/docs/providers/aws/r/cognito_user_pool_client.html
     aws_cognito_user_pool_client:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param user_pool_id (required)
       // @param allowed_oauth_flows (optional)
@@ -5926,7 +6394,7 @@
     },
     // aws_cognito_user_pool_domain - https://www.terraform.io/docs/providers/aws/r/cognito_user_pool_domain.html
     aws_cognito_user_pool_domain:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain (required)
       // @param user_pool_id (required)
       // @param certificate_arn (optional)
@@ -5947,7 +6415,7 @@
     },
     // aws_config_aggregate_authorization - https://www.terraform.io/docs/providers/aws/r/config_aggregate_authorization.html
     aws_config_aggregate_authorization:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param account_id (required)
       // @param region (required)
       // @param tags (optional)
@@ -5965,7 +6433,7 @@
     },
     // aws_config_config_rule - https://www.terraform.io/docs/providers/aws/r/config_config_rule.html
     aws_config_config_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param input_parameters (optional)
@@ -5992,11 +6460,13 @@
         scope: scope,
       },
       scope:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param compliance_resource_id (optional)
         // @param compliance_resource_types (optional)
         // @param tag_key (optional)
         // @param tag_value (optional)
-        new(compliance_resource_id=null, compliance_resource_types=null, tag_key=null, tag_value=null):: {
+        new(rname, compliance_resource_id=null, compliance_resource_types=null, tag_key=null, tag_value=null):: {
+          rname:: rname,
           [if compliance_resource_id != null then 'compliance_resource_id']: compliance_resource_id,
           [if compliance_resource_types != null then 'compliance_resource_types']: compliance_resource_types,
           [if tag_key != null then 'tag_key']: tag_key,
@@ -6004,9 +6474,11 @@
         },
       },
       source:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param owner (required)
         // @param source_identifier (required)
-        new(owner, source_identifier):: {
+        new(rname, owner, source_identifier):: {
+          rname:: rname,
           owner: owner,
           source_identifier: source_identifier,
           source_detail:: {},
@@ -6015,10 +6487,12 @@
           source_detail: source_detail,
         },
         source_detail:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param event_source (optional)
           // @param maximum_execution_frequency (optional)
           // @param message_type (optional)
-          new(event_source=null, maximum_execution_frequency=null, message_type=null):: {
+          new(rname, event_source=null, maximum_execution_frequency=null, message_type=null):: {
+            rname:: rname,
             [if event_source != null then 'event_source']: event_source,
             [if maximum_execution_frequency != null then 'maximum_execution_frequency']: maximum_execution_frequency,
             [if message_type != null then 'message_type']: message_type,
@@ -6028,7 +6502,7 @@
     },
     // aws_config_configuration_aggregator - https://www.terraform.io/docs/providers/aws/r/config_configuration_aggregator.html
     aws_config_configuration_aggregator:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param tags (optional)
       new(rname, name, tags=null):: {
@@ -6047,10 +6521,12 @@
         account_aggregation_source: account_aggregation_source,
       },
       account_aggregation_source:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param account_ids (required)
         // @param all_regions (optional)
         // @param regions (optional)
-        new(account_ids, all_regions=null, regions=null):: {
+        new(rname, account_ids, all_regions=null, regions=null):: {
+          rname:: rname,
           account_ids: account_ids,
           [if all_regions != null then 'all_regions']: all_regions,
           [if regions != null then 'regions']: regions,
@@ -6060,10 +6536,12 @@
         organization_aggregation_source: organization_aggregation_source,
       },
       organization_aggregation_source:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param role_arn (required)
         // @param all_regions (optional)
         // @param regions (optional)
-        new(role_arn, all_regions=null, regions=null):: {
+        new(rname, role_arn, all_regions=null, regions=null):: {
+          rname:: rname,
           role_arn: role_arn,
           [if all_regions != null then 'all_regions']: all_regions,
           [if regions != null then 'regions']: regions,
@@ -6072,7 +6550,7 @@
     },
     // aws_config_configuration_recorder - https://www.terraform.io/docs/providers/aws/r/config_configuration_recorder.html
     aws_config_configuration_recorder:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param role_arn (required)
       // @param name (optional)
       new(rname, role_arn, name=null):: {
@@ -6089,10 +6567,12 @@
         recording_group: recording_group,
       },
       recording_group:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param all_supported (optional)
         // @param include_global_resource_types (optional)
         // @param resource_types (optional)
-        new(all_supported=null, include_global_resource_types=null, resource_types=null):: {
+        new(rname, all_supported=null, include_global_resource_types=null, resource_types=null):: {
+          rname:: rname,
           [if all_supported != null then 'all_supported']: all_supported,
           [if include_global_resource_types != null then 'include_global_resource_types']: include_global_resource_types,
           [if resource_types != null then 'resource_types']: resource_types,
@@ -6101,7 +6581,7 @@
     },
     // aws_config_configuration_recorder_status - https://www.terraform.io/docs/providers/aws/r/config_configuration_recorder_status.html
     aws_config_configuration_recorder_status:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param is_enabled (required)
       // @param name (required)
       new(rname, is_enabled, name):: {
@@ -6116,7 +6596,7 @@
     },
     // aws_config_delivery_channel - https://www.terraform.io/docs/providers/aws/r/config_delivery_channel.html
     aws_config_delivery_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param s3_bucket_name (required)
       // @param name (optional)
       // @param s3_key_prefix (optional)
@@ -6137,15 +6617,17 @@
         snapshot_delivery_properties: snapshot_delivery_properties,
       },
       snapshot_delivery_properties:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delivery_frequency (optional)
-        new(delivery_frequency=null):: {
+        new(rname, delivery_frequency=null):: {
+          rname:: rname,
           [if delivery_frequency != null then 'delivery_frequency']: delivery_frequency,
         },
       },
     },
     // aws_config_organization_custom_rule - https://www.terraform.io/docs/providers/aws/r/config_organization_custom_rule.html
     aws_config_organization_custom_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param lambda_function_arn (required)
       // @param name (required)
       // @param trigger_types (required)
@@ -6181,10 +6663,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -6193,7 +6677,7 @@
     },
     // aws_config_organization_managed_rule - https://www.terraform.io/docs/providers/aws/r/config_organization_managed_rule.html
     aws_config_organization_managed_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param rule_identifier (required)
       // @param description (optional)
@@ -6227,10 +6711,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -6239,7 +6725,7 @@
     },
     // aws_cur_report_definition - https://www.terraform.io/docs/providers/aws/r/cur_report_definition.html
     aws_cur_report_definition:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param additional_schema_elements (required)
       // @param compression (required)
       // @param format (required)
@@ -6268,7 +6754,7 @@
     },
     // aws_customer_gateway - https://www.terraform.io/docs/providers/aws/r/customer_gateway.html
     aws_customer_gateway:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bgp_asn (required)
       // @param ip_address (required)
       // @param type (required)
@@ -6287,7 +6773,7 @@
     },
     // aws_datapipeline_pipeline - https://www.terraform.io/docs/providers/aws/r/datapipeline_pipeline.html
     aws_datapipeline_pipeline:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param tags (optional)
@@ -6304,7 +6790,7 @@
     },
     // aws_datasync_agent - https://www.terraform.io/docs/providers/aws/r/datasync_agent.html
     aws_datasync_agent:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (optional)
       // @param tags (optional)
       new(rname, name=null, tags=null):: {
@@ -6330,15 +6816,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
     },
     // aws_datasync_location_efs - https://www.terraform.io/docs/providers/aws/r/datasync_location_efs.html
     aws_datasync_location_efs:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param efs_file_system_arn (required)
       // @param subdirectory (optional)
       // @param tags (optional)
@@ -6357,9 +6845,11 @@
         id::: id,
       },
       ec2_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param security_group_arns (required)
         // @param subnet_arn (required)
-        new(security_group_arns, subnet_arn):: {
+        new(rname, security_group_arns, subnet_arn):: {
+          rname:: rname,
           security_group_arns: security_group_arns,
           subnet_arn: subnet_arn,
         },
@@ -6367,7 +6857,7 @@
     },
     // aws_datasync_location_nfs - https://www.terraform.io/docs/providers/aws/r/datasync_location_nfs.html
     aws_datasync_location_nfs:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param server_hostname (required)
       // @param subdirectory (required)
       // @param tags (optional)
@@ -6386,15 +6876,17 @@
         id::: id,
       },
       on_prem_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param agent_arns (required)
-        new(agent_arns):: {
+        new(rname, agent_arns):: {
+          rname:: rname,
           agent_arns: agent_arns,
         },
       },
     },
     // aws_datasync_location_s3 - https://www.terraform.io/docs/providers/aws/r/datasync_location_s3.html
     aws_datasync_location_s3:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param s3_bucket_arn (required)
       // @param subdirectory (required)
       // @param tags (optional)
@@ -6413,15 +6905,17 @@
         id::: id,
       },
       s3_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket_access_role_arn (required)
-        new(bucket_access_role_arn):: {
+        new(rname, bucket_access_role_arn):: {
+          rname:: rname,
           bucket_access_role_arn: bucket_access_role_arn,
         },
       },
     },
     // aws_datasync_location_smb - https://www.terraform.io/docs/providers/aws/r/datasync_location_smb.html
     aws_datasync_location_smb:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param agent_arns (required)
       // @param password (required)
       // @param server_hostname (required)
@@ -6452,15 +6946,17 @@
         mount_options: mount_options,
       },
       mount_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param version (optional)
-        new(version=null):: {
+        new(rname, version=null):: {
+          rname:: rname,
           [if version != null then 'version']: version,
         },
       },
     },
     // aws_datasync_task - https://www.terraform.io/docs/providers/aws/r/datasync_task.html
     aws_datasync_task:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param destination_location_arn (required)
       // @param source_location_arn (required)
       // @param cloudwatch_log_group_arn (optional)
@@ -6485,6 +6981,7 @@
         options: options,
       },
       options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param atime (optional)
         // @param bytes_per_second (optional)
         // @param gid (optional)
@@ -6494,7 +6991,8 @@
         // @param preserve_devices (optional)
         // @param uid (optional)
         // @param verify_mode (optional)
-        new(atime=null, bytes_per_second=null, gid=null, mtime=null, posix_permissions=null, preserve_deleted_files=null, preserve_devices=null, uid=null, verify_mode=null):: {
+        new(rname, atime=null, bytes_per_second=null, gid=null, mtime=null, posix_permissions=null, preserve_deleted_files=null, preserve_devices=null, uid=null, verify_mode=null):: {
+          rname:: rname,
           [if atime != null then 'atime']: atime,
           [if bytes_per_second != null then 'bytes_per_second']: bytes_per_second,
           [if gid != null then 'gid']: gid,
@@ -6510,15 +7008,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
     },
     // aws_dax_cluster - https://www.terraform.io/docs/providers/aws/r/dax_cluster.html
     aws_dax_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_name (required)
       // @param iam_role_arn (required)
       // @param node_type (required)
@@ -6569,8 +7069,10 @@
         server_side_encryption: server_side_encryption,
       },
       server_side_encryption:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (optional)
-        new(enabled=null):: {
+        new(rname, enabled=null):: {
+          rname:: rname,
           [if enabled != null then 'enabled']: enabled,
         },
       },
@@ -6578,10 +7080,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -6590,7 +7094,7 @@
     },
     // aws_dax_parameter_group - https://www.terraform.io/docs/providers/aws/r/dax_parameter_group.html
     aws_dax_parameter_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       new(rname, name, description=null):: {
@@ -6607,9 +7111,11 @@
         parameters: parameters,
       },
       parameters:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param value (required)
-        new(name, value):: {
+        new(rname, name, value):: {
+          rname:: rname,
           name: name,
           value: value,
         },
@@ -6617,7 +7123,7 @@
     },
     // aws_dax_subnet_group - https://www.terraform.io/docs/providers/aws/r/dax_subnet_group.html
     aws_dax_subnet_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param subnet_ids (required)
       // @param description (optional)
@@ -6635,7 +7141,7 @@
     },
     // aws_db_cluster_snapshot - https://www.terraform.io/docs/providers/aws/r/db_cluster_snapshot.html
     aws_db_cluster_snapshot:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param db_cluster_identifier (required)
       // @param db_cluster_snapshot_identifier (required)
       // @param tags (optional)
@@ -6667,15 +7173,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
     },
     // aws_db_event_subscription - https://www.terraform.io/docs/providers/aws/r/db_event_subscription.html
     aws_db_event_subscription:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param sns_topic (required)
       // @param enabled (optional)
       // @param event_categories (optional)
@@ -6708,10 +7216,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -6720,7 +7230,7 @@
     },
     // aws_db_instance - https://www.terraform.io/docs/providers/aws/r/db_instance.html
     aws_db_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param instance_class (required)
       // @param allow_major_version_upgrade (optional)
       // @param auto_minor_version_upgrade (optional)
@@ -6895,12 +7405,14 @@
         s3_import: s3_import,
       },
       s3_import:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket_name (required)
         // @param ingestion_role (required)
         // @param source_engine (required)
         // @param source_engine_version (required)
         // @param bucket_prefix (optional)
-        new(bucket_name, ingestion_role, source_engine, source_engine_version, bucket_prefix=null):: {
+        new(rname, bucket_name, ingestion_role, source_engine, source_engine_version, bucket_prefix=null):: {
+          rname:: rname,
           bucket_name: bucket_name,
           ingestion_role: ingestion_role,
           source_engine: source_engine,
@@ -6912,10 +7424,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -6924,7 +7438,7 @@
     },
     // aws_db_instance_role_association - https://www.terraform.io/docs/providers/aws/r/db_instance_role_association.html
     aws_db_instance_role_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param db_instance_identifier (required)
       // @param feature_name (required)
       // @param role_arn (required)
@@ -6941,7 +7455,7 @@
     },
     // aws_db_option_group - https://www.terraform.io/docs/providers/aws/r/db_option_group.html
     aws_db_option_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param engine_name (required)
       // @param major_engine_version (required)
       // @param option_group_description (optional)
@@ -6972,12 +7486,14 @@
         option: option,
       },
       option:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param option_name (required)
         // @param db_security_group_memberships (optional)
         // @param port (optional)
         // @param version (optional)
         // @param vpc_security_group_memberships (optional)
-        new(option_name, db_security_group_memberships=null, port=null, version=null, vpc_security_group_memberships=null):: {
+        new(rname, option_name, db_security_group_memberships=null, port=null, version=null, vpc_security_group_memberships=null):: {
+          rname:: rname,
           option_name: option_name,
           [if db_security_group_memberships != null then 'db_security_group_memberships']: db_security_group_memberships,
           [if port != null then 'port']: port,
@@ -6989,9 +7505,11 @@
           option_settings: option_settings,
         },
         option_settings:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param name (required)
           // @param value (required)
-          new(name, value):: {
+          new(rname, name, value):: {
+            rname:: rname,
             name: name,
             value: value,
           },
@@ -7001,15 +7519,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delete (optional)
-        new(delete=null):: {
+        new(rname, delete=null):: {
+          rname:: rname,
           [if delete != null then 'delete']: delete,
         },
       },
     },
     // aws_db_parameter_group - https://www.terraform.io/docs/providers/aws/r/db_parameter_group.html
     aws_db_parameter_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param family (required)
       // @param description (optional)
       // @param tags (optional)
@@ -7037,10 +7557,12 @@
         parameter: parameter,
       },
       parameter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param value (required)
         // @param apply_method (optional)
-        new(name, value, apply_method=null):: {
+        new(rname, name, value, apply_method=null):: {
+          rname:: rname,
           name: name,
           value: value,
           [if apply_method != null then 'apply_method']: apply_method,
@@ -7049,7 +7571,7 @@
     },
     // aws_db_security_group - https://www.terraform.io/docs/providers/aws/r/db_security_group.html
     aws_db_security_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param tags (optional)
@@ -7067,12 +7589,14 @@
         id::: id,
       },
       ingress:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cidr (optional)
-        new(cidr=null):: {
+        new(rname, cidr=null):: {
+          rname:: rname,
           [if cidr != null then 'cidr']: cidr,
-          security_group_id:: '${aws_db_security_group.%s.ingress.security_group_id}' % super.rname,
-          security_group_name:: '${aws_db_security_group.%s.ingress.security_group_name}' % super.rname,
-          security_group_owner_id:: '${aws_db_security_group.%s.ingress.security_group_owner_id}' % super.rname,
+          security_group_id:: '${aws_db_security_group.%s.ingress.security_group_id}' % rname,
+          security_group_name:: '${aws_db_security_group.%s.ingress.security_group_name}' % rname,
+          security_group_owner_id:: '${aws_db_security_group.%s.ingress.security_group_owner_id}' % rname,
         },
         with_security_group_id(security_group_id):: {
           security_group_id::: security_group_id,
@@ -7087,7 +7611,7 @@
     },
     // aws_db_snapshot - https://www.terraform.io/docs/providers/aws/r/db_snapshot.html
     aws_db_snapshot:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param db_instance_identifier (required)
       // @param db_snapshot_identifier (required)
       // @param tags (optional)
@@ -7123,15 +7647,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param read (optional)
-        new(read=null):: {
+        new(rname, read=null):: {
+          rname:: rname,
           [if read != null then 'read']: read,
         },
       },
     },
     // aws_db_subnet_group - https://www.terraform.io/docs/providers/aws/r/db_subnet_group.html
     aws_db_subnet_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param subnet_ids (required)
       // @param description (optional)
       // @param tags (optional)
@@ -7157,7 +7683,7 @@
     },
     // aws_default_network_acl - https://www.terraform.io/docs/providers/aws/r/default_network_acl.html
     aws_default_network_acl:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param default_network_acl_id (required)
       // @param subnet_ids (optional)
       // @param tags (optional)
@@ -7179,6 +7705,7 @@
         egress: egress,
       },
       egress:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param action (required)
         // @param from_port (required)
         // @param protocol (required)
@@ -7188,7 +7715,8 @@
         // @param icmp_code (optional)
         // @param icmp_type (optional)
         // @param ipv6_cidr_block (optional)
-        new(action, from_port, protocol, rule_no, to_port, cidr_block=null, icmp_code=null, icmp_type=null, ipv6_cidr_block=null):: {
+        new(rname, action, from_port, protocol, rule_no, to_port, cidr_block=null, icmp_code=null, icmp_type=null, ipv6_cidr_block=null):: {
+          rname:: rname,
           action: action,
           from_port: from_port,
           protocol: protocol,
@@ -7204,6 +7732,7 @@
         ingress: ingress,
       },
       ingress:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param action (required)
         // @param from_port (required)
         // @param protocol (required)
@@ -7213,7 +7742,8 @@
         // @param icmp_code (optional)
         // @param icmp_type (optional)
         // @param ipv6_cidr_block (optional)
-        new(action, from_port, protocol, rule_no, to_port, cidr_block=null, icmp_code=null, icmp_type=null, ipv6_cidr_block=null):: {
+        new(rname, action, from_port, protocol, rule_no, to_port, cidr_block=null, icmp_code=null, icmp_type=null, ipv6_cidr_block=null):: {
+          rname:: rname,
           action: action,
           from_port: from_port,
           protocol: protocol,
@@ -7228,7 +7758,7 @@
     },
     // aws_default_route_table - https://www.terraform.io/docs/providers/aws/r/default_route_table.html
     aws_default_route_table:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param default_route_table_id (required)
       // @param propagating_vgws (optional)
       // @param tags (optional)
@@ -7251,7 +7781,7 @@
     },
     // aws_default_security_group - https://www.terraform.io/docs/providers/aws/r/default_security_group.html
     aws_default_security_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param egress (optional)
       // @param ingress (optional)
       // @param revoke_rules_on_delete (optional)
@@ -7280,9 +7810,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -7290,7 +7822,7 @@
     },
     // aws_default_subnet - https://www.terraform.io/docs/providers/aws/r/default_subnet.html
     aws_default_subnet:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param availability_zone (required)
       // @param tags (optional)
       new(rname, availability_zone, tags=null):: {
@@ -7319,9 +7851,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -7329,7 +7863,7 @@
     },
     // aws_default_vpc - https://www.terraform.io/docs/providers/aws/r/default_vpc.html
     aws_default_vpc:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param enable_dns_support (optional)
       // @param tags (optional)
       new(rname, enable_dns_support=null, tags=null):: {
@@ -7368,7 +7902,7 @@
     },
     // aws_default_vpc_dhcp_options - https://www.terraform.io/docs/providers/aws/r/default_vpc_dhcp_options.html
     aws_default_vpc_dhcp_options:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param netbios_name_servers (optional)
       // @param netbios_node_type (optional)
       // @param tags (optional)
@@ -7389,7 +7923,7 @@
     },
     // aws_devicefarm_project - https://www.terraform.io/docs/providers/aws/r/devicefarm_project.html
     aws_devicefarm_project:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -7403,7 +7937,7 @@
     },
     // aws_directory_service_conditional_forwarder - https://www.terraform.io/docs/providers/aws/r/directory_service_conditional_forwarder.html
     aws_directory_service_conditional_forwarder:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param directory_id (required)
       // @param dns_ips (required)
       // @param remote_domain_name (required)
@@ -7420,7 +7954,7 @@
     },
     // aws_directory_service_directory - https://www.terraform.io/docs/providers/aws/r/directory_service_directory.html
     aws_directory_service_directory:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param password (required)
       // @param description (optional)
@@ -7465,11 +7999,13 @@
         connect_settings: connect_settings,
       },
       connect_settings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param customer_dns_ips (required)
         // @param customer_username (required)
         // @param subnet_ids (required)
         // @param vpc_id (required)
-        new(customer_dns_ips, customer_username, subnet_ids, vpc_id):: {
+        new(rname, customer_dns_ips, customer_username, subnet_ids, vpc_id):: {
+          rname:: rname,
           customer_dns_ips: customer_dns_ips,
           customer_username: customer_username,
           subnet_ids: subnet_ids,
@@ -7480,9 +8016,11 @@
         vpc_settings: vpc_settings,
       },
       vpc_settings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param subnet_ids (required)
         // @param vpc_id (required)
-        new(subnet_ids, vpc_id):: {
+        new(rname, subnet_ids, vpc_id):: {
+          rname:: rname,
           subnet_ids: subnet_ids,
           vpc_id: vpc_id,
         },
@@ -7490,7 +8028,7 @@
     },
     // aws_directory_service_log_subscription - https://www.terraform.io/docs/providers/aws/r/directory_service_log_subscription.html
     aws_directory_service_log_subscription:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param directory_id (required)
       // @param log_group_name (required)
       new(rname, directory_id, log_group_name):: {
@@ -7505,7 +8043,7 @@
     },
     // aws_dlm_lifecycle_policy - https://www.terraform.io/docs/providers/aws/r/dlm_lifecycle_policy.html
     aws_dlm_lifecycle_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param description (required)
       // @param execution_role_arn (required)
       // @param state (optional)
@@ -7525,23 +8063,27 @@
         id::: id,
       },
       policy_details:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param resource_types (required)
         // @param target_tags (required)
         // @param schedule (required)
-        new(resource_types, target_tags, schedule):: {
+        new(rname, resource_types, target_tags, schedule):: {
+          rname:: rname,
           resource_types: resource_types,
           target_tags: target_tags,
           schedule: schedule,
         },
         schedule:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param name (required)
           // @param tags_to_add (optional)
           // @param create_rule (required)
           // @param retain_rule (required)
-          new(name, create_rule, retain_rule, tags_to_add=null):: {
+          new(rname, name, create_rule, retain_rule, tags_to_add=null):: {
+            rname:: rname,
             name: name,
             [if tags_to_add != null then 'tags_to_add']: tags_to_add,
-            copy_tags:: '${aws_dlm_lifecycle_policy.%s.policy_details.schedule.copy_tags}' % super.rname,
+            copy_tags:: '${aws_dlm_lifecycle_policy.%s.policy_details.schedule.copy_tags}' % rname,
             create_rule: create_rule,
             retain_rule: retain_rule,
           },
@@ -7549,20 +8091,24 @@
             copy_tags::: copy_tags,
           },
           create_rule:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param interval (required)
             // @param interval_unit (optional)
-            new(interval, interval_unit=null):: {
+            new(rname, interval, interval_unit=null):: {
+              rname:: rname,
               interval: interval,
               [if interval_unit != null then 'interval_unit']: interval_unit,
-              times:: '${aws_dlm_lifecycle_policy.%s.policy_details.schedule.create_rule.times}' % super.rname,
+              times:: '${aws_dlm_lifecycle_policy.%s.policy_details.schedule.create_rule.times}' % rname,
             },
             with_times(times):: {
               times::: times,
             },
           },
           retain_rule:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param count (required)
-            new(count):: {
+            new(rname, count):: {
+              rname:: rname,
               count: count,
             },
           },
@@ -7571,7 +8117,7 @@
     },
     // aws_dms_certificate - https://www.terraform.io/docs/providers/aws/r/dms_certificate.html
     aws_dms_certificate:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param certificate_id (required)
       // @param certificate_pem (optional)
       // @param certificate_wallet (optional)
@@ -7589,7 +8135,7 @@
     },
     // aws_dms_endpoint - https://www.terraform.io/docs/providers/aws/r/dms_endpoint.html
     aws_dms_endpoint:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param endpoint_id (required)
       // @param endpoint_type (required)
       // @param engine_name (required)
@@ -7640,13 +8186,15 @@
         mongodb_settings: mongodb_settings,
       },
       mongodb_settings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param auth_mechanism (optional)
         // @param auth_source (optional)
         // @param auth_type (optional)
         // @param docs_to_investigate (optional)
         // @param extract_doc_id (optional)
         // @param nesting_level (optional)
-        new(auth_mechanism=null, auth_source=null, auth_type=null, docs_to_investigate=null, extract_doc_id=null, nesting_level=null):: {
+        new(rname, auth_mechanism=null, auth_source=null, auth_type=null, docs_to_investigate=null, extract_doc_id=null, nesting_level=null):: {
+          rname:: rname,
           [if auth_mechanism != null then 'auth_mechanism']: auth_mechanism,
           [if auth_source != null then 'auth_source']: auth_source,
           [if auth_type != null then 'auth_type']: auth_type,
@@ -7659,6 +8207,7 @@
         s3_settings: s3_settings,
       },
       s3_settings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket_folder (optional)
         // @param bucket_name (optional)
         // @param compression_type (optional)
@@ -7666,7 +8215,8 @@
         // @param csv_row_delimiter (optional)
         // @param external_table_definition (optional)
         // @param service_access_role_arn (optional)
-        new(bucket_folder=null, bucket_name=null, compression_type=null, csv_delimiter=null, csv_row_delimiter=null, external_table_definition=null, service_access_role_arn=null):: {
+        new(rname, bucket_folder=null, bucket_name=null, compression_type=null, csv_delimiter=null, csv_row_delimiter=null, external_table_definition=null, service_access_role_arn=null):: {
+          rname:: rname,
           [if bucket_folder != null then 'bucket_folder']: bucket_folder,
           [if bucket_name != null then 'bucket_name']: bucket_name,
           [if compression_type != null then 'compression_type']: compression_type,
@@ -7679,7 +8229,7 @@
     },
     // aws_dms_replication_instance - https://www.terraform.io/docs/providers/aws/r/dms_replication_instance.html
     aws_dms_replication_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param replication_instance_class (required)
       // @param replication_instance_id (required)
       // @param apply_immediately (optional)
@@ -7743,10 +8293,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -7755,7 +8307,7 @@
     },
     // aws_dms_replication_subnet_group - https://www.terraform.io/docs/providers/aws/r/dms_replication_subnet_group.html
     aws_dms_replication_subnet_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param replication_subnet_group_description (required)
       // @param replication_subnet_group_id (required)
       // @param subnet_ids (required)
@@ -7776,7 +8328,7 @@
     },
     // aws_dms_replication_task - https://www.terraform.io/docs/providers/aws/r/dms_replication_task.html
     aws_dms_replication_task:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param migration_type (required)
       // @param replication_instance_arn (required)
       // @param replication_task_id (required)
@@ -7806,7 +8358,7 @@
     },
     // aws_docdb_cluster - https://www.terraform.io/docs/providers/aws/r/docdb_cluster.html
     aws_docdb_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param backup_retention_period (optional)
       // @param enabled_cloudwatch_logs_exports (optional)
       // @param engine (optional)
@@ -7896,10 +8448,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -7908,7 +8462,7 @@
     },
     // aws_docdb_cluster_instance - https://www.terraform.io/docs/providers/aws/r/docdb_cluster_instance.html
     aws_docdb_cluster_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_identifier (required)
       // @param instance_class (required)
       // @param auto_minor_version_upgrade (optional)
@@ -7968,10 +8522,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -7980,7 +8536,7 @@
     },
     // aws_docdb_cluster_parameter_group - https://www.terraform.io/docs/providers/aws/r/docdb_cluster_parameter_group.html
     aws_docdb_cluster_parameter_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param family (required)
       // @param description (optional)
       // @param tags (optional)
@@ -8008,10 +8564,12 @@
         parameter: parameter,
       },
       parameter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param value (required)
         // @param apply_method (optional)
-        new(name, value, apply_method=null):: {
+        new(rname, name, value, apply_method=null):: {
+          rname:: rname,
           name: name,
           value: value,
           [if apply_method != null then 'apply_method']: apply_method,
@@ -8020,7 +8578,7 @@
     },
     // aws_docdb_cluster_snapshot - https://www.terraform.io/docs/providers/aws/r/docdb_cluster_snapshot.html
     aws_docdb_cluster_snapshot:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param db_cluster_identifier (required)
       // @param db_cluster_snapshot_identifier (required)
       new(rname, db_cluster_identifier, db_cluster_snapshot_identifier):: {
@@ -8048,15 +8606,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
     },
     // aws_docdb_subnet_group - https://www.terraform.io/docs/providers/aws/r/docdb_subnet_group.html
     aws_docdb_subnet_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param subnet_ids (required)
       // @param description (optional)
       // @param tags (optional)
@@ -8082,7 +8642,7 @@
     },
     // aws_dx_bgp_peer - https://www.terraform.io/docs/providers/aws/r/dx_bgp_peer.html
     aws_dx_bgp_peer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param address_family (required)
       // @param bgp_asn (required)
       // @param virtual_interface_id (required)
@@ -8116,9 +8676,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -8126,7 +8688,7 @@
     },
     // aws_dx_connection - https://www.terraform.io/docs/providers/aws/r/dx_connection.html
     aws_dx_connection:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bandwidth (required)
       // @param location (required)
       // @param name (required)
@@ -8149,7 +8711,7 @@
     },
     // aws_dx_connection_association - https://www.terraform.io/docs/providers/aws/r/dx_connection_association.html
     aws_dx_connection_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param connection_id (required)
       // @param lag_id (required)
       new(rname, connection_id, lag_id):: {
@@ -8164,7 +8726,7 @@
     },
     // aws_dx_gateway - https://www.terraform.io/docs/providers/aws/r/dx_gateway.html
     aws_dx_gateway:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param amazon_side_asn (required)
       // @param name (required)
       new(rname, amazon_side_asn, name):: {
@@ -8182,9 +8744,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -8192,7 +8756,7 @@
     },
     // aws_dx_gateway_association - https://www.terraform.io/docs/providers/aws/r/dx_gateway_association.html
     aws_dx_gateway_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param dx_gateway_id (required)
       // @param proposal_id (optional)
       // @param vpn_gateway_id (optional)
@@ -8226,10 +8790,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -8238,7 +8804,7 @@
     },
     // aws_dx_gateway_association_proposal - https://www.terraform.io/docs/providers/aws/r/dx_gateway_association_proposal.html
     aws_dx_gateway_association_proposal:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param dx_gateway_id (required)
       // @param dx_gateway_owner_account_id (required)
       // @param associated_gateway_id (optional)
@@ -8263,7 +8829,7 @@
     },
     // aws_dx_hosted_private_virtual_interface - https://www.terraform.io/docs/providers/aws/r/dx_hosted_private_virtual_interface.html
     aws_dx_hosted_private_virtual_interface:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param address_family (required)
       // @param bgp_asn (required)
       // @param connection_id (required)
@@ -8306,10 +8872,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -8318,7 +8886,7 @@
     },
     // aws_dx_hosted_private_virtual_interface_accepter - https://www.terraform.io/docs/providers/aws/r/dx_hosted_private_virtual_interface_accepter.html
     aws_dx_hosted_private_virtual_interface_accepter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param virtual_interface_id (required)
       // @param dx_gateway_id (optional)
       // @param tags (optional)
@@ -8340,9 +8908,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -8350,7 +8920,7 @@
     },
     // aws_dx_hosted_public_virtual_interface - https://www.terraform.io/docs/providers/aws/r/dx_hosted_public_virtual_interface.html
     aws_dx_hosted_public_virtual_interface:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param address_family (required)
       // @param bgp_asn (required)
       // @param connection_id (required)
@@ -8392,9 +8962,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -8402,7 +8974,7 @@
     },
     // aws_dx_hosted_public_virtual_interface_accepter - https://www.terraform.io/docs/providers/aws/r/dx_hosted_public_virtual_interface_accepter.html
     aws_dx_hosted_public_virtual_interface_accepter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param virtual_interface_id (required)
       // @param tags (optional)
       new(rname, virtual_interface_id, tags=null):: {
@@ -8420,9 +8992,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -8430,7 +9004,7 @@
     },
     // aws_dx_hosted_transit_virtual_interface - https://www.terraform.io/docs/providers/aws/r/dx_hosted_transit_virtual_interface.html
     aws_dx_hosted_transit_virtual_interface:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param address_family (required)
       // @param bgp_asn (required)
       // @param connection_id (required)
@@ -8473,10 +9047,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -8485,7 +9061,7 @@
     },
     // aws_dx_hosted_transit_virtual_interface_accepter - https://www.terraform.io/docs/providers/aws/r/dx_hosted_transit_virtual_interface_accepter.html
     aws_dx_hosted_transit_virtual_interface_accepter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param dx_gateway_id (required)
       // @param virtual_interface_id (required)
       // @param tags (optional)
@@ -8505,9 +9081,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -8515,7 +9093,7 @@
     },
     // aws_dx_lag - https://www.terraform.io/docs/providers/aws/r/dx_lag.html
     aws_dx_lag:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param connections_bandwidth (required)
       // @param location (required)
       // @param name (required)
@@ -8543,7 +9121,7 @@
     },
     // aws_dx_private_virtual_interface - https://www.terraform.io/docs/providers/aws/r/dx_private_virtual_interface.html
     aws_dx_private_virtual_interface:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param address_family (required)
       // @param bgp_asn (required)
       // @param connection_id (required)
@@ -8590,10 +9168,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -8602,7 +9182,7 @@
     },
     // aws_dx_public_virtual_interface - https://www.terraform.io/docs/providers/aws/r/dx_public_virtual_interface.html
     aws_dx_public_virtual_interface:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param address_family (required)
       // @param bgp_asn (required)
       // @param connection_id (required)
@@ -8644,9 +9224,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -8654,7 +9236,7 @@
     },
     // aws_dx_transit_virtual_interface - https://www.terraform.io/docs/providers/aws/r/dx_transit_virtual_interface.html
     aws_dx_transit_virtual_interface:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param address_family (required)
       // @param bgp_asn (required)
       // @param connection_id (required)
@@ -8699,10 +9281,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -8711,7 +9295,7 @@
     },
     // aws_dynamodb_global_table - https://www.terraform.io/docs/providers/aws/r/dynamodb_global_table.html
     aws_dynamodb_global_table:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param replica (required)
       new(rname, name, replica):: {
@@ -8726,8 +9310,10 @@
         id::: id,
       },
       replica:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param region_name (required)
-        new(region_name):: {
+        new(rname, region_name):: {
+          rname:: rname,
           region_name: region_name,
         },
       },
@@ -8735,10 +9321,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -8747,7 +9335,7 @@
     },
     // aws_dynamodb_table - https://www.terraform.io/docs/providers/aws/r/dynamodb_table.html
     aws_dynamodb_table:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param hash_key (required)
       // @param name (required)
       // @param billing_mode (optional)
@@ -8787,9 +9375,11 @@
         stream_view_type::: stream_view_type,
       },
       attribute:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param type (required)
-        new(name, type):: {
+        new(rname, name, type):: {
+          rname:: rname,
           name: name,
           type: type,
         },
@@ -8798,6 +9388,7 @@
         global_secondary_index: global_secondary_index,
       },
       global_secondary_index:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param hash_key (required)
         // @param name (required)
         // @param projection_type (required)
@@ -8805,7 +9396,8 @@
         // @param range_key (optional)
         // @param read_capacity (optional)
         // @param write_capacity (optional)
-        new(hash_key, name, projection_type, non_key_attributes=null, range_key=null, read_capacity=null, write_capacity=null):: {
+        new(rname, hash_key, name, projection_type, non_key_attributes=null, range_key=null, read_capacity=null, write_capacity=null):: {
+          rname:: rname,
           hash_key: hash_key,
           name: name,
           projection_type: projection_type,
@@ -8819,11 +9411,13 @@
         local_secondary_index: local_secondary_index,
       },
       local_secondary_index:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param projection_type (required)
         // @param range_key (required)
         // @param non_key_attributes (optional)
-        new(name, projection_type, range_key, non_key_attributes=null):: {
+        new(rname, name, projection_type, range_key, non_key_attributes=null):: {
+          rname:: rname,
           name: name,
           projection_type: projection_type,
           range_key: range_key,
@@ -8834,8 +9428,10 @@
         point_in_time_recovery: point_in_time_recovery,
       },
       point_in_time_recovery:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (required)
-        new(enabled):: {
+        new(rname, enabled):: {
+          rname:: rname,
           enabled: enabled,
         },
       },
@@ -8843,10 +9439,12 @@
         server_side_encryption: server_side_encryption,
       },
       server_side_encryption:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (required)
-        new(enabled):: {
+        new(rname, enabled):: {
+          rname:: rname,
           enabled: enabled,
-          kms_key_arn:: '${aws_dynamodb_table.%s.server_side_encryption.kms_key_arn}' % super.rname,
+          kms_key_arn:: '${aws_dynamodb_table.%s.server_side_encryption.kms_key_arn}' % rname,
         },
         with_kms_key_arn(kms_key_arn):: {
           kms_key_arn::: kms_key_arn,
@@ -8856,10 +9454,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -8869,9 +9469,11 @@
         ttl: ttl,
       },
       ttl:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param attribute_name (required)
         // @param enabled (optional)
-        new(attribute_name, enabled=null):: {
+        new(rname, attribute_name, enabled=null):: {
+          rname:: rname,
           attribute_name: attribute_name,
           [if enabled != null then 'enabled']: enabled,
         },
@@ -8879,7 +9481,7 @@
     },
     // aws_dynamodb_table_item - https://www.terraform.io/docs/providers/aws/r/dynamodb_table_item.html
     aws_dynamodb_table_item:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param hash_key (required)
       // @param item (required)
       // @param table_name (required)
@@ -8898,7 +9500,7 @@
     },
     // aws_ebs_default_kms_key - https://www.terraform.io/docs/providers/aws/r/ebs_default_kms_key.html
     aws_ebs_default_kms_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param key_arn (required)
       new(rname, key_arn):: {
         rname:: rname,
@@ -8911,7 +9513,7 @@
     },
     // aws_ebs_encryption_by_default - https://www.terraform.io/docs/providers/aws/r/ebs_encryption_by_default.html
     aws_ebs_encryption_by_default:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param enabled (optional)
       new(rname, enabled=null):: {
         rname:: rname,
@@ -8924,7 +9526,7 @@
     },
     // aws_ebs_snapshot - https://www.terraform.io/docs/providers/aws/r/ebs_snapshot.html
     aws_ebs_snapshot:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param volume_id (required)
       // @param description (optional)
       // @param tags (optional)
@@ -8949,9 +9551,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -8959,7 +9563,7 @@
     },
     // aws_ebs_snapshot_copy - https://www.terraform.io/docs/providers/aws/r/ebs_snapshot_copy.html
     aws_ebs_snapshot_copy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param source_region (required)
       // @param source_snapshot_id (required)
       // @param description (optional)
@@ -8987,7 +9591,7 @@
     },
     // aws_ebs_volume - https://www.terraform.io/docs/providers/aws/r/ebs_volume.html
     aws_ebs_volume:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param availability_zone (required)
       // @param tags (optional)
       new(rname, availability_zone, tags=null):: {
@@ -9027,7 +9631,7 @@
     },
     // aws_ec2_capacity_reservation - https://www.terraform.io/docs/providers/aws/r/ec2_capacity_reservation.html
     aws_ec2_capacity_reservation:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param availability_zone (required)
       // @param instance_count (required)
       // @param instance_platform (required)
@@ -9060,7 +9664,7 @@
     },
     // aws_ec2_client_vpn_endpoint - https://www.terraform.io/docs/providers/aws/r/ec2_client_vpn_endpoint.html
     aws_ec2_client_vpn_endpoint:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param client_cidr_block (required)
       // @param server_certificate_arn (required)
       // @param description (optional)
@@ -9089,20 +9693,24 @@
         id::: id,
       },
       authentication_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param active_directory_id (optional)
         // @param root_certificate_chain_arn (optional)
-        new(type, active_directory_id=null, root_certificate_chain_arn=null):: {
+        new(rname, type, active_directory_id=null, root_certificate_chain_arn=null):: {
+          rname:: rname,
           type: type,
           [if active_directory_id != null then 'active_directory_id']: active_directory_id,
           [if root_certificate_chain_arn != null then 'root_certificate_chain_arn']: root_certificate_chain_arn,
         },
       },
       connection_log_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (required)
         // @param cloudwatch_log_group (optional)
         // @param cloudwatch_log_stream (optional)
-        new(enabled, cloudwatch_log_group=null, cloudwatch_log_stream=null):: {
+        new(rname, enabled, cloudwatch_log_group=null, cloudwatch_log_stream=null):: {
+          rname:: rname,
           enabled: enabled,
           [if cloudwatch_log_group != null then 'cloudwatch_log_group']: cloudwatch_log_group,
           [if cloudwatch_log_stream != null then 'cloudwatch_log_stream']: cloudwatch_log_stream,
@@ -9111,7 +9719,7 @@
     },
     // aws_ec2_client_vpn_network_association - https://www.terraform.io/docs/providers/aws/r/ec2_client_vpn_network_association.html
     aws_ec2_client_vpn_network_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param client_vpn_endpoint_id (required)
       // @param subnet_id (required)
       new(rname, client_vpn_endpoint_id, subnet_id):: {
@@ -9129,7 +9737,7 @@
     },
     // aws_ec2_fleet - https://www.terraform.io/docs/providers/aws/r/ec2_fleet.html
     aws_ec2_fleet:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param excess_capacity_termination_policy (optional)
       // @param replace_unhealthy_instances (optional)
       // @param tags (optional)
@@ -9157,16 +9765,20 @@
         id::: id,
       },
       launch_template_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param launch_template_specification (required)
-        new(launch_template_specification):: {
+        new(rname, launch_template_specification):: {
+          rname:: rname,
           launch_template_specification: launch_template_specification,
           override:: {},
         },
         launch_template_specification:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param version (required)
           // @param launch_template_id (optional)
           // @param launch_template_name (optional)
-          new(version, launch_template_id=null, launch_template_name=null):: {
+          new(rname, version, launch_template_id=null, launch_template_name=null):: {
+            rname:: rname,
             version: version,
             [if launch_template_id != null then 'launch_template_id']: launch_template_id,
             [if launch_template_name != null then 'launch_template_name']: launch_template_name,
@@ -9176,13 +9788,15 @@
           override: override,
         },
         override:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param availability_zone (optional)
           // @param instance_type (optional)
           // @param max_price (optional)
           // @param priority (optional)
           // @param subnet_id (optional)
           // @param weighted_capacity (optional)
-          new(availability_zone=null, instance_type=null, max_price=null, priority=null, subnet_id=null, weighted_capacity=null):: {
+          new(rname, availability_zone=null, instance_type=null, max_price=null, priority=null, subnet_id=null, weighted_capacity=null):: {
+            rname:: rname,
             [if availability_zone != null then 'availability_zone']: availability_zone,
             [if instance_type != null then 'instance_type']: instance_type,
             [if max_price != null then 'max_price']: max_price,
@@ -9196,8 +9810,10 @@
         on_demand_options: on_demand_options,
       },
       on_demand_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allocation_strategy (optional)
-        new(allocation_strategy=null):: {
+        new(rname, allocation_strategy=null):: {
+          rname:: rname,
           [if allocation_strategy != null then 'allocation_strategy']: allocation_strategy,
         },
       },
@@ -9205,21 +9821,25 @@
         spot_options: spot_options,
       },
       spot_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allocation_strategy (optional)
         // @param instance_interruption_behavior (optional)
         // @param instance_pools_to_use_count (optional)
-        new(allocation_strategy=null, instance_interruption_behavior=null, instance_pools_to_use_count=null):: {
+        new(rname, allocation_strategy=null, instance_interruption_behavior=null, instance_pools_to_use_count=null):: {
+          rname:: rname,
           [if allocation_strategy != null then 'allocation_strategy']: allocation_strategy,
           [if instance_interruption_behavior != null then 'instance_interruption_behavior']: instance_interruption_behavior,
           [if instance_pools_to_use_count != null then 'instance_pools_to_use_count']: instance_pools_to_use_count,
         },
       },
       target_capacity_specification:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param default_target_capacity_type (required)
         // @param total_target_capacity (required)
         // @param on_demand_target_capacity (optional)
         // @param spot_target_capacity (optional)
-        new(default_target_capacity_type, total_target_capacity, on_demand_target_capacity=null, spot_target_capacity=null):: {
+        new(rname, default_target_capacity_type, total_target_capacity, on_demand_target_capacity=null, spot_target_capacity=null):: {
+          rname:: rname,
           default_target_capacity_type: default_target_capacity_type,
           total_target_capacity: total_target_capacity,
           [if on_demand_target_capacity != null then 'on_demand_target_capacity']: on_demand_target_capacity,
@@ -9230,10 +9850,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -9242,7 +9864,7 @@
     },
     // aws_ec2_traffic_mirror_filter - https://www.terraform.io/docs/providers/aws/r/ec2_traffic_mirror_filter.html
     aws_ec2_traffic_mirror_filter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param description (optional)
       // @param network_services (optional)
       new(rname, description=null, network_services=null):: {
@@ -9257,7 +9879,7 @@
     },
     // aws_ec2_traffic_mirror_filter_rule - https://www.terraform.io/docs/providers/aws/r/ec2_traffic_mirror_filter_rule.html
     aws_ec2_traffic_mirror_filter_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param destination_cidr_block (required)
       // @param rule_action (required)
       // @param rule_number (required)
@@ -9287,9 +9909,11 @@
         destination_port_range: destination_port_range,
       },
       destination_port_range:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param from_port (optional)
         // @param to_port (optional)
-        new(from_port=null, to_port=null):: {
+        new(rname, from_port=null, to_port=null):: {
+          rname:: rname,
           [if from_port != null then 'from_port']: from_port,
           [if to_port != null then 'to_port']: to_port,
         },
@@ -9298,9 +9922,11 @@
         source_port_range: source_port_range,
       },
       source_port_range:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param from_port (optional)
         // @param to_port (optional)
-        new(from_port=null, to_port=null):: {
+        new(rname, from_port=null, to_port=null):: {
+          rname:: rname,
           [if from_port != null then 'from_port']: from_port,
           [if to_port != null then 'to_port']: to_port,
         },
@@ -9308,7 +9934,7 @@
     },
     // aws_ec2_traffic_mirror_session - https://www.terraform.io/docs/providers/aws/r/ec2_traffic_mirror_session.html
     aws_ec2_traffic_mirror_session:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param network_interface_id (required)
       // @param session_number (required)
       // @param traffic_mirror_filter_id (required)
@@ -9335,7 +9961,7 @@
     },
     // aws_ec2_traffic_mirror_target - https://www.terraform.io/docs/providers/aws/r/ec2_traffic_mirror_target.html
     aws_ec2_traffic_mirror_target:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param description (optional)
       // @param network_interface_id (optional)
       // @param network_load_balancer_arn (optional)
@@ -9352,7 +9978,7 @@
     },
     // aws_ec2_transit_gateway - https://www.terraform.io/docs/providers/aws/r/ec2_transit_gateway.html
     aws_ec2_transit_gateway:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param amazon_side_asn (optional)
       // @param auto_accept_shared_attachments (optional)
       // @param default_route_table_association (optional)
@@ -9383,7 +10009,7 @@
     },
     // aws_ec2_transit_gateway_route - https://www.terraform.io/docs/providers/aws/r/ec2_transit_gateway_route.html
     aws_ec2_transit_gateway_route:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param destination_cidr_block (required)
       // @param transit_gateway_route_table_id (required)
       // @param blackhole (optional)
@@ -9402,7 +10028,7 @@
     },
     // aws_ec2_transit_gateway_route_table - https://www.terraform.io/docs/providers/aws/r/ec2_transit_gateway_route_table.html
     aws_ec2_transit_gateway_route_table:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param transit_gateway_id (required)
       // @param tags (optional)
       new(rname, transit_gateway_id, tags=null):: {
@@ -9419,7 +10045,7 @@
     },
     // aws_ec2_transit_gateway_route_table_association - https://www.terraform.io/docs/providers/aws/r/ec2_transit_gateway_route_table_association.html
     aws_ec2_transit_gateway_route_table_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param transit_gateway_attachment_id (required)
       // @param transit_gateway_route_table_id (required)
       new(rname, transit_gateway_attachment_id, transit_gateway_route_table_id):: {
@@ -9436,7 +10062,7 @@
     },
     // aws_ec2_transit_gateway_route_table_propagation - https://www.terraform.io/docs/providers/aws/r/ec2_transit_gateway_route_table_propagation.html
     aws_ec2_transit_gateway_route_table_propagation:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param transit_gateway_attachment_id (required)
       // @param transit_gateway_route_table_id (required)
       new(rname, transit_gateway_attachment_id, transit_gateway_route_table_id):: {
@@ -9453,7 +10079,7 @@
     },
     // aws_ec2_transit_gateway_vpc_attachment - https://www.terraform.io/docs/providers/aws/r/ec2_transit_gateway_vpc_attachment.html
     aws_ec2_transit_gateway_vpc_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param subnet_ids (required)
       // @param transit_gateway_id (required)
       // @param vpc_id (required)
@@ -9481,7 +10107,7 @@
     },
     // aws_ec2_transit_gateway_vpc_attachment_accepter - https://www.terraform.io/docs/providers/aws/r/ec2_transit_gateway_vpc_attachment_accepter.html
     aws_ec2_transit_gateway_vpc_attachment_accepter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param transit_gateway_attachment_id (required)
       // @param tags (optional)
       // @param transit_gateway_default_route_table_association (optional)
@@ -9506,7 +10132,7 @@
     },
     // aws_ecr_lifecycle_policy - https://www.terraform.io/docs/providers/aws/r/ecr_lifecycle_policy.html
     aws_ecr_lifecycle_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy (required)
       // @param repository (required)
       new(rname, policy, repository):: {
@@ -9522,7 +10148,7 @@
     },
     // aws_ecr_repository - https://www.terraform.io/docs/providers/aws/r/ecr_repository.html
     aws_ecr_repository:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param image_tag_mutability (optional)
       // @param tags (optional)
@@ -9545,8 +10171,10 @@
         image_scanning_configuration: image_scanning_configuration,
       },
       image_scanning_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param scan_on_push (required)
-        new(scan_on_push):: {
+        new(rname, scan_on_push):: {
+          rname:: rname,
           scan_on_push: scan_on_push,
         },
       },
@@ -9554,15 +10182,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delete (optional)
-        new(delete=null):: {
+        new(rname, delete=null):: {
+          rname:: rname,
           [if delete != null then 'delete']: delete,
         },
       },
     },
     // aws_ecr_repository_policy - https://www.terraform.io/docs/providers/aws/r/ecr_repository_policy.html
     aws_ecr_repository_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy (required)
       // @param repository (required)
       new(rname, policy, repository):: {
@@ -9578,7 +10208,7 @@
     },
     // aws_ecs_capacity_provider - https://www.terraform.io/docs/providers/aws/r/ecs_capacity_provider.html
     aws_ecs_capacity_provider:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param tags (optional)
       // @param auto_scaling_group_provider (required)
@@ -9594,10 +10224,12 @@
         id::: id,
       },
       auto_scaling_group_provider:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param auto_scaling_group_arn (required)
-        new(auto_scaling_group_arn):: {
+        new(rname, auto_scaling_group_arn):: {
+          rname:: rname,
           auto_scaling_group_arn: auto_scaling_group_arn,
-          managed_termination_protection:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_termination_protection}' % super.rname,
+          managed_termination_protection:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_termination_protection}' % rname,
           managed_scaling:: {},
         },
         with_managed_termination_protection(managed_termination_protection):: {
@@ -9607,11 +10239,13 @@
           managed_scaling: managed_scaling,
         },
         managed_scaling:: {
-          new():: {
-            maximum_scaling_step_size:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_scaling.maximum_scaling_step_size}' % super.rname,
-            minimum_scaling_step_size:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_scaling.minimum_scaling_step_size}' % super.rname,
-            status:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_scaling.status}' % super.rname,
-            target_capacity:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_scaling.target_capacity}' % super.rname,
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+          new(rname):: {
+            rname:: rname,
+            maximum_scaling_step_size:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_scaling.maximum_scaling_step_size}' % rname,
+            minimum_scaling_step_size:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_scaling.minimum_scaling_step_size}' % rname,
+            status:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_scaling.status}' % rname,
+            target_capacity:: '${aws_ecs_capacity_provider.%s.auto_scaling_group_provider.managed_scaling.target_capacity}' % rname,
           },
           with_maximum_scaling_step_size(maximum_scaling_step_size):: {
             maximum_scaling_step_size::: maximum_scaling_step_size,
@@ -9630,7 +10264,7 @@
     },
     // aws_ecs_cluster - https://www.terraform.io/docs/providers/aws/r/ecs_cluster.html
     aws_ecs_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param capacity_providers (optional)
       // @param tags (optional)
@@ -9651,10 +10285,12 @@
         default_capacity_provider_strategy: default_capacity_provider_strategy,
       },
       default_capacity_provider_strategy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param capacity_provider (required)
         // @param base (optional)
         // @param weight (optional)
-        new(capacity_provider, base=null, weight=null):: {
+        new(rname, capacity_provider, base=null, weight=null):: {
+          rname:: rname,
           capacity_provider: capacity_provider,
           [if base != null then 'base']: base,
           [if weight != null then 'weight']: weight,
@@ -9664,9 +10300,11 @@
         setting: setting,
       },
       setting:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param value (required)
-        new(name, value):: {
+        new(rname, name, value):: {
+          rname:: rname,
           name: name,
           value: value,
         },
@@ -9674,7 +10312,7 @@
     },
     // aws_ecs_service - https://www.terraform.io/docs/providers/aws/r/ecs_service.html
     aws_ecs_service:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param task_definition (required)
       // @param deployment_maximum_percent (optional)
@@ -9730,10 +10368,12 @@
         capacity_provider_strategy: capacity_provider_strategy,
       },
       capacity_provider_strategy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param capacity_provider (required)
         // @param base (optional)
         // @param weight (optional)
-        new(capacity_provider, base=null, weight=null):: {
+        new(rname, capacity_provider, base=null, weight=null):: {
+          rname:: rname,
           capacity_provider: capacity_provider,
           [if base != null then 'base']: base,
           [if weight != null then 'weight']: weight,
@@ -9743,8 +10383,10 @@
         deployment_controller: deployment_controller,
       },
       deployment_controller:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (optional)
-        new(type=null):: {
+        new(rname, type=null):: {
+          rname:: rname,
           [if type != null then 'type']: type,
         },
       },
@@ -9752,11 +10394,13 @@
         load_balancer: load_balancer,
       },
       load_balancer:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param container_name (required)
         // @param container_port (required)
         // @param elb_name (optional)
         // @param target_group_arn (optional)
-        new(container_name, container_port, elb_name=null, target_group_arn=null):: {
+        new(rname, container_name, container_port, elb_name=null, target_group_arn=null):: {
+          rname:: rname,
           container_name: container_name,
           container_port: container_port,
           [if elb_name != null then 'elb_name']: elb_name,
@@ -9767,10 +10411,12 @@
         network_configuration: network_configuration,
       },
       network_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param subnets (required)
         // @param assign_public_ip (optional)
         // @param security_groups (optional)
-        new(subnets, assign_public_ip=null, security_groups=null):: {
+        new(rname, subnets, assign_public_ip=null, security_groups=null):: {
+          rname:: rname,
           subnets: subnets,
           [if assign_public_ip != null then 'assign_public_ip']: assign_public_ip,
           [if security_groups != null then 'security_groups']: security_groups,
@@ -9780,9 +10426,11 @@
         ordered_placement_strategy: ordered_placement_strategy,
       },
       ordered_placement_strategy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param field (optional)
-        new(type, field=null):: {
+        new(rname, type, field=null):: {
+          rname:: rname,
           type: type,
           [if field != null then 'field']: field,
         },
@@ -9791,9 +10439,11 @@
         placement_constraints: placement_constraints,
       },
       placement_constraints:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param expression (optional)
-        new(type, expression=null):: {
+        new(rname, type, expression=null):: {
+          rname:: rname,
           type: type,
           [if expression != null then 'expression']: expression,
         },
@@ -9802,9 +10452,11 @@
         placement_strategy: placement_strategy,
       },
       placement_strategy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param field (optional)
-        new(type, field=null):: {
+        new(rname, type, field=null):: {
+          rname:: rname,
           type: type,
           [if field != null then 'field']: field,
         },
@@ -9813,11 +10465,13 @@
         service_registries: service_registries,
       },
       service_registries:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param registry_arn (required)
         // @param container_name (optional)
         // @param container_port (optional)
         // @param port (optional)
-        new(registry_arn, container_name=null, container_port=null, port=null):: {
+        new(rname, registry_arn, container_name=null, container_port=null, port=null):: {
+          rname:: rname,
           registry_arn: registry_arn,
           [if container_name != null then 'container_name']: container_name,
           [if container_port != null then 'container_port']: container_port,
@@ -9827,7 +10481,7 @@
     },
     // aws_ecs_task_definition - https://www.terraform.io/docs/providers/aws/r/ecs_task_definition.html
     aws_ecs_task_definition:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param container_definitions (required)
       // @param family (required)
       // @param cpu (optional)
@@ -9868,9 +10522,11 @@
         placement_constraints: placement_constraints,
       },
       placement_constraints:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param expression (optional)
-        new(type, expression=null):: {
+        new(rname, type, expression=null):: {
+          rname:: rname,
           type: type,
           [if expression != null then 'expression']: expression,
         },
@@ -9879,10 +10535,12 @@
         proxy_configuration: proxy_configuration,
       },
       proxy_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param container_name (required)
         // @param properties (optional)
         // @param type (optional)
-        new(container_name, properties=null, type=null):: {
+        new(rname, container_name, properties=null, type=null):: {
+          rname:: rname,
           container_name: container_name,
           [if properties != null then 'properties']: properties,
           [if type != null then 'type']: type,
@@ -9892,9 +10550,11 @@
         volume: volume,
       },
       volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param host_path (optional)
-        new(name, host_path=null):: {
+        new(rname, name, host_path=null):: {
+          rname:: rname,
           name: name,
           [if host_path != null then 'host_path']: host_path,
           docker_volume_configuration:: {},
@@ -9904,16 +10564,18 @@
           docker_volume_configuration: docker_volume_configuration,
         },
         docker_volume_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param autoprovision (optional)
           // @param driver (optional)
           // @param driver_opts (optional)
           // @param labels (optional)
-          new(autoprovision=null, driver=null, driver_opts=null, labels=null):: {
+          new(rname, autoprovision=null, driver=null, driver_opts=null, labels=null):: {
+            rname:: rname,
             [if autoprovision != null then 'autoprovision']: autoprovision,
             [if driver != null then 'driver']: driver,
             [if driver_opts != null then 'driver_opts']: driver_opts,
             [if labels != null then 'labels']: labels,
-            scope:: '${aws_ecs_task_definition.%s.volume.docker_volume_configuration.scope}' % super.rname,
+            scope:: '${aws_ecs_task_definition.%s.volume.docker_volume_configuration.scope}' % rname,
           },
           with_scope(scope):: {
             scope::: scope,
@@ -9923,9 +10585,11 @@
           efs_volume_configuration: efs_volume_configuration,
         },
         efs_volume_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param file_system_id (required)
           // @param root_directory (optional)
-          new(file_system_id, root_directory=null):: {
+          new(rname, file_system_id, root_directory=null):: {
+            rname:: rname,
             file_system_id: file_system_id,
             [if root_directory != null then 'root_directory']: root_directory,
           },
@@ -9934,7 +10598,7 @@
     },
     // aws_efs_file_system - https://www.terraform.io/docs/providers/aws/r/efs_file_system.html
     aws_efs_file_system:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param provisioned_throughput_in_mibps (optional)
       // @param tags (optional)
       // @param throughput_mode (optional)
@@ -9975,15 +10639,17 @@
         lifecycle_policy: lifecycle_policy,
       },
       lifecycle_policy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param transition_to_ia (optional)
-        new(transition_to_ia=null):: {
+        new(rname, transition_to_ia=null):: {
+          rname:: rname,
           [if transition_to_ia != null then 'transition_to_ia']: transition_to_ia,
         },
       },
     },
     // aws_efs_mount_target - https://www.terraform.io/docs/providers/aws/r/efs_mount_target.html
     aws_efs_mount_target:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param file_system_id (required)
       // @param subnet_id (required)
       new(rname, file_system_id, subnet_id):: {
@@ -10009,7 +10675,7 @@
     },
     // aws_egress_only_internet_gateway - https://www.terraform.io/docs/providers/aws/r/egress_only_internet_gateway.html
     aws_egress_only_internet_gateway:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param vpc_id (required)
       new(rname, vpc_id):: {
         rname:: rname,
@@ -10022,7 +10688,7 @@
     },
     // aws_eip - https://www.terraform.io/docs/providers/aws/r/eip.html
     aws_eip:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param associate_with_private_ip (optional)
       // @param tags (optional)
       new(rname, associate_with_private_ip=null, tags=null):: {
@@ -10062,10 +10728,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delete (optional)
         // @param read (optional)
         // @param update (optional)
-        new(delete=null, read=null, update=null):: {
+        new(rname, delete=null, read=null, update=null):: {
+          rname:: rname,
           [if delete != null then 'delete']: delete,
           [if read != null then 'read']: read,
           [if update != null then 'update']: update,
@@ -10074,7 +10742,7 @@
     },
     // aws_eip_association - https://www.terraform.io/docs/providers/aws/r/eip_association.html
     aws_eip_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param allow_reassociation (optional)
       new(rname, allow_reassociation=null):: {
         rname:: rname,
@@ -10107,7 +10775,7 @@
     },
     // aws_eks_cluster - https://www.terraform.io/docs/providers/aws/r/eks_cluster.html
     aws_eks_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param role_arn (required)
       // @param enabled_cluster_log_types (optional)
@@ -10138,19 +10806,23 @@
       with_version(version):: {
         version::: version,
       },
-      with_encryption_config(encryption_config):: {
-        encryption_config::: encryption_config,
+      with_encryption_config(encryption_config):: self + {
+        encryption_config: encryption_config,
       },
       encryption_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param resources (required)
         // @param provider (required)
-        new(resources, provider):: {
+        new(rname, resources, provider):: {
+          rname:: rname,
           resources: resources,
           provider: provider,
         },
         provider:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param key_arn (required)
-          new(key_arn):: {
+          new(rname, key_arn):: {
+            rname:: rname,
             key_arn: key_arn,
           },
         },
@@ -10159,28 +10831,32 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
         },
       },
       vpc_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param subnet_ids (required)
         // @param endpoint_private_access (optional)
         // @param endpoint_public_access (optional)
         // @param security_group_ids (optional)
-        new(subnet_ids, endpoint_private_access=null, endpoint_public_access=null, security_group_ids=null):: {
+        new(rname, subnet_ids, endpoint_private_access=null, endpoint_public_access=null, security_group_ids=null):: {
+          rname:: rname,
           subnet_ids: subnet_ids,
           [if endpoint_private_access != null then 'endpoint_private_access']: endpoint_private_access,
           [if endpoint_public_access != null then 'endpoint_public_access']: endpoint_public_access,
           [if security_group_ids != null then 'security_group_ids']: security_group_ids,
-          cluster_security_group_id:: '${aws_eks_cluster.%s.vpc_config.cluster_security_group_id}' % super.rname,
-          public_access_cidrs:: '${aws_eks_cluster.%s.vpc_config.public_access_cidrs}' % super.rname,
-          vpc_id:: '${aws_eks_cluster.%s.vpc_config.vpc_id}' % super.rname,
+          cluster_security_group_id:: '${aws_eks_cluster.%s.vpc_config.cluster_security_group_id}' % rname,
+          public_access_cidrs:: '${aws_eks_cluster.%s.vpc_config.public_access_cidrs}' % rname,
+          vpc_id:: '${aws_eks_cluster.%s.vpc_config.vpc_id}' % rname,
         },
         with_public_access_cidrs(public_access_cidrs):: {
           public_access_cidrs::: public_access_cidrs,
@@ -10189,7 +10865,7 @@
     },
     // aws_eks_fargate_profile - https://www.terraform.io/docs/providers/aws/r/eks_fargate_profile.html
     aws_eks_fargate_profile:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_name (required)
       // @param fargate_profile_name (required)
       // @param pod_execution_role_arn (required)
@@ -10213,9 +10889,11 @@
         id::: id,
       },
       selector:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param namespace (required)
         // @param labels (optional)
-        new(namespace, labels=null):: {
+        new(rname, namespace, labels=null):: {
+          rname:: rname,
           namespace: namespace,
           [if labels != null then 'labels']: labels,
         },
@@ -10224,9 +10902,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -10234,7 +10914,7 @@
     },
     // aws_eks_node_group - https://www.terraform.io/docs/providers/aws/r/eks_node_group.html
     aws_eks_node_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_name (required)
       // @param node_group_name (required)
       // @param node_role_arn (required)
@@ -10285,18 +10965,22 @@
         remote_access: remote_access,
       },
       remote_access:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param ec2_ssh_key (optional)
         // @param source_security_group_ids (optional)
-        new(ec2_ssh_key=null, source_security_group_ids=null):: {
+        new(rname, ec2_ssh_key=null, source_security_group_ids=null):: {
+          rname:: rname,
           [if ec2_ssh_key != null then 'ec2_ssh_key']: ec2_ssh_key,
           [if source_security_group_ids != null then 'source_security_group_ids']: source_security_group_ids,
         },
       },
       scaling_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param desired_size (required)
         // @param max_size (required)
         // @param min_size (required)
-        new(desired_size, max_size, min_size):: {
+        new(rname, desired_size, max_size, min_size):: {
+          rname:: rname,
           desired_size: desired_size,
           max_size: max_size,
           min_size: min_size,
@@ -10306,10 +10990,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -10318,7 +11004,7 @@
     },
     // aws_elastic_beanstalk_application - https://www.terraform.io/docs/providers/aws/r/elastic_beanstalk_application.html
     aws_elastic_beanstalk_application:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param tags (optional)
@@ -10338,11 +11024,13 @@
         appversion_lifecycle: appversion_lifecycle,
       },
       appversion_lifecycle:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param service_role (required)
         // @param delete_source_from_s3 (optional)
         // @param max_age_in_days (optional)
         // @param max_count (optional)
-        new(service_role, delete_source_from_s3=null, max_age_in_days=null, max_count=null):: {
+        new(rname, service_role, delete_source_from_s3=null, max_age_in_days=null, max_count=null):: {
+          rname:: rname,
           service_role: service_role,
           [if delete_source_from_s3 != null then 'delete_source_from_s3']: delete_source_from_s3,
           [if max_age_in_days != null then 'max_age_in_days']: max_age_in_days,
@@ -10352,7 +11040,7 @@
     },
     // aws_elastic_beanstalk_application_version - https://www.terraform.io/docs/providers/aws/r/elastic_beanstalk_application_version.html
     aws_elastic_beanstalk_application_version:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application (required)
       // @param bucket (required)
       // @param key (required)
@@ -10378,7 +11066,7 @@
     },
     // aws_elastic_beanstalk_configuration_template - https://www.terraform.io/docs/providers/aws/r/elastic_beanstalk_configuration_template.html
     aws_elastic_beanstalk_configuration_template:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application (required)
       // @param name (required)
       // @param description (optional)
@@ -10401,11 +11089,13 @@
         setting: setting,
       },
       setting:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param namespace (required)
         // @param value (required)
         // @param resource (optional)
-        new(name, namespace, value, resource=null):: {
+        new(rname, name, namespace, value, resource=null):: {
+          rname:: rname,
           name: name,
           namespace: namespace,
           value: value,
@@ -10415,7 +11105,7 @@
     },
     // aws_elastic_beanstalk_environment - https://www.terraform.io/docs/providers/aws/r/elastic_beanstalk_environment.html
     aws_elastic_beanstalk_environment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application (required)
       // @param name (required)
       // @param description (optional)
@@ -10470,11 +11160,13 @@
         setting: setting,
       },
       setting:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param namespace (required)
         // @param value (required)
         // @param resource (optional)
-        new(name, namespace, value, resource=null):: {
+        new(rname, name, namespace, value, resource=null):: {
+          rname:: rname,
           name: name,
           namespace: namespace,
           value: value,
@@ -10484,7 +11176,7 @@
     },
     // aws_elasticache_cluster - https://www.terraform.io/docs/providers/aws/r/elasticache_cluster.html
     aws_elasticache_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_id (required)
       // @param availability_zones (optional)
       // @param notification_topic_arn (optional)
@@ -10575,7 +11267,7 @@
     },
     // aws_elasticache_parameter_group - https://www.terraform.io/docs/providers/aws/r/elasticache_parameter_group.html
     aws_elasticache_parameter_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param family (required)
       // @param name (required)
       // @param description (optional)
@@ -10594,9 +11286,11 @@
         parameter: parameter,
       },
       parameter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param value (required)
-        new(name, value):: {
+        new(rname, name, value):: {
+          rname:: rname,
           name: name,
           value: value,
         },
@@ -10604,7 +11298,7 @@
     },
     // aws_elasticache_replication_group - https://www.terraform.io/docs/providers/aws/r/elasticache_replication_group.html
     aws_elasticache_replication_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param replication_group_description (required)
       // @param replication_group_id (required)
       // @param at_rest_encryption_enabled (optional)
@@ -10693,9 +11387,11 @@
         cluster_mode: cluster_mode,
       },
       cluster_mode:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param num_node_groups (required)
         // @param replicas_per_node_group (required)
-        new(num_node_groups, replicas_per_node_group):: {
+        new(rname, num_node_groups, replicas_per_node_group):: {
+          rname:: rname,
           num_node_groups: num_node_groups,
           replicas_per_node_group: replicas_per_node_group,
         },
@@ -10704,10 +11400,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -10716,7 +11414,7 @@
     },
     // aws_elasticache_security_group - https://www.terraform.io/docs/providers/aws/r/elasticache_security_group.html
     aws_elasticache_security_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param security_group_names (required)
       // @param description (optional)
@@ -10733,7 +11431,7 @@
     },
     // aws_elasticache_subnet_group - https://www.terraform.io/docs/providers/aws/r/elasticache_subnet_group.html
     aws_elasticache_subnet_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param subnet_ids (required)
       // @param description (optional)
@@ -10750,7 +11448,7 @@
     },
     // aws_elasticsearch_domain - https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain.html
     aws_elasticsearch_domain:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain_name (required)
       // @param elasticsearch_version (optional)
       // @param tags (optional)
@@ -10789,13 +11487,15 @@
         cluster_config: cluster_config,
       },
       cluster_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param dedicated_master_count (optional)
         // @param dedicated_master_enabled (optional)
         // @param dedicated_master_type (optional)
         // @param instance_count (optional)
         // @param instance_type (optional)
         // @param zone_awareness_enabled (optional)
-        new(dedicated_master_count=null, dedicated_master_enabled=null, dedicated_master_type=null, instance_count=null, instance_type=null, zone_awareness_enabled=null):: {
+        new(rname, dedicated_master_count=null, dedicated_master_enabled=null, dedicated_master_type=null, instance_count=null, instance_type=null, zone_awareness_enabled=null):: {
+          rname:: rname,
           [if dedicated_master_count != null then 'dedicated_master_count']: dedicated_master_count,
           [if dedicated_master_enabled != null then 'dedicated_master_enabled']: dedicated_master_enabled,
           [if dedicated_master_type != null then 'dedicated_master_type']: dedicated_master_type,
@@ -10808,8 +11508,10 @@
           zone_awareness_config: zone_awareness_config,
         },
         zone_awareness_config:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param availability_zone_count (optional)
-          new(availability_zone_count=null):: {
+          new(rname, availability_zone_count=null):: {
+            rname:: rname,
             [if availability_zone_count != null then 'availability_zone_count']: availability_zone_count,
           },
         },
@@ -10818,11 +11520,13 @@
         cognito_options: cognito_options,
       },
       cognito_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param identity_pool_id (required)
         // @param role_arn (required)
         // @param user_pool_id (required)
         // @param enabled (optional)
-        new(identity_pool_id, role_arn, user_pool_id, enabled=null):: {
+        new(rname, identity_pool_id, role_arn, user_pool_id, enabled=null):: {
+          rname:: rname,
           identity_pool_id: identity_pool_id,
           role_arn: role_arn,
           user_pool_id: user_pool_id,
@@ -10833,10 +11537,12 @@
         domain_endpoint_options: domain_endpoint_options,
       },
       domain_endpoint_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enforce_https (required)
-        new(enforce_https):: {
+        new(rname, enforce_https):: {
+          rname:: rname,
           enforce_https: enforce_https,
-          tls_security_policy:: '${aws_elasticsearch_domain.%s.domain_endpoint_options.tls_security_policy}' % super.rname,
+          tls_security_policy:: '${aws_elasticsearch_domain.%s.domain_endpoint_options.tls_security_policy}' % rname,
         },
         with_tls_security_policy(tls_security_policy):: {
           tls_security_policy::: tls_security_policy,
@@ -10846,14 +11552,16 @@
         ebs_options: ebs_options,
       },
       ebs_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param ebs_enabled (required)
         // @param iops (optional)
         // @param volume_size (optional)
-        new(ebs_enabled, iops=null, volume_size=null):: {
+        new(rname, ebs_enabled, iops=null, volume_size=null):: {
+          rname:: rname,
           ebs_enabled: ebs_enabled,
           [if iops != null then 'iops']: iops,
           [if volume_size != null then 'volume_size']: volume_size,
-          volume_type:: '${aws_elasticsearch_domain.%s.ebs_options.volume_type}' % super.rname,
+          volume_type:: '${aws_elasticsearch_domain.%s.ebs_options.volume_type}' % rname,
         },
         with_volume_type(volume_type):: {
           volume_type::: volume_type,
@@ -10863,10 +11571,12 @@
         encrypt_at_rest: encrypt_at_rest,
       },
       encrypt_at_rest:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (required)
-        new(enabled):: {
+        new(rname, enabled):: {
+          rname:: rname,
           enabled: enabled,
-          kms_key_id:: '${aws_elasticsearch_domain.%s.encrypt_at_rest.kms_key_id}' % super.rname,
+          kms_key_id:: '${aws_elasticsearch_domain.%s.encrypt_at_rest.kms_key_id}' % rname,
         },
         with_kms_key_id(kms_key_id):: {
           kms_key_id::: kms_key_id,
@@ -10876,10 +11586,12 @@
         log_publishing_options: log_publishing_options,
       },
       log_publishing_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cloudwatch_log_group_arn (required)
         // @param log_type (required)
         // @param enabled (optional)
-        new(cloudwatch_log_group_arn, log_type, enabled=null):: {
+        new(rname, cloudwatch_log_group_arn, log_type, enabled=null):: {
+          rname:: rname,
           cloudwatch_log_group_arn: cloudwatch_log_group_arn,
           log_type: log_type,
           [if enabled != null then 'enabled']: enabled,
@@ -10889,8 +11601,10 @@
         node_to_node_encryption: node_to_node_encryption,
       },
       node_to_node_encryption:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (required)
-        new(enabled):: {
+        new(rname, enabled):: {
+          rname:: rname,
           enabled: enabled,
         },
       },
@@ -10898,8 +11612,10 @@
         snapshot_options: snapshot_options,
       },
       snapshot_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param automated_snapshot_start_hour (required)
-        new(automated_snapshot_start_hour):: {
+        new(rname, automated_snapshot_start_hour):: {
+          rname:: rname,
           automated_snapshot_start_hour: automated_snapshot_start_hour,
         },
       },
@@ -10907,19 +11623,21 @@
         vpc_options: vpc_options,
       },
       vpc_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param security_group_ids (optional)
         // @param subnet_ids (optional)
-        new(security_group_ids=null, subnet_ids=null):: {
+        new(rname, security_group_ids=null, subnet_ids=null):: {
+          rname:: rname,
           [if security_group_ids != null then 'security_group_ids']: security_group_ids,
           [if subnet_ids != null then 'subnet_ids']: subnet_ids,
-          availability_zones:: '${aws_elasticsearch_domain.%s.vpc_options.availability_zones}' % super.rname,
-          vpc_id:: '${aws_elasticsearch_domain.%s.vpc_options.vpc_id}' % super.rname,
+          availability_zones:: '${aws_elasticsearch_domain.%s.vpc_options.availability_zones}' % rname,
+          vpc_id:: '${aws_elasticsearch_domain.%s.vpc_options.vpc_id}' % rname,
         },
       },
     },
     // aws_elasticsearch_domain_policy - https://www.terraform.io/docs/providers/aws/r/elasticsearch_domain_policy.html
     aws_elasticsearch_domain_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param access_policies (required)
       // @param domain_name (required)
       new(rname, access_policies, domain_name):: {
@@ -10934,7 +11652,7 @@
     },
     // aws_elastictranscoder_pipeline - https://www.terraform.io/docs/providers/aws/r/elastictranscoder_pipeline.html
     aws_elastictranscoder_pipeline:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param input_bucket (required)
       // @param role (required)
       // @param aws_kms_key_arn (optional)
@@ -10966,10 +11684,12 @@
         content_config: content_config,
       },
       content_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param storage_class (optional)
-        new(storage_class=null):: {
+        new(rname, storage_class=null):: {
+          rname:: rname,
           [if storage_class != null then 'storage_class']: storage_class,
-          bucket:: '${aws_elastictranscoder_pipeline.%s.content_config.bucket}' % super.rname,
+          bucket:: '${aws_elastictranscoder_pipeline.%s.content_config.bucket}' % rname,
         },
         with_bucket(bucket):: {
           bucket::: bucket,
@@ -10979,10 +11699,12 @@
         content_config_permissions: content_config_permissions,
       },
       content_config_permissions:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param access (optional)
         // @param grantee (optional)
         // @param grantee_type (optional)
-        new(access=null, grantee=null, grantee_type=null):: {
+        new(rname, access=null, grantee=null, grantee_type=null):: {
+          rname:: rname,
           [if access != null then 'access']: access,
           [if grantee != null then 'grantee']: grantee,
           [if grantee_type != null then 'grantee_type']: grantee_type,
@@ -10992,11 +11714,13 @@
         notifications: notifications,
       },
       notifications:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param completed (optional)
         // @param rerror (optional)
         // @param progressing (optional)
         // @param warning (optional)
-        new(completed=null, rerror=null, progressing=null, warning=null):: {
+        new(rname, completed=null, rerror=null, progressing=null, warning=null):: {
+          rname:: rname,
           [if completed != null then 'completed']: completed,
           [if rerror != null then 'error']: rerror,
           [if progressing != null then 'progressing']: progressing,
@@ -11007,10 +11731,12 @@
         thumbnail_config: thumbnail_config,
       },
       thumbnail_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param storage_class (optional)
-        new(storage_class=null):: {
+        new(rname, storage_class=null):: {
+          rname:: rname,
           [if storage_class != null then 'storage_class']: storage_class,
-          bucket:: '${aws_elastictranscoder_pipeline.%s.thumbnail_config.bucket}' % super.rname,
+          bucket:: '${aws_elastictranscoder_pipeline.%s.thumbnail_config.bucket}' % rname,
         },
         with_bucket(bucket):: {
           bucket::: bucket,
@@ -11020,10 +11746,12 @@
         thumbnail_config_permissions: thumbnail_config_permissions,
       },
       thumbnail_config_permissions:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param access (optional)
         // @param grantee (optional)
         // @param grantee_type (optional)
-        new(access=null, grantee=null, grantee_type=null):: {
+        new(rname, access=null, grantee=null, grantee_type=null):: {
+          rname:: rname,
           [if access != null then 'access']: access,
           [if grantee != null then 'grantee']: grantee,
           [if grantee_type != null then 'grantee_type']: grantee_type,
@@ -11032,7 +11760,7 @@
     },
     // aws_elastictranscoder_preset - https://www.terraform.io/docs/providers/aws/r/elastictranscoder_preset.html
     aws_elastictranscoder_preset:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param container (required)
       // @param description (optional)
       // @param video_codec_options (optional)
@@ -11064,12 +11792,14 @@
         audio: audio,
       },
       audio:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param audio_packing_mode (optional)
         // @param bit_rate (optional)
         // @param channels (optional)
         // @param codec (optional)
         // @param sample_rate (optional)
-        new(audio_packing_mode=null, bit_rate=null, channels=null, codec=null, sample_rate=null):: {
+        new(rname, audio_packing_mode=null, bit_rate=null, channels=null, codec=null, sample_rate=null):: {
+          rname:: rname,
           [if audio_packing_mode != null then 'audio_packing_mode']: audio_packing_mode,
           [if bit_rate != null then 'bit_rate']: bit_rate,
           [if channels != null then 'channels']: channels,
@@ -11081,11 +11811,13 @@
         audio_codec_options: audio_codec_options,
       },
       audio_codec_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bit_depth (optional)
         // @param bit_order (optional)
         // @param profile (optional)
         // @param signed (optional)
-        new(bit_depth=null, bit_order=null, profile=null, signed=null):: {
+        new(rname, bit_depth=null, bit_order=null, profile=null, signed=null):: {
+          rname:: rname,
           [if bit_depth != null then 'bit_depth']: bit_depth,
           [if bit_order != null then 'bit_order']: bit_order,
           [if profile != null then 'profile']: profile,
@@ -11096,6 +11828,7 @@
         thumbnails: thumbnails,
       },
       thumbnails:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param aspect_ratio (optional)
         // @param format (optional)
         // @param interval (optional)
@@ -11104,7 +11837,8 @@
         // @param padding_policy (optional)
         // @param resolution (optional)
         // @param sizing_policy (optional)
-        new(aspect_ratio=null, format=null, interval=null, max_height=null, max_width=null, padding_policy=null, resolution=null, sizing_policy=null):: {
+        new(rname, aspect_ratio=null, format=null, interval=null, max_height=null, max_width=null, padding_policy=null, resolution=null, sizing_policy=null):: {
+          rname:: rname,
           [if aspect_ratio != null then 'aspect_ratio']: aspect_ratio,
           [if format != null then 'format']: format,
           [if interval != null then 'interval']: interval,
@@ -11119,6 +11853,7 @@
         video: video,
       },
       video:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param aspect_ratio (optional)
         // @param bit_rate (optional)
         // @param codec (optional)
@@ -11132,7 +11867,8 @@
         // @param padding_policy (optional)
         // @param resolution (optional)
         // @param sizing_policy (optional)
-        new(aspect_ratio=null, bit_rate=null, codec=null, display_aspect_ratio=null, fixed_gop=null, frame_rate=null, keyframes_max_dist=null, max_frame_rate=null, max_height=null, max_width=null, padding_policy=null, resolution=null, sizing_policy=null):: {
+        new(rname, aspect_ratio=null, bit_rate=null, codec=null, display_aspect_ratio=null, fixed_gop=null, frame_rate=null, keyframes_max_dist=null, max_frame_rate=null, max_height=null, max_width=null, padding_policy=null, resolution=null, sizing_policy=null):: {
+          rname:: rname,
           [if aspect_ratio != null then 'aspect_ratio']: aspect_ratio,
           [if bit_rate != null then 'bit_rate']: bit_rate,
           [if codec != null then 'codec']: codec,
@@ -11152,6 +11888,7 @@
         video_watermarks: video_watermarks,
       },
       video_watermarks:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param horizontal_align (optional)
         // @param horizontal_offset (optional)
         // @param id (optional)
@@ -11162,7 +11899,8 @@
         // @param target (optional)
         // @param vertical_align (optional)
         // @param vertical_offset (optional)
-        new(horizontal_align=null, horizontal_offset=null, id=null, max_height=null, max_width=null, opacity=null, sizing_policy=null, target=null, vertical_align=null, vertical_offset=null):: {
+        new(rname, horizontal_align=null, horizontal_offset=null, id=null, max_height=null, max_width=null, opacity=null, sizing_policy=null, target=null, vertical_align=null, vertical_offset=null):: {
+          rname:: rname,
           [if horizontal_align != null then 'horizontal_align']: horizontal_align,
           [if horizontal_offset != null then 'horizontal_offset']: horizontal_offset,
           [if id != null then 'id']: id,
@@ -11178,7 +11916,7 @@
     },
     // aws_elb - https://www.terraform.io/docs/providers/aws/r/elb.html
     aws_elb:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param connection_draining (optional)
       // @param connection_draining_timeout (optional)
       // @param cross_zone_load_balancing (optional)
@@ -11238,11 +11976,13 @@
         access_logs: access_logs,
       },
       access_logs:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket (required)
         // @param bucket_prefix (optional)
         // @param enabled (optional)
         // @param interval (optional)
-        new(bucket, bucket_prefix=null, enabled=null, interval=null):: {
+        new(rname, bucket, bucket_prefix=null, enabled=null, interval=null):: {
+          rname:: rname,
           bucket: bucket,
           [if bucket_prefix != null then 'bucket_prefix']: bucket_prefix,
           [if enabled != null then 'enabled']: enabled,
@@ -11253,12 +11993,14 @@
         health_check: health_check,
       },
       health_check:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param healthy_threshold (required)
         // @param interval (required)
         // @param target (required)
         // @param timeout (required)
         // @param unhealthy_threshold (required)
-        new(healthy_threshold, interval, target, timeout, unhealthy_threshold):: {
+        new(rname, healthy_threshold, interval, target, timeout, unhealthy_threshold):: {
+          rname:: rname,
           healthy_threshold: healthy_threshold,
           interval: interval,
           target: target,
@@ -11267,12 +12009,14 @@
         },
       },
       listener:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param instance_port (required)
         // @param instance_protocol (required)
         // @param lb_port (required)
         // @param lb_protocol (required)
         // @param ssl_certificate_id (optional)
-        new(instance_port, instance_protocol, lb_port, lb_protocol, ssl_certificate_id=null):: {
+        new(rname, instance_port, instance_protocol, lb_port, lb_protocol, ssl_certificate_id=null):: {
+          rname:: rname,
           instance_port: instance_port,
           instance_protocol: instance_protocol,
           lb_port: lb_port,
@@ -11283,7 +12027,7 @@
     },
     // aws_elb_attachment - https://www.terraform.io/docs/providers/aws/r/elb_attachment.html
     aws_elb_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param elb (required)
       // @param instance (required)
       new(rname, elb, instance):: {
@@ -11298,7 +12042,7 @@
     },
     // aws_emr_cluster - https://www.terraform.io/docs/providers/aws/r/emr_cluster.html
     aws_emr_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param release_label (required)
       // @param service_role (required)
@@ -11377,10 +12121,12 @@
         bootstrap_action: bootstrap_action,
       },
       bootstrap_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param path (required)
         // @param args (optional)
-        new(name, path, args=null):: {
+        new(rname, name, path, args=null):: {
+          rname:: rname,
           name: name,
           path: path,
           [if args != null then 'args']: args,
@@ -11390,29 +12136,33 @@
         core_instance_group: core_instance_group,
       },
       core_instance_group:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param instance_type (required)
         // @param autoscaling_policy (optional)
         // @param bid_price (optional)
         // @param instance_count (optional)
         // @param name (optional)
-        new(instance_type, autoscaling_policy=null, bid_price=null, instance_count=null, name=null):: {
+        new(rname, instance_type, autoscaling_policy=null, bid_price=null, instance_count=null, name=null):: {
+          rname:: rname,
           instance_type: instance_type,
           [if autoscaling_policy != null then 'autoscaling_policy']: autoscaling_policy,
           [if bid_price != null then 'bid_price']: bid_price,
           [if instance_count != null then 'instance_count']: instance_count,
           [if name != null then 'name']: name,
-          id:: '${aws_emr_cluster.%s.core_instance_group.id}' % super.rname,
+          id:: '${aws_emr_cluster.%s.core_instance_group.id}' % rname,
           ebs_config:: {},
         },
         with_ebs_config(ebs_config):: self + {
           ebs_config: ebs_config,
         },
         ebs_config:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param size (required)
           // @param type (required)
           // @param iops (optional)
           // @param volumes_per_instance (optional)
-          new(size, type, iops=null, volumes_per_instance=null):: {
+          new(rname, size, type, iops=null, volumes_per_instance=null):: {
+            rname:: rname,
             size: size,
             type: type,
             [if iops != null then 'iops']: iops,
@@ -11424,20 +12174,22 @@
         ec2_attributes: ec2_attributes,
       },
       ec2_attributes:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param instance_profile (required)
         // @param additional_master_security_groups (optional)
         // @param additional_slave_security_groups (optional)
         // @param key_name (optional)
         // @param subnet_id (optional)
-        new(instance_profile, additional_master_security_groups=null, additional_slave_security_groups=null, key_name=null, subnet_id=null):: {
+        new(rname, instance_profile, additional_master_security_groups=null, additional_slave_security_groups=null, key_name=null, subnet_id=null):: {
+          rname:: rname,
           instance_profile: instance_profile,
           [if additional_master_security_groups != null then 'additional_master_security_groups']: additional_master_security_groups,
           [if additional_slave_security_groups != null then 'additional_slave_security_groups']: additional_slave_security_groups,
           [if key_name != null then 'key_name']: key_name,
           [if subnet_id != null then 'subnet_id']: subnet_id,
-          emr_managed_master_security_group:: '${aws_emr_cluster.%s.ec2_attributes.emr_managed_master_security_group}' % super.rname,
-          emr_managed_slave_security_group:: '${aws_emr_cluster.%s.ec2_attributes.emr_managed_slave_security_group}' % super.rname,
-          service_access_security_group:: '${aws_emr_cluster.%s.ec2_attributes.service_access_security_group}' % super.rname,
+          emr_managed_master_security_group:: '${aws_emr_cluster.%s.ec2_attributes.emr_managed_master_security_group}' % rname,
+          emr_managed_slave_security_group:: '${aws_emr_cluster.%s.ec2_attributes.emr_managed_slave_security_group}' % rname,
+          service_access_security_group:: '${aws_emr_cluster.%s.ec2_attributes.service_access_security_group}' % rname,
         },
         with_emr_managed_master_security_group(emr_managed_master_security_group):: {
           emr_managed_master_security_group::: emr_managed_master_security_group,
@@ -11453,31 +12205,35 @@
         instance_group: instance_group,
       },
       instance_group:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param instance_role (required)
         // @param instance_type (required)
         // @param autoscaling_policy (optional)
         // @param bid_price (optional)
         // @param instance_count (optional)
         // @param name (optional)
-        new(instance_role, instance_type, autoscaling_policy=null, bid_price=null, instance_count=null, name=null):: {
+        new(rname, instance_role, instance_type, autoscaling_policy=null, bid_price=null, instance_count=null, name=null):: {
+          rname:: rname,
           instance_role: instance_role,
           instance_type: instance_type,
           [if autoscaling_policy != null then 'autoscaling_policy']: autoscaling_policy,
           [if bid_price != null then 'bid_price']: bid_price,
           [if instance_count != null then 'instance_count']: instance_count,
           [if name != null then 'name']: name,
-          id:: '${aws_emr_cluster.%s.instance_group.id}' % super.rname,
+          id:: '${aws_emr_cluster.%s.instance_group.id}' % rname,
           ebs_config:: {},
         },
         with_ebs_config(ebs_config):: self + {
           ebs_config: ebs_config,
         },
         ebs_config:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param size (required)
           // @param type (required)
           // @param iops (optional)
           // @param volumes_per_instance (optional)
-          new(size, type, iops=null, volumes_per_instance=null):: {
+          new(rname, size, type, iops=null, volumes_per_instance=null):: {
+            rname:: rname,
             size: size,
             type: type,
             [if iops != null then 'iops']: iops,
@@ -11489,12 +12245,14 @@
         kerberos_attributes: kerberos_attributes,
       },
       kerberos_attributes:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param kdc_admin_password (required)
         // @param realm (required)
         // @param ad_domain_join_password (optional)
         // @param ad_domain_join_user (optional)
         // @param cross_realm_trust_principal_password (optional)
-        new(kdc_admin_password, realm, ad_domain_join_password=null, ad_domain_join_user=null, cross_realm_trust_principal_password=null):: {
+        new(rname, kdc_admin_password, realm, ad_domain_join_password=null, ad_domain_join_user=null, cross_realm_trust_principal_password=null):: {
+          rname:: rname,
           kdc_admin_password: kdc_admin_password,
           realm: realm,
           [if ad_domain_join_password != null then 'ad_domain_join_password']: ad_domain_join_password,
@@ -11506,27 +12264,31 @@
         master_instance_group: master_instance_group,
       },
       master_instance_group:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param instance_type (required)
         // @param bid_price (optional)
         // @param instance_count (optional)
         // @param name (optional)
-        new(instance_type, bid_price=null, instance_count=null, name=null):: {
+        new(rname, instance_type, bid_price=null, instance_count=null, name=null):: {
+          rname:: rname,
           instance_type: instance_type,
           [if bid_price != null then 'bid_price']: bid_price,
           [if instance_count != null then 'instance_count']: instance_count,
           [if name != null then 'name']: name,
-          id:: '${aws_emr_cluster.%s.master_instance_group.id}' % super.rname,
+          id:: '${aws_emr_cluster.%s.master_instance_group.id}' % rname,
           ebs_config:: {},
         },
         with_ebs_config(ebs_config):: self + {
           ebs_config: ebs_config,
         },
         ebs_config:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param size (required)
           // @param type (required)
           // @param iops (optional)
           // @param volumes_per_instance (optional)
-          new(size, type, iops=null, volumes_per_instance=null):: {
+          new(rname, size, type, iops=null, volumes_per_instance=null):: {
+            rname:: rname,
             size: size,
             type: type,
             [if iops != null then 'iops']: iops,
@@ -11537,7 +12299,7 @@
     },
     // aws_emr_instance_group - https://www.terraform.io/docs/providers/aws/r/emr_instance_group.html
     aws_emr_instance_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_id (required)
       // @param instance_type (required)
       // @param autoscaling_policy (optional)
@@ -11568,11 +12330,13 @@
         ebs_config: ebs_config,
       },
       ebs_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param size (required)
         // @param type (required)
         // @param iops (optional)
         // @param volumes_per_instance (optional)
-        new(size, type, iops=null, volumes_per_instance=null):: {
+        new(rname, size, type, iops=null, volumes_per_instance=null):: {
+          rname:: rname,
           size: size,
           type: type,
           [if iops != null then 'iops']: iops,
@@ -11582,7 +12346,7 @@
     },
     // aws_emr_security_configuration - https://www.terraform.io/docs/providers/aws/r/emr_security_configuration.html
     aws_emr_security_configuration:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param configuration (required)
       // @param name_prefix (optional)
       new(rname, configuration, name_prefix=null):: {
@@ -11602,7 +12366,7 @@
     },
     // aws_flow_log - https://www.terraform.io/docs/providers/aws/r/flow_log.html
     aws_flow_log:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param traffic_type (required)
       // @param eni_id (optional)
       // @param iam_role_arn (optional)
@@ -11637,7 +12401,7 @@
     },
     // aws_fms_admin_account - https://www.terraform.io/docs/providers/aws/r/fms_admin_account.html
     aws_fms_admin_account:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       new(rname):: {
         rname:: rname,
         account_id:: '${aws_fms_admin_account.%s.account_id}' % rname,
@@ -11652,7 +12416,7 @@
     },
     // aws_fsx_lustre_file_system - https://www.terraform.io/docs/providers/aws/r/fsx_lustre_file_system.html
     aws_fsx_lustre_file_system:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param storage_capacity (required)
       // @param subnet_ids (required)
       // @param import_path (optional)
@@ -11692,9 +12456,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -11702,7 +12468,7 @@
     },
     // aws_fsx_windows_file_system - https://www.terraform.io/docs/providers/aws/r/fsx_windows_file_system.html
     aws_fsx_windows_file_system:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param storage_capacity (required)
       // @param subnet_ids (required)
       // @param throughput_capacity (required)
@@ -11751,13 +12517,15 @@
         self_managed_active_directory: self_managed_active_directory,
       },
       self_managed_active_directory:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param dns_ips (required)
         // @param domain_name (required)
         // @param password (required)
         // @param username (required)
         // @param file_system_administrators_group (optional)
         // @param organizational_unit_distinguished_name (optional)
-        new(dns_ips, domain_name, password, username, file_system_administrators_group=null, organizational_unit_distinguished_name=null):: {
+        new(rname, dns_ips, domain_name, password, username, file_system_administrators_group=null, organizational_unit_distinguished_name=null):: {
+          rname:: rname,
           dns_ips: dns_ips,
           domain_name: domain_name,
           password: password,
@@ -11770,9 +12538,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -11780,7 +12550,7 @@
     },
     // aws_gamelift_alias - https://www.terraform.io/docs/providers/aws/r/gamelift_alias.html
     aws_gamelift_alias:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param tags (optional)
@@ -11798,10 +12568,12 @@
         id::: id,
       },
       routing_strategy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param fleet_id (optional)
         // @param message (optional)
-        new(type, fleet_id=null, message=null):: {
+        new(rname, type, fleet_id=null, message=null):: {
+          rname:: rname,
           type: type,
           [if fleet_id != null then 'fleet_id']: fleet_id,
           [if message != null then 'message']: message,
@@ -11810,7 +12582,7 @@
     },
     // aws_gamelift_build - https://www.terraform.io/docs/providers/aws/r/gamelift_build.html
     aws_gamelift_build:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param operating_system (required)
       // @param tags (optional)
@@ -11830,10 +12602,12 @@
         id::: id,
       },
       storage_location:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket (required)
         // @param key (required)
         // @param role_arn (required)
-        new(bucket, key, role_arn):: {
+        new(rname, bucket, key, role_arn):: {
+          rname:: rname,
           bucket: bucket,
           key: key,
           role_arn: role_arn,
@@ -11842,7 +12616,7 @@
     },
     // aws_gamelift_fleet - https://www.terraform.io/docs/providers/aws/r/gamelift_fleet.html
     aws_gamelift_fleet:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param build_id (required)
       // @param ec2_instance_type (required)
       // @param name (required)
@@ -11881,11 +12655,13 @@
         ec2_inbound_permission: ec2_inbound_permission,
       },
       ec2_inbound_permission:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param from_port (required)
         // @param ip_range (required)
         // @param protocol (required)
         // @param to_port (required)
-        new(from_port, ip_range, protocol, to_port):: {
+        new(rname, from_port, ip_range, protocol, to_port):: {
+          rname:: rname,
           from_port: from_port,
           ip_range: ip_range,
           protocol: protocol,
@@ -11896,9 +12672,11 @@
         resource_creation_limit_policy: resource_creation_limit_policy,
       },
       resource_creation_limit_policy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param new_game_sessions_per_creator (optional)
         // @param policy_period_in_minutes (optional)
-        new(new_game_sessions_per_creator=null, policy_period_in_minutes=null):: {
+        new(rname, new_game_sessions_per_creator=null, policy_period_in_minutes=null):: {
+          rname:: rname,
           [if new_game_sessions_per_creator != null then 'new_game_sessions_per_creator']: new_game_sessions_per_creator,
           [if policy_period_in_minutes != null then 'policy_period_in_minutes']: policy_period_in_minutes,
         },
@@ -11907,9 +12685,11 @@
         runtime_configuration: runtime_configuration,
       },
       runtime_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param game_session_activation_timeout_seconds (optional)
         // @param max_concurrent_game_session_activations (optional)
-        new(game_session_activation_timeout_seconds=null, max_concurrent_game_session_activations=null):: {
+        new(rname, game_session_activation_timeout_seconds=null, max_concurrent_game_session_activations=null):: {
+          rname:: rname,
           [if game_session_activation_timeout_seconds != null then 'game_session_activation_timeout_seconds']: game_session_activation_timeout_seconds,
           [if max_concurrent_game_session_activations != null then 'max_concurrent_game_session_activations']: max_concurrent_game_session_activations,
           server_process:: {},
@@ -11918,10 +12698,12 @@
           server_process: server_process,
         },
         server_process:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param concurrent_executions (required)
           // @param launch_path (required)
           // @param parameters (optional)
-          new(concurrent_executions, launch_path, parameters=null):: {
+          new(rname, concurrent_executions, launch_path, parameters=null):: {
+            rname:: rname,
             concurrent_executions: concurrent_executions,
             launch_path: launch_path,
             [if parameters != null then 'parameters']: parameters,
@@ -11932,9 +12714,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -11942,7 +12726,7 @@
     },
     // aws_gamelift_game_session_queue - https://www.terraform.io/docs/providers/aws/r/gamelift_game_session_queue.html
     aws_gamelift_game_session_queue:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param destinations (optional)
       // @param tags (optional)
@@ -11964,9 +12748,11 @@
         player_latency_policy: player_latency_policy,
       },
       player_latency_policy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param maximum_individual_player_latency_milliseconds (required)
         // @param policy_duration_seconds (optional)
-        new(maximum_individual_player_latency_milliseconds, policy_duration_seconds=null):: {
+        new(rname, maximum_individual_player_latency_milliseconds, policy_duration_seconds=null):: {
+          rname:: rname,
           maximum_individual_player_latency_milliseconds: maximum_individual_player_latency_milliseconds,
           [if policy_duration_seconds != null then 'policy_duration_seconds']: policy_duration_seconds,
         },
@@ -11974,7 +12760,7 @@
     },
     // aws_glacier_vault - https://www.terraform.io/docs/providers/aws/r/glacier_vault.html
     aws_glacier_vault:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param access_policy (optional)
       // @param tags (optional)
@@ -11995,9 +12781,11 @@
         notification: notification,
       },
       notification:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param events (required)
         // @param sns_topic (required)
-        new(events, sns_topic):: {
+        new(rname, events, sns_topic):: {
+          rname:: rname,
           events: events,
           sns_topic: sns_topic,
         },
@@ -12005,7 +12793,7 @@
     },
     // aws_glacier_vault_lock - https://www.terraform.io/docs/providers/aws/r/glacier_vault_lock.html
     aws_glacier_vault_lock:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param complete_lock (required)
       // @param policy (required)
       // @param vault_name (required)
@@ -12024,7 +12812,7 @@
     },
     // aws_globalaccelerator_accelerator - https://www.terraform.io/docs/providers/aws/r/globalaccelerator_accelerator.html
     aws_globalaccelerator_accelerator:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param enabled (optional)
       // @param ip_address_type (optional)
@@ -12046,10 +12834,12 @@
         attributes: attributes,
       },
       attributes:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param flow_logs_enabled (optional)
         // @param flow_logs_s3_bucket (optional)
         // @param flow_logs_s3_prefix (optional)
-        new(flow_logs_enabled=null, flow_logs_s3_bucket=null, flow_logs_s3_prefix=null):: {
+        new(rname, flow_logs_enabled=null, flow_logs_s3_bucket=null, flow_logs_s3_prefix=null):: {
+          rname:: rname,
           [if flow_logs_enabled != null then 'flow_logs_enabled']: flow_logs_enabled,
           [if flow_logs_s3_bucket != null then 'flow_logs_s3_bucket']: flow_logs_s3_bucket,
           [if flow_logs_s3_prefix != null then 'flow_logs_s3_prefix']: flow_logs_s3_prefix,
@@ -12058,7 +12848,7 @@
     },
     // aws_globalaccelerator_endpoint_group - https://www.terraform.io/docs/providers/aws/r/globalaccelerator_endpoint_group.html
     aws_globalaccelerator_endpoint_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param listener_arn (required)
       // @param health_check_interval_seconds (optional)
       // @param health_check_path (optional)
@@ -12089,9 +12879,11 @@
         endpoint_configuration: endpoint_configuration,
       },
       endpoint_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param endpoint_id (optional)
         // @param weight (optional)
-        new(endpoint_id=null, weight=null):: {
+        new(rname, endpoint_id=null, weight=null):: {
+          rname:: rname,
           [if endpoint_id != null then 'endpoint_id']: endpoint_id,
           [if weight != null then 'weight']: weight,
         },
@@ -12099,7 +12891,7 @@
     },
     // aws_globalaccelerator_listener - https://www.terraform.io/docs/providers/aws/r/globalaccelerator_listener.html
     aws_globalaccelerator_listener:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param accelerator_arn (required)
       // @param protocol (required)
       // @param client_affinity (optional)
@@ -12116,9 +12908,11 @@
         id::: id,
       },
       port_range:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param from_port (optional)
         // @param to_port (optional)
-        new(from_port=null, to_port=null):: {
+        new(rname, from_port=null, to_port=null):: {
+          rname:: rname,
           [if from_port != null then 'from_port']: from_port,
           [if to_port != null then 'to_port']: to_port,
         },
@@ -12126,7 +12920,7 @@
     },
     // aws_glue_catalog_database - https://www.terraform.io/docs/providers/aws/r/glue_catalog_database.html
     aws_glue_catalog_database:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param location_uri (optional)
@@ -12149,7 +12943,7 @@
     },
     // aws_glue_catalog_table - https://www.terraform.io/docs/providers/aws/r/glue_catalog_table.html
     aws_glue_catalog_table:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param database_name (required)
       // @param name (required)
       // @param description (optional)
@@ -12185,10 +12979,12 @@
         partition_keys: partition_keys,
       },
       partition_keys:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param comment (optional)
         // @param type (optional)
-        new(name, comment=null, type=null):: {
+        new(rname, name, comment=null, type=null):: {
+          rname:: rname,
           name: name,
           [if comment != null then 'comment']: comment,
           [if type != null then 'type']: type,
@@ -12198,6 +12994,7 @@
         storage_descriptor: storage_descriptor,
       },
       storage_descriptor:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket_columns (optional)
         // @param compressed (optional)
         // @param input_format (optional)
@@ -12206,7 +13003,8 @@
         // @param output_format (optional)
         // @param parameters (optional)
         // @param stored_as_sub_directories (optional)
-        new(bucket_columns=null, compressed=null, input_format=null, location=null, number_of_buckets=null, output_format=null, parameters=null, stored_as_sub_directories=null):: {
+        new(rname, bucket_columns=null, compressed=null, input_format=null, location=null, number_of_buckets=null, output_format=null, parameters=null, stored_as_sub_directories=null):: {
+          rname:: rname,
           [if bucket_columns != null then 'bucket_columns']: bucket_columns,
           [if compressed != null then 'compressed']: compressed,
           [if input_format != null then 'input_format']: input_format,
@@ -12224,10 +13022,12 @@
           columns: columns,
         },
         columns:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param name (required)
           // @param comment (optional)
           // @param type (optional)
-          new(name, comment=null, type=null):: {
+          new(rname, name, comment=null, type=null):: {
+            rname:: rname,
             name: name,
             [if comment != null then 'comment']: comment,
             [if type != null then 'type']: type,
@@ -12237,10 +13037,12 @@
           ser_de_info: ser_de_info,
         },
         ser_de_info:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param name (optional)
           // @param parameters (optional)
           // @param serialization_library (optional)
-          new(name=null, parameters=null, serialization_library=null):: {
+          new(rname, name=null, parameters=null, serialization_library=null):: {
+            rname:: rname,
             [if name != null then 'name']: name,
             [if parameters != null then 'parameters']: parameters,
             [if serialization_library != null then 'serialization_library']: serialization_library,
@@ -12250,10 +13052,12 @@
           skewed_info: skewed_info,
         },
         skewed_info:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param skewed_column_names (optional)
           // @param skewed_column_value_location_maps (optional)
           // @param skewed_column_values (optional)
-          new(skewed_column_names=null, skewed_column_value_location_maps=null, skewed_column_values=null):: {
+          new(rname, skewed_column_names=null, skewed_column_value_location_maps=null, skewed_column_values=null):: {
+            rname:: rname,
             [if skewed_column_names != null then 'skewed_column_names']: skewed_column_names,
             [if skewed_column_value_location_maps != null then 'skewed_column_value_location_maps']: skewed_column_value_location_maps,
             [if skewed_column_values != null then 'skewed_column_values']: skewed_column_values,
@@ -12263,9 +13067,11 @@
           sort_columns: sort_columns,
         },
         sort_columns:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param column (required)
           // @param sort_order (required)
-          new(column, sort_order):: {
+          new(rname, column, sort_order):: {
+            rname:: rname,
             column: column,
             sort_order: sort_order,
           },
@@ -12274,7 +13080,7 @@
     },
     // aws_glue_classifier - https://www.terraform.io/docs/providers/aws/r/glue_classifier.html
     aws_glue_classifier:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -12292,13 +13098,15 @@
         csv_classifier: csv_classifier,
       },
       csv_classifier:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allow_single_column (optional)
         // @param contains_header (optional)
         // @param delimiter (optional)
         // @param disable_value_trimming (optional)
         // @param header (optional)
         // @param quote_symbol (optional)
-        new(allow_single_column=null, contains_header=null, delimiter=null, disable_value_trimming=null, header=null, quote_symbol=null):: {
+        new(rname, allow_single_column=null, contains_header=null, delimiter=null, disable_value_trimming=null, header=null, quote_symbol=null):: {
+          rname:: rname,
           [if allow_single_column != null then 'allow_single_column']: allow_single_column,
           [if contains_header != null then 'contains_header']: contains_header,
           [if delimiter != null then 'delimiter']: delimiter,
@@ -12311,10 +13119,12 @@
         grok_classifier: grok_classifier,
       },
       grok_classifier:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param classification (required)
         // @param grok_pattern (required)
         // @param custom_patterns (optional)
-        new(classification, grok_pattern, custom_patterns=null):: {
+        new(rname, classification, grok_pattern, custom_patterns=null):: {
+          rname:: rname,
           classification: classification,
           grok_pattern: grok_pattern,
           [if custom_patterns != null then 'custom_patterns']: custom_patterns,
@@ -12324,8 +13134,10 @@
         json_classifier: json_classifier,
       },
       json_classifier:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param json_path (required)
-        new(json_path):: {
+        new(rname, json_path):: {
+          rname:: rname,
           json_path: json_path,
         },
       },
@@ -12333,9 +13145,11 @@
         xml_classifier: xml_classifier,
       },
       xml_classifier:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param classification (required)
         // @param row_tag (required)
-        new(classification, row_tag):: {
+        new(rname, classification, row_tag):: {
+          rname:: rname,
           classification: classification,
           row_tag: row_tag,
         },
@@ -12343,7 +13157,7 @@
     },
     // aws_glue_connection - https://www.terraform.io/docs/providers/aws/r/glue_connection.html
     aws_glue_connection:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param connection_properties (required)
       // @param name (required)
       // @param connection_type (optional)
@@ -12370,10 +13184,12 @@
         physical_connection_requirements: physical_connection_requirements,
       },
       physical_connection_requirements:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param availability_zone (optional)
         // @param security_group_id_list (optional)
         // @param subnet_id (optional)
-        new(availability_zone=null, security_group_id_list=null, subnet_id=null):: {
+        new(rname, availability_zone=null, security_group_id_list=null, subnet_id=null):: {
+          rname:: rname,
           [if availability_zone != null then 'availability_zone']: availability_zone,
           [if security_group_id_list != null then 'security_group_id_list']: security_group_id_list,
           [if subnet_id != null then 'subnet_id']: subnet_id,
@@ -12382,7 +13198,7 @@
     },
     // aws_glue_crawler - https://www.terraform.io/docs/providers/aws/r/glue_crawler.html
     aws_glue_crawler:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param database_name (required)
       // @param name (required)
       // @param role (required)
@@ -12420,9 +13236,11 @@
         catalog_target: catalog_target,
       },
       catalog_target:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param database_name (required)
         // @param tables (required)
-        new(database_name, tables):: {
+        new(rname, database_name, tables):: {
+          rname:: rname,
           database_name: database_name,
           tables: tables,
         },
@@ -12431,8 +13249,10 @@
         dynamodb_target: dynamodb_target,
       },
       dynamodb_target:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param path (required)
-        new(path):: {
+        new(rname, path):: {
+          rname:: rname,
           path: path,
         },
       },
@@ -12440,10 +13260,12 @@
         jdbc_target: jdbc_target,
       },
       jdbc_target:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param connection_name (required)
         // @param path (required)
         // @param exclusions (optional)
-        new(connection_name, path, exclusions=null):: {
+        new(rname, connection_name, path, exclusions=null):: {
+          rname:: rname,
           connection_name: connection_name,
           path: path,
           [if exclusions != null then 'exclusions']: exclusions,
@@ -12453,9 +13275,11 @@
         s3_target: s3_target,
       },
       s3_target:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param path (required)
         // @param exclusions (optional)
-        new(path, exclusions=null):: {
+        new(rname, path, exclusions=null):: {
+          rname:: rname,
           path: path,
           [if exclusions != null then 'exclusions']: exclusions,
         },
@@ -12464,9 +13288,11 @@
         schema_change_policy: schema_change_policy,
       },
       schema_change_policy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delete_behavior (optional)
         // @param update_behavior (optional)
-        new(delete_behavior=null, update_behavior=null):: {
+        new(rname, delete_behavior=null, update_behavior=null):: {
+          rname:: rname,
           [if delete_behavior != null then 'delete_behavior']: delete_behavior,
           [if update_behavior != null then 'update_behavior']: update_behavior,
         },
@@ -12474,7 +13300,7 @@
     },
     // aws_glue_job - https://www.terraform.io/docs/providers/aws/r/glue_job.html
     aws_glue_job:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param role_arn (required)
       // @param connections (optional)
@@ -12522,12 +13348,14 @@
         max_capacity::: max_capacity,
       },
       command:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param script_location (required)
         // @param name (optional)
-        new(script_location, name=null):: {
+        new(rname, script_location, name=null):: {
+          rname:: rname,
           script_location: script_location,
           [if name != null then 'name']: name,
-          python_version:: '${aws_glue_job.%s.command.python_version}' % super.rname,
+          python_version:: '${aws_glue_job.%s.command.python_version}' % rname,
         },
         with_python_version(python_version):: {
           python_version::: python_version,
@@ -12537,8 +13365,10 @@
         execution_property: execution_property,
       },
       execution_property:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param max_concurrent_runs (optional)
-        new(max_concurrent_runs=null):: {
+        new(rname, max_concurrent_runs=null):: {
+          rname:: rname,
           [if max_concurrent_runs != null then 'max_concurrent_runs']: max_concurrent_runs,
         },
       },
@@ -12546,15 +13376,17 @@
         notification_property: notification_property,
       },
       notification_property:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param notify_delay_after (optional)
-        new(notify_delay_after=null):: {
+        new(rname, notify_delay_after=null):: {
+          rname:: rname,
           [if notify_delay_after != null then 'notify_delay_after']: notify_delay_after,
         },
       },
     },
     // aws_glue_security_configuration - https://www.terraform.io/docs/providers/aws/r/glue_security_configuration.html
     aws_glue_security_configuration:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param encryption_configuration (required)
       new(rname, name, encryption_configuration):: {
@@ -12567,34 +13399,42 @@
         id::: id,
       },
       encryption_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cloudwatch_encryption (required)
         // @param job_bookmarks_encryption (required)
         // @param s3_encryption (required)
-        new(cloudwatch_encryption, job_bookmarks_encryption, s3_encryption):: {
+        new(rname, cloudwatch_encryption, job_bookmarks_encryption, s3_encryption):: {
+          rname:: rname,
           cloudwatch_encryption: cloudwatch_encryption,
           job_bookmarks_encryption: job_bookmarks_encryption,
           s3_encryption: s3_encryption,
         },
         cloudwatch_encryption:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param cloudwatch_encryption_mode (optional)
           // @param kms_key_arn (optional)
-          new(cloudwatch_encryption_mode=null, kms_key_arn=null):: {
+          new(rname, cloudwatch_encryption_mode=null, kms_key_arn=null):: {
+            rname:: rname,
             [if cloudwatch_encryption_mode != null then 'cloudwatch_encryption_mode']: cloudwatch_encryption_mode,
             [if kms_key_arn != null then 'kms_key_arn']: kms_key_arn,
           },
         },
         job_bookmarks_encryption:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param job_bookmarks_encryption_mode (optional)
           // @param kms_key_arn (optional)
-          new(job_bookmarks_encryption_mode=null, kms_key_arn=null):: {
+          new(rname, job_bookmarks_encryption_mode=null, kms_key_arn=null):: {
+            rname:: rname,
             [if job_bookmarks_encryption_mode != null then 'job_bookmarks_encryption_mode']: job_bookmarks_encryption_mode,
             [if kms_key_arn != null then 'kms_key_arn']: kms_key_arn,
           },
         },
         s3_encryption:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param kms_key_arn (optional)
           // @param s3_encryption_mode (optional)
-          new(kms_key_arn=null, s3_encryption_mode=null):: {
+          new(rname, kms_key_arn=null, s3_encryption_mode=null):: {
+            rname:: rname,
             [if kms_key_arn != null then 'kms_key_arn']: kms_key_arn,
             [if s3_encryption_mode != null then 's3_encryption_mode']: s3_encryption_mode,
           },
@@ -12603,7 +13443,7 @@
     },
     // aws_glue_trigger - https://www.terraform.io/docs/providers/aws/r/glue_trigger.html
     aws_glue_trigger:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param type (required)
       // @param description (optional)
@@ -12631,11 +13471,13 @@
         id::: id,
       },
       actions:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param arguments (optional)
         // @param crawler_name (optional)
         // @param job_name (optional)
         // @param timeout (optional)
-        new(arguments=null, crawler_name=null, job_name=null, timeout=null):: {
+        new(rname, arguments=null, crawler_name=null, job_name=null, timeout=null):: {
+          rname:: rname,
           [if arguments != null then 'arguments']: arguments,
           [if crawler_name != null then 'crawler_name']: crawler_name,
           [if job_name != null then 'job_name']: job_name,
@@ -12646,19 +13488,23 @@
         predicate: predicate,
       },
       predicate:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param logical (optional)
         // @param conditions (required)
-        new(conditions, logical=null):: {
+        new(rname, conditions, logical=null):: {
+          rname:: rname,
           [if logical != null then 'logical']: logical,
           conditions: conditions,
         },
         conditions:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param crawl_state (optional)
           // @param crawler_name (optional)
           // @param job_name (optional)
           // @param logical_operator (optional)
           // @param state (optional)
-          new(crawl_state=null, crawler_name=null, job_name=null, logical_operator=null, state=null):: {
+          new(rname, crawl_state=null, crawler_name=null, job_name=null, logical_operator=null, state=null):: {
+            rname:: rname,
             [if crawl_state != null then 'crawl_state']: crawl_state,
             [if crawler_name != null then 'crawler_name']: crawler_name,
             [if job_name != null then 'job_name']: job_name,
@@ -12671,9 +13517,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -12681,7 +13529,7 @@
     },
     // aws_glue_workflow - https://www.terraform.io/docs/providers/aws/r/glue_workflow.html
     aws_glue_workflow:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param default_run_properties (optional)
       // @param description (optional)
       // @param name (optional)
@@ -12698,7 +13546,7 @@
     },
     // aws_guardduty_detector - https://www.terraform.io/docs/providers/aws/r/guardduty_detector.html
     aws_guardduty_detector:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param enable (optional)
       new(rname, enable=null):: {
         rname:: rname,
@@ -12716,7 +13564,7 @@
     },
     // aws_guardduty_invite_accepter - https://www.terraform.io/docs/providers/aws/r/guardduty_invite_accepter.html
     aws_guardduty_invite_accepter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param detector_id (required)
       // @param master_account_id (required)
       new(rname, detector_id, master_account_id):: {
@@ -12733,15 +13581,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
     },
     // aws_guardduty_ipset - https://www.terraform.io/docs/providers/aws/r/guardduty_ipset.html
     aws_guardduty_ipset:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param activate (required)
       // @param detector_id (required)
       // @param format (required)
@@ -12762,7 +13612,7 @@
     },
     // aws_guardduty_member - https://www.terraform.io/docs/providers/aws/r/guardduty_member.html
     aws_guardduty_member:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param account_id (required)
       // @param detector_id (required)
       // @param email (required)
@@ -12788,9 +13638,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param update (optional)
-        new(create=null, update=null):: {
+        new(rname, create=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if update != null then 'update']: update,
         },
@@ -12798,7 +13650,7 @@
     },
     // aws_guardduty_threatintelset - https://www.terraform.io/docs/providers/aws/r/guardduty_threatintelset.html
     aws_guardduty_threatintelset:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param activate (required)
       // @param detector_id (required)
       // @param format (required)
@@ -12819,7 +13671,7 @@
     },
     // aws_iam_access_key - https://www.terraform.io/docs/providers/aws/r/iam_access_key.html
     aws_iam_access_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param user (required)
       // @param pgp_key (optional)
       new(rname, user, pgp_key=null):: {
@@ -12843,7 +13695,7 @@
     },
     // aws_iam_account_alias - https://www.terraform.io/docs/providers/aws/r/iam_account_alias.html
     aws_iam_account_alias:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param account_alias (required)
       new(rname, account_alias):: {
         rname:: rname,
@@ -12856,7 +13708,7 @@
     },
     // aws_iam_account_password_policy - https://www.terraform.io/docs/providers/aws/r/iam_account_password_policy.html
     aws_iam_account_password_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param allow_users_to_change_password (optional)
       // @param minimum_password_length (optional)
       new(rname, allow_users_to_change_password=null, minimum_password_length=null):: {
@@ -12900,7 +13752,7 @@
     },
     // aws_iam_group - https://www.terraform.io/docs/providers/aws/r/iam_group.html
     aws_iam_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param path (optional)
       new(rname, name, path=null):: {
@@ -12917,7 +13769,7 @@
     },
     // aws_iam_group_membership - https://www.terraform.io/docs/providers/aws/r/iam_group_membership.html
     aws_iam_group_membership:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param group (required)
       // @param name (required)
       // @param users (required)
@@ -12934,7 +13786,7 @@
     },
     // aws_iam_group_policy - https://www.terraform.io/docs/providers/aws/r/iam_group_policy.html
     aws_iam_group_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param group (required)
       // @param policy (required)
       // @param name_prefix (optional)
@@ -12955,7 +13807,7 @@
     },
     // aws_iam_group_policy_attachment - https://www.terraform.io/docs/providers/aws/r/iam_group_policy_attachment.html
     aws_iam_group_policy_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param group (required)
       // @param policy_arn (required)
       new(rname, group, policy_arn):: {
@@ -12970,7 +13822,7 @@
     },
     // aws_iam_instance_profile - https://www.terraform.io/docs/providers/aws/r/iam_instance_profile.html
     aws_iam_instance_profile:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name_prefix (optional)
       // @param path (optional)
       new(rname, name_prefix=null, path=null):: {
@@ -13000,7 +13852,7 @@
     },
     // aws_iam_openid_connect_provider - https://www.terraform.io/docs/providers/aws/r/iam_openid_connect_provider.html
     aws_iam_openid_connect_provider:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param client_id_list (required)
       // @param thumbprint_list (required)
       // @param url (required)
@@ -13018,7 +13870,7 @@
     },
     // aws_iam_policy - https://www.terraform.io/docs/providers/aws/r/iam_policy.html
     aws_iam_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy (required)
       // @param description (optional)
       // @param name_prefix (optional)
@@ -13042,7 +13894,7 @@
     },
     // aws_iam_policy_attachment - https://www.terraform.io/docs/providers/aws/r/iam_policy_attachment.html
     aws_iam_policy_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param policy_arn (required)
       // @param groups (optional)
@@ -13063,7 +13915,7 @@
     },
     // aws_iam_role - https://www.terraform.io/docs/providers/aws/r/iam_role.html
     aws_iam_role:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param assume_role_policy (required)
       // @param description (optional)
       // @param force_detach_policies (optional)
@@ -13097,7 +13949,7 @@
     },
     // aws_iam_role_policy - https://www.terraform.io/docs/providers/aws/r/iam_role_policy.html
     aws_iam_role_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy (required)
       // @param role (required)
       // @param name_prefix (optional)
@@ -13118,7 +13970,7 @@
     },
     // aws_iam_role_policy_attachment - https://www.terraform.io/docs/providers/aws/r/iam_role_policy_attachment.html
     aws_iam_role_policy_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy_arn (required)
       // @param role (required)
       new(rname, policy_arn, role):: {
@@ -13133,7 +13985,7 @@
     },
     // aws_iam_saml_provider - https://www.terraform.io/docs/providers/aws/r/iam_saml_provider.html
     aws_iam_saml_provider:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param saml_metadata_document (required)
       new(rname, name, saml_metadata_document):: {
@@ -13150,7 +14002,7 @@
     },
     // aws_iam_server_certificate - https://www.terraform.io/docs/providers/aws/r/iam_server_certificate.html
     aws_iam_server_certificate:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param certificate_body (required)
       // @param private_key (required)
       // @param certificate_chain (optional)
@@ -13179,7 +14031,7 @@
     },
     // aws_iam_service_linked_role - https://www.terraform.io/docs/providers/aws/r/iam_service_linked_role.html
     aws_iam_service_linked_role:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param aws_service_name (required)
       // @param custom_suffix (optional)
       // @param description (optional)
@@ -13201,7 +14053,7 @@
     },
     // aws_iam_user - https://www.terraform.io/docs/providers/aws/r/iam_user.html
     aws_iam_user:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param force_destroy (optional)
       // @param path (optional)
@@ -13224,7 +14076,7 @@
     },
     // aws_iam_user_group_membership - https://www.terraform.io/docs/providers/aws/r/iam_user_group_membership.html
     aws_iam_user_group_membership:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param groups (required)
       // @param user (required)
       new(rname, groups, user):: {
@@ -13239,7 +14091,7 @@
     },
     // aws_iam_user_login_profile - https://www.terraform.io/docs/providers/aws/r/iam_user_login_profile.html
     aws_iam_user_login_profile:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param pgp_key (required)
       // @param user (required)
       // @param password_length (optional)
@@ -13260,7 +14112,7 @@
     },
     // aws_iam_user_policy - https://www.terraform.io/docs/providers/aws/r/iam_user_policy.html
     aws_iam_user_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy (required)
       // @param user (required)
       // @param name_prefix (optional)
@@ -13281,7 +14133,7 @@
     },
     // aws_iam_user_policy_attachment - https://www.terraform.io/docs/providers/aws/r/iam_user_policy_attachment.html
     aws_iam_user_policy_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy_arn (required)
       // @param user (required)
       new(rname, policy_arn, user):: {
@@ -13296,7 +14148,7 @@
     },
     // aws_iam_user_ssh_key - https://www.terraform.io/docs/providers/aws/r/iam_user_ssh_key.html
     aws_iam_user_ssh_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param encoding (required)
       // @param public_key (required)
       // @param username (required)
@@ -13319,7 +14171,7 @@
     },
     // aws_inspector_assessment_target - https://www.terraform.io/docs/providers/aws/r/inspector_assessment_target.html
     aws_inspector_assessment_target:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param resource_group_arn (optional)
       new(rname, name, resource_group_arn=null):: {
@@ -13335,7 +14187,7 @@
     },
     // aws_inspector_assessment_template - https://www.terraform.io/docs/providers/aws/r/inspector_assessment_template.html
     aws_inspector_assessment_template:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param duration (required)
       // @param name (required)
       // @param rules_package_arns (required)
@@ -13355,7 +14207,7 @@
     },
     // aws_inspector_resource_group - https://www.terraform.io/docs/providers/aws/r/inspector_resource_group.html
     aws_inspector_resource_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param tags (required)
       new(rname, tags):: {
         rname:: rname,
@@ -13369,7 +14221,7 @@
     },
     // aws_instance - https://www.terraform.io/docs/providers/aws/r/instance.html
     aws_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param ami (required)
       // @param instance_type (required)
       // @param disable_api_termination (optional)
@@ -13481,8 +14333,10 @@
         credit_specification: credit_specification,
       },
       credit_specification:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cpu_credits (optional)
-        new(cpu_credits=null):: {
+        new(rname, cpu_credits=null):: {
+          rname:: rname,
           [if cpu_credits != null then 'cpu_credits']: cpu_credits,
         },
       },
@@ -13490,18 +14344,20 @@
         ebs_block_device: ebs_block_device,
       },
       ebs_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (required)
         // @param delete_on_termination (optional)
-        new(device_name, delete_on_termination=null):: {
+        new(rname, device_name, delete_on_termination=null):: {
+          rname:: rname,
           device_name: device_name,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
-          encrypted:: '${aws_instance.%s.ebs_block_device.encrypted}' % super.rname,
-          iops:: '${aws_instance.%s.ebs_block_device.iops}' % super.rname,
-          kms_key_id:: '${aws_instance.%s.ebs_block_device.kms_key_id}' % super.rname,
-          snapshot_id:: '${aws_instance.%s.ebs_block_device.snapshot_id}' % super.rname,
-          volume_id:: '${aws_instance.%s.ebs_block_device.volume_id}' % super.rname,
-          volume_size:: '${aws_instance.%s.ebs_block_device.volume_size}' % super.rname,
-          volume_type:: '${aws_instance.%s.ebs_block_device.volume_type}' % super.rname,
+          encrypted:: '${aws_instance.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_instance.%s.ebs_block_device.iops}' % rname,
+          kms_key_id:: '${aws_instance.%s.ebs_block_device.kms_key_id}' % rname,
+          snapshot_id:: '${aws_instance.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_id:: '${aws_instance.%s.ebs_block_device.volume_id}' % rname,
+          volume_size:: '${aws_instance.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_instance.%s.ebs_block_device.volume_type}' % rname,
         },
         with_encrypted(encrypted):: {
           encrypted::: encrypted,
@@ -13526,10 +14382,12 @@
         ephemeral_block_device: ephemeral_block_device,
       },
       ephemeral_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (required)
         // @param no_device (optional)
         // @param virtual_name (optional)
-        new(device_name, no_device=null, virtual_name=null):: {
+        new(rname, device_name, no_device=null, virtual_name=null):: {
+          rname:: rname,
           device_name: device_name,
           [if no_device != null then 'no_device']: no_device,
           [if virtual_name != null then 'virtual_name']: virtual_name,
@@ -13539,10 +14397,12 @@
         network_interface: network_interface,
       },
       network_interface:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_index (required)
         // @param network_interface_id (required)
         // @param delete_on_termination (optional)
-        new(device_index, network_interface_id, delete_on_termination=null):: {
+        new(rname, device_index, network_interface_id, delete_on_termination=null):: {
+          rname:: rname,
           device_index: device_index,
           network_interface_id: network_interface_id,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
@@ -13552,15 +14412,17 @@
         root_block_device: root_block_device,
       },
       root_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delete_on_termination (optional)
-        new(delete_on_termination=null):: {
+        new(rname, delete_on_termination=null):: {
+          rname:: rname,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
-          encrypted:: '${aws_instance.%s.root_block_device.encrypted}' % super.rname,
-          iops:: '${aws_instance.%s.root_block_device.iops}' % super.rname,
-          kms_key_id:: '${aws_instance.%s.root_block_device.kms_key_id}' % super.rname,
-          volume_id:: '${aws_instance.%s.root_block_device.volume_id}' % super.rname,
-          volume_size:: '${aws_instance.%s.root_block_device.volume_size}' % super.rname,
-          volume_type:: '${aws_instance.%s.root_block_device.volume_type}' % super.rname,
+          encrypted:: '${aws_instance.%s.root_block_device.encrypted}' % rname,
+          iops:: '${aws_instance.%s.root_block_device.iops}' % rname,
+          kms_key_id:: '${aws_instance.%s.root_block_device.kms_key_id}' % rname,
+          volume_id:: '${aws_instance.%s.root_block_device.volume_id}' % rname,
+          volume_size:: '${aws_instance.%s.root_block_device.volume_size}' % rname,
+          volume_type:: '${aws_instance.%s.root_block_device.volume_type}' % rname,
         },
         with_encrypted(encrypted):: {
           encrypted::: encrypted,
@@ -13582,10 +14444,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -13594,7 +14458,7 @@
     },
     // aws_internet_gateway - https://www.terraform.io/docs/providers/aws/r/internet_gateway.html
     aws_internet_gateway:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param tags (optional)
       // @param vpc_id (optional)
       new(rname, tags=null, vpc_id=null):: {
@@ -13610,7 +14474,7 @@
     },
     // aws_iot_certificate - https://www.terraform.io/docs/providers/aws/r/iot_certificate.html
     aws_iot_certificate:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param active (required)
       // @param csr (optional)
       new(rname, active, csr=null):: {
@@ -13629,7 +14493,7 @@
     },
     // aws_iot_policy - https://www.terraform.io/docs/providers/aws/r/iot_policy.html
     aws_iot_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param policy (required)
       new(rname, name, policy):: {
@@ -13646,7 +14510,7 @@
     },
     // aws_iot_policy_attachment - https://www.terraform.io/docs/providers/aws/r/iot_policy_attachment.html
     aws_iot_policy_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy (required)
       // @param target (required)
       new(rname, policy, target):: {
@@ -13661,7 +14525,7 @@
     },
     // aws_iot_role_alias - https://www.terraform.io/docs/providers/aws/r/iot_role_alias.html
     aws_iot_role_alias:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param alias (required)
       // @param role_arn (required)
       // @param credential_duration (optional)
@@ -13679,7 +14543,7 @@
     },
     // aws_iot_thing - https://www.terraform.io/docs/providers/aws/r/iot_thing.html
     aws_iot_thing:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param attributes (optional)
       // @param thing_type_name (optional)
@@ -13699,7 +14563,7 @@
     },
     // aws_iot_thing_principal_attachment - https://www.terraform.io/docs/providers/aws/r/iot_thing_principal_attachment.html
     aws_iot_thing_principal_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param principal (required)
       // @param thing (required)
       new(rname, principal, thing):: {
@@ -13714,7 +14578,7 @@
     },
     // aws_iot_thing_type - https://www.terraform.io/docs/providers/aws/r/iot_thing_type.html
     aws_iot_thing_type:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param deprecated (optional)
       new(rname, name, deprecated=null):: {
@@ -13732,10 +14596,12 @@
         properties: properties,
       },
       properties:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param description (optional)
-        new(description=null):: {
+        new(rname, description=null):: {
+          rname:: rname,
           [if description != null then 'description']: description,
-          searchable_attributes:: '${aws_iot_thing_type.%s.properties.searchable_attributes}' % super.rname,
+          searchable_attributes:: '${aws_iot_thing_type.%s.properties.searchable_attributes}' % rname,
         },
         with_searchable_attributes(searchable_attributes):: {
           searchable_attributes::: searchable_attributes,
@@ -13744,7 +14610,7 @@
     },
     // aws_iot_topic_rule - https://www.terraform.io/docs/providers/aws/r/iot_topic_rule.html
     aws_iot_topic_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param enabled (required)
       // @param name (required)
       // @param sql (required)
@@ -13778,11 +14644,13 @@
         cloudwatch_alarm: cloudwatch_alarm,
       },
       cloudwatch_alarm:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param alarm_name (required)
         // @param role_arn (required)
         // @param state_reason (required)
         // @param state_value (required)
-        new(alarm_name, role_arn, state_reason, state_value):: {
+        new(rname, alarm_name, role_arn, state_reason, state_value):: {
+          rname:: rname,
           alarm_name: alarm_name,
           role_arn: role_arn,
           state_reason: state_reason,
@@ -13793,13 +14661,15 @@
         cloudwatch_metric: cloudwatch_metric,
       },
       cloudwatch_metric:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param metric_name (required)
         // @param metric_namespace (required)
         // @param metric_unit (required)
         // @param metric_value (required)
         // @param role_arn (required)
         // @param metric_timestamp (optional)
-        new(metric_name, metric_namespace, metric_unit, metric_value, role_arn, metric_timestamp=null):: {
+        new(rname, metric_name, metric_namespace, metric_unit, metric_value, role_arn, metric_timestamp=null):: {
+          rname:: rname,
           metric_name: metric_name,
           metric_namespace: metric_namespace,
           metric_unit: metric_unit,
@@ -13812,6 +14682,7 @@
         dynamodb: dynamodb,
       },
       dynamodb:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param hash_key_field (required)
         // @param hash_key_value (required)
         // @param role_arn (required)
@@ -13821,7 +14692,8 @@
         // @param range_key_field (optional)
         // @param range_key_type (optional)
         // @param range_key_value (optional)
-        new(hash_key_field, hash_key_value, role_arn, table_name, hash_key_type=null, payload_field=null, range_key_field=null, range_key_type=null, range_key_value=null):: {
+        new(rname, hash_key_field, hash_key_value, role_arn, table_name, hash_key_type=null, payload_field=null, range_key_field=null, range_key_type=null, range_key_value=null):: {
+          rname:: rname,
           hash_key_field: hash_key_field,
           hash_key_value: hash_key_value,
           role_arn: role_arn,
@@ -13837,12 +14709,14 @@
         elasticsearch: elasticsearch,
       },
       elasticsearch:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param endpoint (required)
         // @param id (required)
         // @param index (required)
         // @param role_arn (required)
         // @param type (required)
-        new(endpoint, id, index, role_arn, type):: {
+        new(rname, endpoint, id, index, role_arn, type):: {
+          rname:: rname,
           endpoint: endpoint,
           id: id,
           index: index,
@@ -13854,10 +14728,12 @@
         firehose: firehose,
       },
       firehose:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delivery_stream_name (required)
         // @param role_arn (required)
         // @param separator (optional)
-        new(delivery_stream_name, role_arn, separator=null):: {
+        new(rname, delivery_stream_name, role_arn, separator=null):: {
+          rname:: rname,
           delivery_stream_name: delivery_stream_name,
           role_arn: role_arn,
           [if separator != null then 'separator']: separator,
@@ -13867,10 +14743,12 @@
         kinesis: kinesis,
       },
       kinesis:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param role_arn (required)
         // @param stream_name (required)
         // @param partition_key (optional)
-        new(role_arn, stream_name, partition_key=null):: {
+        new(rname, role_arn, stream_name, partition_key=null):: {
+          rname:: rname,
           role_arn: role_arn,
           stream_name: stream_name,
           [if partition_key != null then 'partition_key']: partition_key,
@@ -13880,8 +14758,10 @@
         lambda: lambda,
       },
       lambda:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param function_arn (required)
-        new(function_arn):: {
+        new(rname, function_arn):: {
+          rname:: rname,
           function_arn: function_arn,
         },
       },
@@ -13889,9 +14769,11 @@
         republish: republish,
       },
       republish:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param role_arn (required)
         // @param topic (required)
-        new(role_arn, topic):: {
+        new(rname, role_arn, topic):: {
+          rname:: rname,
           role_arn: role_arn,
           topic: topic,
         },
@@ -13900,10 +14782,12 @@
         s3: s3,
       },
       s3:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket_name (required)
         // @param key (required)
         // @param role_arn (required)
-        new(bucket_name, key, role_arn):: {
+        new(rname, bucket_name, key, role_arn):: {
+          rname:: rname,
           bucket_name: bucket_name,
           key: key,
           role_arn: role_arn,
@@ -13913,10 +14797,12 @@
         sns: sns,
       },
       sns:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param role_arn (required)
         // @param target_arn (required)
         // @param message_format (optional)
-        new(role_arn, target_arn, message_format=null):: {
+        new(rname, role_arn, target_arn, message_format=null):: {
+          rname:: rname,
           role_arn: role_arn,
           target_arn: target_arn,
           [if message_format != null then 'message_format']: message_format,
@@ -13926,10 +14812,12 @@
         sqs: sqs,
       },
       sqs:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param queue_url (required)
         // @param role_arn (required)
         // @param use_base64 (required)
-        new(queue_url, role_arn, use_base64):: {
+        new(rname, queue_url, role_arn, use_base64):: {
+          rname:: rname,
           queue_url: queue_url,
           role_arn: role_arn,
           use_base64: use_base64,
@@ -13938,7 +14826,7 @@
     },
     // aws_key_pair - https://www.terraform.io/docs/providers/aws/r/key_pair.html
     aws_key_pair:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param public_key (required)
       // @param key_name_prefix (optional)
       // @param tags (optional)
@@ -13961,7 +14849,7 @@
     },
     // aws_kinesis_analytics_application - https://www.terraform.io/docs/providers/aws/r/kinesis_analytics_application.html
     aws_kinesis_analytics_application:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param code (optional)
       // @param description (optional)
@@ -13990,25 +14878,29 @@
         cloudwatch_logging_options: cloudwatch_logging_options,
       },
       cloudwatch_logging_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param log_stream_arn (required)
         // @param role_arn (required)
-        new(log_stream_arn, role_arn):: {
+        new(rname, log_stream_arn, role_arn):: {
+          rname:: rname,
           log_stream_arn: log_stream_arn,
           role_arn: role_arn,
-          id:: '${aws_kinesis_analytics_application.%s.cloudwatch_logging_options.id}' % super.rname,
+          id:: '${aws_kinesis_analytics_application.%s.cloudwatch_logging_options.id}' % rname,
         },
       },
       with_inputs(inputs):: self + {
         inputs: inputs,
       },
       inputs:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name_prefix (required)
         // @param schema (required)
-        new(name_prefix, schema):: {
+        new(rname, name_prefix, schema):: {
+          rname:: rname,
           name_prefix: name_prefix,
-          id:: '${aws_kinesis_analytics_application.%s.inputs.id}' % super.rname,
-          starting_position_configuration:: '${aws_kinesis_analytics_application.%s.inputs.starting_position_configuration}' % super.rname,
-          stream_names:: '${aws_kinesis_analytics_application.%s.inputs.stream_names}' % super.rname,
+          id:: '${aws_kinesis_analytics_application.%s.inputs.id}' % rname,
+          starting_position_configuration:: '${aws_kinesis_analytics_application.%s.inputs.starting_position_configuration}' % rname,
+          stream_names:: '${aws_kinesis_analytics_application.%s.inputs.stream_names}' % rname,
           kinesis_firehose:: {},
           kinesis_stream:: {},
           parallelism:: {},
@@ -14019,9 +14911,11 @@
           kinesis_firehose: kinesis_firehose,
         },
         kinesis_firehose:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param resource_arn (required)
           // @param role_arn (required)
-          new(resource_arn, role_arn):: {
+          new(rname, resource_arn, role_arn):: {
+            rname:: rname,
             resource_arn: resource_arn,
             role_arn: role_arn,
           },
@@ -14030,9 +14924,11 @@
           kinesis_stream: kinesis_stream,
         },
         kinesis_stream:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param resource_arn (required)
           // @param role_arn (required)
-          new(resource_arn, role_arn):: {
+          new(rname, resource_arn, role_arn):: {
+            rname:: rname,
             resource_arn: resource_arn,
             role_arn: role_arn,
           },
@@ -14041,8 +14937,10 @@
           parallelism: parallelism,
         },
         parallelism:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param count (required)
-          new(count):: {
+          new(rname, count):: {
+            rname:: rname,
             count: count,
           },
         },
@@ -14050,48 +14948,60 @@
           processing_configuration: processing_configuration,
         },
         processing_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param lambda (required)
-          new(lambda):: {
+          new(rname, lambda):: {
+            rname:: rname,
             lambda: lambda,
           },
           lambda:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param resource_arn (required)
             // @param role_arn (required)
-            new(resource_arn, role_arn):: {
+            new(rname, resource_arn, role_arn):: {
+              rname:: rname,
               resource_arn: resource_arn,
               role_arn: role_arn,
             },
           },
         },
         schema:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param record_encoding (optional)
           // @param record_columns (required)
           // @param record_format (required)
-          new(record_columns, record_format, record_encoding=null):: {
+          new(rname, record_columns, record_format, record_encoding=null):: {
+            rname:: rname,
             [if record_encoding != null then 'record_encoding']: record_encoding,
             record_columns: record_columns,
             record_format: record_format,
           },
           record_columns:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param name (required)
             // @param sql_type (required)
             // @param mapping (optional)
-            new(name, sql_type, mapping=null):: {
+            new(rname, name, sql_type, mapping=null):: {
+              rname:: rname,
               name: name,
               sql_type: sql_type,
               [if mapping != null then 'mapping']: mapping,
             },
           },
           record_format:: {
-            new():: {
-              record_format_type:: '${aws_kinesis_analytics_application.%s.inputs.schema.record_format.record_format_type}' % super.rname,
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+            new(rname):: {
+              rname:: rname,
+              record_format_type:: '${aws_kinesis_analytics_application.%s.inputs.schema.record_format.record_format_type}' % rname,
               mapping_parameters:: {},
             },
             with_mapping_parameters(mapping_parameters):: self + {
               mapping_parameters: mapping_parameters,
             },
             mapping_parameters:: {
-              new():: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+              new(rname):: {
+                rname:: rname,
                 csv:: {},
                 json:: {},
               },
@@ -14099,9 +15009,11 @@
                 csv: csv,
               },
               csv:: {
+                // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
                 // @param record_column_delimiter (required)
                 // @param record_row_delimiter (required)
-                new(record_column_delimiter, record_row_delimiter):: {
+                new(rname, record_column_delimiter, record_row_delimiter):: {
+                  rname:: rname,
                   record_column_delimiter: record_column_delimiter,
                   record_row_delimiter: record_row_delimiter,
                 },
@@ -14110,8 +15022,10 @@
                 json: json,
               },
               json:: {
+                // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
                 // @param record_row_path (required)
-                new(record_row_path):: {
+                new(rname, record_row_path):: {
+                  rname:: rname,
                   record_row_path: record_row_path,
                 },
               },
@@ -14123,11 +15037,13 @@
         outputs: outputs,
       },
       outputs:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param schema (required)
-        new(name, schema):: {
+        new(rname, name, schema):: {
+          rname:: rname,
           name: name,
-          id:: '${aws_kinesis_analytics_application.%s.outputs.id}' % super.rname,
+          id:: '${aws_kinesis_analytics_application.%s.outputs.id}' % rname,
           kinesis_firehose:: {},
           kinesis_stream:: {},
           lambda:: {},
@@ -14137,9 +15053,11 @@
           kinesis_firehose: kinesis_firehose,
         },
         kinesis_firehose:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param resource_arn (required)
           // @param role_arn (required)
-          new(resource_arn, role_arn):: {
+          new(rname, resource_arn, role_arn):: {
+            rname:: rname,
             resource_arn: resource_arn,
             role_arn: role_arn,
           },
@@ -14148,9 +15066,11 @@
           kinesis_stream: kinesis_stream,
         },
         kinesis_stream:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param resource_arn (required)
           // @param role_arn (required)
-          new(resource_arn, role_arn):: {
+          new(rname, resource_arn, role_arn):: {
+            rname:: rname,
             resource_arn: resource_arn,
             role_arn: role_arn,
           },
@@ -14159,16 +15079,20 @@
           lambda: lambda,
         },
         lambda:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param resource_arn (required)
           // @param role_arn (required)
-          new(resource_arn, role_arn):: {
+          new(rname, resource_arn, role_arn):: {
+            rname:: rname,
             resource_arn: resource_arn,
             role_arn: role_arn,
           },
         },
         schema:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param record_format_type (optional)
-          new(record_format_type=null):: {
+          new(rname, record_format_type=null):: {
+            rname:: rname,
             [if record_format_type != null then 'record_format_type']: record_format_type,
           },
         },
@@ -14177,54 +15101,66 @@
         reference_data_sources: reference_data_sources,
       },
       reference_data_sources:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param table_name (required)
         // @param s3 (required)
         // @param schema (required)
-        new(table_name, s3, schema):: {
+        new(rname, table_name, s3, schema):: {
+          rname:: rname,
           table_name: table_name,
-          id:: '${aws_kinesis_analytics_application.%s.reference_data_sources.id}' % super.rname,
+          id:: '${aws_kinesis_analytics_application.%s.reference_data_sources.id}' % rname,
           s3: s3,
           schema: schema,
         },
         s3:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param bucket_arn (required)
           // @param file_key (required)
           // @param role_arn (required)
-          new(bucket_arn, file_key, role_arn):: {
+          new(rname, bucket_arn, file_key, role_arn):: {
+            rname:: rname,
             bucket_arn: bucket_arn,
             file_key: file_key,
             role_arn: role_arn,
           },
         },
         schema:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param record_encoding (optional)
           // @param record_columns (required)
           // @param record_format (required)
-          new(record_columns, record_format, record_encoding=null):: {
+          new(rname, record_columns, record_format, record_encoding=null):: {
+            rname:: rname,
             [if record_encoding != null then 'record_encoding']: record_encoding,
             record_columns: record_columns,
             record_format: record_format,
           },
           record_columns:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param name (required)
             // @param sql_type (required)
             // @param mapping (optional)
-            new(name, sql_type, mapping=null):: {
+            new(rname, name, sql_type, mapping=null):: {
+              rname:: rname,
               name: name,
               sql_type: sql_type,
               [if mapping != null then 'mapping']: mapping,
             },
           },
           record_format:: {
-            new():: {
-              record_format_type:: '${aws_kinesis_analytics_application.%s.reference_data_sources.schema.record_format.record_format_type}' % super.rname,
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+            new(rname):: {
+              rname:: rname,
+              record_format_type:: '${aws_kinesis_analytics_application.%s.reference_data_sources.schema.record_format.record_format_type}' % rname,
               mapping_parameters:: {},
             },
             with_mapping_parameters(mapping_parameters):: self + {
               mapping_parameters: mapping_parameters,
             },
             mapping_parameters:: {
-              new():: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+              new(rname):: {
+                rname:: rname,
                 csv:: {},
                 json:: {},
               },
@@ -14232,9 +15168,11 @@
                 csv: csv,
               },
               csv:: {
+                // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
                 // @param record_column_delimiter (required)
                 // @param record_row_delimiter (required)
-                new(record_column_delimiter, record_row_delimiter):: {
+                new(rname, record_column_delimiter, record_row_delimiter):: {
+                  rname:: rname,
                   record_column_delimiter: record_column_delimiter,
                   record_row_delimiter: record_row_delimiter,
                 },
@@ -14243,8 +15181,10 @@
                 json: json,
               },
               json:: {
+                // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
                 // @param record_row_path (required)
-                new(record_row_path):: {
+                new(rname, record_row_path):: {
+                  rname:: rname,
                   record_row_path: record_row_path,
                 },
               },
@@ -14255,7 +15195,7 @@
     },
     // aws_kinesis_firehose_delivery_stream - https://www.terraform.io/docs/providers/aws/r/kinesis_firehose_delivery_stream.html
     aws_kinesis_firehose_delivery_stream:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param destination (required)
       // @param name (required)
       // @param tags (optional)
@@ -14292,6 +15232,7 @@
         elasticsearch_configuration: elasticsearch_configuration,
       },
       elasticsearch_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param domain_arn (required)
         // @param index_name (required)
         // @param role_arn (required)
@@ -14301,7 +15242,8 @@
         // @param retry_duration (optional)
         // @param s3_backup_mode (optional)
         // @param type_name (optional)
-        new(domain_arn, index_name, role_arn, buffering_interval=null, buffering_size=null, index_rotation_period=null, retry_duration=null, s3_backup_mode=null, type_name=null):: {
+        new(rname, domain_arn, index_name, role_arn, buffering_interval=null, buffering_size=null, index_rotation_period=null, retry_duration=null, s3_backup_mode=null, type_name=null):: {
+          rname:: rname,
           domain_arn: domain_arn,
           index_name: index_name,
           role_arn: role_arn,
@@ -14318,10 +15260,12 @@
           cloudwatch_logging_options: cloudwatch_logging_options,
         },
         cloudwatch_logging_options:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param enabled (optional)
           // @param log_group_name (optional)
           // @param log_stream_name (optional)
-          new(enabled=null, log_group_name=null, log_stream_name=null):: {
+          new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
+            rname:: rname,
             [if enabled != null then 'enabled']: enabled,
             [if log_group_name != null then 'log_group_name']: log_group_name,
             [if log_stream_name != null then 'log_stream_name']: log_stream_name,
@@ -14331,8 +15275,10 @@
           processing_configuration: processing_configuration,
         },
         processing_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param enabled (optional)
-          new(enabled=null):: {
+          new(rname, enabled=null):: {
+            rname:: rname,
             [if enabled != null then 'enabled']: enabled,
             processors:: {},
           },
@@ -14340,8 +15286,10 @@
             processors: processors,
           },
           processors:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param type (required)
-            new(type):: {
+            new(rname, type):: {
+              rname:: rname,
               type: type,
               parameters:: {},
             },
@@ -14349,9 +15297,11 @@
               parameters: parameters,
             },
             parameters:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param parameter_name (required)
               // @param parameter_value (required)
-              new(parameter_name, parameter_value):: {
+              new(rname, parameter_name, parameter_value):: {
+                rname:: rname,
                 parameter_name: parameter_name,
                 parameter_value: parameter_value,
               },
@@ -14363,6 +15313,7 @@
         extended_s3_configuration: extended_s3_configuration,
       },
       extended_s3_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket_arn (required)
         // @param role_arn (required)
         // @param buffer_interval (optional)
@@ -14372,7 +15323,8 @@
         // @param kms_key_arn (optional)
         // @param prefix (optional)
         // @param s3_backup_mode (optional)
-        new(bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, error_output_prefix=null, kms_key_arn=null, prefix=null, s3_backup_mode=null):: {
+        new(rname, bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, error_output_prefix=null, kms_key_arn=null, prefix=null, s3_backup_mode=null):: {
+          rname:: rname,
           bucket_arn: bucket_arn,
           role_arn: role_arn,
           [if buffer_interval != null then 'buffer_interval']: buffer_interval,
@@ -14391,10 +15343,12 @@
           cloudwatch_logging_options: cloudwatch_logging_options,
         },
         cloudwatch_logging_options:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param enabled (optional)
           // @param log_group_name (optional)
           // @param log_stream_name (optional)
-          new(enabled=null, log_group_name=null, log_stream_name=null):: {
+          new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
+            rname:: rname,
             [if enabled != null then 'enabled']: enabled,
             [if log_group_name != null then 'log_group_name']: log_group_name,
             [if log_stream_name != null then 'log_stream_name']: log_stream_name,
@@ -14404,23 +15358,29 @@
           data_format_conversion_configuration: data_format_conversion_configuration,
         },
         data_format_conversion_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param enabled (optional)
           // @param input_format_configuration (required)
           // @param output_format_configuration (required)
           // @param schema_configuration (required)
-          new(input_format_configuration, output_format_configuration, schema_configuration, enabled=null):: {
+          new(rname, input_format_configuration, output_format_configuration, schema_configuration, enabled=null):: {
+            rname:: rname,
             [if enabled != null then 'enabled']: enabled,
             input_format_configuration: input_format_configuration,
             output_format_configuration: output_format_configuration,
             schema_configuration: schema_configuration,
           },
           input_format_configuration:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param deserializer (required)
-            new(deserializer):: {
+            new(rname, deserializer):: {
+              rname:: rname,
               deserializer: deserializer,
             },
             deserializer:: {
-              new():: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+              new(rname):: {
+                rname:: rname,
                 hive_json_ser_de:: {},
                 open_x_json_ser_de:: {},
               },
@@ -14428,8 +15388,10 @@
                 hive_json_ser_de: hive_json_ser_de,
               },
               hive_json_ser_de:: {
+                // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
                 // @param timestamp_formats (optional)
-                new(timestamp_formats=null):: {
+                new(rname, timestamp_formats=null):: {
+                  rname:: rname,
                   [if timestamp_formats != null then 'timestamp_formats']: timestamp_formats,
                 },
               },
@@ -14437,10 +15399,12 @@
                 open_x_json_ser_de: open_x_json_ser_de,
               },
               open_x_json_ser_de:: {
+                // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
                 // @param case_insensitive (optional)
                 // @param column_to_json_key_mappings (optional)
                 // @param convert_dots_in_json_keys_to_underscores (optional)
-                new(case_insensitive=null, column_to_json_key_mappings=null, convert_dots_in_json_keys_to_underscores=null):: {
+                new(rname, case_insensitive=null, column_to_json_key_mappings=null, convert_dots_in_json_keys_to_underscores=null):: {
+                  rname:: rname,
                   [if case_insensitive != null then 'case_insensitive']: case_insensitive,
                   [if column_to_json_key_mappings != null then 'column_to_json_key_mappings']: column_to_json_key_mappings,
                   [if convert_dots_in_json_keys_to_underscores != null then 'convert_dots_in_json_keys_to_underscores']: convert_dots_in_json_keys_to_underscores,
@@ -14449,12 +15413,16 @@
             },
           },
           output_format_configuration:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param serializer (required)
-            new(serializer):: {
+            new(rname, serializer):: {
+              rname:: rname,
               serializer: serializer,
             },
             serializer:: {
-              new():: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+              new(rname):: {
+                rname:: rname,
                 orc_ser_de:: {},
                 parquet_ser_de:: {},
               },
@@ -14462,6 +15430,7 @@
                 orc_ser_de: orc_ser_de,
               },
               orc_ser_de:: {
+                // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
                 // @param block_size_bytes (optional)
                 // @param bloom_filter_columns (optional)
                 // @param bloom_filter_false_positive_probability (optional)
@@ -14472,7 +15441,8 @@
                 // @param padding_tolerance (optional)
                 // @param row_index_stride (optional)
                 // @param stripe_size_bytes (optional)
-                new(block_size_bytes=null, bloom_filter_columns=null, bloom_filter_false_positive_probability=null, compression=null, dictionary_key_threshold=null, enable_padding=null, format_version=null, padding_tolerance=null, row_index_stride=null, stripe_size_bytes=null):: {
+                new(rname, block_size_bytes=null, bloom_filter_columns=null, bloom_filter_false_positive_probability=null, compression=null, dictionary_key_threshold=null, enable_padding=null, format_version=null, padding_tolerance=null, row_index_stride=null, stripe_size_bytes=null):: {
+                  rname:: rname,
                   [if block_size_bytes != null then 'block_size_bytes']: block_size_bytes,
                   [if bloom_filter_columns != null then 'bloom_filter_columns']: bloom_filter_columns,
                   [if bloom_filter_false_positive_probability != null then 'bloom_filter_false_positive_probability']: bloom_filter_false_positive_probability,
@@ -14489,13 +15459,15 @@
                 parquet_ser_de: parquet_ser_de,
               },
               parquet_ser_de:: {
+                // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
                 // @param block_size_bytes (optional)
                 // @param compression (optional)
                 // @param enable_dictionary_compression (optional)
                 // @param max_padding_bytes (optional)
                 // @param page_size_bytes (optional)
                 // @param writer_version (optional)
-                new(block_size_bytes=null, compression=null, enable_dictionary_compression=null, max_padding_bytes=null, page_size_bytes=null, writer_version=null):: {
+                new(rname, block_size_bytes=null, compression=null, enable_dictionary_compression=null, max_padding_bytes=null, page_size_bytes=null, writer_version=null):: {
+                  rname:: rname,
                   [if block_size_bytes != null then 'block_size_bytes']: block_size_bytes,
                   [if compression != null then 'compression']: compression,
                   [if enable_dictionary_compression != null then 'enable_dictionary_compression']: enable_dictionary_compression,
@@ -14507,17 +15479,19 @@
             },
           },
           schema_configuration:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param database_name (required)
             // @param role_arn (required)
             // @param table_name (required)
             // @param version_id (optional)
-            new(database_name, role_arn, table_name, version_id=null):: {
+            new(rname, database_name, role_arn, table_name, version_id=null):: {
+              rname:: rname,
               database_name: database_name,
               role_arn: role_arn,
               table_name: table_name,
               [if version_id != null then 'version_id']: version_id,
-              catalog_id:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.data_format_conversion_configuration.schema_configuration.catalog_id}' % super.rname,
-              region:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.data_format_conversion_configuration.schema_configuration.region}' % super.rname,
+              catalog_id:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.data_format_conversion_configuration.schema_configuration.catalog_id}' % rname,
+              region:: '${aws_kinesis_firehose_delivery_stream.%s.extended_s3_configuration.data_format_conversion_configuration.schema_configuration.region}' % rname,
             },
             with_catalog_id(catalog_id):: {
               catalog_id::: catalog_id,
@@ -14531,8 +15505,10 @@
           processing_configuration: processing_configuration,
         },
         processing_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param enabled (optional)
-          new(enabled=null):: {
+          new(rname, enabled=null):: {
+            rname:: rname,
             [if enabled != null then 'enabled']: enabled,
             processors:: {},
           },
@@ -14540,8 +15516,10 @@
             processors: processors,
           },
           processors:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param type (required)
-            new(type):: {
+            new(rname, type):: {
+              rname:: rname,
               type: type,
               parameters:: {},
             },
@@ -14549,9 +15527,11 @@
               parameters: parameters,
             },
             parameters:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param parameter_name (required)
               // @param parameter_value (required)
-              new(parameter_name, parameter_value):: {
+              new(rname, parameter_name, parameter_value):: {
+                rname:: rname,
                 parameter_name: parameter_name,
                 parameter_value: parameter_value,
               },
@@ -14562,6 +15542,7 @@
           s3_backup_configuration: s3_backup_configuration,
         },
         s3_backup_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param bucket_arn (required)
           // @param role_arn (required)
           // @param buffer_interval (optional)
@@ -14569,7 +15550,8 @@
           // @param compression_format (optional)
           // @param kms_key_arn (optional)
           // @param prefix (optional)
-          new(bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, kms_key_arn=null, prefix=null):: {
+          new(rname, bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, kms_key_arn=null, prefix=null):: {
+            rname:: rname,
             bucket_arn: bucket_arn,
             role_arn: role_arn,
             [if buffer_interval != null then 'buffer_interval']: buffer_interval,
@@ -14583,10 +15565,12 @@
             cloudwatch_logging_options: cloudwatch_logging_options,
           },
           cloudwatch_logging_options:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param enabled (optional)
             // @param log_group_name (optional)
             // @param log_stream_name (optional)
-            new(enabled=null, log_group_name=null, log_stream_name=null):: {
+            new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
+              rname:: rname,
               [if enabled != null then 'enabled']: enabled,
               [if log_group_name != null then 'log_group_name']: log_group_name,
               [if log_stream_name != null then 'log_stream_name']: log_stream_name,
@@ -14598,9 +15582,11 @@
         kinesis_source_configuration: kinesis_source_configuration,
       },
       kinesis_source_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param kinesis_stream_arn (required)
         // @param role_arn (required)
-        new(kinesis_stream_arn, role_arn):: {
+        new(rname, kinesis_stream_arn, role_arn):: {
+          rname:: rname,
           kinesis_stream_arn: kinesis_stream_arn,
           role_arn: role_arn,
         },
@@ -14609,6 +15595,7 @@
         redshift_configuration: redshift_configuration,
       },
       redshift_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cluster_jdbcurl (required)
         // @param data_table_name (required)
         // @param password (required)
@@ -14618,7 +15605,8 @@
         // @param data_table_columns (optional)
         // @param retry_duration (optional)
         // @param s3_backup_mode (optional)
-        new(cluster_jdbcurl, data_table_name, password, role_arn, username, copy_options=null, data_table_columns=null, retry_duration=null, s3_backup_mode=null):: {
+        new(rname, cluster_jdbcurl, data_table_name, password, role_arn, username, copy_options=null, data_table_columns=null, retry_duration=null, s3_backup_mode=null):: {
+          rname:: rname,
           cluster_jdbcurl: cluster_jdbcurl,
           data_table_name: data_table_name,
           password: password,
@@ -14636,10 +15624,12 @@
           cloudwatch_logging_options: cloudwatch_logging_options,
         },
         cloudwatch_logging_options:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param enabled (optional)
           // @param log_group_name (optional)
           // @param log_stream_name (optional)
-          new(enabled=null, log_group_name=null, log_stream_name=null):: {
+          new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
+            rname:: rname,
             [if enabled != null then 'enabled']: enabled,
             [if log_group_name != null then 'log_group_name']: log_group_name,
             [if log_stream_name != null then 'log_stream_name']: log_stream_name,
@@ -14649,8 +15639,10 @@
           processing_configuration: processing_configuration,
         },
         processing_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param enabled (optional)
-          new(enabled=null):: {
+          new(rname, enabled=null):: {
+            rname:: rname,
             [if enabled != null then 'enabled']: enabled,
             processors:: {},
           },
@@ -14658,8 +15650,10 @@
             processors: processors,
           },
           processors:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param type (required)
-            new(type):: {
+            new(rname, type):: {
+              rname:: rname,
               type: type,
               parameters:: {},
             },
@@ -14667,9 +15661,11 @@
               parameters: parameters,
             },
             parameters:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param parameter_name (required)
               // @param parameter_value (required)
-              new(parameter_name, parameter_value):: {
+              new(rname, parameter_name, parameter_value):: {
+                rname:: rname,
                 parameter_name: parameter_name,
                 parameter_value: parameter_value,
               },
@@ -14680,6 +15676,7 @@
           s3_backup_configuration: s3_backup_configuration,
         },
         s3_backup_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param bucket_arn (required)
           // @param role_arn (required)
           // @param buffer_interval (optional)
@@ -14687,7 +15684,8 @@
           // @param compression_format (optional)
           // @param kms_key_arn (optional)
           // @param prefix (optional)
-          new(bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, kms_key_arn=null, prefix=null):: {
+          new(rname, bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, kms_key_arn=null, prefix=null):: {
+            rname:: rname,
             bucket_arn: bucket_arn,
             role_arn: role_arn,
             [if buffer_interval != null then 'buffer_interval']: buffer_interval,
@@ -14701,10 +15699,12 @@
             cloudwatch_logging_options: cloudwatch_logging_options,
           },
           cloudwatch_logging_options:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param enabled (optional)
             // @param log_group_name (optional)
             // @param log_stream_name (optional)
-            new(enabled=null, log_group_name=null, log_stream_name=null):: {
+            new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
+              rname:: rname,
               [if enabled != null then 'enabled']: enabled,
               [if log_group_name != null then 'log_group_name']: log_group_name,
               [if log_stream_name != null then 'log_stream_name']: log_stream_name,
@@ -14716,6 +15716,7 @@
         s3_configuration: s3_configuration,
       },
       s3_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket_arn (required)
         // @param role_arn (required)
         // @param buffer_interval (optional)
@@ -14723,7 +15724,8 @@
         // @param compression_format (optional)
         // @param kms_key_arn (optional)
         // @param prefix (optional)
-        new(bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, kms_key_arn=null, prefix=null):: {
+        new(rname, bucket_arn, role_arn, buffer_interval=null, buffer_size=null, compression_format=null, kms_key_arn=null, prefix=null):: {
+          rname:: rname,
           bucket_arn: bucket_arn,
           role_arn: role_arn,
           [if buffer_interval != null then 'buffer_interval']: buffer_interval,
@@ -14737,10 +15739,12 @@
           cloudwatch_logging_options: cloudwatch_logging_options,
         },
         cloudwatch_logging_options:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param enabled (optional)
           // @param log_group_name (optional)
           // @param log_stream_name (optional)
-          new(enabled=null, log_group_name=null, log_stream_name=null):: {
+          new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
+            rname:: rname,
             [if enabled != null then 'enabled']: enabled,
             [if log_group_name != null then 'log_group_name']: log_group_name,
             [if log_stream_name != null then 'log_stream_name']: log_stream_name,
@@ -14751,8 +15755,10 @@
         server_side_encryption: server_side_encryption,
       },
       server_side_encryption:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (optional)
-        new(enabled=null):: {
+        new(rname, enabled=null):: {
+          rname:: rname,
           [if enabled != null then 'enabled']: enabled,
         },
       },
@@ -14760,13 +15766,15 @@
         splunk_configuration: splunk_configuration,
       },
       splunk_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param hec_endpoint (required)
         // @param hec_token (required)
         // @param hec_acknowledgment_timeout (optional)
         // @param hec_endpoint_type (optional)
         // @param retry_duration (optional)
         // @param s3_backup_mode (optional)
-        new(hec_endpoint, hec_token, hec_acknowledgment_timeout=null, hec_endpoint_type=null, retry_duration=null, s3_backup_mode=null):: {
+        new(rname, hec_endpoint, hec_token, hec_acknowledgment_timeout=null, hec_endpoint_type=null, retry_duration=null, s3_backup_mode=null):: {
+          rname:: rname,
           hec_endpoint: hec_endpoint,
           hec_token: hec_token,
           [if hec_acknowledgment_timeout != null then 'hec_acknowledgment_timeout']: hec_acknowledgment_timeout,
@@ -14780,10 +15788,12 @@
           cloudwatch_logging_options: cloudwatch_logging_options,
         },
         cloudwatch_logging_options:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param enabled (optional)
           // @param log_group_name (optional)
           // @param log_stream_name (optional)
-          new(enabled=null, log_group_name=null, log_stream_name=null):: {
+          new(rname, enabled=null, log_group_name=null, log_stream_name=null):: {
+            rname:: rname,
             [if enabled != null then 'enabled']: enabled,
             [if log_group_name != null then 'log_group_name']: log_group_name,
             [if log_stream_name != null then 'log_stream_name']: log_stream_name,
@@ -14793,8 +15803,10 @@
           processing_configuration: processing_configuration,
         },
         processing_configuration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param enabled (optional)
-          new(enabled=null):: {
+          new(rname, enabled=null):: {
+            rname:: rname,
             [if enabled != null then 'enabled']: enabled,
             processors:: {},
           },
@@ -14802,8 +15814,10 @@
             processors: processors,
           },
           processors:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param type (required)
-            new(type):: {
+            new(rname, type):: {
+              rname:: rname,
               type: type,
               parameters:: {},
             },
@@ -14811,9 +15825,11 @@
               parameters: parameters,
             },
             parameters:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param parameter_name (required)
               // @param parameter_value (required)
-              new(parameter_name, parameter_value):: {
+              new(rname, parameter_name, parameter_value):: {
+                rname:: rname,
                 parameter_name: parameter_name,
                 parameter_value: parameter_value,
               },
@@ -14824,7 +15840,7 @@
     },
     // aws_kinesis_stream - https://www.terraform.io/docs/providers/aws/r/kinesis_stream.html
     aws_kinesis_stream:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param shard_count (required)
       // @param encryption_type (optional)
@@ -14857,10 +15873,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -14869,7 +15887,7 @@
     },
     // aws_kms_alias - https://www.terraform.io/docs/providers/aws/r/kms_alias.html
     aws_kms_alias:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param target_key_id (required)
       // @param name (optional)
       // @param name_prefix (optional)
@@ -14888,7 +15906,7 @@
     },
     // aws_kms_ciphertext - https://www.terraform.io/docs/providers/aws/r/kms_ciphertext.html
     aws_kms_ciphertext:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param key_id (required)
       // @param plaintext (required)
       // @param context (optional)
@@ -14906,7 +15924,7 @@
     },
     // aws_kms_external_key - https://www.terraform.io/docs/providers/aws/r/kms_external_key.html
     aws_kms_external_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param deletion_window_in_days (optional)
       // @param description (optional)
       // @param key_material_base64 (optional)
@@ -14939,7 +15957,7 @@
     },
     // aws_kms_grant - https://www.terraform.io/docs/providers/aws/r/kms_grant.html
     aws_kms_grant:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param grantee_principal (required)
       // @param key_id (required)
       // @param operations (required)
@@ -14968,9 +15986,11 @@
         constraints: constraints,
       },
       constraints:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param encryption_context_equals (optional)
         // @param encryption_context_subset (optional)
-        new(encryption_context_equals=null, encryption_context_subset=null):: {
+        new(rname, encryption_context_equals=null, encryption_context_subset=null):: {
+          rname:: rname,
           [if encryption_context_equals != null then 'encryption_context_equals']: encryption_context_equals,
           [if encryption_context_subset != null then 'encryption_context_subset']: encryption_context_subset,
         },
@@ -14978,7 +15998,7 @@
     },
     // aws_kms_key - https://www.terraform.io/docs/providers/aws/r/kms_key.html
     aws_kms_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param customer_master_key_spec (optional)
       // @param deletion_window_in_days (optional)
       // @param enable_key_rotation (optional)
@@ -15011,7 +16031,7 @@
     },
     // aws_lambda_alias - https://www.terraform.io/docs/providers/aws/r/lambda_alias.html
     aws_lambda_alias:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param function_name (required)
       // @param function_version (required)
       // @param name (required)
@@ -15034,15 +16054,17 @@
         routing_config: routing_config,
       },
       routing_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param additional_version_weights (optional)
-        new(additional_version_weights=null):: {
+        new(rname, additional_version_weights=null):: {
+          rname:: rname,
           [if additional_version_weights != null then 'additional_version_weights']: additional_version_weights,
         },
       },
     },
     // aws_lambda_event_source_mapping - https://www.terraform.io/docs/providers/aws/r/lambda_event_source_mapping.html
     aws_lambda_event_source_mapping:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param event_source_arn (required)
       // @param function_name (required)
       // @param batch_size (optional)
@@ -15089,15 +16111,19 @@
         destination_config: destination_config,
       },
       destination_config:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           on_failure:: {},
         },
         with_on_failure(on_failure):: self + {
           on_failure: on_failure,
         },
         on_failure:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param destination_arn (required)
-          new(destination_arn):: {
+          new(rname, destination_arn):: {
+            rname:: rname,
             destination_arn: destination_arn,
           },
         },
@@ -15105,7 +16131,7 @@
     },
     // aws_lambda_function - https://www.terraform.io/docs/providers/aws/r/lambda_function.html
     aws_lambda_function:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param function_name (required)
       // @param handler (required)
       // @param role (required)
@@ -15164,8 +16190,10 @@
         dead_letter_config: dead_letter_config,
       },
       dead_letter_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param target_arn (required)
-        new(target_arn):: {
+        new(rname, target_arn):: {
+          rname:: rname,
           target_arn: target_arn,
         },
       },
@@ -15173,8 +16201,10 @@
         environment: environment,
       },
       environment:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param variables (optional)
-        new(variables=null):: {
+        new(rname, variables=null):: {
+          rname:: rname,
           [if variables != null then 'variables']: variables,
         },
       },
@@ -15182,8 +16212,10 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
@@ -15191,8 +16223,10 @@
         tracing_config: tracing_config,
       },
       tracing_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mode (required)
-        new(mode):: {
+        new(rname, mode):: {
+          rname:: rname,
           mode: mode,
         },
       },
@@ -15200,18 +16234,20 @@
         vpc_config: vpc_config,
       },
       vpc_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param security_group_ids (required)
         // @param subnet_ids (required)
-        new(security_group_ids, subnet_ids):: {
+        new(rname, security_group_ids, subnet_ids):: {
+          rname:: rname,
           security_group_ids: security_group_ids,
           subnet_ids: subnet_ids,
-          vpc_id:: '${aws_lambda_function.%s.vpc_config.vpc_id}' % super.rname,
+          vpc_id:: '${aws_lambda_function.%s.vpc_config.vpc_id}' % rname,
         },
       },
     },
     // aws_lambda_function_event_invoke_config - https://www.terraform.io/docs/providers/aws/r/lambda_function_event_invoke_config.html
     aws_lambda_function_event_invoke_config:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param function_name (required)
       // @param maximum_event_age_in_seconds (optional)
       // @param maximum_retry_attempts (optional)
@@ -15232,7 +16268,9 @@
         destination_config: destination_config,
       },
       destination_config:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           on_failure:: {},
           on_success:: {},
         },
@@ -15240,8 +16278,10 @@
           on_failure: on_failure,
         },
         on_failure:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param destination (required)
-          new(destination):: {
+          new(rname, destination):: {
+            rname:: rname,
             destination: destination,
           },
         },
@@ -15249,8 +16289,10 @@
           on_success: on_success,
         },
         on_success:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param destination (required)
-          new(destination):: {
+          new(rname, destination):: {
+            rname:: rname,
             destination: destination,
           },
         },
@@ -15258,7 +16300,7 @@
     },
     // aws_lambda_layer_version - https://www.terraform.io/docs/providers/aws/r/lambda_layer_version.html
     aws_lambda_layer_version:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param layer_name (required)
       // @param compatible_runtimes (optional)
       // @param description (optional)
@@ -15294,7 +16336,7 @@
     },
     // aws_lambda_permission - https://www.terraform.io/docs/providers/aws/r/lambda_permission.html
     aws_lambda_permission:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param action (required)
       // @param function_name (required)
       // @param principal (required)
@@ -15325,7 +16367,7 @@
     },
     // aws_lambda_provisioned_concurrency_config - https://www.terraform.io/docs/providers/aws/r/lambda_provisioned_concurrency_config.html
     aws_lambda_provisioned_concurrency_config:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param function_name (required)
       // @param provisioned_concurrent_executions (required)
       // @param qualifier (required)
@@ -15344,9 +16386,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param update (optional)
-        new(create=null, update=null):: {
+        new(rname, create=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if update != null then 'update']: update,
         },
@@ -15354,7 +16398,7 @@
     },
     // aws_launch_configuration - https://www.terraform.io/docs/providers/aws/r/launch_configuration.html
     aws_launch_configuration:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param image_id (required)
       // @param instance_type (required)
       // @param associate_public_ip_address (optional)
@@ -15408,18 +16452,20 @@
         ebs_block_device: ebs_block_device,
       },
       ebs_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (required)
         // @param delete_on_termination (optional)
         // @param no_device (optional)
-        new(device_name, delete_on_termination=null, no_device=null):: {
+        new(rname, device_name, delete_on_termination=null, no_device=null):: {
+          rname:: rname,
           device_name: device_name,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
           [if no_device != null then 'no_device']: no_device,
-          encrypted:: '${aws_launch_configuration.%s.ebs_block_device.encrypted}' % super.rname,
-          iops:: '${aws_launch_configuration.%s.ebs_block_device.iops}' % super.rname,
-          snapshot_id:: '${aws_launch_configuration.%s.ebs_block_device.snapshot_id}' % super.rname,
-          volume_size:: '${aws_launch_configuration.%s.ebs_block_device.volume_size}' % super.rname,
-          volume_type:: '${aws_launch_configuration.%s.ebs_block_device.volume_type}' % super.rname,
+          encrypted:: '${aws_launch_configuration.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_launch_configuration.%s.ebs_block_device.iops}' % rname,
+          snapshot_id:: '${aws_launch_configuration.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_size:: '${aws_launch_configuration.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_launch_configuration.%s.ebs_block_device.volume_type}' % rname,
         },
         with_encrypted(encrypted):: {
           encrypted::: encrypted,
@@ -15441,9 +16487,11 @@
         ephemeral_block_device: ephemeral_block_device,
       },
       ephemeral_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (required)
         // @param virtual_name (required)
-        new(device_name, virtual_name):: {
+        new(rname, device_name, virtual_name):: {
+          rname:: rname,
           device_name: device_name,
           virtual_name: virtual_name,
         },
@@ -15452,13 +16500,15 @@
         root_block_device: root_block_device,
       },
       root_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delete_on_termination (optional)
-        new(delete_on_termination=null):: {
+        new(rname, delete_on_termination=null):: {
+          rname:: rname,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
-          encrypted:: '${aws_launch_configuration.%s.root_block_device.encrypted}' % super.rname,
-          iops:: '${aws_launch_configuration.%s.root_block_device.iops}' % super.rname,
-          volume_size:: '${aws_launch_configuration.%s.root_block_device.volume_size}' % super.rname,
-          volume_type:: '${aws_launch_configuration.%s.root_block_device.volume_type}' % super.rname,
+          encrypted:: '${aws_launch_configuration.%s.root_block_device.encrypted}' % rname,
+          iops:: '${aws_launch_configuration.%s.root_block_device.iops}' % rname,
+          volume_size:: '${aws_launch_configuration.%s.root_block_device.volume_size}' % rname,
+          volume_type:: '${aws_launch_configuration.%s.root_block_device.volume_type}' % rname,
         },
         with_encrypted(encrypted):: {
           encrypted::: encrypted,
@@ -15476,7 +16526,7 @@
     },
     // aws_launch_template - https://www.terraform.io/docs/providers/aws/r/launch_template.html
     aws_launch_template:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param description (optional)
       // @param disable_api_termination (optional)
       // @param ebs_optimized (optional)
@@ -15536,10 +16586,12 @@
         block_device_mappings: block_device_mappings,
       },
       block_device_mappings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (optional)
         // @param no_device (optional)
         // @param virtual_name (optional)
-        new(device_name=null, no_device=null, virtual_name=null):: {
+        new(rname, device_name=null, no_device=null, virtual_name=null):: {
+          rname:: rname,
           [if device_name != null then 'device_name']: device_name,
           [if no_device != null then 'no_device']: no_device,
           [if virtual_name != null then 'virtual_name']: virtual_name,
@@ -15549,18 +16601,20 @@
           ebs: ebs,
         },
         ebs:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param delete_on_termination (optional)
           // @param encrypted (optional)
           // @param kms_key_id (optional)
           // @param snapshot_id (optional)
-          new(delete_on_termination=null, encrypted=null, kms_key_id=null, snapshot_id=null):: {
+          new(rname, delete_on_termination=null, encrypted=null, kms_key_id=null, snapshot_id=null):: {
+            rname:: rname,
             [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
             [if encrypted != null then 'encrypted']: encrypted,
             [if kms_key_id != null then 'kms_key_id']: kms_key_id,
             [if snapshot_id != null then 'snapshot_id']: snapshot_id,
-            iops:: '${aws_launch_template.%s.block_device_mappings.ebs.iops}' % super.rname,
-            volume_size:: '${aws_launch_template.%s.block_device_mappings.ebs.volume_size}' % super.rname,
-            volume_type:: '${aws_launch_template.%s.block_device_mappings.ebs.volume_type}' % super.rname,
+            iops:: '${aws_launch_template.%s.block_device_mappings.ebs.iops}' % rname,
+            volume_size:: '${aws_launch_template.%s.block_device_mappings.ebs.volume_size}' % rname,
+            volume_type:: '${aws_launch_template.%s.block_device_mappings.ebs.volume_type}' % rname,
           },
           with_iops(iops):: {
             iops::: iops,
@@ -15577,8 +16631,10 @@
         capacity_reservation_specification: capacity_reservation_specification,
       },
       capacity_reservation_specification:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param capacity_reservation_preference (optional)
-        new(capacity_reservation_preference=null):: {
+        new(rname, capacity_reservation_preference=null):: {
+          rname:: rname,
           [if capacity_reservation_preference != null then 'capacity_reservation_preference']: capacity_reservation_preference,
           capacity_reservation_target:: {},
         },
@@ -15586,8 +16642,10 @@
           capacity_reservation_target: capacity_reservation_target,
         },
         capacity_reservation_target:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param capacity_reservation_id (optional)
-          new(capacity_reservation_id=null):: {
+          new(rname, capacity_reservation_id=null):: {
+            rname:: rname,
             [if capacity_reservation_id != null then 'capacity_reservation_id']: capacity_reservation_id,
           },
         },
@@ -15596,9 +16654,11 @@
         cpu_options: cpu_options,
       },
       cpu_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param core_count (optional)
         // @param threads_per_core (optional)
-        new(core_count=null, threads_per_core=null):: {
+        new(rname, core_count=null, threads_per_core=null):: {
+          rname:: rname,
           [if core_count != null then 'core_count']: core_count,
           [if threads_per_core != null then 'threads_per_core']: threads_per_core,
         },
@@ -15607,8 +16667,10 @@
         credit_specification: credit_specification,
       },
       credit_specification:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cpu_credits (optional)
-        new(cpu_credits=null):: {
+        new(rname, cpu_credits=null):: {
+          rname:: rname,
           [if cpu_credits != null then 'cpu_credits']: cpu_credits,
         },
       },
@@ -15616,8 +16678,10 @@
         elastic_gpu_specifications: elastic_gpu_specifications,
       },
       elastic_gpu_specifications:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
-        new(type):: {
+        new(rname, type):: {
+          rname:: rname,
           type: type,
         },
       },
@@ -15625,8 +16689,10 @@
         elastic_inference_accelerator: elastic_inference_accelerator,
       },
       elastic_inference_accelerator:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
-        new(type):: {
+        new(rname, type):: {
+          rname:: rname,
           type: type,
         },
       },
@@ -15634,9 +16700,11 @@
         iam_instance_profile: iam_instance_profile,
       },
       iam_instance_profile:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param arn (optional)
         // @param name (optional)
-        new(arn=null, name=null):: {
+        new(rname, arn=null, name=null):: {
+          rname:: rname,
           [if arn != null then 'arn']: arn,
           [if name != null then 'name']: name,
         },
@@ -15645,8 +16713,10 @@
         instance_market_options: instance_market_options,
       },
       instance_market_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param market_type (optional)
-        new(market_type=null):: {
+        new(rname, market_type=null):: {
+          rname:: rname,
           [if market_type != null then 'market_type']: market_type,
           spot_options:: {},
         },
@@ -15654,16 +16724,18 @@
           spot_options: spot_options,
         },
         spot_options:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param block_duration_minutes (optional)
           // @param instance_interruption_behavior (optional)
           // @param max_price (optional)
           // @param spot_instance_type (optional)
-          new(block_duration_minutes=null, instance_interruption_behavior=null, max_price=null, spot_instance_type=null):: {
+          new(rname, block_duration_minutes=null, instance_interruption_behavior=null, max_price=null, spot_instance_type=null):: {
+            rname:: rname,
             [if block_duration_minutes != null then 'block_duration_minutes']: block_duration_minutes,
             [if instance_interruption_behavior != null then 'instance_interruption_behavior']: instance_interruption_behavior,
             [if max_price != null then 'max_price']: max_price,
             [if spot_instance_type != null then 'spot_instance_type']: spot_instance_type,
-            valid_until:: '${aws_launch_template.%s.instance_market_options.spot_options.valid_until}' % super.rname,
+            valid_until:: '${aws_launch_template.%s.instance_market_options.spot_options.valid_until}' % rname,
           },
           with_valid_until(valid_until):: {
             valid_until::: valid_until,
@@ -15674,8 +16746,10 @@
         license_specification: license_specification,
       },
       license_specification:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param license_configuration_arn (required)
-        new(license_configuration_arn):: {
+        new(rname, license_configuration_arn):: {
+          rname:: rname,
           license_configuration_arn: license_configuration_arn,
         },
       },
@@ -15683,8 +16757,10 @@
         monitoring: monitoring,
       },
       monitoring:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (optional)
-        new(enabled=null):: {
+        new(rname, enabled=null):: {
+          rname:: rname,
           [if enabled != null then 'enabled']: enabled,
         },
       },
@@ -15692,6 +16768,7 @@
         network_interfaces: network_interfaces,
       },
       network_interfaces:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param associate_public_ip_address (optional)
         // @param delete_on_termination (optional)
         // @param description (optional)
@@ -15704,7 +16781,8 @@
         // @param private_ip_address (optional)
         // @param security_groups (optional)
         // @param subnet_id (optional)
-        new(associate_public_ip_address=null, delete_on_termination=null, description=null, device_index=null, ipv4_address_count=null, ipv4_addresses=null, ipv6_address_count=null, ipv6_addresses=null, network_interface_id=null, private_ip_address=null, security_groups=null, subnet_id=null):: {
+        new(rname, associate_public_ip_address=null, delete_on_termination=null, description=null, device_index=null, ipv4_address_count=null, ipv4_addresses=null, ipv6_address_count=null, ipv6_addresses=null, network_interface_id=null, private_ip_address=null, security_groups=null, subnet_id=null):: {
+          rname:: rname,
           [if associate_public_ip_address != null then 'associate_public_ip_address']: associate_public_ip_address,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
           [if description != null then 'description']: description,
@@ -15723,13 +16801,15 @@
         placement: placement,
       },
       placement:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param affinity (optional)
         // @param availability_zone (optional)
         // @param group_name (optional)
         // @param host_id (optional)
         // @param spread_domain (optional)
         // @param tenancy (optional)
-        new(affinity=null, availability_zone=null, group_name=null, host_id=null, spread_domain=null, tenancy=null):: {
+        new(rname, affinity=null, availability_zone=null, group_name=null, host_id=null, spread_domain=null, tenancy=null):: {
+          rname:: rname,
           [if affinity != null then 'affinity']: affinity,
           [if availability_zone != null then 'availability_zone']: availability_zone,
           [if group_name != null then 'group_name']: group_name,
@@ -15742,9 +16822,11 @@
         tag_specifications: tag_specifications,
       },
       tag_specifications:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param resource_type (optional)
         // @param tags (optional)
-        new(resource_type=null, tags=null):: {
+        new(rname, resource_type=null, tags=null):: {
+          rname:: rname,
           [if resource_type != null then 'resource_type']: resource_type,
           [if tags != null then 'tags']: tags,
         },
@@ -15752,7 +16834,7 @@
     },
     // aws_lb - https://www.terraform.io/docs/providers/aws/r/lb.html
     aws_lb:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param enable_cross_zone_load_balancing (optional)
       // @param enable_deletion_protection (optional)
       // @param enable_http2 (optional)
@@ -15806,10 +16888,12 @@
         access_logs: access_logs,
       },
       access_logs:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket (required)
         // @param enabled (optional)
         // @param prefix (optional)
-        new(bucket, enabled=null, prefix=null):: {
+        new(rname, bucket, enabled=null, prefix=null):: {
+          rname:: rname,
           bucket: bucket,
           [if enabled != null then 'enabled']: enabled,
           [if prefix != null then 'prefix']: prefix,
@@ -15819,9 +16903,11 @@
         subnet_mapping: subnet_mapping,
       },
       subnet_mapping:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param subnet_id (required)
         // @param allocation_id (optional)
-        new(subnet_id, allocation_id=null):: {
+        new(rname, subnet_id, allocation_id=null):: {
+          rname:: rname,
           subnet_id: subnet_id,
           [if allocation_id != null then 'allocation_id']: allocation_id,
         },
@@ -15830,10 +16916,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -15842,7 +16930,7 @@
     },
     // aws_lb_cookie_stickiness_policy - https://www.terraform.io/docs/providers/aws/r/lb_cookie_stickiness_policy.html
     aws_lb_cookie_stickiness_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param lb_port (required)
       // @param load_balancer (required)
       // @param name (required)
@@ -15861,7 +16949,7 @@
     },
     // aws_lb_listener - https://www.terraform.io/docs/providers/aws/r/lb_listener.html
     aws_lb_listener:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param load_balancer_arn (required)
       // @param port (required)
       // @param certificate_arn (optional)
@@ -15886,12 +16974,14 @@
         ssl_policy::: ssl_policy,
       },
       default_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param target_group_arn (optional)
-        new(type, target_group_arn=null):: {
+        new(rname, type, target_group_arn=null):: {
+          rname:: rname,
           type: type,
           [if target_group_arn != null then 'target_group_arn']: target_group_arn,
-          order:: '${aws_lb_listener.%s.default_action.order}' % super.rname,
+          order:: '${aws_lb_listener.%s.default_action.order}' % rname,
           authenticate_cognito:: {},
           authenticate_oidc:: {},
           fixed_response:: {},
@@ -15904,19 +16994,21 @@
           authenticate_cognito: authenticate_cognito,
         },
         authenticate_cognito:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param user_pool_arn (required)
           // @param user_pool_client_id (required)
           // @param user_pool_domain (required)
           // @param authentication_request_extra_params (optional)
-          new(user_pool_arn, user_pool_client_id, user_pool_domain, authentication_request_extra_params=null):: {
+          new(rname, user_pool_arn, user_pool_client_id, user_pool_domain, authentication_request_extra_params=null):: {
+            rname:: rname,
             user_pool_arn: user_pool_arn,
             user_pool_client_id: user_pool_client_id,
             user_pool_domain: user_pool_domain,
             [if authentication_request_extra_params != null then 'authentication_request_extra_params']: authentication_request_extra_params,
-            on_unauthenticated_request:: '${aws_lb_listener.%s.default_action.authenticate_cognito.on_unauthenticated_request}' % super.rname,
-            scope:: '${aws_lb_listener.%s.default_action.authenticate_cognito.scope}' % super.rname,
-            session_cookie_name:: '${aws_lb_listener.%s.default_action.authenticate_cognito.session_cookie_name}' % super.rname,
-            session_timeout:: '${aws_lb_listener.%s.default_action.authenticate_cognito.session_timeout}' % super.rname,
+            on_unauthenticated_request:: '${aws_lb_listener.%s.default_action.authenticate_cognito.on_unauthenticated_request}' % rname,
+            scope:: '${aws_lb_listener.%s.default_action.authenticate_cognito.scope}' % rname,
+            session_cookie_name:: '${aws_lb_listener.%s.default_action.authenticate_cognito.session_cookie_name}' % rname,
+            session_timeout:: '${aws_lb_listener.%s.default_action.authenticate_cognito.session_timeout}' % rname,
           },
           with_on_unauthenticated_request(on_unauthenticated_request):: {
             on_unauthenticated_request::: on_unauthenticated_request,
@@ -15935,6 +17027,7 @@
           authenticate_oidc: authenticate_oidc,
         },
         authenticate_oidc:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param authorization_endpoint (required)
           // @param client_id (required)
           // @param client_secret (required)
@@ -15942,7 +17035,8 @@
           // @param token_endpoint (required)
           // @param user_info_endpoint (required)
           // @param authentication_request_extra_params (optional)
-          new(authorization_endpoint, client_id, client_secret, issuer, token_endpoint, user_info_endpoint, authentication_request_extra_params=null):: {
+          new(rname, authorization_endpoint, client_id, client_secret, issuer, token_endpoint, user_info_endpoint, authentication_request_extra_params=null):: {
+            rname:: rname,
             authorization_endpoint: authorization_endpoint,
             client_id: client_id,
             client_secret: client_secret,
@@ -15950,10 +17044,10 @@
             token_endpoint: token_endpoint,
             user_info_endpoint: user_info_endpoint,
             [if authentication_request_extra_params != null then 'authentication_request_extra_params']: authentication_request_extra_params,
-            on_unauthenticated_request:: '${aws_lb_listener.%s.default_action.authenticate_oidc.on_unauthenticated_request}' % super.rname,
-            scope:: '${aws_lb_listener.%s.default_action.authenticate_oidc.scope}' % super.rname,
-            session_cookie_name:: '${aws_lb_listener.%s.default_action.authenticate_oidc.session_cookie_name}' % super.rname,
-            session_timeout:: '${aws_lb_listener.%s.default_action.authenticate_oidc.session_timeout}' % super.rname,
+            on_unauthenticated_request:: '${aws_lb_listener.%s.default_action.authenticate_oidc.on_unauthenticated_request}' % rname,
+            scope:: '${aws_lb_listener.%s.default_action.authenticate_oidc.scope}' % rname,
+            session_cookie_name:: '${aws_lb_listener.%s.default_action.authenticate_oidc.session_cookie_name}' % rname,
+            session_timeout:: '${aws_lb_listener.%s.default_action.authenticate_oidc.session_timeout}' % rname,
           },
           with_on_unauthenticated_request(on_unauthenticated_request):: {
             on_unauthenticated_request::: on_unauthenticated_request,
@@ -15972,12 +17066,14 @@
           fixed_response: fixed_response,
         },
         fixed_response:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param content_type (required)
           // @param message_body (optional)
-          new(content_type, message_body=null):: {
+          new(rname, content_type, message_body=null):: {
+            rname:: rname,
             content_type: content_type,
             [if message_body != null then 'message_body']: message_body,
-            status_code:: '${aws_lb_listener.%s.default_action.fixed_response.status_code}' % super.rname,
+            status_code:: '${aws_lb_listener.%s.default_action.fixed_response.status_code}' % rname,
           },
           with_status_code(status_code):: {
             status_code::: status_code,
@@ -15987,13 +17083,15 @@
           redirect: redirect,
         },
         redirect:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param status_code (required)
           // @param host (optional)
           // @param path (optional)
           // @param port (optional)
           // @param protocol (optional)
           // @param query (optional)
-          new(status_code, host=null, path=null, port=null, protocol=null, query=null):: {
+          new(rname, status_code, host=null, path=null, port=null, protocol=null, query=null):: {
+            rname:: rname,
             status_code: status_code,
             [if host != null then 'host']: host,
             [if path != null then 'path']: path,
@@ -16007,15 +17105,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param read (optional)
-        new(read=null):: {
+        new(rname, read=null):: {
+          rname:: rname,
           [if read != null then 'read']: read,
         },
       },
     },
     // aws_lb_listener_certificate - https://www.terraform.io/docs/providers/aws/r/lb_listener_certificate.html
     aws_lb_listener_certificate:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param certificate_arn (required)
       // @param listener_arn (required)
       new(rname, certificate_arn, listener_arn):: {
@@ -16030,7 +17130,7 @@
     },
     // aws_lb_listener_rule - https://www.terraform.io/docs/providers/aws/r/lb_listener_rule.html
     aws_lb_listener_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param listener_arn (required)
       // @param action (required)
       // @param condition (required)
@@ -16050,12 +17150,14 @@
         priority::: priority,
       },
       action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param target_group_arn (optional)
-        new(type, target_group_arn=null):: {
+        new(rname, type, target_group_arn=null):: {
+          rname:: rname,
           type: type,
           [if target_group_arn != null then 'target_group_arn']: target_group_arn,
-          order:: '${aws_lb_listener_rule.%s.action.order}' % super.rname,
+          order:: '${aws_lb_listener_rule.%s.action.order}' % rname,
           authenticate_cognito:: {},
           authenticate_oidc:: {},
           fixed_response:: {},
@@ -16068,19 +17170,21 @@
           authenticate_cognito: authenticate_cognito,
         },
         authenticate_cognito:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param user_pool_arn (required)
           // @param user_pool_client_id (required)
           // @param user_pool_domain (required)
           // @param authentication_request_extra_params (optional)
-          new(user_pool_arn, user_pool_client_id, user_pool_domain, authentication_request_extra_params=null):: {
+          new(rname, user_pool_arn, user_pool_client_id, user_pool_domain, authentication_request_extra_params=null):: {
+            rname:: rname,
             user_pool_arn: user_pool_arn,
             user_pool_client_id: user_pool_client_id,
             user_pool_domain: user_pool_domain,
             [if authentication_request_extra_params != null then 'authentication_request_extra_params']: authentication_request_extra_params,
-            on_unauthenticated_request:: '${aws_lb_listener_rule.%s.action.authenticate_cognito.on_unauthenticated_request}' % super.rname,
-            scope:: '${aws_lb_listener_rule.%s.action.authenticate_cognito.scope}' % super.rname,
-            session_cookie_name:: '${aws_lb_listener_rule.%s.action.authenticate_cognito.session_cookie_name}' % super.rname,
-            session_timeout:: '${aws_lb_listener_rule.%s.action.authenticate_cognito.session_timeout}' % super.rname,
+            on_unauthenticated_request:: '${aws_lb_listener_rule.%s.action.authenticate_cognito.on_unauthenticated_request}' % rname,
+            scope:: '${aws_lb_listener_rule.%s.action.authenticate_cognito.scope}' % rname,
+            session_cookie_name:: '${aws_lb_listener_rule.%s.action.authenticate_cognito.session_cookie_name}' % rname,
+            session_timeout:: '${aws_lb_listener_rule.%s.action.authenticate_cognito.session_timeout}' % rname,
           },
           with_on_unauthenticated_request(on_unauthenticated_request):: {
             on_unauthenticated_request::: on_unauthenticated_request,
@@ -16099,6 +17203,7 @@
           authenticate_oidc: authenticate_oidc,
         },
         authenticate_oidc:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param authorization_endpoint (required)
           // @param client_id (required)
           // @param client_secret (required)
@@ -16106,7 +17211,8 @@
           // @param token_endpoint (required)
           // @param user_info_endpoint (required)
           // @param authentication_request_extra_params (optional)
-          new(authorization_endpoint, client_id, client_secret, issuer, token_endpoint, user_info_endpoint, authentication_request_extra_params=null):: {
+          new(rname, authorization_endpoint, client_id, client_secret, issuer, token_endpoint, user_info_endpoint, authentication_request_extra_params=null):: {
+            rname:: rname,
             authorization_endpoint: authorization_endpoint,
             client_id: client_id,
             client_secret: client_secret,
@@ -16114,10 +17220,10 @@
             token_endpoint: token_endpoint,
             user_info_endpoint: user_info_endpoint,
             [if authentication_request_extra_params != null then 'authentication_request_extra_params']: authentication_request_extra_params,
-            on_unauthenticated_request:: '${aws_lb_listener_rule.%s.action.authenticate_oidc.on_unauthenticated_request}' % super.rname,
-            scope:: '${aws_lb_listener_rule.%s.action.authenticate_oidc.scope}' % super.rname,
-            session_cookie_name:: '${aws_lb_listener_rule.%s.action.authenticate_oidc.session_cookie_name}' % super.rname,
-            session_timeout:: '${aws_lb_listener_rule.%s.action.authenticate_oidc.session_timeout}' % super.rname,
+            on_unauthenticated_request:: '${aws_lb_listener_rule.%s.action.authenticate_oidc.on_unauthenticated_request}' % rname,
+            scope:: '${aws_lb_listener_rule.%s.action.authenticate_oidc.scope}' % rname,
+            session_cookie_name:: '${aws_lb_listener_rule.%s.action.authenticate_oidc.session_cookie_name}' % rname,
+            session_timeout:: '${aws_lb_listener_rule.%s.action.authenticate_oidc.session_timeout}' % rname,
           },
           with_on_unauthenticated_request(on_unauthenticated_request):: {
             on_unauthenticated_request::: on_unauthenticated_request,
@@ -16136,12 +17242,14 @@
           fixed_response: fixed_response,
         },
         fixed_response:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param content_type (required)
           // @param message_body (optional)
-          new(content_type, message_body=null):: {
+          new(rname, content_type, message_body=null):: {
+            rname:: rname,
             content_type: content_type,
             [if message_body != null then 'message_body']: message_body,
-            status_code:: '${aws_lb_listener_rule.%s.action.fixed_response.status_code}' % super.rname,
+            status_code:: '${aws_lb_listener_rule.%s.action.fixed_response.status_code}' % rname,
           },
           with_status_code(status_code):: {
             status_code::: status_code,
@@ -16151,13 +17259,15 @@
           redirect: redirect,
         },
         redirect:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param status_code (required)
           // @param host (optional)
           // @param path (optional)
           // @param port (optional)
           // @param protocol (optional)
           // @param query (optional)
-          new(status_code, host=null, path=null, port=null, protocol=null, query=null):: {
+          new(rname, status_code, host=null, path=null, port=null, protocol=null, query=null):: {
+            rname:: rname,
             status_code: status_code,
             [if host != null then 'host']: host,
             [if path != null then 'path']: path,
@@ -16168,9 +17278,11 @@
         },
       },
       condition:: {
-        new():: {
-          field:: '${aws_lb_listener_rule.%s.condition.field}' % super.rname,
-          values:: '${aws_lb_listener_rule.%s.condition.values}' % super.rname,
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
+          field:: '${aws_lb_listener_rule.%s.condition.field}' % rname,
+          values:: '${aws_lb_listener_rule.%s.condition.values}' % rname,
           host_header:: {},
           http_header:: {},
           http_request_method:: {},
@@ -16188,8 +17300,10 @@
           host_header: host_header,
         },
         host_header:: {
-          new():: {
-            values:: '${aws_lb_listener_rule.%s.condition.host_header.values}' % super.rname,
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+          new(rname):: {
+            rname:: rname,
+            values:: '${aws_lb_listener_rule.%s.condition.host_header.values}' % rname,
           },
           with_values(values):: {
             values::: values,
@@ -16199,9 +17313,11 @@
           http_header: http_header,
         },
         http_header:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param http_header_name (required)
           // @param values (required)
-          new(http_header_name, values):: {
+          new(rname, http_header_name, values):: {
+            rname:: rname,
             http_header_name: http_header_name,
             values: values,
           },
@@ -16210,8 +17326,10 @@
           http_request_method: http_request_method,
         },
         http_request_method:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param values (required)
-          new(values):: {
+          new(rname, values):: {
+            rname:: rname,
             values: values,
           },
         },
@@ -16219,8 +17337,10 @@
           path_pattern: path_pattern,
         },
         path_pattern:: {
-          new():: {
-            values:: '${aws_lb_listener_rule.%s.condition.path_pattern.values}' % super.rname,
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+          new(rname):: {
+            rname:: rname,
+            values:: '${aws_lb_listener_rule.%s.condition.path_pattern.values}' % rname,
           },
           with_values(values):: {
             values::: values,
@@ -16230,9 +17350,11 @@
           query_string: query_string,
         },
         query_string:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param value (required)
           // @param key (optional)
-          new(value, key=null):: {
+          new(rname, value, key=null):: {
+            rname:: rname,
             value: value,
             [if key != null then 'key']: key,
           },
@@ -16241,8 +17363,10 @@
           source_ip: source_ip,
         },
         source_ip:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param values (required)
-          new(values):: {
+          new(rname, values):: {
+            rname:: rname,
             values: values,
           },
         },
@@ -16250,7 +17374,7 @@
     },
     // aws_lb_ssl_negotiation_policy - https://www.terraform.io/docs/providers/aws/r/lb_ssl_negotiation_policy.html
     aws_lb_ssl_negotiation_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param lb_port (required)
       // @param load_balancer (required)
       // @param name (required)
@@ -16269,9 +17393,11 @@
         attribute: attribute,
       },
       attribute:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param value (required)
-        new(name, value):: {
+        new(rname, name, value):: {
+          rname:: rname,
           name: name,
           value: value,
         },
@@ -16279,7 +17405,7 @@
     },
     // aws_lb_target_group - https://www.terraform.io/docs/providers/aws/r/lb_target_group.html
     aws_lb_target_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param deregistration_delay (optional)
       // @param lambda_multi_value_headers_enabled (optional)
       // @param name_prefix (optional)
@@ -16323,22 +17449,24 @@
         health_check: health_check,
       },
       health_check:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (optional)
         // @param healthy_threshold (optional)
         // @param interval (optional)
         // @param port (optional)
         // @param protocol (optional)
         // @param unhealthy_threshold (optional)
-        new(enabled=null, healthy_threshold=null, interval=null, port=null, protocol=null, unhealthy_threshold=null):: {
+        new(rname, enabled=null, healthy_threshold=null, interval=null, port=null, protocol=null, unhealthy_threshold=null):: {
+          rname:: rname,
           [if enabled != null then 'enabled']: enabled,
           [if healthy_threshold != null then 'healthy_threshold']: healthy_threshold,
           [if interval != null then 'interval']: interval,
           [if port != null then 'port']: port,
           [if protocol != null then 'protocol']: protocol,
           [if unhealthy_threshold != null then 'unhealthy_threshold']: unhealthy_threshold,
-          matcher:: '${aws_lb_target_group.%s.health_check.matcher}' % super.rname,
-          path:: '${aws_lb_target_group.%s.health_check.path}' % super.rname,
-          timeout:: '${aws_lb_target_group.%s.health_check.timeout}' % super.rname,
+          matcher:: '${aws_lb_target_group.%s.health_check.matcher}' % rname,
+          path:: '${aws_lb_target_group.%s.health_check.path}' % rname,
+          timeout:: '${aws_lb_target_group.%s.health_check.timeout}' % rname,
         },
         with_matcher(matcher):: {
           matcher::: matcher,
@@ -16354,10 +17482,12 @@
         stickiness: stickiness,
       },
       stickiness:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param cookie_duration (optional)
         // @param enabled (optional)
-        new(type, cookie_duration=null, enabled=null):: {
+        new(rname, type, cookie_duration=null, enabled=null):: {
+          rname:: rname,
           type: type,
           [if cookie_duration != null then 'cookie_duration']: cookie_duration,
           [if enabled != null then 'enabled']: enabled,
@@ -16366,7 +17496,7 @@
     },
     // aws_lb_target_group_attachment - https://www.terraform.io/docs/providers/aws/r/lb_target_group_attachment.html
     aws_lb_target_group_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param target_group_arn (required)
       // @param target_id (required)
       // @param availability_zone (optional)
@@ -16385,7 +17515,7 @@
     },
     // aws_licensemanager_association - https://www.terraform.io/docs/providers/aws/r/licensemanager_association.html
     aws_licensemanager_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param license_configuration_arn (required)
       // @param resource_arn (required)
       new(rname, license_configuration_arn, resource_arn):: {
@@ -16400,7 +17530,7 @@
     },
     // aws_licensemanager_license_configuration - https://www.terraform.io/docs/providers/aws/r/licensemanager_license_configuration.html
     aws_licensemanager_license_configuration:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param license_counting_type (required)
       // @param name (required)
       // @param description (optional)
@@ -16425,7 +17555,7 @@
     },
     // aws_lightsail_domain - https://www.terraform.io/docs/providers/aws/r/lightsail_domain.html
     aws_lightsail_domain:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain_name (required)
       new(rname, domain_name):: {
         rname:: rname,
@@ -16439,7 +17569,7 @@
     },
     // aws_lightsail_instance - https://www.terraform.io/docs/providers/aws/r/lightsail_instance.html
     aws_lightsail_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param availability_zone (required)
       // @param blueprint_id (required)
       // @param bundle_id (required)
@@ -16473,7 +17603,7 @@
     },
     // aws_lightsail_key_pair - https://www.terraform.io/docs/providers/aws/r/lightsail_key_pair.html
     aws_lightsail_key_pair:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name_prefix (optional)
       // @param pgp_key (optional)
       new(rname, name_prefix=null, pgp_key=null):: {
@@ -16501,7 +17631,7 @@
     },
     // aws_lightsail_static_ip - https://www.terraform.io/docs/providers/aws/r/lightsail_static_ip.html
     aws_lightsail_static_ip:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -16517,7 +17647,7 @@
     },
     // aws_lightsail_static_ip_attachment - https://www.terraform.io/docs/providers/aws/r/lightsail_static_ip_attachment.html
     aws_lightsail_static_ip_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param instance_name (required)
       // @param static_ip_name (required)
       new(rname, instance_name, static_ip_name):: {
@@ -16533,7 +17663,7 @@
     },
     // aws_load_balancer_backend_server_policy - https://www.terraform.io/docs/providers/aws/r/load_balancer_backend_server_policy.html
     aws_load_balancer_backend_server_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param instance_port (required)
       // @param load_balancer_name (required)
       // @param policy_names (optional)
@@ -16550,7 +17680,7 @@
     },
     // aws_load_balancer_listener_policy - https://www.terraform.io/docs/providers/aws/r/load_balancer_listener_policy.html
     aws_load_balancer_listener_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param load_balancer_name (required)
       // @param load_balancer_port (required)
       // @param policy_names (optional)
@@ -16567,7 +17697,7 @@
     },
     // aws_load_balancer_policy - https://www.terraform.io/docs/providers/aws/r/load_balancer_policy.html
     aws_load_balancer_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param load_balancer_name (required)
       // @param policy_name (required)
       // @param policy_type_name (required)
@@ -16586,9 +17716,11 @@
         policy_attribute: policy_attribute,
       },
       policy_attribute:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (optional)
         // @param value (optional)
-        new(name=null, value=null):: {
+        new(rname, name=null, value=null):: {
+          rname:: rname,
           [if name != null then 'name']: name,
           [if value != null then 'value']: value,
         },
@@ -16596,7 +17728,7 @@
     },
     // aws_macie_member_account_association - https://www.terraform.io/docs/providers/aws/r/macie_member_account_association.html
     aws_macie_member_account_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param member_account_id (required)
       new(rname, member_account_id):: {
         rname:: rname,
@@ -16609,7 +17741,7 @@
     },
     // aws_macie_s3_bucket_association - https://www.terraform.io/docs/providers/aws/r/macie_s3_bucket_association.html
     aws_macie_s3_bucket_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket_name (required)
       // @param member_account_id (optional)
       // @param prefix (optional)
@@ -16628,9 +17760,11 @@
         classification_type: classification_type,
       },
       classification_type:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param continuous (optional)
         // @param one_time (optional)
-        new(continuous=null, one_time=null):: {
+        new(rname, continuous=null, one_time=null):: {
+          rname:: rname,
           [if continuous != null then 'continuous']: continuous,
           [if one_time != null then 'one_time']: one_time,
         },
@@ -16638,7 +17772,7 @@
     },
     // aws_main_route_table_association - https://www.terraform.io/docs/providers/aws/r/main_route_table_association.html
     aws_main_route_table_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param route_table_id (required)
       // @param vpc_id (required)
       new(rname, route_table_id, vpc_id):: {
@@ -16654,7 +17788,7 @@
     },
     // aws_media_convert_queue - https://www.terraform.io/docs/providers/aws/r/media_convert_queue.html
     aws_media_convert_queue:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param pricing_plan (optional)
@@ -16678,10 +17812,12 @@
         reservation_plan_settings: reservation_plan_settings,
       },
       reservation_plan_settings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param commitment (required)
         // @param renewal_type (required)
         // @param reserved_slots (required)
-        new(commitment, renewal_type, reserved_slots):: {
+        new(rname, commitment, renewal_type, reserved_slots):: {
+          rname:: rname,
           commitment: commitment,
           renewal_type: renewal_type,
           reserved_slots: reserved_slots,
@@ -16690,7 +17826,7 @@
     },
     // aws_media_package_channel - https://www.terraform.io/docs/providers/aws/r/media_package_channel.html
     aws_media_package_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param channel_id (required)
       // @param description (optional)
       // @param tags (optional)
@@ -16709,7 +17845,7 @@
     },
     // aws_media_store_container - https://www.terraform.io/docs/providers/aws/r/media_store_container.html
     aws_media_store_container:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param tags (optional)
       new(rname, name, tags=null):: {
@@ -16726,7 +17862,7 @@
     },
     // aws_media_store_container_policy - https://www.terraform.io/docs/providers/aws/r/media_store_container_policy.html
     aws_media_store_container_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param container_name (required)
       // @param policy (required)
       new(rname, container_name, policy):: {
@@ -16741,7 +17877,7 @@
     },
     // aws_mq_broker - https://www.terraform.io/docs/providers/aws/r/mq_broker.html
     aws_mq_broker:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param broker_name (required)
       // @param engine_type (required)
       // @param engine_version (required)
@@ -16785,9 +17921,11 @@
         configuration: configuration,
       },
       configuration:: {
-        new():: {
-          id:: '${aws_mq_broker.%s.configuration.id}' % super.rname,
-          revision:: '${aws_mq_broker.%s.configuration.revision}' % super.rname,
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
+          id:: '${aws_mq_broker.%s.configuration.id}' % rname,
+          revision:: '${aws_mq_broker.%s.configuration.revision}' % rname,
         },
         with_id(id):: {
           id::: id,
@@ -16800,10 +17938,12 @@
         encryption_options: encryption_options,
       },
       encryption_options:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param use_aws_owned_key (optional)
-        new(use_aws_owned_key=null):: {
+        new(rname, use_aws_owned_key=null):: {
+          rname:: rname,
           [if use_aws_owned_key != null then 'use_aws_owned_key']: use_aws_owned_key,
-          kms_key_id:: '${aws_mq_broker.%s.encryption_options.kms_key_id}' % super.rname,
+          kms_key_id:: '${aws_mq_broker.%s.encryption_options.kms_key_id}' % rname,
         },
         with_kms_key_id(kms_key_id):: {
           kms_key_id::: kms_key_id,
@@ -16813,9 +17953,11 @@
         logs: logs,
       },
       logs:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param audit (optional)
         // @param general (optional)
-        new(audit=null, general=null):: {
+        new(rname, audit=null, general=null):: {
+          rname:: rname,
           [if audit != null then 'audit']: audit,
           [if general != null then 'general']: general,
         },
@@ -16824,21 +17966,25 @@
         maintenance_window_start_time: maintenance_window_start_time,
       },
       maintenance_window_start_time:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param day_of_week (required)
         // @param time_of_day (required)
         // @param time_zone (required)
-        new(day_of_week, time_of_day, time_zone):: {
+        new(rname, day_of_week, time_of_day, time_zone):: {
+          rname:: rname,
           day_of_week: day_of_week,
           time_of_day: time_of_day,
           time_zone: time_zone,
         },
       },
       user:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param password (required)
         // @param username (required)
         // @param console_access (optional)
         // @param groups (optional)
-        new(password, username, console_access=null, groups=null):: {
+        new(rname, password, username, console_access=null, groups=null):: {
+          rname:: rname,
           password: password,
           username: username,
           [if console_access != null then 'console_access']: console_access,
@@ -16848,7 +17994,7 @@
     },
     // aws_mq_configuration - https://www.terraform.io/docs/providers/aws/r/mq_configuration.html
     aws_mq_configuration:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param data (required)
       // @param engine_type (required)
       // @param engine_version (required)
@@ -16873,7 +18019,7 @@
     },
     // aws_msk_cluster - https://www.terraform.io/docs/providers/aws/r/msk_cluster.html
     aws_msk_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_name (required)
       // @param kafka_version (required)
       // @param number_of_broker_nodes (required)
@@ -16903,12 +18049,14 @@
         id::: id,
       },
       broker_node_group_info:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param client_subnets (required)
         // @param ebs_volume_size (required)
         // @param instance_type (required)
         // @param security_groups (required)
         // @param az_distribution (optional)
-        new(client_subnets, ebs_volume_size, instance_type, security_groups, az_distribution=null):: {
+        new(rname, client_subnets, ebs_volume_size, instance_type, security_groups, az_distribution=null):: {
+          rname:: rname,
           client_subnets: client_subnets,
           ebs_volume_size: ebs_volume_size,
           instance_type: instance_type,
@@ -16920,15 +18068,19 @@
         client_authentication: client_authentication,
       },
       client_authentication:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           tls:: {},
         },
         with_tls(tls):: self + {
           tls: tls,
         },
         tls:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param certificate_authority_arns (optional)
-          new(certificate_authority_arns=null):: {
+          new(rname, certificate_authority_arns=null):: {
+            rname:: rname,
             [if certificate_authority_arns != null then 'certificate_authority_arns']: certificate_authority_arns,
           },
         },
@@ -16937,9 +18089,11 @@
         configuration_info: configuration_info,
       },
       configuration_info:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param arn (required)
         // @param revision (required)
-        new(arn, revision):: {
+        new(rname, arn, revision):: {
+          rname:: rname,
           arn: arn,
           revision: revision,
         },
@@ -16948,8 +18102,10 @@
         encryption_info: encryption_info,
       },
       encryption_info:: {
-        new():: {
-          encryption_at_rest_kms_key_arn:: '${aws_msk_cluster.%s.encryption_info.encryption_at_rest_kms_key_arn}' % super.rname,
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
+          encryption_at_rest_kms_key_arn:: '${aws_msk_cluster.%s.encryption_info.encryption_at_rest_kms_key_arn}' % rname,
           encryption_in_transit:: {},
         },
         with_encryption_at_rest_kms_key_arn(encryption_at_rest_kms_key_arn):: {
@@ -16959,9 +18115,11 @@
           encryption_in_transit: encryption_in_transit,
         },
         encryption_in_transit:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param client_broker (optional)
           // @param in_cluster (optional)
-          new(client_broker=null, in_cluster=null):: {
+          new(rname, client_broker=null, in_cluster=null):: {
+            rname:: rname,
             [if client_broker != null then 'client_broker']: client_broker,
             [if in_cluster != null then 'in_cluster']: in_cluster,
           },
@@ -16971,12 +18129,16 @@
         open_monitoring: open_monitoring,
       },
       open_monitoring:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param prometheus (required)
-        new(prometheus):: {
+        new(rname, prometheus):: {
+          rname:: rname,
           prometheus: prometheus,
         },
         prometheus:: {
-          new():: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+          new(rname):: {
+            rname:: rname,
             jmx_exporter:: {},
             node_exporter:: {},
           },
@@ -16984,8 +18146,10 @@
             jmx_exporter: jmx_exporter,
           },
           jmx_exporter:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param enabled_in_broker (required)
-            new(enabled_in_broker):: {
+            new(rname, enabled_in_broker):: {
+              rname:: rname,
               enabled_in_broker: enabled_in_broker,
             },
           },
@@ -16993,8 +18157,10 @@
             node_exporter: node_exporter,
           },
           node_exporter:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param enabled_in_broker (required)
-            new(enabled_in_broker):: {
+            new(rname, enabled_in_broker):: {
+              rname:: rname,
               enabled_in_broker: enabled_in_broker,
             },
           },
@@ -17003,7 +18169,7 @@
     },
     // aws_msk_configuration - https://www.terraform.io/docs/providers/aws/r/msk_configuration.html
     aws_msk_configuration:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param kafka_versions (required)
       // @param name (required)
       // @param server_properties (required)
@@ -17024,7 +18190,7 @@
     },
     // aws_nat_gateway - https://www.terraform.io/docs/providers/aws/r/nat_gateway.html
     aws_nat_gateway:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param allocation_id (required)
       // @param subnet_id (required)
       // @param tags (optional)
@@ -17044,7 +18210,7 @@
     },
     // aws_neptune_cluster - https://www.terraform.io/docs/providers/aws/r/neptune_cluster.html
     aws_neptune_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param backup_retention_period (optional)
       // @param deletion_protection (optional)
       // @param enable_cloudwatch_logs_exports (optional)
@@ -17131,10 +18297,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -17143,7 +18311,7 @@
     },
     // aws_neptune_cluster_instance - https://www.terraform.io/docs/providers/aws/r/neptune_cluster_instance.html
     aws_neptune_cluster_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_identifier (required)
       // @param instance_class (required)
       // @param auto_minor_version_upgrade (optional)
@@ -17213,10 +18381,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -17225,7 +18395,7 @@
     },
     // aws_neptune_cluster_parameter_group - https://www.terraform.io/docs/providers/aws/r/neptune_cluster_parameter_group.html
     aws_neptune_cluster_parameter_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param family (required)
       // @param description (optional)
       // @param tags (optional)
@@ -17253,10 +18423,12 @@
         parameter: parameter,
       },
       parameter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param value (required)
         // @param apply_method (optional)
-        new(name, value, apply_method=null):: {
+        new(rname, name, value, apply_method=null):: {
+          rname:: rname,
           name: name,
           value: value,
           [if apply_method != null then 'apply_method']: apply_method,
@@ -17265,7 +18437,7 @@
     },
     // aws_neptune_cluster_snapshot - https://www.terraform.io/docs/providers/aws/r/neptune_cluster_snapshot.html
     aws_neptune_cluster_snapshot:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param db_cluster_identifier (required)
       // @param db_cluster_snapshot_identifier (required)
       new(rname, db_cluster_identifier, db_cluster_snapshot_identifier):: {
@@ -17295,15 +18467,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
     },
     // aws_neptune_event_subscription - https://www.terraform.io/docs/providers/aws/r/neptune_event_subscription.html
     aws_neptune_event_subscription:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param sns_topic_arn (required)
       // @param enabled (optional)
       // @param event_categories (optional)
@@ -17338,10 +18512,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -17350,7 +18526,7 @@
     },
     // aws_neptune_parameter_group - https://www.terraform.io/docs/providers/aws/r/neptune_parameter_group.html
     aws_neptune_parameter_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param family (required)
       // @param name (required)
       // @param description (optional)
@@ -17372,10 +18548,12 @@
         parameter: parameter,
       },
       parameter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param value (required)
         // @param apply_method (optional)
-        new(name, value, apply_method=null):: {
+        new(rname, name, value, apply_method=null):: {
+          rname:: rname,
           name: name,
           value: value,
           [if apply_method != null then 'apply_method']: apply_method,
@@ -17384,7 +18562,7 @@
     },
     // aws_neptune_subnet_group - https://www.terraform.io/docs/providers/aws/r/neptune_subnet_group.html
     aws_neptune_subnet_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param subnet_ids (required)
       // @param description (optional)
       // @param tags (optional)
@@ -17410,7 +18588,7 @@
     },
     // aws_network_acl - https://www.terraform.io/docs/providers/aws/r/network_acl.html
     aws_network_acl:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param vpc_id (required)
       // @param subnet_id (optional)
       // @param tags (optional)
@@ -17440,7 +18618,7 @@
     },
     // aws_network_acl_rule - https://www.terraform.io/docs/providers/aws/r/network_acl_rule.html
     aws_network_acl_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param network_acl_id (required)
       // @param protocol (required)
       // @param rule_action (required)
@@ -17473,7 +18651,7 @@
     },
     // aws_network_interface - https://www.terraform.io/docs/providers/aws/r/network_interface.html
     aws_network_interface:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param subnet_id (required)
       // @param description (optional)
       // @param source_dest_check (optional)
@@ -17512,18 +18690,20 @@
         attachment: attachment,
       },
       attachment:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_index (required)
         // @param instance (required)
-        new(device_index, instance):: {
+        new(rname, device_index, instance):: {
+          rname:: rname,
           device_index: device_index,
           instance: instance,
-          attachment_id:: '${aws_network_interface.%s.attachment.attachment_id}' % super.rname,
+          attachment_id:: '${aws_network_interface.%s.attachment.attachment_id}' % rname,
         },
       },
     },
     // aws_network_interface_attachment - https://www.terraform.io/docs/providers/aws/r/network_interface_attachment.html
     aws_network_interface_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param device_index (required)
       // @param instance_id (required)
       // @param network_interface_id (required)
@@ -17542,7 +18722,7 @@
     },
     // aws_network_interface_sg_attachment - https://www.terraform.io/docs/providers/aws/r/network_interface_sg_attachment.html
     aws_network_interface_sg_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param network_interface_id (required)
       // @param security_group_id (required)
       new(rname, network_interface_id, security_group_id):: {
@@ -17557,7 +18737,7 @@
     },
     // aws_opsworks_application - https://www.terraform.io/docs/providers/aws/r/opsworks_application.html
     aws_opsworks_application:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param stack_id (required)
       // @param type (required)
@@ -17602,13 +18782,15 @@
         app_source: app_source,
       },
       app_source:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param password (optional)
         // @param revision (optional)
         // @param ssh_key (optional)
         // @param url (optional)
         // @param username (optional)
-        new(type, password=null, revision=null, ssh_key=null, url=null, username=null):: {
+        new(rname, type, password=null, revision=null, ssh_key=null, url=null, username=null):: {
+          rname:: rname,
           type: type,
           [if password != null then 'password']: password,
           [if revision != null then 'revision']: revision,
@@ -17621,10 +18803,12 @@
         environment: environment,
       },
       environment:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (required)
         // @param value (required)
         // @param secure (optional)
-        new(key, value, secure=null):: {
+        new(rname, key, value, secure=null):: {
+          rname:: rname,
           key: key,
           value: value,
           [if secure != null then 'secure']: secure,
@@ -17634,10 +18818,12 @@
         ssl_configuration: ssl_configuration,
       },
       ssl_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param certificate (required)
         // @param private_key (required)
         // @param chain (optional)
-        new(certificate, private_key, chain=null):: {
+        new(rname, certificate, private_key, chain=null):: {
+          rname:: rname,
           certificate: certificate,
           private_key: private_key,
           [if chain != null then 'chain']: chain,
@@ -17646,7 +18832,7 @@
     },
     // aws_opsworks_custom_layer - https://www.terraform.io/docs/providers/aws/r/opsworks_custom_layer.html
     aws_opsworks_custom_layer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param short_name (required)
       // @param stack_id (required)
@@ -17699,6 +18885,7 @@
         ebs_volume: ebs_volume,
       },
       ebs_volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mount_point (required)
         // @param number_of_disks (required)
         // @param size (required)
@@ -17706,7 +18893,8 @@
         // @param iops (optional)
         // @param raid_level (optional)
         // @param type (optional)
-        new(mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+        new(rname, mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+          rname:: rname,
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
@@ -17719,7 +18907,7 @@
     },
     // aws_opsworks_ganglia_layer - https://www.terraform.io/docs/providers/aws/r/opsworks_ganglia_layer.html
     aws_opsworks_ganglia_layer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param password (required)
       // @param stack_id (required)
       // @param auto_assign_elastic_ips (optional)
@@ -17776,6 +18964,7 @@
         ebs_volume: ebs_volume,
       },
       ebs_volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mount_point (required)
         // @param number_of_disks (required)
         // @param size (required)
@@ -17783,7 +18972,8 @@
         // @param iops (optional)
         // @param raid_level (optional)
         // @param type (optional)
-        new(mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+        new(rname, mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+          rname:: rname,
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
@@ -17796,7 +18986,7 @@
     },
     // aws_opsworks_haproxy_layer - https://www.terraform.io/docs/providers/aws/r/opsworks_haproxy_layer.html
     aws_opsworks_haproxy_layer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param stack_id (required)
       // @param stats_password (required)
       // @param auto_assign_elastic_ips (optional)
@@ -17859,6 +19049,7 @@
         ebs_volume: ebs_volume,
       },
       ebs_volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mount_point (required)
         // @param number_of_disks (required)
         // @param size (required)
@@ -17866,7 +19057,8 @@
         // @param iops (optional)
         // @param raid_level (optional)
         // @param type (optional)
-        new(mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+        new(rname, mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+          rname:: rname,
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
@@ -17879,7 +19071,7 @@
     },
     // aws_opsworks_instance - https://www.terraform.io/docs/providers/aws/r/opsworks_instance.html
     aws_opsworks_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param layer_ids (required)
       // @param stack_id (required)
       // @param agent_version (optional)
@@ -18038,15 +19230,17 @@
         ebs_block_device: ebs_block_device,
       },
       ebs_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (required)
         // @param delete_on_termination (optional)
-        new(device_name, delete_on_termination=null):: {
+        new(rname, device_name, delete_on_termination=null):: {
+          rname:: rname,
           device_name: device_name,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
-          iops:: '${aws_opsworks_instance.%s.ebs_block_device.iops}' % super.rname,
-          snapshot_id:: '${aws_opsworks_instance.%s.ebs_block_device.snapshot_id}' % super.rname,
-          volume_size:: '${aws_opsworks_instance.%s.ebs_block_device.volume_size}' % super.rname,
-          volume_type:: '${aws_opsworks_instance.%s.ebs_block_device.volume_type}' % super.rname,
+          iops:: '${aws_opsworks_instance.%s.ebs_block_device.iops}' % rname,
+          snapshot_id:: '${aws_opsworks_instance.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_size:: '${aws_opsworks_instance.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_opsworks_instance.%s.ebs_block_device.volume_type}' % rname,
         },
         with_iops(iops):: {
           iops::: iops,
@@ -18065,9 +19259,11 @@
         ephemeral_block_device: ephemeral_block_device,
       },
       ephemeral_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (required)
         // @param virtual_name (required)
-        new(device_name, virtual_name):: {
+        new(rname, device_name, virtual_name):: {
+          rname:: rname,
           device_name: device_name,
           virtual_name: virtual_name,
         },
@@ -18076,12 +19272,14 @@
         root_block_device: root_block_device,
       },
       root_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delete_on_termination (optional)
-        new(delete_on_termination=null):: {
+        new(rname, delete_on_termination=null):: {
+          rname:: rname,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
-          iops:: '${aws_opsworks_instance.%s.root_block_device.iops}' % super.rname,
-          volume_size:: '${aws_opsworks_instance.%s.root_block_device.volume_size}' % super.rname,
-          volume_type:: '${aws_opsworks_instance.%s.root_block_device.volume_type}' % super.rname,
+          iops:: '${aws_opsworks_instance.%s.root_block_device.iops}' % rname,
+          volume_size:: '${aws_opsworks_instance.%s.root_block_device.volume_size}' % rname,
+          volume_type:: '${aws_opsworks_instance.%s.root_block_device.volume_type}' % rname,
         },
         with_iops(iops):: {
           iops::: iops,
@@ -18097,10 +19295,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -18109,7 +19309,7 @@
     },
     // aws_opsworks_java_app_layer - https://www.terraform.io/docs/providers/aws/r/opsworks_java_app_layer.html
     aws_opsworks_java_app_layer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param stack_id (required)
       // @param app_server (optional)
       // @param app_server_version (optional)
@@ -18170,6 +19370,7 @@
         ebs_volume: ebs_volume,
       },
       ebs_volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mount_point (required)
         // @param number_of_disks (required)
         // @param size (required)
@@ -18177,7 +19378,8 @@
         // @param iops (optional)
         // @param raid_level (optional)
         // @param type (optional)
-        new(mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+        new(rname, mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+          rname:: rname,
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
@@ -18190,7 +19392,7 @@
     },
     // aws_opsworks_memcached_layer - https://www.terraform.io/docs/providers/aws/r/opsworks_memcached_layer.html
     aws_opsworks_memcached_layer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param stack_id (required)
       // @param allocated_memory (optional)
       // @param auto_assign_elastic_ips (optional)
@@ -18243,6 +19445,7 @@
         ebs_volume: ebs_volume,
       },
       ebs_volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mount_point (required)
         // @param number_of_disks (required)
         // @param size (required)
@@ -18250,7 +19453,8 @@
         // @param iops (optional)
         // @param raid_level (optional)
         // @param type (optional)
-        new(mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+        new(rname, mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+          rname:: rname,
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
@@ -18263,7 +19467,7 @@
     },
     // aws_opsworks_mysql_layer - https://www.terraform.io/docs/providers/aws/r/opsworks_mysql_layer.html
     aws_opsworks_mysql_layer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param stack_id (required)
       // @param auto_assign_elastic_ips (optional)
       // @param auto_assign_public_ips (optional)
@@ -18318,6 +19522,7 @@
         ebs_volume: ebs_volume,
       },
       ebs_volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mount_point (required)
         // @param number_of_disks (required)
         // @param size (required)
@@ -18325,7 +19530,8 @@
         // @param iops (optional)
         // @param raid_level (optional)
         // @param type (optional)
-        new(mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+        new(rname, mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+          rname:: rname,
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
@@ -18338,7 +19544,7 @@
     },
     // aws_opsworks_nodejs_app_layer - https://www.terraform.io/docs/providers/aws/r/opsworks_nodejs_app_layer.html
     aws_opsworks_nodejs_app_layer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param stack_id (required)
       // @param auto_assign_elastic_ips (optional)
       // @param auto_assign_public_ips (optional)
@@ -18391,6 +19597,7 @@
         ebs_volume: ebs_volume,
       },
       ebs_volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mount_point (required)
         // @param number_of_disks (required)
         // @param size (required)
@@ -18398,7 +19605,8 @@
         // @param iops (optional)
         // @param raid_level (optional)
         // @param type (optional)
-        new(mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+        new(rname, mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+          rname:: rname,
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
@@ -18411,7 +19619,7 @@
     },
     // aws_opsworks_permission - https://www.terraform.io/docs/providers/aws/r/opsworks_permission.html
     aws_opsworks_permission:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param user_arn (required)
       new(rname, user_arn):: {
         rname:: rname,
@@ -18440,7 +19648,7 @@
     },
     // aws_opsworks_php_app_layer - https://www.terraform.io/docs/providers/aws/r/opsworks_php_app_layer.html
     aws_opsworks_php_app_layer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param stack_id (required)
       // @param auto_assign_elastic_ips (optional)
       // @param auto_assign_public_ips (optional)
@@ -18491,6 +19699,7 @@
         ebs_volume: ebs_volume,
       },
       ebs_volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mount_point (required)
         // @param number_of_disks (required)
         // @param size (required)
@@ -18498,7 +19707,8 @@
         // @param iops (optional)
         // @param raid_level (optional)
         // @param type (optional)
-        new(mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+        new(rname, mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+          rname:: rname,
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
@@ -18511,7 +19721,7 @@
     },
     // aws_opsworks_rails_app_layer - https://www.terraform.io/docs/providers/aws/r/opsworks_rails_app_layer.html
     aws_opsworks_rails_app_layer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param stack_id (required)
       // @param app_server (optional)
       // @param auto_assign_elastic_ips (optional)
@@ -18574,6 +19784,7 @@
         ebs_volume: ebs_volume,
       },
       ebs_volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mount_point (required)
         // @param number_of_disks (required)
         // @param size (required)
@@ -18581,7 +19792,8 @@
         // @param iops (optional)
         // @param raid_level (optional)
         // @param type (optional)
-        new(mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+        new(rname, mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+          rname:: rname,
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
@@ -18594,7 +19806,7 @@
     },
     // aws_opsworks_rds_db_instance - https://www.terraform.io/docs/providers/aws/r/opsworks_rds_db_instance.html
     aws_opsworks_rds_db_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param db_password (required)
       // @param db_user (required)
       // @param rds_db_instance_arn (required)
@@ -18613,7 +19825,7 @@
     },
     // aws_opsworks_stack - https://www.terraform.io/docs/providers/aws/r/opsworks_stack.html
     aws_opsworks_stack:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param default_instance_profile_arn (required)
       // @param name (required)
       // @param region (required)
@@ -18678,13 +19890,15 @@
         custom_cookbooks_source: custom_cookbooks_source,
       },
       custom_cookbooks_source:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param url (required)
         // @param password (optional)
         // @param revision (optional)
         // @param ssh_key (optional)
         // @param username (optional)
-        new(type, url, password=null, revision=null, ssh_key=null, username=null):: {
+        new(rname, type, url, password=null, revision=null, ssh_key=null, username=null):: {
+          rname:: rname,
           type: type,
           url: url,
           [if password != null then 'password']: password,
@@ -18696,7 +19910,7 @@
     },
     // aws_opsworks_static_web_layer - https://www.terraform.io/docs/providers/aws/r/opsworks_static_web_layer.html
     aws_opsworks_static_web_layer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param stack_id (required)
       // @param auto_assign_elastic_ips (optional)
       // @param auto_assign_public_ips (optional)
@@ -18747,6 +19961,7 @@
         ebs_volume: ebs_volume,
       },
       ebs_volume:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param mount_point (required)
         // @param number_of_disks (required)
         // @param size (required)
@@ -18754,7 +19969,8 @@
         // @param iops (optional)
         // @param raid_level (optional)
         // @param type (optional)
-        new(mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+        new(rname, mount_point, number_of_disks, size, encrypted=null, iops=null, raid_level=null, type=null):: {
+          rname:: rname,
           mount_point: mount_point,
           number_of_disks: number_of_disks,
           size: size,
@@ -18767,7 +19983,7 @@
     },
     // aws_opsworks_user_profile - https://www.terraform.io/docs/providers/aws/r/opsworks_user_profile.html
     aws_opsworks_user_profile:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param ssh_username (required)
       // @param user_arn (required)
       // @param allow_self_management (optional)
@@ -18786,7 +20002,7 @@
     },
     // aws_organizations_account - https://www.terraform.io/docs/providers/aws/r/organizations_account.html
     aws_organizations_account:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param email (required)
       // @param name (required)
       // @param iam_user_access_to_billing (optional)
@@ -18815,7 +20031,7 @@
     },
     // aws_organizations_organization - https://www.terraform.io/docs/providers/aws/r/organizations_organization.html
     aws_organizations_organization:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param aws_service_access_principals (optional)
       // @param enabled_policy_types (optional)
       // @param feature_set (optional)
@@ -18839,7 +20055,7 @@
     },
     // aws_organizations_organizational_unit - https://www.terraform.io/docs/providers/aws/r/organizations_organizational_unit.html
     aws_organizations_organizational_unit:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param parent_id (required)
       new(rname, name, parent_id):: {
@@ -18856,7 +20072,7 @@
     },
     // aws_organizations_policy - https://www.terraform.io/docs/providers/aws/r/organizations_policy.html
     aws_organizations_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param content (required)
       // @param name (required)
       // @param description (optional)
@@ -18876,7 +20092,7 @@
     },
     // aws_organizations_policy_attachment - https://www.terraform.io/docs/providers/aws/r/organizations_policy_attachment.html
     aws_organizations_policy_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy_id (required)
       // @param target_id (required)
       new(rname, policy_id, target_id):: {
@@ -18891,7 +20107,7 @@
     },
     // aws_pinpoint_adm_channel - https://www.terraform.io/docs/providers/aws/r/pinpoint_adm_channel.html
     aws_pinpoint_adm_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application_id (required)
       // @param client_id (required)
       // @param client_secret (required)
@@ -18910,7 +20126,7 @@
     },
     // aws_pinpoint_apns_channel - https://www.terraform.io/docs/providers/aws/r/pinpoint_apns_channel.html
     aws_pinpoint_apns_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application_id (required)
       // @param bundle_id (optional)
       // @param certificate (optional)
@@ -18939,7 +20155,7 @@
     },
     // aws_pinpoint_apns_sandbox_channel - https://www.terraform.io/docs/providers/aws/r/pinpoint_apns_sandbox_channel.html
     aws_pinpoint_apns_sandbox_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application_id (required)
       // @param bundle_id (optional)
       // @param certificate (optional)
@@ -18968,7 +20184,7 @@
     },
     // aws_pinpoint_apns_voip_channel - https://www.terraform.io/docs/providers/aws/r/pinpoint_apns_voip_channel.html
     aws_pinpoint_apns_voip_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application_id (required)
       // @param bundle_id (optional)
       // @param certificate (optional)
@@ -18997,7 +20213,7 @@
     },
     // aws_pinpoint_apns_voip_sandbox_channel - https://www.terraform.io/docs/providers/aws/r/pinpoint_apns_voip_sandbox_channel.html
     aws_pinpoint_apns_voip_sandbox_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application_id (required)
       // @param bundle_id (optional)
       // @param certificate (optional)
@@ -19026,7 +20242,7 @@
     },
     // aws_pinpoint_app - https://www.terraform.io/docs/providers/aws/r/pinpoint_app.html
     aws_pinpoint_app:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name_prefix (optional)
       // @param tags (optional)
       new(rname, name_prefix=null, tags=null):: {
@@ -19051,10 +20267,12 @@
         campaign_hook: campaign_hook,
       },
       campaign_hook:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param lambda_function_name (optional)
         // @param mode (optional)
         // @param web_url (optional)
-        new(lambda_function_name=null, mode=null, web_url=null):: {
+        new(rname, lambda_function_name=null, mode=null, web_url=null):: {
+          rname:: rname,
           [if lambda_function_name != null then 'lambda_function_name']: lambda_function_name,
           [if mode != null then 'mode']: mode,
           [if web_url != null then 'web_url']: web_url,
@@ -19064,11 +20282,13 @@
         limits: limits,
       },
       limits:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param daily (optional)
         // @param maximum_duration (optional)
         // @param messages_per_second (optional)
         // @param total (optional)
-        new(daily=null, maximum_duration=null, messages_per_second=null, total=null):: {
+        new(rname, daily=null, maximum_duration=null, messages_per_second=null, total=null):: {
+          rname:: rname,
           [if daily != null then 'daily']: daily,
           [if maximum_duration != null then 'maximum_duration']: maximum_duration,
           [if messages_per_second != null then 'messages_per_second']: messages_per_second,
@@ -19079,9 +20299,11 @@
         quiet_time: quiet_time,
       },
       quiet_time:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param end (optional)
         // @param start (optional)
-        new(end=null, start=null):: {
+        new(rname, end=null, start=null):: {
+          rname:: rname,
           [if end != null then 'end']: end,
           [if start != null then 'start']: start,
         },
@@ -19089,7 +20311,7 @@
     },
     // aws_pinpoint_baidu_channel - https://www.terraform.io/docs/providers/aws/r/pinpoint_baidu_channel.html
     aws_pinpoint_baidu_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param api_key (required)
       // @param application_id (required)
       // @param secret_key (required)
@@ -19108,7 +20330,7 @@
     },
     // aws_pinpoint_email_channel - https://www.terraform.io/docs/providers/aws/r/pinpoint_email_channel.html
     aws_pinpoint_email_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application_id (required)
       // @param from_address (required)
       // @param identity (required)
@@ -19130,7 +20352,7 @@
     },
     // aws_pinpoint_event_stream - https://www.terraform.io/docs/providers/aws/r/pinpoint_event_stream.html
     aws_pinpoint_event_stream:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application_id (required)
       // @param destination_stream_arn (required)
       // @param role_arn (required)
@@ -19147,7 +20369,7 @@
     },
     // aws_pinpoint_gcm_channel - https://www.terraform.io/docs/providers/aws/r/pinpoint_gcm_channel.html
     aws_pinpoint_gcm_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param api_key (required)
       // @param application_id (required)
       // @param enabled (optional)
@@ -19164,7 +20386,7 @@
     },
     // aws_pinpoint_sms_channel - https://www.terraform.io/docs/providers/aws/r/pinpoint_sms_channel.html
     aws_pinpoint_sms_channel:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application_id (required)
       // @param enabled (optional)
       // @param sender_id (optional)
@@ -19185,7 +20407,7 @@
     },
     // aws_placement_group - https://www.terraform.io/docs/providers/aws/r/placement_group.html
     aws_placement_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param strategy (required)
       // @param tags (optional)
@@ -19203,7 +20425,7 @@
     },
     // aws_proxy_protocol_policy - https://www.terraform.io/docs/providers/aws/r/proxy_protocol_policy.html
     aws_proxy_protocol_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param instance_ports (required)
       // @param load_balancer (required)
       new(rname, instance_ports, load_balancer):: {
@@ -19218,7 +20440,7 @@
     },
     // aws_qldb_ledger - https://www.terraform.io/docs/providers/aws/r/qldb_ledger.html
     aws_qldb_ledger:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param deletion_protection (optional)
       // @param tags (optional)
       new(rname, deletion_protection=null, tags=null):: {
@@ -19238,7 +20460,7 @@
     },
     // aws_quicksight_group - https://www.terraform.io/docs/providers/aws/r/quicksight_group.html
     aws_quicksight_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param group_name (required)
       // @param description (optional)
       // @param namespace (optional)
@@ -19260,7 +20482,7 @@
     },
     // aws_quicksight_user - https://www.terraform.io/docs/providers/aws/r/quicksight_user.html
     aws_quicksight_user:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param email (required)
       // @param identity_type (required)
       // @param user_role (required)
@@ -19290,7 +20512,7 @@
     },
     // aws_ram_principal_association - https://www.terraform.io/docs/providers/aws/r/ram_principal_association.html
     aws_ram_principal_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param principal (required)
       // @param resource_share_arn (required)
       new(rname, principal, resource_share_arn):: {
@@ -19305,7 +20527,7 @@
     },
     // aws_ram_resource_association - https://www.terraform.io/docs/providers/aws/r/ram_resource_association.html
     aws_ram_resource_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param resource_arn (required)
       // @param resource_share_arn (required)
       new(rname, resource_arn, resource_share_arn):: {
@@ -19320,7 +20542,7 @@
     },
     // aws_ram_resource_share - https://www.terraform.io/docs/providers/aws/r/ram_resource_share.html
     aws_ram_resource_share:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param allow_external_principals (optional)
       // @param tags (optional)
@@ -19340,9 +20562,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -19350,7 +20574,7 @@
     },
     // aws_ram_resource_share_accepter - https://www.terraform.io/docs/providers/aws/r/ram_resource_share_accepter.html
     aws_ram_resource_share_accepter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param share_arn (required)
       new(rname, share_arn):: {
         rname:: rname,
@@ -19372,9 +20596,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -19382,7 +20608,7 @@
     },
     // aws_rds_cluster - https://www.terraform.io/docs/providers/aws/r/rds_cluster.html
     aws_rds_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param backtrack_window (optional)
       // @param backup_retention_period (optional)
       // @param copy_tags_to_snapshot (optional)
@@ -19500,12 +20726,14 @@
         s3_import: s3_import,
       },
       s3_import:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket_name (required)
         // @param ingestion_role (required)
         // @param source_engine (required)
         // @param source_engine_version (required)
         // @param bucket_prefix (optional)
-        new(bucket_name, ingestion_role, source_engine, source_engine_version, bucket_prefix=null):: {
+        new(rname, bucket_name, ingestion_role, source_engine, source_engine_version, bucket_prefix=null):: {
+          rname:: rname,
           bucket_name: bucket_name,
           ingestion_role: ingestion_role,
           source_engine: source_engine,
@@ -19517,12 +20745,14 @@
         scaling_configuration: scaling_configuration,
       },
       scaling_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param auto_pause (optional)
         // @param max_capacity (optional)
         // @param min_capacity (optional)
         // @param seconds_until_auto_pause (optional)
         // @param timeout_action (optional)
-        new(auto_pause=null, max_capacity=null, min_capacity=null, seconds_until_auto_pause=null, timeout_action=null):: {
+        new(rname, auto_pause=null, max_capacity=null, min_capacity=null, seconds_until_auto_pause=null, timeout_action=null):: {
+          rname:: rname,
           [if auto_pause != null then 'auto_pause']: auto_pause,
           [if max_capacity != null then 'max_capacity']: max_capacity,
           [if min_capacity != null then 'min_capacity']: min_capacity,
@@ -19534,10 +20764,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -19546,7 +20778,7 @@
     },
     // aws_rds_cluster_endpoint - https://www.terraform.io/docs/providers/aws/r/rds_cluster_endpoint.html
     aws_rds_cluster_endpoint:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_endpoint_identifier (required)
       // @param cluster_identifier (required)
       // @param custom_endpoint_type (required)
@@ -19571,7 +20803,7 @@
     },
     // aws_rds_cluster_instance - https://www.terraform.io/docs/providers/aws/r/rds_cluster_instance.html
     aws_rds_cluster_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_identifier (required)
       // @param instance_class (required)
       // @param auto_minor_version_upgrade (optional)
@@ -19661,10 +20893,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -19673,7 +20907,7 @@
     },
     // aws_rds_cluster_parameter_group - https://www.terraform.io/docs/providers/aws/r/rds_cluster_parameter_group.html
     aws_rds_cluster_parameter_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param family (required)
       // @param description (optional)
       // @param tags (optional)
@@ -19701,10 +20935,12 @@
         parameter: parameter,
       },
       parameter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param value (required)
         // @param apply_method (optional)
-        new(name, value, apply_method=null):: {
+        new(rname, name, value, apply_method=null):: {
+          rname:: rname,
           name: name,
           value: value,
           [if apply_method != null then 'apply_method']: apply_method,
@@ -19713,7 +20949,7 @@
     },
     // aws_rds_global_cluster - https://www.terraform.io/docs/providers/aws/r/rds_global_cluster.html
     aws_rds_global_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param global_cluster_identifier (required)
       // @param database_name (optional)
       // @param deletion_protection (optional)
@@ -19740,7 +20976,7 @@
     },
     // aws_redshift_cluster - https://www.terraform.io/docs/providers/aws/r/redshift_cluster.html
     aws_redshift_cluster:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_identifier (required)
       // @param node_type (required)
       // @param allow_version_upgrade (optional)
@@ -19861,11 +21097,13 @@
         logging: logging,
       },
       logging:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enable (required)
-        new(enable):: {
+        new(rname, enable):: {
+          rname:: rname,
           enable: enable,
-          bucket_name:: '${aws_redshift_cluster.%s.logging.bucket_name}' % super.rname,
-          s3_key_prefix:: '${aws_redshift_cluster.%s.logging.s3_key_prefix}' % super.rname,
+          bucket_name:: '${aws_redshift_cluster.%s.logging.bucket_name}' % rname,
+          s3_key_prefix:: '${aws_redshift_cluster.%s.logging.s3_key_prefix}' % rname,
         },
         with_bucket_name(bucket_name):: {
           bucket_name::: bucket_name,
@@ -19878,10 +21116,12 @@
         snapshot_copy: snapshot_copy,
       },
       snapshot_copy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param destination_region (required)
         // @param grant_name (optional)
         // @param retention_period (optional)
-        new(destination_region, grant_name=null, retention_period=null):: {
+        new(rname, destination_region, grant_name=null, retention_period=null):: {
+          rname:: rname,
           destination_region: destination_region,
           [if grant_name != null then 'grant_name']: grant_name,
           [if retention_period != null then 'retention_period']: retention_period,
@@ -19891,10 +21131,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -19903,7 +21145,7 @@
     },
     // aws_redshift_event_subscription - https://www.terraform.io/docs/providers/aws/r/redshift_event_subscription.html
     aws_redshift_event_subscription:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param sns_topic_arn (required)
       // @param enabled (optional)
@@ -19935,10 +21177,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -19947,7 +21191,7 @@
     },
     // aws_redshift_parameter_group - https://www.terraform.io/docs/providers/aws/r/redshift_parameter_group.html
     aws_redshift_parameter_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param family (required)
       // @param name (required)
       // @param description (optional)
@@ -19969,9 +21213,11 @@
         parameter: parameter,
       },
       parameter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param value (required)
-        new(name, value):: {
+        new(rname, name, value):: {
+          rname:: rname,
           name: name,
           value: value,
         },
@@ -19979,7 +21225,7 @@
     },
     // aws_redshift_security_group - https://www.terraform.io/docs/providers/aws/r/redshift_security_group.html
     aws_redshift_security_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param ingress (required)
@@ -19994,11 +21240,13 @@
         id::: id,
       },
       ingress:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cidr (optional)
-        new(cidr=null):: {
+        new(rname, cidr=null):: {
+          rname:: rname,
           [if cidr != null then 'cidr']: cidr,
-          security_group_name:: '${aws_redshift_security_group.%s.ingress.security_group_name}' % super.rname,
-          security_group_owner_id:: '${aws_redshift_security_group.%s.ingress.security_group_owner_id}' % super.rname,
+          security_group_name:: '${aws_redshift_security_group.%s.ingress.security_group_name}' % rname,
+          security_group_owner_id:: '${aws_redshift_security_group.%s.ingress.security_group_owner_id}' % rname,
         },
         with_security_group_name(security_group_name):: {
           security_group_name::: security_group_name,
@@ -20010,7 +21258,7 @@
     },
     // aws_redshift_snapshot_copy_grant - https://www.terraform.io/docs/providers/aws/r/redshift_snapshot_copy_grant.html
     aws_redshift_snapshot_copy_grant:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param snapshot_copy_grant_name (required)
       // @param tags (optional)
       new(rname, snapshot_copy_grant_name, tags=null):: {
@@ -20030,7 +21278,7 @@
     },
     // aws_redshift_snapshot_schedule - https://www.terraform.io/docs/providers/aws/r/redshift_snapshot_schedule.html
     aws_redshift_snapshot_schedule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param definitions (required)
       // @param description (optional)
       // @param force_destroy (optional)
@@ -20058,7 +21306,7 @@
     },
     // aws_redshift_snapshot_schedule_association - https://www.terraform.io/docs/providers/aws/r/redshift_snapshot_schedule_association.html
     aws_redshift_snapshot_schedule_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cluster_identifier (required)
       // @param schedule_identifier (required)
       new(rname, cluster_identifier, schedule_identifier):: {
@@ -20073,7 +21321,7 @@
     },
     // aws_redshift_subnet_group - https://www.terraform.io/docs/providers/aws/r/redshift_subnet_group.html
     aws_redshift_subnet_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param subnet_ids (required)
       // @param description (optional)
@@ -20093,7 +21341,7 @@
     },
     // aws_resourcegroups_group - https://www.terraform.io/docs/providers/aws/r/resourcegroups_group.html
     aws_resourcegroups_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param tags (optional)
@@ -20111,9 +21359,11 @@
         id::: id,
       },
       resource_query:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param query (required)
         // @param type (optional)
-        new(query, type=null):: {
+        new(rname, query, type=null):: {
+          rname:: rname,
           query: query,
           [if type != null then 'type']: type,
         },
@@ -20121,7 +21371,7 @@
     },
     // aws_route - https://www.terraform.io/docs/providers/aws/r/route.html
     aws_route:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param route_table_id (required)
       // @param destination_cidr_block (optional)
       // @param destination_ipv6_cidr_block (optional)
@@ -20168,9 +21418,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -20178,7 +21430,7 @@
     },
     // aws_route53_delegation_set - https://www.terraform.io/docs/providers/aws/r/route53_delegation_set.html
     aws_route53_delegation_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param reference_name (optional)
       new(rname, reference_name=null):: {
         rname:: rname,
@@ -20192,7 +21444,7 @@
     },
     // aws_route53_health_check - https://www.terraform.io/docs/providers/aws/r/route53_health_check.html
     aws_route53_health_check:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param type (required)
       // @param child_health_threshold (optional)
       // @param child_healthchecks (optional)
@@ -20243,7 +21495,7 @@
     },
     // aws_route53_query_log - https://www.terraform.io/docs/providers/aws/r/route53_query_log.html
     aws_route53_query_log:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cloudwatch_log_group_arn (required)
       // @param zone_id (required)
       new(rname, cloudwatch_log_group_arn, zone_id):: {
@@ -20258,7 +21510,7 @@
     },
     // aws_route53_record - https://www.terraform.io/docs/providers/aws/r/route53_record.html
     aws_route53_record:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param type (required)
       // @param zone_id (required)
@@ -20296,10 +21548,12 @@
         alias: alias,
       },
       alias:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param evaluate_target_health (required)
         // @param name (required)
         // @param zone_id (required)
-        new(evaluate_target_health, name, zone_id):: {
+        new(rname, evaluate_target_health, name, zone_id):: {
+          rname:: rname,
           evaluate_target_health: evaluate_target_health,
           name: name,
           zone_id: zone_id,
@@ -20309,8 +21563,10 @@
         failover_routing_policy: failover_routing_policy,
       },
       failover_routing_policy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
-        new(type):: {
+        new(rname, type):: {
+          rname:: rname,
           type: type,
         },
       },
@@ -20318,10 +21574,12 @@
         geolocation_routing_policy: geolocation_routing_policy,
       },
       geolocation_routing_policy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param continent (optional)
         // @param country (optional)
         // @param subdivision (optional)
-        new(continent=null, country=null, subdivision=null):: {
+        new(rname, continent=null, country=null, subdivision=null):: {
+          rname:: rname,
           [if continent != null then 'continent']: continent,
           [if country != null then 'country']: country,
           [if subdivision != null then 'subdivision']: subdivision,
@@ -20331,8 +21589,10 @@
         latency_routing_policy: latency_routing_policy,
       },
       latency_routing_policy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param region (required)
-        new(region):: {
+        new(rname, region):: {
+          rname:: rname,
           region: region,
         },
       },
@@ -20340,15 +21600,17 @@
         weighted_routing_policy: weighted_routing_policy,
       },
       weighted_routing_policy:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param weight (required)
-        new(weight):: {
+        new(rname, weight):: {
+          rname:: rname,
           weight: weight,
         },
       },
     },
     // aws_route53_resolver_endpoint - https://www.terraform.io/docs/providers/aws/r/route53_resolver_endpoint.html
     aws_route53_resolver_endpoint:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param direction (required)
       // @param security_group_ids (required)
       // @param name (optional)
@@ -20370,11 +21632,13 @@
         id::: id,
       },
       ip_address:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param subnet_id (required)
-        new(subnet_id):: {
+        new(rname, subnet_id):: {
+          rname:: rname,
           subnet_id: subnet_id,
-          ip:: '${aws_route53_resolver_endpoint.%s.ip_address.ip}' % super.rname,
-          ip_id:: '${aws_route53_resolver_endpoint.%s.ip_address.ip_id}' % super.rname,
+          ip:: '${aws_route53_resolver_endpoint.%s.ip_address.ip}' % rname,
+          ip_id:: '${aws_route53_resolver_endpoint.%s.ip_address.ip_id}' % rname,
         },
         with_ip(ip):: {
           ip::: ip,
@@ -20384,10 +21648,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -20396,7 +21662,7 @@
     },
     // aws_route53_resolver_rule - https://www.terraform.io/docs/providers/aws/r/route53_resolver_rule.html
     aws_route53_resolver_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain_name (required)
       // @param rule_type (required)
       // @param name (optional)
@@ -20423,9 +21689,11 @@
         target_ip: target_ip,
       },
       target_ip:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param ip (required)
         // @param port (optional)
-        new(ip, port=null):: {
+        new(rname, ip, port=null):: {
+          rname:: rname,
           ip: ip,
           [if port != null then 'port']: port,
         },
@@ -20434,10 +21702,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -20446,7 +21716,7 @@
     },
     // aws_route53_resolver_rule_association - https://www.terraform.io/docs/providers/aws/r/route53_resolver_rule_association.html
     aws_route53_resolver_rule_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param resolver_rule_id (required)
       // @param vpc_id (required)
       // @param name (optional)
@@ -20465,9 +21735,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -20475,7 +21747,7 @@
     },
     // aws_route53_zone - https://www.terraform.io/docs/providers/aws/r/route53_zone.html
     aws_route53_zone:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param comment (optional)
       // @param delegation_set_id (optional)
@@ -20508,10 +21780,12 @@
         vpc: vpc,
       },
       vpc:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param vpc_id (required)
-        new(vpc_id):: {
+        new(rname, vpc_id):: {
+          rname:: rname,
           vpc_id: vpc_id,
-          vpc_region:: '${aws_route53_zone.%s.vpc.vpc_region}' % super.rname,
+          vpc_region:: '${aws_route53_zone.%s.vpc.vpc_region}' % rname,
         },
         with_vpc_region(vpc_region):: {
           vpc_region::: vpc_region,
@@ -20520,7 +21794,7 @@
     },
     // aws_route53_zone_association - https://www.terraform.io/docs/providers/aws/r/route53_zone_association.html
     aws_route53_zone_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param vpc_id (required)
       // @param zone_id (required)
       new(rname, vpc_id, zone_id):: {
@@ -20539,7 +21813,7 @@
     },
     // aws_route_table - https://www.terraform.io/docs/providers/aws/r/route_table.html
     aws_route_table:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param vpc_id (required)
       // @param tags (optional)
       new(rname, vpc_id, tags=null):: {
@@ -20563,7 +21837,7 @@
     },
     // aws_route_table_association - https://www.terraform.io/docs/providers/aws/r/route_table_association.html
     aws_route_table_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param route_table_id (required)
       // @param gateway_id (optional)
       // @param subnet_id (optional)
@@ -20580,7 +21854,7 @@
     },
     // aws_s3_access_point - https://www.terraform.io/docs/providers/aws/r/s3_access_point.html
     aws_s3_access_point:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket (required)
       // @param name (required)
       // @param policy (optional)
@@ -20608,11 +21882,13 @@
         public_access_block_configuration: public_access_block_configuration,
       },
       public_access_block_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param block_public_acls (optional)
         // @param block_public_policy (optional)
         // @param ignore_public_acls (optional)
         // @param restrict_public_buckets (optional)
-        new(block_public_acls=null, block_public_policy=null, ignore_public_acls=null, restrict_public_buckets=null):: {
+        new(rname, block_public_acls=null, block_public_policy=null, ignore_public_acls=null, restrict_public_buckets=null):: {
+          rname:: rname,
           [if block_public_acls != null then 'block_public_acls']: block_public_acls,
           [if block_public_policy != null then 'block_public_policy']: block_public_policy,
           [if ignore_public_acls != null then 'ignore_public_acls']: ignore_public_acls,
@@ -20623,15 +21899,17 @@
         vpc_configuration: vpc_configuration,
       },
       vpc_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param vpc_id (required)
-        new(vpc_id):: {
+        new(rname, vpc_id):: {
+          rname:: rname,
           vpc_id: vpc_id,
         },
       },
     },
     // aws_s3_account_public_access_block - https://www.terraform.io/docs/providers/aws/r/s3_account_public_access_block.html
     aws_s3_account_public_access_block:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param block_public_acls (optional)
       // @param block_public_policy (optional)
       // @param ignore_public_acls (optional)
@@ -20654,7 +21932,7 @@
     },
     // aws_s3_bucket - https://www.terraform.io/docs/providers/aws/r/s3_bucket.html
     aws_s3_bucket:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param acl (optional)
       // @param bucket_prefix (optional)
       // @param force_destroy (optional)
@@ -20719,12 +21997,14 @@
         cors_rule: cors_rule,
       },
       cors_rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allowed_methods (required)
         // @param allowed_origins (required)
         // @param allowed_headers (optional)
         // @param expose_headers (optional)
         // @param max_age_seconds (optional)
-        new(allowed_methods, allowed_origins, allowed_headers=null, expose_headers=null, max_age_seconds=null):: {
+        new(rname, allowed_methods, allowed_origins, allowed_headers=null, expose_headers=null, max_age_seconds=null):: {
+          rname:: rname,
           allowed_methods: allowed_methods,
           allowed_origins: allowed_origins,
           [if allowed_headers != null then 'allowed_headers']: allowed_headers,
@@ -20736,11 +22016,13 @@
         grant: grant,
       },
       grant:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param permissions (required)
         // @param type (required)
         // @param id (optional)
         // @param uri (optional)
-        new(permissions, type, id=null, uri=null):: {
+        new(rname, permissions, type, id=null, uri=null):: {
+          rname:: rname,
           permissions: permissions,
           type: type,
           [if id != null then 'id']: id,
@@ -20751,16 +22033,18 @@
         lifecycle_rule: lifecycle_rule,
       },
       lifecycle_rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (required)
         // @param abort_incomplete_multipart_upload_days (optional)
         // @param prefix (optional)
         // @param tags (optional)
-        new(enabled, abort_incomplete_multipart_upload_days=null, prefix=null, tags=null):: {
+        new(rname, enabled, abort_incomplete_multipart_upload_days=null, prefix=null, tags=null):: {
+          rname:: rname,
           enabled: enabled,
           [if abort_incomplete_multipart_upload_days != null then 'abort_incomplete_multipart_upload_days']: abort_incomplete_multipart_upload_days,
           [if prefix != null then 'prefix']: prefix,
           [if tags != null then 'tags']: tags,
-          id:: '${aws_s3_bucket.%s.lifecycle_rule.id}' % super.rname,
+          id:: '${aws_s3_bucket.%s.lifecycle_rule.id}' % rname,
           expiration:: {},
           noncurrent_version_expiration:: {},
           noncurrent_version_transition:: {},
@@ -20773,10 +22057,12 @@
           expiration: expiration,
         },
         expiration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param date (optional)
           // @param days (optional)
           // @param expired_object_delete_marker (optional)
-          new(date=null, days=null, expired_object_delete_marker=null):: {
+          new(rname, date=null, days=null, expired_object_delete_marker=null):: {
+            rname:: rname,
             [if date != null then 'date']: date,
             [if days != null then 'days']: days,
             [if expired_object_delete_marker != null then 'expired_object_delete_marker']: expired_object_delete_marker,
@@ -20786,8 +22072,10 @@
           noncurrent_version_expiration: noncurrent_version_expiration,
         },
         noncurrent_version_expiration:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param days (optional)
-          new(days=null):: {
+          new(rname, days=null):: {
+            rname:: rname,
             [if days != null then 'days']: days,
           },
         },
@@ -20795,9 +22083,11 @@
           noncurrent_version_transition: noncurrent_version_transition,
         },
         noncurrent_version_transition:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param storage_class (required)
           // @param days (optional)
-          new(storage_class, days=null):: {
+          new(rname, storage_class, days=null):: {
+            rname:: rname,
             storage_class: storage_class,
             [if days != null then 'days']: days,
           },
@@ -20806,10 +22096,12 @@
           transition: transition,
         },
         transition:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param storage_class (required)
           // @param date (optional)
           // @param days (optional)
-          new(storage_class, date=null, days=null):: {
+          new(rname, storage_class, date=null, days=null):: {
+            rname:: rname,
             storage_class: storage_class,
             [if date != null then 'date']: date,
             [if days != null then 'days']: days,
@@ -20820,9 +22112,11 @@
         logging: logging,
       },
       logging:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param target_bucket (required)
         // @param target_prefix (optional)
-        new(target_bucket, target_prefix=null):: {
+        new(rname, target_bucket, target_prefix=null):: {
+          rname:: rname,
           target_bucket: target_bucket,
           [if target_prefix != null then 'target_prefix']: target_prefix,
         },
@@ -20831,8 +22125,10 @@
         object_lock_configuration: object_lock_configuration,
       },
       object_lock_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param object_lock_enabled (required)
-        new(object_lock_enabled):: {
+        new(rname, object_lock_enabled):: {
+          rname:: rname,
           object_lock_enabled: object_lock_enabled,
           rule:: {},
         },
@@ -20840,15 +22136,19 @@
           rule: rule,
         },
         rule:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param default_retention (required)
-          new(default_retention):: {
+          new(rname, default_retention):: {
+            rname:: rname,
             default_retention: default_retention,
           },
           default_retention:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param mode (required)
             // @param days (optional)
             // @param years (optional)
-            new(mode, days=null, years=null):: {
+            new(rname, mode, days=null, years=null):: {
+              rname:: rname,
               mode: mode,
               [if days != null then 'days']: days,
               [if years != null then 'years']: years,
@@ -20860,19 +22160,23 @@
         replication_configuration: replication_configuration,
       },
       replication_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param role (required)
         // @param rules (required)
-        new(role, rules):: {
+        new(rname, role, rules):: {
+          rname:: rname,
           role: role,
           rules: rules,
         },
         rules:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param status (required)
           // @param id (optional)
           // @param prefix (optional)
           // @param priority (optional)
           // @param destination (required)
-          new(status, destination, id=null, prefix=null, priority=null):: {
+          new(rname, status, destination, id=null, prefix=null, priority=null):: {
+            rname:: rname,
             status: status,
             [if id != null then 'id']: id,
             [if prefix != null then 'prefix']: prefix,
@@ -20882,11 +22186,13 @@
             source_selection_criteria:: {},
           },
           destination:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param bucket (required)
             // @param account_id (optional)
             // @param replica_kms_key_id (optional)
             // @param storage_class (optional)
-            new(bucket, account_id=null, replica_kms_key_id=null, storage_class=null):: {
+            new(rname, bucket, account_id=null, replica_kms_key_id=null, storage_class=null):: {
+              rname:: rname,
               bucket: bucket,
               [if account_id != null then 'account_id']: account_id,
               [if replica_kms_key_id != null then 'replica_kms_key_id']: replica_kms_key_id,
@@ -20897,8 +22203,10 @@
               access_control_translation: access_control_translation,
             },
             access_control_translation:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param owner (required)
-              new(owner):: {
+              new(rname, owner):: {
+                rname:: rname,
                 owner: owner,
               },
             },
@@ -20907,9 +22215,11 @@
             filter: filter,
           },
           filter:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param prefix (optional)
             // @param tags (optional)
-            new(prefix=null, tags=null):: {
+            new(rname, prefix=null, tags=null):: {
+              rname:: rname,
               [if prefix != null then 'prefix']: prefix,
               [if tags != null then 'tags']: tags,
             },
@@ -20918,15 +22228,19 @@
             source_selection_criteria: source_selection_criteria,
           },
           source_selection_criteria:: {
-            new():: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+            new(rname):: {
+              rname:: rname,
               sse_kms_encrypted_objects:: {},
             },
             with_sse_kms_encrypted_objects(sse_kms_encrypted_objects):: self + {
               sse_kms_encrypted_objects: sse_kms_encrypted_objects,
             },
             sse_kms_encrypted_objects:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param enabled (required)
-              new(enabled):: {
+              new(rname, enabled):: {
+                rname:: rname,
                 enabled: enabled,
               },
             },
@@ -20937,19 +22251,25 @@
         server_side_encryption_configuration: server_side_encryption_configuration,
       },
       server_side_encryption_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param rule (required)
-        new(rule):: {
+        new(rname, rule):: {
+          rname:: rname,
           rule: rule,
         },
         rule:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param apply_server_side_encryption_by_default (required)
-          new(apply_server_side_encryption_by_default):: {
+          new(rname, apply_server_side_encryption_by_default):: {
+            rname:: rname,
             apply_server_side_encryption_by_default: apply_server_side_encryption_by_default,
           },
           apply_server_side_encryption_by_default:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param sse_algorithm (required)
             // @param kms_master_key_id (optional)
-            new(sse_algorithm, kms_master_key_id=null):: {
+            new(rname, sse_algorithm, kms_master_key_id=null):: {
+              rname:: rname,
               sse_algorithm: sse_algorithm,
               [if kms_master_key_id != null then 'kms_master_key_id']: kms_master_key_id,
             },
@@ -20960,9 +22280,11 @@
         versioning: versioning,
       },
       versioning:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param enabled (optional)
         // @param mfa_delete (optional)
-        new(enabled=null, mfa_delete=null):: {
+        new(rname, enabled=null, mfa_delete=null):: {
+          rname:: rname,
           [if enabled != null then 'enabled']: enabled,
           [if mfa_delete != null then 'mfa_delete']: mfa_delete,
         },
@@ -20971,11 +22293,13 @@
         website: website,
       },
       website:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param error_document (optional)
         // @param index_document (optional)
         // @param redirect_all_requests_to (optional)
         // @param routing_rules (optional)
-        new(error_document=null, index_document=null, redirect_all_requests_to=null, routing_rules=null):: {
+        new(rname, error_document=null, index_document=null, redirect_all_requests_to=null, routing_rules=null):: {
+          rname:: rname,
           [if error_document != null then 'error_document']: error_document,
           [if index_document != null then 'index_document']: index_document,
           [if redirect_all_requests_to != null then 'redirect_all_requests_to']: redirect_all_requests_to,
@@ -20985,7 +22309,7 @@
     },
     // aws_s3_bucket_analytics_configuration - https://www.terraform.io/docs/providers/aws/r/s3_bucket_analytics_configuration.html
     aws_s3_bucket_analytics_configuration:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket (required)
       // @param name (required)
       new(rname, bucket, name):: {
@@ -21003,9 +22327,11 @@
         filter: filter,
       },
       filter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param prefix (optional)
         // @param tags (optional)
-        new(prefix=null, tags=null):: {
+        new(rname, prefix=null, tags=null):: {
+          rname:: rname,
           [if prefix != null then 'prefix']: prefix,
           [if tags != null then 'tags']: tags,
         },
@@ -21014,28 +22340,36 @@
         storage_class_analysis: storage_class_analysis,
       },
       storage_class_analysis:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param data_export (required)
-        new(data_export):: {
+        new(rname, data_export):: {
+          rname:: rname,
           data_export: data_export,
         },
         data_export:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param output_schema_version (optional)
           // @param destination (required)
-          new(destination, output_schema_version=null):: {
+          new(rname, destination, output_schema_version=null):: {
+            rname:: rname,
             [if output_schema_version != null then 'output_schema_version']: output_schema_version,
             destination: destination,
           },
           destination:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param s3_bucket_destination (required)
-            new(s3_bucket_destination):: {
+            new(rname, s3_bucket_destination):: {
+              rname:: rname,
               s3_bucket_destination: s3_bucket_destination,
             },
             s3_bucket_destination:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param bucket_arn (required)
               // @param bucket_account_id (optional)
               // @param format (optional)
               // @param prefix (optional)
-              new(bucket_arn, bucket_account_id=null, format=null, prefix=null):: {
+              new(rname, bucket_arn, bucket_account_id=null, format=null, prefix=null):: {
+                rname:: rname,
                 bucket_arn: bucket_arn,
                 [if bucket_account_id != null then 'bucket_account_id']: bucket_account_id,
                 [if format != null then 'format']: format,
@@ -21048,7 +22382,7 @@
     },
     // aws_s3_bucket_inventory - https://www.terraform.io/docs/providers/aws/r/s3_bucket_inventory.html
     aws_s3_bucket_inventory:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket (required)
       // @param included_object_versions (required)
       // @param name (required)
@@ -21072,16 +22406,20 @@
         id::: id,
       },
       destination:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket (required)
-        new(bucket):: {
+        new(rname, bucket):: {
+          rname:: rname,
           bucket: bucket,
         },
         bucket:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param bucket_arn (required)
           // @param format (required)
           // @param account_id (optional)
           // @param prefix (optional)
-          new(bucket_arn, format, account_id=null, prefix=null):: {
+          new(rname, bucket_arn, format, account_id=null, prefix=null):: {
+            rname:: rname,
             bucket_arn: bucket_arn,
             format: format,
             [if account_id != null then 'account_id']: account_id,
@@ -21092,7 +22430,9 @@
             encryption: encryption,
           },
           encryption:: {
-            new():: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+            new(rname):: {
+              rname:: rname,
               sse_kms:: {},
               sse_s3:: {},
             },
@@ -21100,8 +22440,10 @@
               sse_kms: sse_kms,
             },
             sse_kms:: {
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
               // @param key_id (required)
-              new(key_id):: {
+              new(rname, key_id):: {
+                rname:: rname,
                 key_id: key_id,
               },
             },
@@ -21109,7 +22451,10 @@
               sse_s3: sse_s3,
             },
             sse_s3:: {
-              new():: {},
+              // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+              new(rname):: {
+                rname:: rname,
+              },
             },
           },
         },
@@ -21118,21 +22463,25 @@
         filter: filter,
       },
       filter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param prefix (optional)
-        new(prefix=null):: {
+        new(rname, prefix=null):: {
+          rname:: rname,
           [if prefix != null then 'prefix']: prefix,
         },
       },
       schedule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param frequency (required)
-        new(frequency):: {
+        new(rname, frequency):: {
+          rname:: rname,
           frequency: frequency,
         },
       },
     },
     // aws_s3_bucket_metric - https://www.terraform.io/docs/providers/aws/r/s3_bucket_metric.html
     aws_s3_bucket_metric:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket (required)
       // @param name (required)
       new(rname, bucket, name):: {
@@ -21149,9 +22498,11 @@
         filter: filter,
       },
       filter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param prefix (optional)
         // @param tags (optional)
-        new(prefix=null, tags=null):: {
+        new(rname, prefix=null, tags=null):: {
+          rname:: rname,
           [if prefix != null then 'prefix']: prefix,
           [if tags != null then 'tags']: tags,
         },
@@ -21159,7 +22510,7 @@
     },
     // aws_s3_bucket_notification - https://www.terraform.io/docs/providers/aws/r/s3_bucket_notification.html
     aws_s3_bucket_notification:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket (required)
       new(rname, bucket):: {
         rname:: rname,
@@ -21176,16 +22527,18 @@
         lambda_function: lambda_function,
       },
       lambda_function:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param events (required)
         // @param filter_prefix (optional)
         // @param filter_suffix (optional)
         // @param lambda_function_arn (optional)
-        new(events, filter_prefix=null, filter_suffix=null, lambda_function_arn=null):: {
+        new(rname, events, filter_prefix=null, filter_suffix=null, lambda_function_arn=null):: {
+          rname:: rname,
           events: events,
           [if filter_prefix != null then 'filter_prefix']: filter_prefix,
           [if filter_suffix != null then 'filter_suffix']: filter_suffix,
           [if lambda_function_arn != null then 'lambda_function_arn']: lambda_function_arn,
-          id:: '${aws_s3_bucket_notification.%s.lambda_function.id}' % super.rname,
+          id:: '${aws_s3_bucket_notification.%s.lambda_function.id}' % rname,
         },
         with_id(id):: {
           id::: id,
@@ -21195,16 +22548,18 @@
         queue: queue,
       },
       queue:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param events (required)
         // @param queue_arn (required)
         // @param filter_prefix (optional)
         // @param filter_suffix (optional)
-        new(events, queue_arn, filter_prefix=null, filter_suffix=null):: {
+        new(rname, events, queue_arn, filter_prefix=null, filter_suffix=null):: {
+          rname:: rname,
           events: events,
           queue_arn: queue_arn,
           [if filter_prefix != null then 'filter_prefix']: filter_prefix,
           [if filter_suffix != null then 'filter_suffix']: filter_suffix,
-          id:: '${aws_s3_bucket_notification.%s.queue.id}' % super.rname,
+          id:: '${aws_s3_bucket_notification.%s.queue.id}' % rname,
         },
         with_id(id):: {
           id::: id,
@@ -21214,16 +22569,18 @@
         topic: topic,
       },
       topic:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param events (required)
         // @param topic_arn (required)
         // @param filter_prefix (optional)
         // @param filter_suffix (optional)
-        new(events, topic_arn, filter_prefix=null, filter_suffix=null):: {
+        new(rname, events, topic_arn, filter_prefix=null, filter_suffix=null):: {
+          rname:: rname,
           events: events,
           topic_arn: topic_arn,
           [if filter_prefix != null then 'filter_prefix']: filter_prefix,
           [if filter_suffix != null then 'filter_suffix']: filter_suffix,
-          id:: '${aws_s3_bucket_notification.%s.topic.id}' % super.rname,
+          id:: '${aws_s3_bucket_notification.%s.topic.id}' % rname,
         },
         with_id(id):: {
           id::: id,
@@ -21232,7 +22589,7 @@
     },
     // aws_s3_bucket_object - https://www.terraform.io/docs/providers/aws/r/s3_bucket_object.html
     aws_s3_bucket_object:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket (required)
       // @param key (required)
       // @param acl (optional)
@@ -21296,7 +22653,7 @@
     },
     // aws_s3_bucket_policy - https://www.terraform.io/docs/providers/aws/r/s3_bucket_policy.html
     aws_s3_bucket_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket (required)
       // @param policy (required)
       new(rname, bucket, policy):: {
@@ -21311,7 +22668,7 @@
     },
     // aws_s3_bucket_public_access_block - https://www.terraform.io/docs/providers/aws/r/s3_bucket_public_access_block.html
     aws_s3_bucket_public_access_block:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket (required)
       // @param block_public_acls (optional)
       // @param block_public_policy (optional)
@@ -21332,7 +22689,7 @@
     },
     // aws_sagemaker_endpoint - https://www.terraform.io/docs/providers/aws/r/sagemaker_endpoint.html
     aws_sagemaker_endpoint:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param endpoint_config_name (required)
       // @param tags (optional)
       new(rname, endpoint_config_name, tags=null):: {
@@ -21352,7 +22709,7 @@
     },
     // aws_sagemaker_endpoint_configuration - https://www.terraform.io/docs/providers/aws/r/sagemaker_endpoint_configuration.html
     aws_sagemaker_endpoint_configuration:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param kms_key_arn (optional)
       // @param tags (optional)
       // @param production_variants (required)
@@ -21372,18 +22729,20 @@
         name::: name,
       },
       production_variants:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param initial_instance_count (required)
         // @param instance_type (required)
         // @param model_name (required)
         // @param accelerator_type (optional)
         // @param initial_variant_weight (optional)
-        new(initial_instance_count, instance_type, model_name, accelerator_type=null, initial_variant_weight=null):: {
+        new(rname, initial_instance_count, instance_type, model_name, accelerator_type=null, initial_variant_weight=null):: {
+          rname:: rname,
           initial_instance_count: initial_instance_count,
           instance_type: instance_type,
           model_name: model_name,
           [if accelerator_type != null then 'accelerator_type']: accelerator_type,
           [if initial_variant_weight != null then 'initial_variant_weight']: initial_variant_weight,
-          variant_name:: '${aws_sagemaker_endpoint_configuration.%s.production_variants.variant_name}' % super.rname,
+          variant_name:: '${aws_sagemaker_endpoint_configuration.%s.production_variants.variant_name}' % rname,
         },
         with_variant_name(variant_name):: {
           variant_name::: variant_name,
@@ -21392,7 +22751,7 @@
     },
     // aws_sagemaker_model - https://www.terraform.io/docs/providers/aws/r/sagemaker_model.html
     aws_sagemaker_model:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param execution_role_arn (required)
       // @param enable_network_isolation (optional)
       // @param tags (optional)
@@ -21418,11 +22777,13 @@
         container: container,
       },
       container:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param image (required)
         // @param container_hostname (optional)
         // @param environment (optional)
         // @param model_data_url (optional)
-        new(image, container_hostname=null, environment=null, model_data_url=null):: {
+        new(rname, image, container_hostname=null, environment=null, model_data_url=null):: {
+          rname:: rname,
           image: image,
           [if container_hostname != null then 'container_hostname']: container_hostname,
           [if environment != null then 'environment']: environment,
@@ -21433,11 +22794,13 @@
         primary_container: primary_container,
       },
       primary_container:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param image (required)
         // @param container_hostname (optional)
         // @param environment (optional)
         // @param model_data_url (optional)
-        new(image, container_hostname=null, environment=null, model_data_url=null):: {
+        new(rname, image, container_hostname=null, environment=null, model_data_url=null):: {
+          rname:: rname,
           image: image,
           [if container_hostname != null then 'container_hostname']: container_hostname,
           [if environment != null then 'environment']: environment,
@@ -21448,9 +22811,11 @@
         vpc_config: vpc_config,
       },
       vpc_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param security_group_ids (required)
         // @param subnets (required)
-        new(security_group_ids, subnets):: {
+        new(rname, security_group_ids, subnets):: {
+          rname:: rname,
           security_group_ids: security_group_ids,
           subnets: subnets,
         },
@@ -21458,7 +22823,7 @@
     },
     // aws_sagemaker_notebook_instance - https://www.terraform.io/docs/providers/aws/r/sagemaker_notebook_instance.html
     aws_sagemaker_notebook_instance:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param instance_type (required)
       // @param name (required)
       // @param role_arn (required)
@@ -21490,7 +22855,7 @@
     },
     // aws_sagemaker_notebook_instance_lifecycle_configuration - https://www.terraform.io/docs/providers/aws/r/sagemaker_notebook_instance_lifecycle_configuration.html
     aws_sagemaker_notebook_instance_lifecycle_configuration:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (optional)
       // @param on_create (optional)
       // @param on_start (optional)
@@ -21508,7 +22873,7 @@
     },
     // aws_secretsmanager_secret - https://www.terraform.io/docs/providers/aws/r/secretsmanager_secret.html
     aws_secretsmanager_secret:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param description (optional)
       // @param kms_key_id (optional)
       // @param policy (optional)
@@ -21543,15 +22908,17 @@
         rotation_rules: rotation_rules,
       },
       rotation_rules:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param automatically_after_days (required)
-        new(automatically_after_days):: {
+        new(rname, automatically_after_days):: {
+          rname:: rname,
           automatically_after_days: automatically_after_days,
         },
       },
     },
     // aws_secretsmanager_secret_version - https://www.terraform.io/docs/providers/aws/r/secretsmanager_secret_version.html
     aws_secretsmanager_secret_version:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param secret_id (required)
       // @param secret_binary (optional)
       // @param secret_string (optional)
@@ -21574,7 +22941,7 @@
     },
     // aws_security_group - https://www.terraform.io/docs/providers/aws/r/security_group.html
     aws_security_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param description (optional)
       // @param name_prefix (optional)
       // @param revoke_rules_on_delete (optional)
@@ -21613,9 +22980,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -21623,7 +22992,7 @@
     },
     // aws_security_group_rule - https://www.terraform.io/docs/providers/aws/r/security_group_rule.html
     aws_security_group_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param from_port (required)
       // @param protocol (required)
       // @param security_group_id (required)
@@ -21658,7 +23027,7 @@
     },
     // aws_securityhub_account - https://www.terraform.io/docs/providers/aws/r/securityhub_account.html
     aws_securityhub_account:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       new(rname):: {
         rname:: rname,
         id:: '${aws_securityhub_account.%s.id}' % rname,
@@ -21669,7 +23038,7 @@
     },
     // aws_securityhub_product_subscription - https://www.terraform.io/docs/providers/aws/r/securityhub_product_subscription.html
     aws_securityhub_product_subscription:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param product_arn (required)
       new(rname, product_arn):: {
         rname:: rname,
@@ -21683,7 +23052,7 @@
     },
     // aws_securityhub_standards_subscription - https://www.terraform.io/docs/providers/aws/r/securityhub_standards_subscription.html
     aws_securityhub_standards_subscription:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param standards_arn (required)
       new(rname, standards_arn):: {
         rname:: rname,
@@ -21696,7 +23065,7 @@
     },
     // aws_service_discovery_http_namespace - https://www.terraform.io/docs/providers/aws/r/service_discovery_http_namespace.html
     aws_service_discovery_http_namespace:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       new(rname, name, description=null):: {
@@ -21712,7 +23081,7 @@
     },
     // aws_service_discovery_private_dns_namespace - https://www.terraform.io/docs/providers/aws/r/service_discovery_private_dns_namespace.html
     aws_service_discovery_private_dns_namespace:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param vpc (required)
       // @param description (optional)
@@ -21731,7 +23100,7 @@
     },
     // aws_service_discovery_public_dns_namespace - https://www.terraform.io/docs/providers/aws/r/service_discovery_public_dns_namespace.html
     aws_service_discovery_public_dns_namespace:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       new(rname, name, description=null):: {
@@ -21748,7 +23117,7 @@
     },
     // aws_service_discovery_service - https://www.terraform.io/docs/providers/aws/r/service_discovery_service.html
     aws_service_discovery_service:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       new(rname, name, description=null):: {
@@ -21772,18 +23141,22 @@
         dns_config: dns_config,
       },
       dns_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param namespace_id (required)
         // @param routing_policy (optional)
         // @param dns_records (required)
-        new(namespace_id, dns_records, routing_policy=null):: {
+        new(rname, namespace_id, dns_records, routing_policy=null):: {
+          rname:: rname,
           namespace_id: namespace_id,
           [if routing_policy != null then 'routing_policy']: routing_policy,
           dns_records: dns_records,
         },
         dns_records:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param ttl (required)
           // @param type (required)
-          new(ttl, type):: {
+          new(rname, ttl, type):: {
+            rname:: rname,
             ttl: ttl,
             type: type,
           },
@@ -21793,10 +23166,12 @@
         health_check_config: health_check_config,
       },
       health_check_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param failure_threshold (optional)
         // @param resource_path (optional)
         // @param type (optional)
-        new(failure_threshold=null, resource_path=null, type=null):: {
+        new(rname, failure_threshold=null, resource_path=null, type=null):: {
+          rname:: rname,
           [if failure_threshold != null then 'failure_threshold']: failure_threshold,
           [if resource_path != null then 'resource_path']: resource_path,
           [if type != null then 'type']: type,
@@ -21806,15 +23181,17 @@
         health_check_custom_config: health_check_custom_config,
       },
       health_check_custom_config:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param failure_threshold (optional)
-        new(failure_threshold=null):: {
+        new(rname, failure_threshold=null):: {
+          rname:: rname,
           [if failure_threshold != null then 'failure_threshold']: failure_threshold,
         },
       },
     },
     // aws_servicecatalog_portfolio - https://www.terraform.io/docs/providers/aws/r/servicecatalog_portfolio.html
     aws_servicecatalog_portfolio:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param provider_name (optional)
       // @param tags (optional)
@@ -21839,10 +23216,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -21851,7 +23230,7 @@
     },
     // aws_servicequotas_service_quota - https://www.terraform.io/docs/providers/aws/r/servicequotas_service_quota.html
     aws_servicequotas_service_quota:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param quota_code (required)
       // @param service_code (required)
       // @param value (required)
@@ -21875,7 +23254,7 @@
     },
     // aws_ses_active_receipt_rule_set - https://www.terraform.io/docs/providers/aws/r/ses_active_receipt_rule_set.html
     aws_ses_active_receipt_rule_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param rule_set_name (required)
       new(rname, rule_set_name):: {
         rname:: rname,
@@ -21888,7 +23267,7 @@
     },
     // aws_ses_configuration_set - https://www.terraform.io/docs/providers/aws/r/ses_configuration_set.html
     aws_ses_configuration_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -21901,7 +23280,7 @@
     },
     // aws_ses_domain_dkim - https://www.terraform.io/docs/providers/aws/r/ses_domain_dkim.html
     aws_ses_domain_dkim:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain (required)
       new(rname, domain):: {
         rname:: rname,
@@ -21915,7 +23294,7 @@
     },
     // aws_ses_domain_identity - https://www.terraform.io/docs/providers/aws/r/ses_domain_identity.html
     aws_ses_domain_identity:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain (required)
       new(rname, domain):: {
         rname:: rname,
@@ -21930,7 +23309,7 @@
     },
     // aws_ses_domain_identity_verification - https://www.terraform.io/docs/providers/aws/r/ses_domain_identity_verification.html
     aws_ses_domain_identity_verification:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain (required)
       new(rname, domain):: {
         rname:: rname,
@@ -21946,15 +23325,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
     },
     // aws_ses_domain_mail_from - https://www.terraform.io/docs/providers/aws/r/ses_domain_mail_from.html
     aws_ses_domain_mail_from:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain (required)
       // @param mail_from_domain (required)
       // @param behavior_on_mx_failure (optional)
@@ -21971,7 +23352,7 @@
     },
     // aws_ses_email_identity - https://www.terraform.io/docs/providers/aws/r/ses_email_identity.html
     aws_ses_email_identity:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param email (required)
       new(rname, email):: {
         rname:: rname,
@@ -21985,7 +23366,7 @@
     },
     // aws_ses_event_destination - https://www.terraform.io/docs/providers/aws/r/ses_event_destination.html
     aws_ses_event_destination:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param configuration_set_name (required)
       // @param matching_types (required)
       // @param name (required)
@@ -22008,10 +23389,12 @@
         cloudwatch_destination: cloudwatch_destination,
       },
       cloudwatch_destination:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param default_value (required)
         // @param dimension_name (required)
         // @param value_source (required)
-        new(default_value, dimension_name, value_source):: {
+        new(rname, default_value, dimension_name, value_source):: {
+          rname:: rname,
           default_value: default_value,
           dimension_name: dimension_name,
           value_source: value_source,
@@ -22021,9 +23404,11 @@
         kinesis_destination: kinesis_destination,
       },
       kinesis_destination:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param role_arn (required)
         // @param stream_arn (required)
-        new(role_arn, stream_arn):: {
+        new(rname, role_arn, stream_arn):: {
+          rname:: rname,
           role_arn: role_arn,
           stream_arn: stream_arn,
         },
@@ -22032,15 +23417,17 @@
         sns_destination: sns_destination,
       },
       sns_destination:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param topic_arn (required)
-        new(topic_arn):: {
+        new(rname, topic_arn):: {
+          rname:: rname,
           topic_arn: topic_arn,
         },
       },
     },
     // aws_ses_identity_notification_topic - https://www.terraform.io/docs/providers/aws/r/ses_identity_notification_topic.html
     aws_ses_identity_notification_topic:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param identity (required)
       // @param notification_type (required)
       // @param include_original_headers (optional)
@@ -22059,7 +23446,7 @@
     },
     // aws_ses_identity_policy - https://www.terraform.io/docs/providers/aws/r/ses_identity_policy.html
     aws_ses_identity_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param identity (required)
       // @param name (required)
       // @param policy (required)
@@ -22076,7 +23463,7 @@
     },
     // aws_ses_receipt_filter - https://www.terraform.io/docs/providers/aws/r/ses_receipt_filter.html
     aws_ses_receipt_filter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cidr (required)
       // @param name (required)
       // @param policy (required)
@@ -22093,7 +23480,7 @@
     },
     // aws_ses_receipt_rule - https://www.terraform.io/docs/providers/aws/r/ses_receipt_rule.html
     aws_ses_receipt_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param rule_set_name (required)
       // @param after (optional)
@@ -22132,10 +23519,12 @@
         add_header_action: add_header_action,
       },
       add_header_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param header_name (required)
         // @param header_value (required)
         // @param position (required)
-        new(header_name, header_value, position):: {
+        new(rname, header_name, header_value, position):: {
+          rname:: rname,
           header_name: header_name,
           header_value: header_value,
           position: position,
@@ -22145,13 +23534,15 @@
         bounce_action: bounce_action,
       },
       bounce_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param message (required)
         // @param position (required)
         // @param sender (required)
         // @param smtp_reply_code (required)
         // @param status_code (optional)
         // @param topic_arn (optional)
-        new(message, position, sender, smtp_reply_code, status_code=null, topic_arn=null):: {
+        new(rname, message, position, sender, smtp_reply_code, status_code=null, topic_arn=null):: {
+          rname:: rname,
           message: message,
           position: position,
           sender: sender,
@@ -22164,14 +23555,16 @@
         lambda_action: lambda_action,
       },
       lambda_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param function_arn (required)
         // @param position (required)
         // @param topic_arn (optional)
-        new(function_arn, position, topic_arn=null):: {
+        new(rname, function_arn, position, topic_arn=null):: {
+          rname:: rname,
           function_arn: function_arn,
           position: position,
           [if topic_arn != null then 'topic_arn']: topic_arn,
-          invocation_type:: '${aws_ses_receipt_rule.%s.lambda_action.invocation_type}' % super.rname,
+          invocation_type:: '${aws_ses_receipt_rule.%s.lambda_action.invocation_type}' % rname,
         },
         with_invocation_type(invocation_type):: {
           invocation_type::: invocation_type,
@@ -22181,12 +23574,14 @@
         s3_action: s3_action,
       },
       s3_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket_name (required)
         // @param position (required)
         // @param kms_key_arn (optional)
         // @param object_key_prefix (optional)
         // @param topic_arn (optional)
-        new(bucket_name, position, kms_key_arn=null, object_key_prefix=null, topic_arn=null):: {
+        new(rname, bucket_name, position, kms_key_arn=null, object_key_prefix=null, topic_arn=null):: {
+          rname:: rname,
           bucket_name: bucket_name,
           position: position,
           [if kms_key_arn != null then 'kms_key_arn']: kms_key_arn,
@@ -22198,9 +23593,11 @@
         sns_action: sns_action,
       },
       sns_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param position (required)
         // @param topic_arn (required)
-        new(position, topic_arn):: {
+        new(rname, position, topic_arn):: {
+          rname:: rname,
           position: position,
           topic_arn: topic_arn,
         },
@@ -22209,10 +23606,12 @@
         stop_action: stop_action,
       },
       stop_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param position (required)
         // @param scope (required)
         // @param topic_arn (optional)
-        new(position, scope, topic_arn=null):: {
+        new(rname, position, scope, topic_arn=null):: {
+          rname:: rname,
           position: position,
           scope: scope,
           [if topic_arn != null then 'topic_arn']: topic_arn,
@@ -22222,10 +23621,12 @@
         workmail_action: workmail_action,
       },
       workmail_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param organization_arn (required)
         // @param position (required)
         // @param topic_arn (optional)
-        new(organization_arn, position, topic_arn=null):: {
+        new(rname, organization_arn, position, topic_arn=null):: {
+          rname:: rname,
           organization_arn: organization_arn,
           position: position,
           [if topic_arn != null then 'topic_arn']: topic_arn,
@@ -22234,7 +23635,7 @@
     },
     // aws_ses_receipt_rule_set - https://www.terraform.io/docs/providers/aws/r/ses_receipt_rule_set.html
     aws_ses_receipt_rule_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param rule_set_name (required)
       new(rname, rule_set_name):: {
         rname:: rname,
@@ -22247,7 +23648,7 @@
     },
     // aws_ses_template - https://www.terraform.io/docs/providers/aws/r/ses_template.html
     aws_ses_template:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param html (optional)
       // @param subject (optional)
@@ -22266,7 +23667,7 @@
     },
     // aws_sfn_activity - https://www.terraform.io/docs/providers/aws/r/sfn_activity.html
     aws_sfn_activity:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param tags (optional)
       new(rname, name, tags=null):: {
@@ -22282,7 +23683,7 @@
     },
     // aws_sfn_state_machine - https://www.terraform.io/docs/providers/aws/r/sfn_state_machine.html
     aws_sfn_state_machine:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param definition (required)
       // @param name (required)
       // @param role_arn (required)
@@ -22303,7 +23704,7 @@
     },
     // aws_shield_protection - https://www.terraform.io/docs/providers/aws/r/shield_protection.html
     aws_shield_protection:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param resource_arn (required)
       new(rname, name, resource_arn):: {
@@ -22318,7 +23719,7 @@
     },
     // aws_simpledb_domain - https://www.terraform.io/docs/providers/aws/r/simpledb_domain.html
     aws_simpledb_domain:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -22331,7 +23732,7 @@
     },
     // aws_snapshot_create_volume_permission - https://www.terraform.io/docs/providers/aws/r/snapshot_create_volume_permission.html
     aws_snapshot_create_volume_permission:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param account_id (required)
       // @param snapshot_id (required)
       new(rname, account_id, snapshot_id):: {
@@ -22346,7 +23747,7 @@
     },
     // aws_sns_platform_application - https://www.terraform.io/docs/providers/aws/r/sns_platform_application.html
     aws_sns_platform_application:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param platform (required)
       // @param platform_credential (required)
@@ -22380,7 +23781,7 @@
     },
     // aws_sns_sms_preferences - https://www.terraform.io/docs/providers/aws/r/sns_sms_preferences.html
     aws_sns_sms_preferences:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param default_sender_id (optional)
       // @param default_sms_type (optional)
       // @param delivery_status_iam_role_arn (optional)
@@ -22403,7 +23804,7 @@
     },
     // aws_sns_topic - https://www.terraform.io/docs/providers/aws/r/sns_topic.html
     aws_sns_topic:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param application_failure_feedback_role_arn (optional)
       // @param application_success_feedback_role_arn (optional)
       // @param application_success_feedback_sample_rate (optional)
@@ -22457,7 +23858,7 @@
     },
     // aws_sns_topic_policy - https://www.terraform.io/docs/providers/aws/r/sns_topic_policy.html
     aws_sns_topic_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param arn (required)
       // @param policy (required)
       new(rname, arn, policy):: {
@@ -22472,7 +23873,7 @@
     },
     // aws_sns_topic_subscription - https://www.terraform.io/docs/providers/aws/r/sns_topic_subscription.html
     aws_sns_topic_subscription:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param endpoint (required)
       // @param protocol (required)
       // @param topic_arn (required)
@@ -22500,7 +23901,7 @@
     },
     // aws_spot_datafeed_subscription - https://www.terraform.io/docs/providers/aws/r/spot_datafeed_subscription.html
     aws_spot_datafeed_subscription:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param bucket (required)
       // @param prefix (optional)
       new(rname, bucket, prefix=null):: {
@@ -22515,7 +23916,7 @@
     },
     // aws_spot_fleet_request - https://www.terraform.io/docs/providers/aws/r/spot_fleet_request.html
     aws_spot_fleet_request:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param iam_fleet_role (required)
       // @param target_capacity (required)
       // @param allocation_strategy (optional)
@@ -22563,6 +23964,7 @@
         target_group_arns::: target_group_arns,
       },
       launch_specification:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param ami (required)
         // @param instance_type (required)
         // @param associate_public_ip_address (optional)
@@ -22575,7 +23977,8 @@
         // @param tags (optional)
         // @param user_data (optional)
         // @param weighted_capacity (optional)
-        new(ami, instance_type, associate_public_ip_address=null, ebs_optimized=null, iam_instance_profile=null, iam_instance_profile_arn=null, monitoring=null, placement_tenancy=null, spot_price=null, tags=null, user_data=null, weighted_capacity=null):: {
+        new(rname, ami, instance_type, associate_public_ip_address=null, ebs_optimized=null, iam_instance_profile=null, iam_instance_profile_arn=null, monitoring=null, placement_tenancy=null, spot_price=null, tags=null, user_data=null, weighted_capacity=null):: {
+          rname:: rname,
           ami: ami,
           instance_type: instance_type,
           [if associate_public_ip_address != null then 'associate_public_ip_address']: associate_public_ip_address,
@@ -22588,11 +23991,11 @@
           [if tags != null then 'tags']: tags,
           [if user_data != null then 'user_data']: user_data,
           [if weighted_capacity != null then 'weighted_capacity']: weighted_capacity,
-          availability_zone:: '${aws_spot_fleet_request.%s.launch_specification.availability_zone}' % super.rname,
-          key_name:: '${aws_spot_fleet_request.%s.launch_specification.key_name}' % super.rname,
-          placement_group:: '${aws_spot_fleet_request.%s.launch_specification.placement_group}' % super.rname,
-          subnet_id:: '${aws_spot_fleet_request.%s.launch_specification.subnet_id}' % super.rname,
-          vpc_security_group_ids:: '${aws_spot_fleet_request.%s.launch_specification.vpc_security_group_ids}' % super.rname,
+          availability_zone:: '${aws_spot_fleet_request.%s.launch_specification.availability_zone}' % rname,
+          key_name:: '${aws_spot_fleet_request.%s.launch_specification.key_name}' % rname,
+          placement_group:: '${aws_spot_fleet_request.%s.launch_specification.placement_group}' % rname,
+          subnet_id:: '${aws_spot_fleet_request.%s.launch_specification.subnet_id}' % rname,
+          vpc_security_group_ids:: '${aws_spot_fleet_request.%s.launch_specification.vpc_security_group_ids}' % rname,
           ebs_block_device:: {},
           ephemeral_block_device:: {},
           root_block_device:: {},
@@ -22616,17 +24019,19 @@
           ebs_block_device: ebs_block_device,
         },
         ebs_block_device:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param device_name (required)
           // @param delete_on_termination (optional)
-          new(device_name, delete_on_termination=null):: {
+          new(rname, device_name, delete_on_termination=null):: {
+            rname:: rname,
             device_name: device_name,
             [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
-            encrypted:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.encrypted}' % super.rname,
-            iops:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.iops}' % super.rname,
-            kms_key_id:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.kms_key_id}' % super.rname,
-            snapshot_id:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.snapshot_id}' % super.rname,
-            volume_size:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.volume_size}' % super.rname,
-            volume_type:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.volume_type}' % super.rname,
+            encrypted:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.encrypted}' % rname,
+            iops:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.iops}' % rname,
+            kms_key_id:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.kms_key_id}' % rname,
+            snapshot_id:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.snapshot_id}' % rname,
+            volume_size:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.volume_size}' % rname,
+            volume_type:: '${aws_spot_fleet_request.%s.launch_specification.ebs_block_device.volume_type}' % rname,
           },
           with_encrypted(encrypted):: {
             encrypted::: encrypted,
@@ -22651,9 +24056,11 @@
           ephemeral_block_device: ephemeral_block_device,
         },
         ephemeral_block_device:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param device_name (required)
           // @param virtual_name (required)
-          new(device_name, virtual_name):: {
+          new(rname, device_name, virtual_name):: {
+            rname:: rname,
             device_name: device_name,
             virtual_name: virtual_name,
           },
@@ -22662,14 +24069,16 @@
           root_block_device: root_block_device,
         },
         root_block_device:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param delete_on_termination (optional)
-          new(delete_on_termination=null):: {
+          new(rname, delete_on_termination=null):: {
+            rname:: rname,
             [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
-            encrypted:: '${aws_spot_fleet_request.%s.launch_specification.root_block_device.encrypted}' % super.rname,
-            iops:: '${aws_spot_fleet_request.%s.launch_specification.root_block_device.iops}' % super.rname,
-            kms_key_id:: '${aws_spot_fleet_request.%s.launch_specification.root_block_device.kms_key_id}' % super.rname,
-            volume_size:: '${aws_spot_fleet_request.%s.launch_specification.root_block_device.volume_size}' % super.rname,
-            volume_type:: '${aws_spot_fleet_request.%s.launch_specification.root_block_device.volume_type}' % super.rname,
+            encrypted:: '${aws_spot_fleet_request.%s.launch_specification.root_block_device.encrypted}' % rname,
+            iops:: '${aws_spot_fleet_request.%s.launch_specification.root_block_device.iops}' % rname,
+            kms_key_id:: '${aws_spot_fleet_request.%s.launch_specification.root_block_device.kms_key_id}' % rname,
+            volume_size:: '${aws_spot_fleet_request.%s.launch_specification.root_block_device.volume_size}' % rname,
+            volume_type:: '${aws_spot_fleet_request.%s.launch_specification.root_block_device.volume_type}' % rname,
           },
           with_encrypted(encrypted):: {
             encrypted::: encrypted,
@@ -22692,9 +24101,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -22702,7 +24113,7 @@
     },
     // aws_spot_instance_request - https://www.terraform.io/docs/providers/aws/r/spot_instance_request.html
     aws_spot_instance_request:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param ami (required)
       // @param instance_type (required)
       // @param block_duration_minutes (optional)
@@ -22835,8 +24246,10 @@
         credit_specification: credit_specification,
       },
       credit_specification:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param cpu_credits (optional)
-        new(cpu_credits=null):: {
+        new(rname, cpu_credits=null):: {
+          rname:: rname,
           [if cpu_credits != null then 'cpu_credits']: cpu_credits,
         },
       },
@@ -22844,18 +24257,20 @@
         ebs_block_device: ebs_block_device,
       },
       ebs_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (required)
         // @param delete_on_termination (optional)
-        new(device_name, delete_on_termination=null):: {
+        new(rname, device_name, delete_on_termination=null):: {
+          rname:: rname,
           device_name: device_name,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
-          encrypted:: '${aws_spot_instance_request.%s.ebs_block_device.encrypted}' % super.rname,
-          iops:: '${aws_spot_instance_request.%s.ebs_block_device.iops}' % super.rname,
-          kms_key_id:: '${aws_spot_instance_request.%s.ebs_block_device.kms_key_id}' % super.rname,
-          snapshot_id:: '${aws_spot_instance_request.%s.ebs_block_device.snapshot_id}' % super.rname,
-          volume_id:: '${aws_spot_instance_request.%s.ebs_block_device.volume_id}' % super.rname,
-          volume_size:: '${aws_spot_instance_request.%s.ebs_block_device.volume_size}' % super.rname,
-          volume_type:: '${aws_spot_instance_request.%s.ebs_block_device.volume_type}' % super.rname,
+          encrypted:: '${aws_spot_instance_request.%s.ebs_block_device.encrypted}' % rname,
+          iops:: '${aws_spot_instance_request.%s.ebs_block_device.iops}' % rname,
+          kms_key_id:: '${aws_spot_instance_request.%s.ebs_block_device.kms_key_id}' % rname,
+          snapshot_id:: '${aws_spot_instance_request.%s.ebs_block_device.snapshot_id}' % rname,
+          volume_id:: '${aws_spot_instance_request.%s.ebs_block_device.volume_id}' % rname,
+          volume_size:: '${aws_spot_instance_request.%s.ebs_block_device.volume_size}' % rname,
+          volume_type:: '${aws_spot_instance_request.%s.ebs_block_device.volume_type}' % rname,
         },
         with_encrypted(encrypted):: {
           encrypted::: encrypted,
@@ -22880,10 +24295,12 @@
         ephemeral_block_device: ephemeral_block_device,
       },
       ephemeral_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_name (required)
         // @param no_device (optional)
         // @param virtual_name (optional)
-        new(device_name, no_device=null, virtual_name=null):: {
+        new(rname, device_name, no_device=null, virtual_name=null):: {
+          rname:: rname,
           device_name: device_name,
           [if no_device != null then 'no_device']: no_device,
           [if virtual_name != null then 'virtual_name']: virtual_name,
@@ -22893,10 +24310,12 @@
         network_interface: network_interface,
       },
       network_interface:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param device_index (required)
         // @param network_interface_id (required)
         // @param delete_on_termination (optional)
-        new(device_index, network_interface_id, delete_on_termination=null):: {
+        new(rname, device_index, network_interface_id, delete_on_termination=null):: {
+          rname:: rname,
           device_index: device_index,
           network_interface_id: network_interface_id,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
@@ -22906,15 +24325,17 @@
         root_block_device: root_block_device,
       },
       root_block_device:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param delete_on_termination (optional)
-        new(delete_on_termination=null):: {
+        new(rname, delete_on_termination=null):: {
+          rname:: rname,
           [if delete_on_termination != null then 'delete_on_termination']: delete_on_termination,
-          encrypted:: '${aws_spot_instance_request.%s.root_block_device.encrypted}' % super.rname,
-          iops:: '${aws_spot_instance_request.%s.root_block_device.iops}' % super.rname,
-          kms_key_id:: '${aws_spot_instance_request.%s.root_block_device.kms_key_id}' % super.rname,
-          volume_id:: '${aws_spot_instance_request.%s.root_block_device.volume_id}' % super.rname,
-          volume_size:: '${aws_spot_instance_request.%s.root_block_device.volume_size}' % super.rname,
-          volume_type:: '${aws_spot_instance_request.%s.root_block_device.volume_type}' % super.rname,
+          encrypted:: '${aws_spot_instance_request.%s.root_block_device.encrypted}' % rname,
+          iops:: '${aws_spot_instance_request.%s.root_block_device.iops}' % rname,
+          kms_key_id:: '${aws_spot_instance_request.%s.root_block_device.kms_key_id}' % rname,
+          volume_id:: '${aws_spot_instance_request.%s.root_block_device.volume_id}' % rname,
+          volume_size:: '${aws_spot_instance_request.%s.root_block_device.volume_size}' % rname,
+          volume_type:: '${aws_spot_instance_request.%s.root_block_device.volume_type}' % rname,
         },
         with_encrypted(encrypted):: {
           encrypted::: encrypted,
@@ -22936,9 +24357,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -22946,7 +24369,7 @@
     },
     // aws_sqs_queue - https://www.terraform.io/docs/providers/aws/r/sqs_queue.html
     aws_sqs_queue:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param content_based_deduplication (optional)
       // @param delay_seconds (optional)
       // @param fifo_queue (optional)
@@ -22992,7 +24415,7 @@
     },
     // aws_sqs_queue_policy - https://www.terraform.io/docs/providers/aws/r/sqs_queue_policy.html
     aws_sqs_queue_policy:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param policy (required)
       // @param queue_url (required)
       new(rname, policy, queue_url):: {
@@ -23007,7 +24430,7 @@
     },
     // aws_ssm_activation - https://www.terraform.io/docs/providers/aws/r/ssm_activation.html
     aws_ssm_activation:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param iam_role (required)
       // @param description (optional)
       // @param name (optional)
@@ -23035,7 +24458,7 @@
     },
     // aws_ssm_association - https://www.terraform.io/docs/providers/aws/r/ssm_association.html
     aws_ssm_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param association_name (optional)
       // @param automation_target_parameter_name (optional)
@@ -23074,9 +24497,11 @@
         output_location: output_location,
       },
       output_location:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param s3_bucket_name (required)
         // @param s3_key_prefix (optional)
-        new(s3_bucket_name, s3_key_prefix=null):: {
+        new(rname, s3_bucket_name, s3_key_prefix=null):: {
+          rname:: rname,
           s3_bucket_name: s3_bucket_name,
           [if s3_key_prefix != null then 's3_key_prefix']: s3_key_prefix,
         },
@@ -23085,9 +24510,11 @@
         targets: targets,
       },
       targets:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (required)
         // @param values (required)
-        new(key, values):: {
+        new(rname, key, values):: {
+          rname:: rname,
           key: key,
           values: values,
         },
@@ -23095,7 +24522,7 @@
     },
     // aws_ssm_document - https://www.terraform.io/docs/providers/aws/r/ssm_document.html
     aws_ssm_document:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param content (required)
       // @param document_type (required)
       // @param name (required)
@@ -23134,10 +24561,12 @@
         attachments_source: attachments_source,
       },
       attachments_source:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (required)
         // @param values (required)
         // @param name (optional)
-        new(key, values, name=null):: {
+        new(rname, key, values, name=null):: {
+          rname:: rname,
           key: key,
           values: values,
           [if name != null then 'name']: name,
@@ -23146,7 +24575,7 @@
     },
     // aws_ssm_maintenance_window - https://www.terraform.io/docs/providers/aws/r/ssm_maintenance_window.html
     aws_ssm_maintenance_window:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cutoff (required)
       // @param duration (required)
       // @param name (required)
@@ -23179,7 +24608,7 @@
     },
     // aws_ssm_maintenance_window_target - https://www.terraform.io/docs/providers/aws/r/ssm_maintenance_window_target.html
     aws_ssm_maintenance_window_target:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param resource_type (required)
       // @param window_id (required)
       // @param description (optional)
@@ -23200,9 +24629,11 @@
         id::: id,
       },
       targets:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (required)
         // @param values (required)
-        new(key, values):: {
+        new(rname, key, values):: {
+          rname:: rname,
           key: key,
           values: values,
         },
@@ -23210,7 +24641,7 @@
     },
     // aws_ssm_maintenance_window_task - https://www.terraform.io/docs/providers/aws/r/ssm_maintenance_window_task.html
     aws_ssm_maintenance_window_task:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param max_concurrency (required)
       // @param max_errors (required)
       // @param service_role_arn (required)
@@ -23245,19 +24676,23 @@
         logging_info: logging_info,
       },
       logging_info:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param s3_bucket_name (required)
         // @param s3_region (required)
         // @param s3_bucket_prefix (optional)
-        new(s3_bucket_name, s3_region, s3_bucket_prefix=null):: {
+        new(rname, s3_bucket_name, s3_region, s3_bucket_prefix=null):: {
+          rname:: rname,
           s3_bucket_name: s3_bucket_name,
           s3_region: s3_region,
           [if s3_bucket_prefix != null then 's3_bucket_prefix']: s3_bucket_prefix,
         },
       },
       targets:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (required)
         // @param values (required)
-        new(key, values):: {
+        new(rname, key, values):: {
+          rname:: rname,
           key: key,
           values: values,
         },
@@ -23266,7 +24701,9 @@
         task_invocation_parameters: task_invocation_parameters,
       },
       task_invocation_parameters:: {
-        new():: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
+        new(rname):: {
+          rname:: rname,
           automation_parameters:: {},
           lambda_parameters:: {},
           run_command_parameters:: {},
@@ -23276,8 +24713,10 @@
           automation_parameters: automation_parameters,
         },
         automation_parameters:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param document_version (optional)
-          new(document_version=null):: {
+          new(rname, document_version=null):: {
+            rname:: rname,
             [if document_version != null then 'document_version']: document_version,
             parameter:: {},
           },
@@ -23285,9 +24724,11 @@
             parameter: parameter,
           },
           parameter:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param name (required)
             // @param values (required)
-            new(name, values):: {
+            new(rname, name, values):: {
+              rname:: rname,
               name: name,
               values: values,
             },
@@ -23297,10 +24738,12 @@
           lambda_parameters: lambda_parameters,
         },
         lambda_parameters:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param client_context (optional)
           // @param payload (optional)
           // @param qualifier (optional)
-          new(client_context=null, payload=null, qualifier=null):: {
+          new(rname, client_context=null, payload=null, qualifier=null):: {
+            rname:: rname,
             [if client_context != null then 'client_context']: client_context,
             [if payload != null then 'payload']: payload,
             [if qualifier != null then 'qualifier']: qualifier,
@@ -23310,6 +24753,7 @@
           run_command_parameters: run_command_parameters,
         },
         run_command_parameters:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param comment (optional)
           // @param document_hash (optional)
           // @param document_hash_type (optional)
@@ -23317,7 +24761,8 @@
           // @param output_s3_key_prefix (optional)
           // @param service_role_arn (optional)
           // @param timeout_seconds (optional)
-          new(comment=null, document_hash=null, document_hash_type=null, output_s3_bucket=null, output_s3_key_prefix=null, service_role_arn=null, timeout_seconds=null):: {
+          new(rname, comment=null, document_hash=null, document_hash_type=null, output_s3_bucket=null, output_s3_key_prefix=null, service_role_arn=null, timeout_seconds=null):: {
+            rname:: rname,
             [if comment != null then 'comment']: comment,
             [if document_hash != null then 'document_hash']: document_hash,
             [if document_hash_type != null then 'document_hash_type']: document_hash_type,
@@ -23332,10 +24777,12 @@
             notification_config: notification_config,
           },
           notification_config:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param notification_arn (optional)
             // @param notification_events (optional)
             // @param notification_type (optional)
-            new(notification_arn=null, notification_events=null, notification_type=null):: {
+            new(rname, notification_arn=null, notification_events=null, notification_type=null):: {
+              rname:: rname,
               [if notification_arn != null then 'notification_arn']: notification_arn,
               [if notification_events != null then 'notification_events']: notification_events,
               [if notification_type != null then 'notification_type']: notification_type,
@@ -23345,9 +24792,11 @@
             parameter: parameter,
           },
           parameter:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param name (required)
             // @param values (required)
-            new(name, values):: {
+            new(rname, name, values):: {
+              rname:: rname,
               name: name,
               values: values,
             },
@@ -23357,9 +24806,11 @@
           step_functions_parameters: step_functions_parameters,
         },
         step_functions_parameters:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param input (optional)
           // @param name (optional)
-          new(input=null, name=null):: {
+          new(rname, input=null, name=null):: {
+            rname:: rname,
             [if input != null then 'input']: input,
             [if name != null then 'name']: name,
           },
@@ -23369,9 +24820,11 @@
         task_parameters: task_parameters,
       },
       task_parameters:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param name (required)
         // @param values (required)
-        new(name, values):: {
+        new(rname, name, values):: {
+          rname:: rname,
           name: name,
           values: values,
         },
@@ -23379,7 +24832,7 @@
     },
     // aws_ssm_parameter - https://www.terraform.io/docs/providers/aws/r/ssm_parameter.html
     aws_ssm_parameter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param type (required)
       // @param value (required)
@@ -23415,7 +24868,7 @@
     },
     // aws_ssm_patch_baseline - https://www.terraform.io/docs/providers/aws/r/ssm_patch_baseline.html
     aws_ssm_patch_baseline:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param approved_patches (optional)
       // @param approved_patches_compliance_level (optional)
@@ -23443,20 +24896,24 @@
         approval_rule: approval_rule,
       },
       approval_rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param approve_after_days (required)
         // @param compliance_level (optional)
         // @param enable_non_security (optional)
         // @param patch_filter (required)
-        new(approve_after_days, patch_filter, compliance_level=null, enable_non_security=null):: {
+        new(rname, approve_after_days, patch_filter, compliance_level=null, enable_non_security=null):: {
+          rname:: rname,
           approve_after_days: approve_after_days,
           [if compliance_level != null then 'compliance_level']: compliance_level,
           [if enable_non_security != null then 'enable_non_security']: enable_non_security,
           patch_filter: patch_filter,
         },
         patch_filter:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param key (required)
           // @param values (required)
-          new(key, values):: {
+          new(rname, key, values):: {
+            rname:: rname,
             key: key,
             values: values,
           },
@@ -23466,9 +24923,11 @@
         global_filter: global_filter,
       },
       global_filter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param key (required)
         // @param values (required)
-        new(key, values):: {
+        new(rname, key, values):: {
+          rname:: rname,
           key: key,
           values: values,
         },
@@ -23476,7 +24935,7 @@
     },
     // aws_ssm_patch_group - https://www.terraform.io/docs/providers/aws/r/ssm_patch_group.html
     aws_ssm_patch_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param baseline_id (required)
       // @param patch_group (required)
       new(rname, baseline_id, patch_group):: {
@@ -23491,7 +24950,7 @@
     },
     // aws_ssm_resource_data_sync - https://www.terraform.io/docs/providers/aws/r/ssm_resource_data_sync.html
     aws_ssm_resource_data_sync:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param s3_destination (required)
       new(rname, name, s3_destination):: {
@@ -23504,12 +24963,14 @@
         id::: id,
       },
       s3_destination:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param bucket_name (required)
         // @param region (required)
         // @param kms_key_arn (optional)
         // @param prefix (optional)
         // @param sync_format (optional)
-        new(bucket_name, region, kms_key_arn=null, prefix=null, sync_format=null):: {
+        new(rname, bucket_name, region, kms_key_arn=null, prefix=null, sync_format=null):: {
+          rname:: rname,
           bucket_name: bucket_name,
           region: region,
           [if kms_key_arn != null then 'kms_key_arn']: kms_key_arn,
@@ -23520,7 +24981,7 @@
     },
     // aws_storagegateway_cache - https://www.terraform.io/docs/providers/aws/r/storagegateway_cache.html
     aws_storagegateway_cache:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param disk_id (required)
       // @param gateway_arn (required)
       new(rname, disk_id, gateway_arn):: {
@@ -23535,7 +24996,7 @@
     },
     // aws_storagegateway_cached_iscsi_volume - https://www.terraform.io/docs/providers/aws/r/storagegateway_cached_iscsi_volume.html
     aws_storagegateway_cached_iscsi_volume:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param gateway_arn (required)
       // @param network_interface_id (required)
       // @param target_name (required)
@@ -23567,7 +25028,7 @@
     },
     // aws_storagegateway_gateway - https://www.terraform.io/docs/providers/aws/r/storagegateway_gateway.html
     aws_storagegateway_gateway:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param gateway_name (required)
       // @param gateway_timezone (required)
       // @param cloudwatch_log_group_arn (optional)
@@ -23607,10 +25068,12 @@
         smb_active_directory_settings: smb_active_directory_settings,
       },
       smb_active_directory_settings:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param domain_name (required)
         // @param password (required)
         // @param username (required)
-        new(domain_name, password, username):: {
+        new(rname, domain_name, password, username):: {
+          rname:: rname,
           domain_name: domain_name,
           password: password,
           username: username,
@@ -23620,15 +25083,17 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
-        new(create=null):: {
+        new(rname, create=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
         },
       },
     },
     // aws_storagegateway_nfs_file_share - https://www.terraform.io/docs/providers/aws/r/storagegateway_nfs_file_share.html
     aws_storagegateway_nfs_file_share:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param client_list (required)
       // @param gateway_arn (required)
       // @param location_arn (required)
@@ -23670,11 +25135,13 @@
         nfs_file_share_defaults: nfs_file_share_defaults,
       },
       nfs_file_share_defaults:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param directory_mode (optional)
         // @param file_mode (optional)
         // @param group_id (optional)
         // @param owner_id (optional)
-        new(directory_mode=null, file_mode=null, group_id=null, owner_id=null):: {
+        new(rname, directory_mode=null, file_mode=null, group_id=null, owner_id=null):: {
+          rname:: rname,
           [if directory_mode != null then 'directory_mode']: directory_mode,
           [if file_mode != null then 'file_mode']: file_mode,
           [if group_id != null then 'group_id']: group_id,
@@ -23685,10 +25152,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -23697,7 +25166,7 @@
     },
     // aws_storagegateway_smb_file_share - https://www.terraform.io/docs/providers/aws/r/storagegateway_smb_file_share.html
     aws_storagegateway_smb_file_share:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param gateway_arn (required)
       // @param location_arn (required)
       // @param role_arn (required)
@@ -23740,10 +25209,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -23752,7 +25223,7 @@
     },
     // aws_storagegateway_upload_buffer - https://www.terraform.io/docs/providers/aws/r/storagegateway_upload_buffer.html
     aws_storagegateway_upload_buffer:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param disk_id (required)
       // @param gateway_arn (required)
       new(rname, disk_id, gateway_arn):: {
@@ -23767,7 +25238,7 @@
     },
     // aws_storagegateway_working_storage - https://www.terraform.io/docs/providers/aws/r/storagegateway_working_storage.html
     aws_storagegateway_working_storage:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param disk_id (required)
       // @param gateway_arn (required)
       new(rname, disk_id, gateway_arn):: {
@@ -23782,7 +25253,7 @@
     },
     // aws_subnet - https://www.terraform.io/docs/providers/aws/r/subnet.html
     aws_subnet:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cidr_block (required)
       // @param vpc_id (required)
       // @param assign_ipv6_address_on_creation (optional)
@@ -23820,9 +25291,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -23830,7 +25303,7 @@
     },
     // aws_swf_domain - https://www.terraform.io/docs/providers/aws/r/swf_domain.html
     aws_swf_domain:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param workflow_execution_retention_period_in_days (required)
       // @param description (optional)
       // @param name_prefix (optional)
@@ -23854,7 +25327,7 @@
     },
     // aws_transfer_server - https://www.terraform.io/docs/providers/aws/r/transfer_server.html
     aws_transfer_server:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param endpoint_type (optional)
       // @param force_destroy (optional)
       // @param host_key (optional)
@@ -23886,15 +25359,17 @@
         endpoint_details: endpoint_details,
       },
       endpoint_details:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param vpc_endpoint_id (required)
-        new(vpc_endpoint_id):: {
+        new(rname, vpc_endpoint_id):: {
+          rname:: rname,
           vpc_endpoint_id: vpc_endpoint_id,
         },
       },
     },
     // aws_transfer_ssh_key - https://www.terraform.io/docs/providers/aws/r/transfer_ssh_key.html
     aws_transfer_ssh_key:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param body (required)
       // @param server_id (required)
       // @param user_name (required)
@@ -23911,7 +25386,7 @@
     },
     // aws_transfer_user - https://www.terraform.io/docs/providers/aws/r/transfer_user.html
     aws_transfer_user:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param role (required)
       // @param server_id (required)
       // @param user_name (required)
@@ -23935,7 +25410,7 @@
     },
     // aws_volume_attachment - https://www.terraform.io/docs/providers/aws/r/volume_attachment.html
     aws_volume_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param device_name (required)
       // @param instance_id (required)
       // @param volume_id (required)
@@ -23956,7 +25431,7 @@
     },
     // aws_vpc - https://www.terraform.io/docs/providers/aws/r/vpc.html
     aws_vpc:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cidr_block (required)
       // @param assign_generated_ipv6_cidr_block (optional)
       // @param enable_dns_support (optional)
@@ -23998,7 +25473,7 @@
     },
     // aws_vpc_dhcp_options - https://www.terraform.io/docs/providers/aws/r/vpc_dhcp_options.html
     aws_vpc_dhcp_options:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param domain_name (optional)
       // @param domain_name_servers (optional)
       // @param netbios_name_servers (optional)
@@ -24022,7 +25497,7 @@
     },
     // aws_vpc_dhcp_options_association - https://www.terraform.io/docs/providers/aws/r/vpc_dhcp_options_association.html
     aws_vpc_dhcp_options_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param dhcp_options_id (required)
       // @param vpc_id (required)
       new(rname, dhcp_options_id, vpc_id):: {
@@ -24037,7 +25512,7 @@
     },
     // aws_vpc_endpoint - https://www.terraform.io/docs/providers/aws/r/vpc_endpoint.html
     aws_vpc_endpoint:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param service_name (required)
       // @param vpc_id (required)
       // @param auto_accept (optional)
@@ -24085,10 +25560,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -24097,7 +25574,7 @@
     },
     // aws_vpc_endpoint_connection_notification - https://www.terraform.io/docs/providers/aws/r/vpc_endpoint_connection_notification.html
     aws_vpc_endpoint_connection_notification:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param connection_events (required)
       // @param connection_notification_arn (required)
       // @param vpc_endpoint_id (optional)
@@ -24118,7 +25595,7 @@
     },
     // aws_vpc_endpoint_route_table_association - https://www.terraform.io/docs/providers/aws/r/vpc_endpoint_route_table_association.html
     aws_vpc_endpoint_route_table_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param route_table_id (required)
       // @param vpc_endpoint_id (required)
       new(rname, route_table_id, vpc_endpoint_id):: {
@@ -24133,7 +25610,7 @@
     },
     // aws_vpc_endpoint_service - https://www.terraform.io/docs/providers/aws/r/vpc_endpoint_service.html
     aws_vpc_endpoint_service:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param acceptance_required (required)
       // @param network_load_balancer_arns (required)
       // @param tags (optional)
@@ -24161,7 +25638,7 @@
     },
     // aws_vpc_endpoint_service_allowed_principal - https://www.terraform.io/docs/providers/aws/r/vpc_endpoint_service_allowed_principal.html
     aws_vpc_endpoint_service_allowed_principal:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param principal_arn (required)
       // @param vpc_endpoint_service_id (required)
       new(rname, principal_arn, vpc_endpoint_service_id):: {
@@ -24176,7 +25653,7 @@
     },
     // aws_vpc_endpoint_subnet_association - https://www.terraform.io/docs/providers/aws/r/vpc_endpoint_subnet_association.html
     aws_vpc_endpoint_subnet_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param subnet_id (required)
       // @param vpc_endpoint_id (required)
       new(rname, subnet_id, vpc_endpoint_id):: {
@@ -24193,9 +25670,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -24203,7 +25682,7 @@
     },
     // aws_vpc_ipv4_cidr_block_association - https://www.terraform.io/docs/providers/aws/r/vpc_ipv4_cidr_block_association.html
     aws_vpc_ipv4_cidr_block_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param cidr_block (required)
       // @param vpc_id (required)
       new(rname, cidr_block, vpc_id):: {
@@ -24220,9 +25699,11 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
-        new(create=null, delete=null):: {
+        new(rname, create=null, delete=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
         },
@@ -24230,7 +25711,7 @@
     },
     // aws_vpc_peering_connection - https://www.terraform.io/docs/providers/aws/r/vpc_peering_connection.html
     aws_vpc_peering_connection:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param peer_vpc_id (required)
       // @param vpc_id (required)
       // @param auto_accept (optional)
@@ -24262,10 +25743,12 @@
         accepter: accepter,
       },
       accepter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allow_classic_link_to_remote_vpc (optional)
         // @param allow_remote_vpc_dns_resolution (optional)
         // @param allow_vpc_to_remote_classic_link (optional)
-        new(allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+        new(rname, allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+          rname:: rname,
           [if allow_classic_link_to_remote_vpc != null then 'allow_classic_link_to_remote_vpc']: allow_classic_link_to_remote_vpc,
           [if allow_remote_vpc_dns_resolution != null then 'allow_remote_vpc_dns_resolution']: allow_remote_vpc_dns_resolution,
           [if allow_vpc_to_remote_classic_link != null then 'allow_vpc_to_remote_classic_link']: allow_vpc_to_remote_classic_link,
@@ -24275,10 +25758,12 @@
         requester: requester,
       },
       requester:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allow_classic_link_to_remote_vpc (optional)
         // @param allow_remote_vpc_dns_resolution (optional)
         // @param allow_vpc_to_remote_classic_link (optional)
-        new(allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+        new(rname, allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+          rname:: rname,
           [if allow_classic_link_to_remote_vpc != null then 'allow_classic_link_to_remote_vpc']: allow_classic_link_to_remote_vpc,
           [if allow_remote_vpc_dns_resolution != null then 'allow_remote_vpc_dns_resolution']: allow_remote_vpc_dns_resolution,
           [if allow_vpc_to_remote_classic_link != null then 'allow_vpc_to_remote_classic_link']: allow_vpc_to_remote_classic_link,
@@ -24288,10 +25773,12 @@
         timeouts: timeouts,
       },
       timeouts:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param create (optional)
         // @param delete (optional)
         // @param update (optional)
-        new(create=null, delete=null, update=null):: {
+        new(rname, create=null, delete=null, update=null):: {
+          rname:: rname,
           [if create != null then 'create']: create,
           [if delete != null then 'delete']: delete,
           [if update != null then 'update']: update,
@@ -24300,7 +25787,7 @@
     },
     // aws_vpc_peering_connection_accepter - https://www.terraform.io/docs/providers/aws/r/vpc_peering_connection_accepter.html
     aws_vpc_peering_connection_accepter:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param vpc_peering_connection_id (required)
       // @param auto_accept (optional)
       // @param tags (optional)
@@ -24325,10 +25812,12 @@
         accepter: accepter,
       },
       accepter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allow_classic_link_to_remote_vpc (optional)
         // @param allow_remote_vpc_dns_resolution (optional)
         // @param allow_vpc_to_remote_classic_link (optional)
-        new(allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+        new(rname, allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+          rname:: rname,
           [if allow_classic_link_to_remote_vpc != null then 'allow_classic_link_to_remote_vpc']: allow_classic_link_to_remote_vpc,
           [if allow_remote_vpc_dns_resolution != null then 'allow_remote_vpc_dns_resolution']: allow_remote_vpc_dns_resolution,
           [if allow_vpc_to_remote_classic_link != null then 'allow_vpc_to_remote_classic_link']: allow_vpc_to_remote_classic_link,
@@ -24338,10 +25827,12 @@
         requester: requester,
       },
       requester:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allow_classic_link_to_remote_vpc (optional)
         // @param allow_remote_vpc_dns_resolution (optional)
         // @param allow_vpc_to_remote_classic_link (optional)
-        new(allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+        new(rname, allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+          rname:: rname,
           [if allow_classic_link_to_remote_vpc != null then 'allow_classic_link_to_remote_vpc']: allow_classic_link_to_remote_vpc,
           [if allow_remote_vpc_dns_resolution != null then 'allow_remote_vpc_dns_resolution']: allow_remote_vpc_dns_resolution,
           [if allow_vpc_to_remote_classic_link != null then 'allow_vpc_to_remote_classic_link']: allow_vpc_to_remote_classic_link,
@@ -24350,7 +25841,7 @@
     },
     // aws_vpc_peering_connection_options - https://www.terraform.io/docs/providers/aws/r/vpc_peering_connection_options.html
     aws_vpc_peering_connection_options:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param vpc_peering_connection_id (required)
       new(rname, vpc_peering_connection_id):: {
         rname:: rname,
@@ -24366,10 +25857,12 @@
         accepter: accepter,
       },
       accepter:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allow_classic_link_to_remote_vpc (optional)
         // @param allow_remote_vpc_dns_resolution (optional)
         // @param allow_vpc_to_remote_classic_link (optional)
-        new(allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+        new(rname, allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+          rname:: rname,
           [if allow_classic_link_to_remote_vpc != null then 'allow_classic_link_to_remote_vpc']: allow_classic_link_to_remote_vpc,
           [if allow_remote_vpc_dns_resolution != null then 'allow_remote_vpc_dns_resolution']: allow_remote_vpc_dns_resolution,
           [if allow_vpc_to_remote_classic_link != null then 'allow_vpc_to_remote_classic_link']: allow_vpc_to_remote_classic_link,
@@ -24379,10 +25872,12 @@
         requester: requester,
       },
       requester:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param allow_classic_link_to_remote_vpc (optional)
         // @param allow_remote_vpc_dns_resolution (optional)
         // @param allow_vpc_to_remote_classic_link (optional)
-        new(allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+        new(rname, allow_classic_link_to_remote_vpc=null, allow_remote_vpc_dns_resolution=null, allow_vpc_to_remote_classic_link=null):: {
+          rname:: rname,
           [if allow_classic_link_to_remote_vpc != null then 'allow_classic_link_to_remote_vpc']: allow_classic_link_to_remote_vpc,
           [if allow_remote_vpc_dns_resolution != null then 'allow_remote_vpc_dns_resolution']: allow_remote_vpc_dns_resolution,
           [if allow_vpc_to_remote_classic_link != null then 'allow_vpc_to_remote_classic_link']: allow_vpc_to_remote_classic_link,
@@ -24391,7 +25886,7 @@
     },
     // aws_vpn_connection - https://www.terraform.io/docs/providers/aws/r/vpn_connection.html
     aws_vpn_connection:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param customer_gateway_id (required)
       // @param type (required)
       // @param tags (optional)
@@ -24446,7 +25941,7 @@
     },
     // aws_vpn_connection_route - https://www.terraform.io/docs/providers/aws/r/vpn_connection_route.html
     aws_vpn_connection_route:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param destination_cidr_block (required)
       // @param vpn_connection_id (required)
       new(rname, destination_cidr_block, vpn_connection_id):: {
@@ -24461,7 +25956,7 @@
     },
     // aws_vpn_gateway - https://www.terraform.io/docs/providers/aws/r/vpn_gateway.html
     aws_vpn_gateway:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param availability_zone (optional)
       // @param tags (optional)
       new(rname, availability_zone=null, tags=null):: {
@@ -24484,7 +25979,7 @@
     },
     // aws_vpn_gateway_attachment - https://www.terraform.io/docs/providers/aws/r/vpn_gateway_attachment.html
     aws_vpn_gateway_attachment:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param vpc_id (required)
       // @param vpn_gateway_id (required)
       new(rname, vpc_id, vpn_gateway_id):: {
@@ -24499,7 +25994,7 @@
     },
     // aws_vpn_gateway_route_propagation - https://www.terraform.io/docs/providers/aws/r/vpn_gateway_route_propagation.html
     aws_vpn_gateway_route_propagation:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param route_table_id (required)
       // @param vpn_gateway_id (required)
       new(rname, route_table_id, vpn_gateway_id):: {
@@ -24514,7 +26009,7 @@
     },
     // aws_waf_byte_match_set - https://www.terraform.io/docs/providers/aws/r/waf_byte_match_set.html
     aws_waf_byte_match_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -24529,20 +26024,24 @@
         byte_match_tuples: byte_match_tuples,
       },
       byte_match_tuples:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param positional_constraint (required)
         // @param text_transformation (required)
         // @param target_string (optional)
         // @param field_to_match (required)
-        new(positional_constraint, text_transformation, field_to_match, target_string=null):: {
+        new(rname, positional_constraint, text_transformation, field_to_match, target_string=null):: {
+          rname:: rname,
           positional_constraint: positional_constraint,
           text_transformation: text_transformation,
           [if target_string != null then 'target_string']: target_string,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -24551,7 +26050,7 @@
     },
     // aws_waf_geo_match_set - https://www.terraform.io/docs/providers/aws/r/waf_geo_match_set.html
     aws_waf_geo_match_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -24567,9 +26066,11 @@
         geo_match_constraint: geo_match_constraint,
       },
       geo_match_constraint:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param value (required)
-        new(type, value):: {
+        new(rname, type, value):: {
+          rname:: rname,
           type: type,
           value: value,
         },
@@ -24577,7 +26078,7 @@
     },
     // aws_waf_ipset - https://www.terraform.io/docs/providers/aws/r/waf_ipset.html
     aws_waf_ipset:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -24593,9 +26094,11 @@
         ip_set_descriptors: ip_set_descriptors,
       },
       ip_set_descriptors:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param value (required)
-        new(type, value):: {
+        new(rname, type, value):: {
+          rname:: rname,
           type: type,
           value: value,
         },
@@ -24603,7 +26106,7 @@
     },
     // aws_waf_rate_based_rule - https://www.terraform.io/docs/providers/aws/r/waf_rate_based_rule.html
     aws_waf_rate_based_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param metric_name (required)
       // @param name (required)
       // @param rate_key (required)
@@ -24627,10 +26130,12 @@
         predicates: predicates,
       },
       predicates:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param data_id (required)
         // @param negated (required)
         // @param type (required)
-        new(data_id, negated, type):: {
+        new(rname, data_id, negated, type):: {
+          rname:: rname,
           data_id: data_id,
           negated: negated,
           type: type,
@@ -24639,7 +26144,7 @@
     },
     // aws_waf_regex_match_set - https://www.terraform.io/docs/providers/aws/r/waf_regex_match_set.html
     aws_waf_regex_match_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -24655,18 +26160,22 @@
         regex_match_tuple: regex_match_tuple,
       },
       regex_match_tuple:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param regex_pattern_set_id (required)
         // @param text_transformation (required)
         // @param field_to_match (required)
-        new(regex_pattern_set_id, text_transformation, field_to_match):: {
+        new(rname, regex_pattern_set_id, text_transformation, field_to_match):: {
+          rname:: rname,
           regex_pattern_set_id: regex_pattern_set_id,
           text_transformation: text_transformation,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -24675,7 +26184,7 @@
     },
     // aws_waf_regex_pattern_set - https://www.terraform.io/docs/providers/aws/r/waf_regex_pattern_set.html
     aws_waf_regex_pattern_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param regex_pattern_strings (optional)
       new(rname, name, regex_pattern_strings=null):: {
@@ -24691,7 +26200,7 @@
     },
     // aws_waf_rule - https://www.terraform.io/docs/providers/aws/r/waf_rule.html
     aws_waf_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param metric_name (required)
       // @param name (required)
       // @param tags (optional)
@@ -24711,10 +26220,12 @@
         predicates: predicates,
       },
       predicates:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param data_id (required)
         // @param negated (required)
         // @param type (required)
-        new(data_id, negated, type):: {
+        new(rname, data_id, negated, type):: {
+          rname:: rname,
           data_id: data_id,
           negated: negated,
           type: type,
@@ -24723,7 +26234,7 @@
     },
     // aws_waf_rule_group - https://www.terraform.io/docs/providers/aws/r/waf_rule_group.html
     aws_waf_rule_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param metric_name (required)
       // @param name (required)
       // @param tags (optional)
@@ -24743,19 +26254,23 @@
         activated_rule: activated_rule,
       },
       activated_rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param priority (required)
         // @param rule_id (required)
         // @param type (optional)
         // @param action (required)
-        new(priority, rule_id, action, type=null):: {
+        new(rname, priority, rule_id, action, type=null):: {
+          rname:: rname,
           priority: priority,
           rule_id: rule_id,
           [if type != null then 'type']: type,
           action: action,
         },
         action:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
-          new(type):: {
+          new(rname, type):: {
+            rname:: rname,
             type: type,
           },
         },
@@ -24763,7 +26278,7 @@
     },
     // aws_waf_size_constraint_set - https://www.terraform.io/docs/providers/aws/r/waf_size_constraint_set.html
     aws_waf_size_constraint_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -24779,20 +26294,24 @@
         size_constraints: size_constraints,
       },
       size_constraints:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param comparison_operator (required)
         // @param size (required)
         // @param text_transformation (required)
         // @param field_to_match (required)
-        new(comparison_operator, size, text_transformation, field_to_match):: {
+        new(rname, comparison_operator, size, text_transformation, field_to_match):: {
+          rname:: rname,
           comparison_operator: comparison_operator,
           size: size,
           text_transformation: text_transformation,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -24801,7 +26320,7 @@
     },
     // aws_waf_sql_injection_match_set - https://www.terraform.io/docs/providers/aws/r/waf_sql_injection_match_set.html
     aws_waf_sql_injection_match_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -24816,16 +26335,20 @@
         sql_injection_match_tuples: sql_injection_match_tuples,
       },
       sql_injection_match_tuples:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param text_transformation (required)
         // @param field_to_match (required)
-        new(text_transformation, field_to_match):: {
+        new(rname, text_transformation, field_to_match):: {
+          rname:: rname,
           text_transformation: text_transformation,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -24834,7 +26357,7 @@
     },
     // aws_waf_web_acl - https://www.terraform.io/docs/providers/aws/r/waf_web_acl.html
     aws_waf_web_acl:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param metric_name (required)
       // @param name (required)
       // @param tags (optional)
@@ -24854,8 +26377,10 @@
         id::: id,
       },
       default_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
-        new(type):: {
+        new(rname, type):: {
+          rname:: rname,
           type: type,
         },
       },
@@ -24863,8 +26388,10 @@
         logging_configuration: logging_configuration,
       },
       logging_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param log_destination (required)
-        new(log_destination):: {
+        new(rname, log_destination):: {
+          rname:: rname,
           log_destination: log_destination,
           redacted_fields:: {},
         },
@@ -24872,14 +26399,18 @@
           redacted_fields: redacted_fields,
         },
         redacted_fields:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param field_to_match (required)
-          new(field_to_match):: {
+          new(rname, field_to_match):: {
+            rname:: rname,
             field_to_match: field_to_match,
           },
           field_to_match:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param type (required)
             // @param data (optional)
-            new(type, data=null):: {
+            new(rname, type, data=null):: {
+              rname:: rname,
               type: type,
               [if data != null then 'data']: data,
             },
@@ -24890,10 +26421,12 @@
         rules: rules,
       },
       rules:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param priority (required)
         // @param rule_id (required)
         // @param type (optional)
-        new(priority, rule_id, type=null):: {
+        new(rname, priority, rule_id, type=null):: {
+          rname:: rname,
           priority: priority,
           rule_id: rule_id,
           [if type != null then 'type']: type,
@@ -24904,8 +26437,10 @@
           action: action,
         },
         action:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
-          new(type):: {
+          new(rname, type):: {
+            rname:: rname,
             type: type,
           },
         },
@@ -24913,8 +26448,10 @@
           override_action: override_action,
         },
         override_action:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
-          new(type):: {
+          new(rname, type):: {
+            rname:: rname,
             type: type,
           },
         },
@@ -24922,7 +26459,7 @@
     },
     // aws_waf_xss_match_set - https://www.terraform.io/docs/providers/aws/r/waf_xss_match_set.html
     aws_waf_xss_match_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -24938,16 +26475,20 @@
         xss_match_tuples: xss_match_tuples,
       },
       xss_match_tuples:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param text_transformation (required)
         // @param field_to_match (required)
-        new(text_transformation, field_to_match):: {
+        new(rname, text_transformation, field_to_match):: {
+          rname:: rname,
           text_transformation: text_transformation,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -24956,7 +26497,7 @@
     },
     // aws_wafregional_byte_match_set - https://www.terraform.io/docs/providers/aws/r/wafregional_byte_match_set.html
     aws_wafregional_byte_match_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -24972,20 +26513,24 @@
         byte_match_tuple: byte_match_tuple,
       },
       byte_match_tuple:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param positional_constraint (required)
         // @param text_transformation (required)
         // @param target_string (optional)
         // @param field_to_match (required)
-        new(positional_constraint, text_transformation, field_to_match, target_string=null):: {
+        new(rname, positional_constraint, text_transformation, field_to_match, target_string=null):: {
+          rname:: rname,
           positional_constraint: positional_constraint,
           text_transformation: text_transformation,
           [if target_string != null then 'target_string']: target_string,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -24995,20 +26540,24 @@
         byte_match_tuples: byte_match_tuples,
       },
       byte_match_tuples:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param positional_constraint (required)
         // @param text_transformation (required)
         // @param target_string (optional)
         // @param field_to_match (required)
-        new(positional_constraint, text_transformation, field_to_match, target_string=null):: {
+        new(rname, positional_constraint, text_transformation, field_to_match, target_string=null):: {
+          rname:: rname,
           positional_constraint: positional_constraint,
           text_transformation: text_transformation,
           [if target_string != null then 'target_string']: target_string,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -25017,7 +26566,7 @@
     },
     // aws_wafregional_geo_match_set - https://www.terraform.io/docs/providers/aws/r/wafregional_geo_match_set.html
     aws_wafregional_geo_match_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -25032,9 +26581,11 @@
         geo_match_constraint: geo_match_constraint,
       },
       geo_match_constraint:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param value (required)
-        new(type, value):: {
+        new(rname, type, value):: {
+          rname:: rname,
           type: type,
           value: value,
         },
@@ -25042,7 +26593,7 @@
     },
     // aws_wafregional_ipset - https://www.terraform.io/docs/providers/aws/r/wafregional_ipset.html
     aws_wafregional_ipset:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -25058,9 +26609,11 @@
         ip_set_descriptor: ip_set_descriptor,
       },
       ip_set_descriptor:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
         // @param value (required)
-        new(type, value):: {
+        new(rname, type, value):: {
+          rname:: rname,
           type: type,
           value: value,
         },
@@ -25068,7 +26621,7 @@
     },
     // aws_wafregional_rate_based_rule - https://www.terraform.io/docs/providers/aws/r/wafregional_rate_based_rule.html
     aws_wafregional_rate_based_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param metric_name (required)
       // @param name (required)
       // @param rate_key (required)
@@ -25092,10 +26645,12 @@
         predicate: predicate,
       },
       predicate:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param data_id (required)
         // @param negated (required)
         // @param type (required)
-        new(data_id, negated, type):: {
+        new(rname, data_id, negated, type):: {
+          rname:: rname,
           data_id: data_id,
           negated: negated,
           type: type,
@@ -25104,7 +26659,7 @@
     },
     // aws_wafregional_regex_match_set - https://www.terraform.io/docs/providers/aws/r/wafregional_regex_match_set.html
     aws_wafregional_regex_match_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -25119,18 +26674,22 @@
         regex_match_tuple: regex_match_tuple,
       },
       regex_match_tuple:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param regex_pattern_set_id (required)
         // @param text_transformation (required)
         // @param field_to_match (required)
-        new(regex_pattern_set_id, text_transformation, field_to_match):: {
+        new(rname, regex_pattern_set_id, text_transformation, field_to_match):: {
+          rname:: rname,
           regex_pattern_set_id: regex_pattern_set_id,
           text_transformation: text_transformation,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -25139,7 +26698,7 @@
     },
     // aws_wafregional_regex_pattern_set - https://www.terraform.io/docs/providers/aws/r/wafregional_regex_pattern_set.html
     aws_wafregional_regex_pattern_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param regex_pattern_strings (optional)
       new(rname, name, regex_pattern_strings=null):: {
@@ -25154,7 +26713,7 @@
     },
     // aws_wafregional_rule - https://www.terraform.io/docs/providers/aws/r/wafregional_rule.html
     aws_wafregional_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param metric_name (required)
       // @param name (required)
       // @param tags (optional)
@@ -25174,10 +26733,12 @@
         predicate: predicate,
       },
       predicate:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param data_id (required)
         // @param negated (required)
         // @param type (required)
-        new(data_id, negated, type):: {
+        new(rname, data_id, negated, type):: {
+          rname:: rname,
           data_id: data_id,
           negated: negated,
           type: type,
@@ -25186,7 +26747,7 @@
     },
     // aws_wafregional_rule_group - https://www.terraform.io/docs/providers/aws/r/wafregional_rule_group.html
     aws_wafregional_rule_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param metric_name (required)
       // @param name (required)
       // @param tags (optional)
@@ -25206,19 +26767,23 @@
         activated_rule: activated_rule,
       },
       activated_rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param priority (required)
         // @param rule_id (required)
         // @param type (optional)
         // @param action (required)
-        new(priority, rule_id, action, type=null):: {
+        new(rname, priority, rule_id, action, type=null):: {
+          rname:: rname,
           priority: priority,
           rule_id: rule_id,
           [if type != null then 'type']: type,
           action: action,
         },
         action:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
-          new(type):: {
+          new(rname, type):: {
+            rname:: rname,
             type: type,
           },
         },
@@ -25226,7 +26791,7 @@
     },
     // aws_wafregional_size_constraint_set - https://www.terraform.io/docs/providers/aws/r/wafregional_size_constraint_set.html
     aws_wafregional_size_constraint_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -25242,20 +26807,24 @@
         size_constraints: size_constraints,
       },
       size_constraints:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param comparison_operator (required)
         // @param size (required)
         // @param text_transformation (required)
         // @param field_to_match (required)
-        new(comparison_operator, size, text_transformation, field_to_match):: {
+        new(rname, comparison_operator, size, text_transformation, field_to_match):: {
+          rname:: rname,
           comparison_operator: comparison_operator,
           size: size,
           text_transformation: text_transformation,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -25264,7 +26833,7 @@
     },
     // aws_wafregional_sql_injection_match_set - https://www.terraform.io/docs/providers/aws/r/wafregional_sql_injection_match_set.html
     aws_wafregional_sql_injection_match_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -25279,16 +26848,20 @@
         sql_injection_match_tuple: sql_injection_match_tuple,
       },
       sql_injection_match_tuple:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param text_transformation (required)
         // @param field_to_match (required)
-        new(text_transformation, field_to_match):: {
+        new(rname, text_transformation, field_to_match):: {
+          rname:: rname,
           text_transformation: text_transformation,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -25297,7 +26870,7 @@
     },
     // aws_wafregional_web_acl - https://www.terraform.io/docs/providers/aws/r/wafregional_web_acl.html
     aws_wafregional_web_acl:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param metric_name (required)
       // @param name (required)
       // @param tags (optional)
@@ -25317,8 +26890,10 @@
         id::: id,
       },
       default_action:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param type (required)
-        new(type):: {
+        new(rname, type):: {
+          rname:: rname,
           type: type,
         },
       },
@@ -25326,8 +26901,10 @@
         logging_configuration: logging_configuration,
       },
       logging_configuration:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param log_destination (required)
-        new(log_destination):: {
+        new(rname, log_destination):: {
+          rname:: rname,
           log_destination: log_destination,
           redacted_fields:: {},
         },
@@ -25335,14 +26912,18 @@
           redacted_fields: redacted_fields,
         },
         redacted_fields:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param field_to_match (required)
-          new(field_to_match):: {
+          new(rname, field_to_match):: {
+            rname:: rname,
             field_to_match: field_to_match,
           },
           field_to_match:: {
+            // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
             // @param type (required)
             // @param data (optional)
-            new(type, data=null):: {
+            new(rname, type, data=null):: {
+              rname:: rname,
               type: type,
               [if data != null then 'data']: data,
             },
@@ -25353,10 +26934,12 @@
         rule: rule,
       },
       rule:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param priority (required)
         // @param rule_id (required)
         // @param type (optional)
-        new(priority, rule_id, type=null):: {
+        new(rname, priority, rule_id, type=null):: {
+          rname:: rname,
           priority: priority,
           rule_id: rule_id,
           [if type != null then 'type']: type,
@@ -25367,8 +26950,10 @@
           action: action,
         },
         action:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
-          new(type):: {
+          new(rname, type):: {
+            rname:: rname,
             type: type,
           },
         },
@@ -25376,8 +26961,10 @@
           override_action: override_action,
         },
         override_action:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
-          new(type):: {
+          new(rname, type):: {
+            rname:: rname,
             type: type,
           },
         },
@@ -25385,7 +26972,7 @@
     },
     // aws_wafregional_web_acl_association - https://www.terraform.io/docs/providers/aws/r/wafregional_web_acl_association.html
     aws_wafregional_web_acl_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param resource_arn (required)
       // @param web_acl_id (required)
       new(rname, resource_arn, web_acl_id):: {
@@ -25400,7 +26987,7 @@
     },
     // aws_wafregional_xss_match_set - https://www.terraform.io/docs/providers/aws/r/wafregional_xss_match_set.html
     aws_wafregional_xss_match_set:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       new(rname, name):: {
         rname:: rname,
@@ -25415,16 +27002,20 @@
         xss_match_tuple: xss_match_tuple,
       },
       xss_match_tuple:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param text_transformation (required)
         // @param field_to_match (required)
-        new(text_transformation, field_to_match):: {
+        new(rname, text_transformation, field_to_match):: {
+          rname:: rname,
           text_transformation: text_transformation,
           field_to_match: field_to_match,
         },
         field_to_match:: {
+          // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
           // @param type (required)
           // @param data (optional)
-          new(type, data=null):: {
+          new(rname, type, data=null):: {
+            rname:: rname,
             type: type,
             [if data != null then 'data']: data,
           },
@@ -25433,7 +27024,7 @@
     },
     // aws_worklink_fleet - https://www.terraform.io/docs/providers/aws/r/worklink_fleet.html
     aws_worklink_fleet:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param audit_stream_arn (optional)
       // @param device_ca_certificate (optional)
@@ -25461,9 +27052,11 @@
         identity_provider: identity_provider,
       },
       identity_provider:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param saml_metadata (required)
         // @param type (required)
-        new(saml_metadata, type):: {
+        new(rname, saml_metadata, type):: {
+          rname:: rname,
           saml_metadata: saml_metadata,
           type: type,
         },
@@ -25472,10 +27065,12 @@
         network: network,
       },
       network:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param security_group_ids (required)
         // @param subnet_ids (required)
         // @param vpc_id (required)
-        new(security_group_ids, subnet_ids, vpc_id):: {
+        new(rname, security_group_ids, subnet_ids, vpc_id):: {
+          rname:: rname,
           security_group_ids: security_group_ids,
           subnet_ids: subnet_ids,
           vpc_id: vpc_id,
@@ -25484,7 +27079,7 @@
     },
     // aws_worklink_website_certificate_authority_association - https://www.terraform.io/docs/providers/aws/r/worklink_website_certificate_authority_association.html
     aws_worklink_website_certificate_authority_association:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param certificate (required)
       // @param fleet_arn (required)
       // @param display_name (optional)
@@ -25502,7 +27097,7 @@
     },
     // aws_workspaces_directory - https://www.terraform.io/docs/providers/aws/r/workspaces_directory.html
     aws_workspaces_directory:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param directory_id (required)
       // @param tags (optional)
       new(rname, directory_id, tags=null):: {
@@ -25523,12 +27118,14 @@
         self_service_permissions: self_service_permissions,
       },
       self_service_permissions:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param change_compute_type (optional)
         // @param increase_volume_size (optional)
         // @param rebuild_workspace (optional)
         // @param restart_workspace (optional)
         // @param switch_running_mode (optional)
-        new(change_compute_type=null, increase_volume_size=null, rebuild_workspace=null, restart_workspace=null, switch_running_mode=null):: {
+        new(rname, change_compute_type=null, increase_volume_size=null, rebuild_workspace=null, restart_workspace=null, switch_running_mode=null):: {
+          rname:: rname,
           [if change_compute_type != null then 'change_compute_type']: change_compute_type,
           [if increase_volume_size != null then 'increase_volume_size']: increase_volume_size,
           [if rebuild_workspace != null then 'rebuild_workspace']: rebuild_workspace,
@@ -25539,7 +27136,7 @@
     },
     // aws_workspaces_ip_group - https://www.terraform.io/docs/providers/aws/r/workspaces_ip_group.html
     aws_workspaces_ip_group:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param name (required)
       // @param description (optional)
       // @param tags (optional)
@@ -25558,9 +27155,11 @@
         rules: rules,
       },
       rules:: {
+        // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
         // @param source (required)
         // @param description (optional)
-        new(source, description=null):: {
+        new(rname, source, description=null):: {
+          rname:: rname,
           source: source,
           [if description != null then 'description']: description,
         },
@@ -25568,7 +27167,7 @@
     },
     // aws_xray_sampling_rule - https://www.terraform.io/docs/providers/aws/r/xray_sampling_rule.html
     aws_xray_sampling_rule:: {
-      // @param rname (required) Workaround for not having `here` reference (https://github.com/google/jsonnet/issues/437).
+      // @param rname (required) Workaround to build terraform interpolatable strings for attribute references.
       // @param fixed_rate (required)
       // @param host (required)
       // @param http_method (required)
